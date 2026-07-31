@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/game/:path*",
+      "destination": "/"
+    }
+  ]
+}
