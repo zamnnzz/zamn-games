@@ -11,7 +11,6 @@
 <link rel="canonical" href="https://zamn-games.vercel.app/">
 
 <title>ألعاب زامن | لعبة حروف، فاميلي فيود، فوازير وألعاب جماعية</title>
-<script type="module" src="https://cdn.assets.salla.network/prod/@salla.sa/fast-checkout-widget/v0.0.25/widget.esm.js"></script>
 
 <meta name="description" content="ألعاب زامن هي منصة للألعاب الجماعية العربية، استمتع بلعبة حروف، فاميلي فيود، الفوازير، تحدي الصور، خمن الرابط، وحروف وألوف مع الأصدقاء والعائلة أونلاين بسهولة وفي أي وقت.">
 
@@ -489,7 +488,6 @@ const games = [
   slug:"horof-bell",
   code:"1950",
   name:"حروف والوف مع جرس مدمج",
-   sallaProductId:769912795,
   image:"https://i.postimg.cc/bJyFBY0Z/image.png",
   screenshots:[
     "https://picsum.photos/900/600?11",
@@ -947,16 +945,9 @@ const registerGameEntry = async (game, phone, playerName, entryType) => {
 
 registerSiteVisit().catch(console.error);
 startPresenceTracking();
-
-
 function App(){
 
   const getGameFromUrl = () => {
-
-
-
-
-
     const path = window.location.pathname;
     const match = path.match(/^\/game\/([^/]+)\/?$/);
 
@@ -970,25 +961,6 @@ function App(){
   };
 
   const [selectedGame,setSelectedGame] = React.useState(getGameFromUrl);
-  React.useEffect(() => {
-
-  const box = document.getElementById("salla-checkout");
-
-  if(!box || !selectedGame?.sallaProductId) return;
-
-  box.innerHTML = "";
-
-  const widget = document.createElement(
-    "salla-mini-checkout-widget"
-  );
-
-  widget.setAttribute("store-id","681606734");
-  widget.setAttribute("products",`[${selectedGame.sallaProductId}]`);
-  widget.setAttribute("language","ar");
-
-  box.appendChild(widget);
-
-}, [selectedGame]);
 const [gameFrame, setGameFrame] = React.useState(null);
 const [gameEntryType, setGameEntryType] = React.useState(null);
 const gameIframeRef = React.useRef(null);
@@ -1470,6 +1442,10 @@ openGame(selectedGame, "owned");
     showMessage("الرمز غير صحيح ❌","error");
   }
 };
+
+const buyGame = () => {
+  window.open(selectedGame.buyLink, "_blank");
+};
 const openGameDetails = (game) => {
   window.history.pushState(
     {},
@@ -1723,8 +1699,12 @@ if (ownedGames.includes(String(selectedGame.code))) {
   🚀 العب الآن
 </button>
 
- <div id="salla-checkout"></div>
-
+    <button
+      onClick={buyGame}
+      className="w-full bg-gradient-to-r from-emerald-500 to-green-600 text-white py-4 rounded-2xl text-xl font-black mb-3"
+    >
+      💳 اشتر الآن - {selectedGame.price}
+    </button>
 
     <button
       onClick={startTrial}
@@ -2834,6 +2814,7 @@ onClick={()=>openGameDetails(game)}
 )}
 
 </section>
+
 {/* Footer */}
 <div className="mt-0 bg-gradient-to-r from-[#3b0764] to-[#6d28d9] text-white rounded-t-[40px]">  <div className="max-w-6xl mx-auto px-6 py-10">
 
