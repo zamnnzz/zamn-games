@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link
+  rel="icon"
+  type="image/jpeg"
+  href="https://i.postimg.cc/5N2chPBy/5qs4L2MVVYx-Fw-H4xhhlz9oc-Re8gzo-T2HYNLv-Yl-Oj.jpg"
+/>
+
+<meta name="google-site-verification" content="DuT1gHuCD6dDFT7s7EuWfnQMOAmpzF7dING4q6P6ZOk" />
+
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://zamn-games.vercel.app/">
+
+<title>ألعاب زامن | لعبة حروف، فاميلي فيود، فوازير وألعاب جماعية</title>
+
+<meta name="description" content="ألعاب زامن هي منصة للألعاب الجماعية العربية، استمتع بلعبة حروف، فاميلي فيود، الفوازير، تحدي الصور، خمن الرابط، وحروف وألوف مع الأصدقاء والعائلة أونلاين بسهولة وفي أي وقت.">
+
+
+<meta property="og:type" content="website">
+
+<meta property="og:title" content="ألعاب زامن | ألعاب جماعية عربية">
+
+<meta property="og:description" content="أفضل الألعاب الجماعية العربية مثل حروف والوف وفاميلي فيود وتحدي الصور والفوازير.">
+
+<meta property="og:url" content="https://zamn-games.vercel.app/">
+
+<meta property="og:image" content="https://i.postimg.cc/MKrfPPHy/s.png">
+
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap"
+  rel="stylesheet"
+>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.24.7/babel.min.js"></script>
+<style>
+
+
+.top-offer{
+  position:relative;
+  top:0;
+  width:100%;
+  z-index:9999;
+  background:linear-gradient(90deg,#7c3aed,#9333ea);
+  color:#fff;
+  padding:6px 0;
+  overflow:hidden;
+  box-shadow:0 4px 12px rgba(0,0,0,.10);
+}
+
+.offer-track{
+  display:flex;
+  width:max-content;
+  animation:offerMove 18s linear infinite;
+}
+
+.offer-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding-inline:32px;
+  white-space:nowrap;
+  font-weight:900;
+  font-size:14px;
+}
+
+.offer-btn{
+  background:#fff;
+  color:#6d28d9;
+  padding:5px 12px;
+  border-radius:999px;
+  text-decoration:none;
+  font-weight:900;
+  font-size:12px;
+}
+
+@keyframes offerMove{
+  from{
+    transform:translateX(0);
+  }
+  to{
+    transform:translateX(50%);
+  }
+}
+
+
+
+body{
+  font-family:'Tajawal',sans-serif;
+  background:#f4f0ff;
+}
+/* شبكة بطاقات الألعاب */
+.games-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  justify-content:center;
+  width:100%;
+}
+.game-card{
+  width:100%;
+  height:300px;
+  margin:auto;
+  background:#fff;
+  border-radius:22px;
+  overflow:hidden;
+  border:1px solid #eadcff;
+  box-shadow:0 10px 25px rgba(80,30,120,.12);
+  cursor:pointer;
+  transition:.25s ease;
+  display:flex;
+  flex-direction:column;
+}
+
+.game-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 18px 35px rgba(80,30,120,.22);
+}
+.game-rating{
+  position:absolute;
+  top:8px;
+  right:8px;
+  background:#fff;
+  color:#6d28d9;
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:900;
+  box-shadow:0 4px 12px rgba(0,0,0,.12);
+}
+
+.game-content{
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  flex:1;
+}
+
+.game-title{
+  font-size:17px;
+  line-height:1.3;
+  font-weight:900;
+  color:#3b0764;
+  margin-bottom:8px;
+}
+
+.game-desc{
+  color:#6b7280;
+  font-size:13px;
+  line-height:1.5;
+  height:42px;
+  overflow:hidden;
+  margin-bottom:10px;
+}
+
+.game-btn{
+  margin-top:auto;
+  width:100%;
+  height:38px;
+  background:#7c3aed;
+  color:#fff;
+  font-size:14px;
+  border:none;
+  border-radius:12px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.game-btn:hover{
+  background:#6d28d9;
+}
+
+
+/* الكمبيوتر */
+@media (min-width:560px){
+
+  .games-grid{
+    grid-template-columns:repeat(auto-fit,245px);
+    justify-content:center;
+    gap:24px;
+  }
+
+  .game-card{
+    max-width:245px;
+    height:345px;
+  }
+
+  .game-image-box{
+    height:175px;
+  }
+
+  .game-title{
+    font-size:22px;
+  }
+
+  .game-desc{
+    font-size:14px;
+    height:48px;
+  }
+
+  .game-btn{
+    height:46px;
+    font-size:16px;
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+.game-title{
+  font-size:22px;
+  font-weight:900;
+}
+@media (max-width:559px){
+    .game-title{
+    font-size:14px;
+    line-height:1.25;
+  }
+}
+
+
+
+
+
+
+.game-tags{
+  margin-top:auto;
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  margin-bottom:8px;
+}
+
+.game-tag{
+  background:#f3f4f6;
+  color:#4b5563;
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:800;
+}
+
+
+
+
+/* قسم الأسئلة الشائعة - متناسق مع ألوان المتجر */
+.faq-section{
+  width:100%;
+  max-width:950px;
+  margin:30px auto 70px;
+  padding:0 16px;
+}
+
+.faq-heading-wrap{
+  display:flex;
+  justify-content:center;
+  margin-bottom:28px;
+}
+
+.faq-heading{
+  margin:0;
+  background:linear-gradient(135deg,#3b0764,#7c3aed);
+  color:#fff;
+  padding:14px 48px;
+  border-radius:999px;
+  font-size:28px;
+  font-weight:900;
+  box-shadow:0 10px 25px rgba(109,40,217,.22);
+}
+
+.faq-list{
+  display:flex;
+  flex-direction:column;
+  gap:17px;
+}
+
+.faq-item{
+  background:#fff;
+  border:1px solid #eadcff;
+  border-radius:22px;
+  overflow:hidden;
+  box-shadow:0 9px 24px rgba(80,30,120,.10);
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    border-color .2s ease;
+}
+
+.faq-item:hover{
+  transform:translateY(-2px);
+  border-color:#d8b4fe;
+  box-shadow:0 14px 30px rgba(80,30,120,.16);
+}
+
+.faq-question{
+  width:100%;
+  min-height:82px;
+  padding:17px 24px;
+  border:0;
+  outline:0;
+  background:transparent;
+  cursor:pointer;
+
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+
+  text-align:right;
+  font-family:'Tajawal',sans-serif;
+}
+
+.faq-question-text{
+  flex:1;
+  color:#3b0764;
+  font-size:19px;
+  font-weight:900;
+  line-height:1.7;
+}
+
+.faq-icon{
+  width:48px;
+  height:48px;
+  min-width:48px;
+  min-height:48px;
+  padding:0;
+  margin:0;
+
+  border-radius:50%;
+  background:#ddd6fe;
+  color:#6d28d9;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  position:relative;
+  transition:
+    transform .25s ease,
+    background .25s ease,
+    color .25s ease;
+}
+
+/* رسم السهم بدل استخدام رمز نصي غير مضبوط */
+.faq-icon::before{
+  content:"";
+  width:10px;
+  height:10px;
+  border-left:3px solid currentColor;
+  border-top:3px solid currentColor;
+  transform:rotate(45deg);
+  position:absolute;
+  top:50%;
+  left:50%;
+  margin-left:-6px;
+  margin-top:-3px;
+}
+
+/* السؤال المغلق: السهم للأسفل */
+.faq-icon:not(.open)::before{
+  transform:rotate(225deg);
+  margin-top:-7px;
+}
+
+/* السؤال المفتوح: السهم للأعلى */
+.faq-icon.open{
+  background:#7c3aed;
+  color:#fff;
+}
+
+.faq-icon.open::before{
+  transform:rotate(45deg);
+  margin-top:-3px;
+}
+
+.faq-answer{
+  display:grid;
+  grid-template-rows:0fr;
+  opacity:0;
+  transition:
+    grid-template-rows .3s ease,
+    opacity .25s ease;
+}
+
+.faq-answer.open{
+  grid-template-rows:1fr;
+  opacity:1;
+}
+
+.faq-answer-inner{
+  overflow:hidden;
+}
+
+.faq-answer-text{
+  margin:0;
+  padding:0 24px 24px;
+  color:#6b7280;
+  font-size:17px;
+  font-weight:700;
+  line-height:2;
+}
+
+.faq-more-wrap{
+  display:flex;
+  justify-content:center;
+  margin-top:25px;
+}
+
+.faq-more-btn{
+  border:2px solid #7c3aed;
+  background:#fff;
+  color:#6d28d9;
+  padding:13px 31px;
+  border-radius:999px;
+  font-family:'Tajawal',sans-serif;
+  font-size:16px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 8px 20px rgba(109,40,217,.13);
+  transition:.2s ease;
+}
+
+.faq-more-btn:hover{
+  background:#7c3aed;
+  color:#fff;
+  transform:translateY(-2px);
+}
+
+@media (max-width:560px){
+  .faq-section{
+    margin:20px auto 50px;
+    padding:0 12px;
+  }
+
+  .faq-heading{
+    padding:12px 34px;
+    font-size:22px;
+  }
+
+  .faq-question{
+    min-height:72px;
+    padding:15px 16px;
+    gap:12px;
+  }
+
+  .faq-question-text{
+    font-size:16px;
+  }
+
+  .faq-icon{
+    width:42px;
+    height:42px;
+    min-width:42px;
+    min-height:42px;
+  }
+
+  .faq-answer-text{
+    padding:0 16px 19px;
+    font-size:14px;
+    line-height:1.9;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</style>
+
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://zamn-games.vercel.app/#website",
+      "name": "ألعاب زامن",
+      "url": "https://zamn-games.vercel.app/",
+      "inLanguage": "ar"
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://zamn-games.vercel.app/#organization",
+      "name": "ألعاب زامن",
+      "url": "https://zamn-games.vercel.app/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://i.postimg.cc/MKrfPPHy/s.png"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "كيف أبدأ ألعب الألعاب؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "كل ما عليك هو فتح رابط الموقع من أي جهاز، سواء كان جوالًا أو جهازًا لوحيًا أو كمبيوتر، ثم تبدأ اللعب مباشرة دون الحاجة إلى تحميل أي تطبيق."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "هل الألعاب مجانية؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "يمكنك تجربة بعض الألعاب مجانًا لمدة محدودة، وبعد انتهاء الفترة التجريبية يمكنك شراء اللعبة أو الباقة المناسبة من متجرنا."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+</head>
+
+<body>
+
+
+    
+
+<div id="root"></div>
+
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<script type="text/babel" src="./script.js"></script>
+</body>
+</html>
+
+ 
+ 
