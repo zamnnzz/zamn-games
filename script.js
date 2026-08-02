@@ -34,11 +34,11 @@ const games = [
 
 
 screenshots: [
-  "/screenshots/horof/1.webp?v=2",
-  "/screenshots/horof/2.webp?v=2",
-  "/screenshots/horof/3.webp?v=2",
-  "/screenshots/horof/4.webp?v=2",
-  "/screenshots/horof/5.webp?v=2"
+  "/screenshots/horof/1.webp?v=3",
+  "/screenshots/horof/2.webp?v=3",
+  "/screenshots/horof/3.webp?v=3",
+  "/screenshots/horof/4.webp?v=3",
+  "/screenshots/horof/5.webp?v=3"
 ],
 
   rating:"5",
