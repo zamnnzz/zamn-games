@@ -35,11 +35,11 @@ const games = [
 
 screenshots: [
     "/screenshots/horof/1.webp",
+  "/screenshots/horof/2.webp",
 
   "/screenshots/horof/3.webp",
   "/screenshots/horof/4.webp",
   "/screenshots/horof/5.webp",
-  "/screenshots/horof/2.webp"
 ],
 
   rating:"5",
