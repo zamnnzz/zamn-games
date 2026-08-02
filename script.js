@@ -300,10 +300,72 @@ priceCurrency:"SAR",
 
   playLink: "https://alatrash.oneapp.dev/",
 
-  trialKey: "trial_new_game_9"
+   trialKey: "trial_new_game_9"
   }
 
 ];
+
+
+
+
+
+const articles = [
+
+{
+  id: 1,
+  slug: "how-to-play-horof",
+  title: "طريقة لعب حروف وألوف",
+  description:
+    "تعرف على طريقة لعب حروف وألوف، وتقسيم الفرق واحتساب النقاط وبدء التحدي مع العائلة والأصدقاء.",
+  date: "2026-08-02",
+  category: "شرح الألعاب",
+  content: [
+    "لعبة حروف وألوف من أشهر الألعاب الجماعية التي تعتمد على سرعة التفكير وسرعة الإجابة، وهي مناسبة للجلسات العائلية وتجمعات الأصدقاء.",
+    "قبل بدء اللعب يتم تقسيم المشاركين إلى فريقين أو أكثر، ثم يختار كل فريق حرفًا ويحاول الإجابة عن السؤال المرتبط به خلال الوقت المحدد.",
+    "كل إجابة صحيحة تمنح الفريق نقطة، ويستمر التحدي حتى انتهاء جميع الحروف أو الوصول إلى عدد النقاط المتفق عليه بين اللاعبين.",
+    "يمكن تشغيل اللعبة مباشرة من المتصفح على الجوال أو الكمبيوتر، كما يمكن عرضها على شاشة التلفزيون لتكون التجربة أكثر متعة لجميع المشاركين.",
+    "تحتوي اللعبة على مئات الأسئلة المتنوعة التي تجعل كل جولة مختلفة عن الأخرى، لذلك تبقى المنافسة ممتعة حتى مع تكرار اللعب.",
+    "إذا كنت تبحث عن لعبة جماعية عربية تعمل بدون تحميل وتناسب جميع الأعمار، فإن لعبة حروف وألوف من ألعاب زامن تعد خيارًا مناسبًا للجلسات العائلية والمناسبات."
+  ]
+},
+
+
+
+
+{
+  id: 2,
+  slug: "ramadan-games-2026",
+  title: "أفضل ألعاب رمضان 2026 للجمعات العائلية",
+    description:
+    "تعرف على أفضل ألعاب رمضان 2026 المناسبة للجلسات العائلية وتجمعات الأصدقاء، وتعمل مباشرة من المتصفح دون تحميل.",
+
+  date: "2026-02-28",
+  category: "ألعاب رمضان",
+content: [
+  "يعد شهر رمضان من أفضل الأوقات لاجتماع العائلة والأصدقاء، ولذلك يبحث الكثير عن ألعاب جماعية تضيف أجواء من المرح بعد الإفطار وأثناء السهرات.",
+
+  "إذا كنت تبحث عن ألعاب تعمل مباشرة من المتصفح دون تحميل، فإليك أفضل 7 ألعاب مناسبة لجلسات رمضان 2026.",
+
+  "1- حروف وألوف: لعبة تعتمد على سرعة التفكير والإجابة، وتعد من أشهر ألعاب التحدي الجماعية.",
+
+  "2- تحدي الصور: لعبة تعتمد على سرعة الملاحظة وتخمين الصور، وتناسب جميع الأعمار.",
+
+  "3- فاميلي فيود: حاول تخمين الإجابات الأكثر شيوعًا وتنافس مع فريقك في أجواء مليئة بالحماس.",
+
+  "4- فوازير: مجموعة كبيرة من الأسئلة والألغاز المناسبة للسهرات الرمضانية.",
+
+  "5- خمن الرابط: لعبة تعتمد على ربط الصور للوصول إلى الإجابة الصحيحة قبل الفريق المنافس.",
+
+  "6- مين الأطرش في الزفة: لعبة اجتماعية مليئة بالضحك تعتمد على الذكاء والملاحظة وكشف اللاعب المختلف.",
+
+  "7- جميع ألعاب زامن تعمل مباشرة من المتصفح ويمكن تشغيلها على الجوال أو الكمبيوتر أو شاشة التلفزيون دون الحاجة إلى تحميل أي تطبيق، مما يجعلها خيارًا مثاليًا لسهرات رمضان 2026."
+]
+}
+];
+
+
+
+
 
 
 
@@ -616,11 +678,30 @@ function App() {
     return games.find((game) => game.slug === slug) || null;
   };
 
+  const getArticleFromUrl = () => {
+  const path = window.location.pathname;
+  const match = path.match(/^\/blog\/([^/]+)\/?$/);
+
+  if (!match) {
+    return null;
+  }
+
+  const slug = decodeURIComponent(match[1]);
+
+  return articles.find((article) => article.slug === slug) || null;
+};
+
   const [selectedGame, setSelectedGame] = React.useState(getGameFromUrl);
 
+const [selectedArticle, setSelectedArticle] = React.useState(() => {
+  const path = window.location.pathname;
 
+  if (path === "/blog" || path === "/blog/") {
+    return "blog-list";
+  }
 
-
+  return getArticleFromUrl();
+});
 
 
 
@@ -1425,9 +1506,18 @@ const closeGameDetails = () => {
 };
 
 React.useEffect(() => {
-  const handleBrowserBack = () => {
-    setSelectedGame(getGameFromUrl());
-  };
+
+ const handleBrowserBack = () => {
+  const path = window.location.pathname;
+
+  setSelectedGame(getGameFromUrl());
+
+  if (path === "/blog" || path === "/blog/") {
+    setSelectedArticle("blog-list");
+  } else {
+    setSelectedArticle(getArticleFromUrl());
+  }
+};
 
   window.addEventListener("popstate", handleBrowserBack);
 
@@ -1545,23 +1635,318 @@ const gameOrigin = "https://alatrash.oneapp.dev";
 
   console.log("تم إرسال صلاحية المضيف");
 };
-  if(selectedGame){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if (selectedArticle === "blog-list") {
+  return (
+    <div className="min-h-screen bg-[#f4f0ff]">
+
+      <div className="bg-gradient-to-br from-[#3b0764] via-[#6d28d9] to-[#a855f7] text-white px-5 py-12">
+        <div className="max-w-6xl mx-auto">
+
+          <button
+            onClick={() => {
+              window.history.pushState({}, "", "/");
+              setSelectedArticle(null);
+              setSelectedGame(null);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            className="bg-black/30 px-5 py-3 rounded-xl font-black mb-7"
+          >
+            ← الرجوع للرئيسية
+          </button>
+
+          <h1 className="text-4xl md:text-6xl font-black mb-4">
+            مدونة ألعاب زامن
+          </h1>
+
+          <p className="text-lg md:text-xl text-white/85 leading-9">
+            مقالات وأفكار عن الألعاب الجماعية والجلسات العائلية وتجمعات الأصدقاء.
+          </p>
+
+        </div>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-5 py-10">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          {articles.map((article) => (
+            <a
+              key={article.id}
+              href={`/blog/${article.slug}`}
+              onClick={(e) => {
+                e.preventDefault();
+
+                window.history.pushState(
+                  {},
+                  "",
+                  `/blog/${article.slug}`
+                );
+
+                setSelectedGame(null);
+                setSelectedArticle(article);
+
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth"
+                });
+              }}
+              className="bg-white rounded-3xl p-6 shadow-xl border border-[#eadcff] hover:-translate-y-1 transition"
+            >
+              <div className="flex items-center justify-between gap-3 mb-5">
+
+                <span className="bg-purple-100 text-[#6d28d9] px-3 py-2 rounded-full text-sm font-black">
+                  {article.category || "ألعاب جماعية"}
+                </span>
+
+                <time className="text-gray-500 text-sm font-bold">
+                  {article.date || "2026-03-15"}
+                </time>
+
+              </div>
+
+              <h2 className="text-2xl font-black text-[#3b0764] mb-3 leading-9">
+                {article.title}
+              </h2>
+
+              <p className="text-gray-600 font-bold leading-7">
+                {article.description}
+              </p>
+
+              <div className="mt-5 text-[#7c3aed] font-black">
+                اقرأ المقال ←
+              </div>
+            </a>
+          ))}
+
+        </div>
+
+      </div>
+
+    </div>
+  );
+}
+
+if (
+  selectedArticle &&
+  selectedArticle !== "blog-list"
+) {
+  return (
+    <div className="min-h-screen bg-[#f4f0ff]">
+
+      <div className="bg-gradient-to-br from-[#3b0764] via-[#6d28d9] to-[#a855f7] text-white px-5 py-12">
+
+        <div className="max-w-4xl mx-auto">
+
+          <button
+            onClick={() => {
+              window.history.pushState({}, "", "/blog");
+              setSelectedArticle("blog-list");
+              setSelectedGame(null);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            className="bg-black/30 px-5 py-3 rounded-xl font-black mb-7"
+          >
+            ← الرجوع للمدونة
+          </button>
+
+          <div className="flex flex-wrap items-center gap-3 mb-5">
+
+            <span className="bg-white/15 px-4 py-2 rounded-full font-black">
+              {selectedArticle.category || "ألعاب جماعية"}
+            </span>
+
+            <time className="text-white/80 font-bold">
+              {selectedArticle.date || "2026-03-15"}
+            </time>
+
+          </div>
+
+          <h1 className="text-4xl md:text-6xl font-black leading-tight mb-5">
+            {selectedArticle.title}
+          </h1>
+
+          <p className="text-lg md:text-xl text-white/85 leading-9">
+            {selectedArticle.description}
+          </p>
+
+        </div>
+
+      </div>
+
+      <article className="max-w-4xl mx-auto px-5 py-10">
+
+        <div className="bg-white rounded-3xl p-6 md:p-10 shadow-xl">
+
+          {selectedArticle.content.map((paragraph, index) => (
+            <p
+              key={index}
+              className="text-gray-700 text-lg font-bold leading-10 mb-5"
+            >
+              {paragraph}
+            </p>
+          ))}
+
+        </div>
+
+        <hr className="my-12 border-[#dce6bf]" />
+
+       <div className="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-[#eadcff]">
+
+  <h2 className="text-4xl font-black text-center text-[#3b0764] mb-4">
+    ابدأ الآن!
+  </h2>
+
+  <p className="text-center text-lg md:text-xl text-gray-600 mb-8 leading-9">
+    جرّب{" "}
+    <span className="font-black text-[#7c3aed]">
+      ألعاب زامن
+    </span>{" "}
+    مجانًا واكتشف كيف تحوّل أي تجمع إلى تجربة ممتعة لا تُنسى.
+  </p>
+
+  <h3 className="text-3xl font-black text-center text-[#3b0764] mb-6">
+    جرّب ألعابنا
+  </h3>
+
+  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+    <a
+      href="/game/horof"
+      onClick={(e) => {
+        e.preventDefault();
+
+        const game = games.find(
+          game => game.slug === "horof"
+        );
+
+        if (!game) return;
+
+        setSelectedArticle(null);
+        openGameDetails(game);
+      }}
+      className="bg-[#f4f0ff] hover:bg-[#eadcff] border border-[#d8b4fe] text-[#3b0764] rounded-2xl py-5 px-3 text-center font-black transition"
+    >
+      🔤 لعبة حروف
+    </a>
+
+    <a
+      href="/game/photos-1"
+      onClick={(e) => {
+        e.preventDefault();
+
+        const game = games.find(
+          game => game.slug === "photos-1"
+        );
+
+        if (!game) return;
+
+        setSelectedArticle(null);
+        openGameDetails(game);
+      }}
+      className="bg-[#f4f0ff] hover:bg-[#eadcff] border border-[#d8b4fe] text-[#3b0764] rounded-2xl py-5 px-3 text-center font-black transition"
+    >
+      🖼️ تحدي الصور
+    </a>
+
+    <a
+      href="/game/alatrash"
+      onClick={(e) => {
+        e.preventDefault();
+
+        const game = games.find(
+          game => game.slug === "alatrash"
+        );
+
+        if (!game) return;
+
+        setSelectedArticle(null);
+        openGameDetails(game);
+      }}
+      className="bg-[#f4f0ff] hover:bg-[#eadcff] border border-[#d8b4fe] text-[#3b0764] rounded-2xl py-5 px-3 text-center font-black transition"
+    >
+      🕵️ مين الأطرش؟
+    </a>
+
+    <a
+      href="/game/horof-bell"
+      onClick={(e) => {
+        e.preventDefault();
+
+        const game = games.find(
+          game => game.slug === "horof-bell"
+        );
+
+        if (!game) return;
+
+        setSelectedArticle(null);
+        openGameDetails(game);
+      }}
+      className="bg-[#f4f0ff] hover:bg-[#eadcff] border border-[#d8b4fe] text-[#3b0764] rounded-2xl py-5 px-3 text-center font-black transition"
+    >
+      🔔 حروف مع جرس
+    </a>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+      </article>
+
+    </div>
+  );
+}
+
+if (selectedGame) {
+
 
 return (
-<>
-{siteMessage && (
-  <div className={`fixed top-5 left-1/2 -translate-x-1/2 z-[9999] px-6 py-4 rounded-2xl font-black shadow-2xl text-white ${
-    siteMessage.type === "error" ? "bg-red-500" : "bg-[#7c3aed]"
-  }`}>
-    {siteMessage.text}
-  </div>
-)}
+
+    <>
+
+   
+
+
+
+
+
+
+
 
 
 
 
 <div className="min-h-screen bg-[#f4f0ff] text-[#3b0764]">
-
 
 
 
@@ -2832,6 +3217,10 @@ className="game-card"
 
 
 
+
+
+
+
 {/* الأسئلة الشائعة */}
 <section className="faq-section">
 
@@ -2886,6 +3275,9 @@ className="game-card"
       })}
 
   </div>
+
+
+
 {faqItems.length > 4 && (
   <div className="faq-more-wrap">
     <button
@@ -2926,16 +3318,11 @@ className="game-card"
 
 
 
-
-
-
-
-
-
 {/* Footer */}
-<div className="mt-0 bg-gradient-to-r from-[#3b0764] to-[#6d28d9] text-white rounded-t-[40px]">  <div className="max-w-6xl mx-auto px-6 py-10">
+<div className="mt-0 bg-gradient-to-r from-[#3b0764] to-[#6d28d9] text-white rounded-t-[40px]">
+  <div className="max-w-6xl mx-auto px-6 py-10">
 
-    <div className="grid md:grid-cols-2 gap-10">
+    <div className="grid md:grid-cols-3 gap-10">
 
       <div>
         <h3 className="text-2xl font-black mb-4">
@@ -2948,58 +3335,99 @@ className="game-card"
         </p>
       </div>
 
-     <div>
+      <div>
+        <h3 className="text-2xl font-black mb-4">
+          روابط سريعة
+        </h3>
 
-  <h3 className="text-2xl font-black mb-4">
-    تواصل معنا
-  </h3>
+        <div className="flex flex-col gap-3">
 
-  <div className="flex flex-col gap-3">
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              window.history.pushState({}, "", "/");
+              setSelectedGame(null);
+              setSelectedArticle(null);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            className="w-full flex items-center gap-3 bg-white/10 hover:bg-white/20 border border-white/20 px-5 py-4 rounded-2xl font-black transition"
+          >
+            <span className="text-2xl">🎮</span>
+            <span>ألعابنا</span>
+          </a>
 
-    <a
-  href="https://zamn1.com/"
-  target="_blank"
-  rel="noopener noreferrer"
-      className="inline-block bg-white text-[#6d28d9] px-6 py-3 rounded-2xl font-black text-center"
-    >
-       زيارة المتجر
-    </a>
+          <a
+            href="/blog"
+            onClick={(e) => {
+              e.preventDefault();
+              window.history.pushState({}, "", "/blog");
+              setSelectedGame(null);
+              setSelectedArticle("blog-list");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            className="w-full flex items-center gap-3 bg-white/10 hover:bg-white/20 border border-white/20 px-5 py-4 rounded-2xl font-black transition"
+          >
+            <span className="text-2xl">📰</span>
+            <span>المدونة</span>
+          </a>
 
-   <a
-  href="https://wa.me/message/ZDFHGX5MVYMOF1"
-  target="_blank"
-  rel="noopener noreferrer"
-      className="inline-block bg-green-500 text-white px-6 py-3 rounded-2xl font-black text-center"
-    >
-      💬 واتساب
-    </a>
+          <a
+            href="https://zamn1.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full flex items-center gap-3 bg-white/10 hover:bg-white/20 border border-white/20 px-5 py-4 rounded-2xl font-black transition"
+          >
+            <span className="text-2xl">🛒</span>
+            <span>المتجر</span>
+          </a>
 
-  </div>
+        </div>
+      </div>
 
-</div>
+      <div>
+        <h3 className="text-2xl font-black mb-4">
+          تواصل معنا
+        </h3>
+
+        <div className="flex flex-col gap-3">
+
+        
+
+          <a
+            href="https://wa.me/message/ZDFHGX5MVYMOF1"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-green-500 text-white px-6 py-4 rounded-2xl font-black text-center"
+          >
+            💬 واتساب
+          </a>
+
+        </div>
+      </div>
 
     </div>
 
     <div className="border-t border-white/20 mt-8 pt-6 text-center text-white/70">
-
-© {new Date().getFullYear()} جميع الحقوق محفوظة - متجر ZAMN
+      © {new Date().getFullYear()} جميع الحقوق محفوظة - متجر ZAMN
     </div>
 
   </div>
-
-</div>
-      </div>
-
-    
 </div>
 
+</div>
+</div>
 </>
-
 );
-
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+
+
+
+
+
 
 
 
