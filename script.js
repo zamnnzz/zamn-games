@@ -101,11 +101,7 @@ priceCurrency:"SAR",
   code:"1950",
   name:"تحدي الصور الجزء الاول ",
 image:"https://i.postimg.cc/gJFVPjtn/swrh-thdy-alswr-qbl-alghdt1.jpg",
-  screenshots:[
-    "https://picsum.photos/900/600?21",
-    "https://picsum.photos/900/600?22",
-    "https://picsum.photos/900/600?23"
-  ],
+ 
   rating:"4.6",
   description:"تقدر تجيب الحل بسرعة؟  تعرّف على الصور الغامضة وتحدَّ أصدقاءك في لعبة بصرية ممتعة. متعة ومنافسة تعتمد على دقة الملاحظة وسرعة البديهة.",
 
@@ -136,11 +132,7 @@ priceCurrency:"SAR",
   code:"1850",
   name:"تحدي الصور الجزء الثاني",
 image:"https://i.postimg.cc/gJFVPjtw/swrh-thdy-alswr-qbl-alghdt2.jpg",
-  screenshots:[
-    "https://picsum.photos/900/600?25",
-    "https://picsum.photos/900/600?26",
-    "https://picsum.photos/900/600?27"
-  ],
+ 
   rating:"4.8",
 description:"تحدي الصور الجزء الثاني لعبة جماعية تحتوي على صور وألغاز جديدة لاختبار سرعة الملاحظة والتخمين، مناسبة للعائلة والأصدقاء وتعمل مباشرة من المتصفح.",
   reviews:[
@@ -165,11 +157,7 @@ priceCurrency:"SAR",
   code:"17007",
   name:"تحدي الصور الجزء الثالث",
 image:"https://i.postimg.cc/j50Hr23N/swrh-thdy-alswr-qbl-alghdt3.jpg",
-  screenshots:[
-    "https://picsum.photos/900/600?29",
-    "https://picsum.photos/900/600?30",
-    "https://picsum.photos/900/600?34"
-  ],
+  
   rating:"4.9",
   description:"الجزء الثالث من تحدي الصور بتحديات أكثر وحماس أعلى.",
   reviews:[
