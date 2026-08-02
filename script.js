@@ -225,7 +225,7 @@ image:"https://i.postimg.cc/3RXgrhzW/fwazyr.jpg",
   screenshots: [
   
    "/screenshots/fawazeer/1.webp",
-
+  "/screenshots/fawazeer/3.webp",
   "/screenshots/fawazeer/2.webp",
   ],
   rating:"4.7",
