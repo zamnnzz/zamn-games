@@ -25,11 +25,13 @@ const games = [
   code:"1950",
   name:"حروف والوف مع جرس مدمج",
   image:"https://i.postimg.cc/HxwQWmFr/image-(1).jpg",
-  screenshots:[
-    "https://picsum.photos/900/600?11",
-    "https://picsum.photos/900/600?12",
-    "https://picsum.photos/900/600?13"
-  ],
+ screenshots: [
+  "https://i.postimg.cc/cHvvDT99/lqtt-alshasht-1448-02-19-fy-6-15-53-s.png",
+  "https://i.postimg.cc/2611HTcX/lqtt-alshasht-1448-02-19-fy-6-16-10-s.png",
+  "https://i.postimg.cc/SsnnZVT1/lqtt-alshasht-1448-02-19-fy-6-16-20-s.png",
+  "https://i.postimg.cc/ZRWWfj7Q/lqtt-alshasht-1448-02-19-fy-6-17-25-s.png",
+  "https://i.postimg.cc/qRNNmQb9/lqtt-alshasht-1448-02-19-fy-6-17-44-s.png"
+],
   rating:"5",
   description:"لعبة حروف تفاعلية للمتصفح بدون تحميل. تنافس مع أصدقائك في تكوين الكلمات وتحقيق أعلى النقاط في جو مليء بالحماس والتحدي.",
   reviews:[
@@ -40,6 +42,8 @@ const games = [
     { name:" salem bandr  ",stars:"⭐⭐⭐⭐⭐", comment:" " }
 
   ],
+   players:"تدعم الجوال",
+
   category:"لعبة جماعية",
 questions:"أكثر من 2000 سؤال",
     badge:"جرس مدمج  ",
@@ -62,11 +66,13 @@ priceCurrency:"SAR",
   code:"19050",
   name:"حروف والوف ",
   image:"https://i.postimg.cc/C1GjM09Z/yimage.jpg",
-  screenshots:[
-    "https://picsum.photos/900/600?14",
-    "https://picsum.photos/900/600?15",
-    "https://picsum.photos/900/600?16"
-  ],
+
+screenshots: [
+    "https://i.postimg.cc/RFZkbkVL/lqtt-alshasht-1448-02-19-fy-4-42-33-m.webp",
+  "https://i.postimg.cc/bJw7F7Ng/lqtt-alshasht-1448-02-19-fy-4-43-08-m.webp",
+  "https://i.postimg.cc/02Ksv1GW/lqtt-alshasht-1448-02-19-fy-4-44-40-m.webp",
+  "https://i.postimg.cc/26SsXs8x/lqtt-alshasht-1448-02-19-fy-4-44-50-m.webp"
+],
   rating:"5",
   description:"الجزء الثاني من لعبة حروف والوف بتحديات جديدة وجو جماعي ممتع.",
   reviews:[
@@ -187,11 +193,10 @@ priceCurrency:"SAR",
   code:"19009",
   name:"فاميلي فيود",
 image:"https://i.postimg.cc/PxsWkJVD/famyly.jpg",
-  screenshots:[
-    "https://picsum.photos/900/600?31",
-    "https://picsum.photos/900/600?32",
-    "https://picsum.photos/900/600?33"
-  ],
+  screenshots: [
+  "https://i.postimg.cc/BngNwN7f/mdghwth.webp",
+  "https://i.postimg.cc/CxNJ6JrV/mʿdlh.webp"
+],
   rating:"5.0",
   description:"لعبة فاميلي فيود التفاعلية للمتصفح بدون تحميل. تنافس مع عائلتك وأصدقائك في تخمين الإجابات الأكثر شيوعاً في جو مليء بالحماس والضحك.",
   reviews:[
@@ -219,11 +224,13 @@ priceCurrency:"SAR",
   code:"20026",
   name:"فوازير ",
 image:"https://i.postimg.cc/3RXgrhzW/fwazyr.jpg",
-  screenshots:[
-    "https://picsum.photos/900/600?41",
-    "https://picsum.photos/900/600?42",
-    "https://picsum.photos/900/600?43"
-  ],
+ screenshots: [
+    "https://i.postimg.cc/Y2b6HJ2m/2992-(1).webp"  ,
+
+
+  "https://i.postimg.cc/qBjsT9B3/5ab9145c-5afd-46cb-a4bc-fea22a212f4f-1000x650-4nmpockzx9S0xgz-R7q-SGfna0Olll-N0Ufh-Q3j-UTCW-(1).webp",
+  "https://i.postimg.cc/zD0Cr9DH/797f99b5-2f05-40d6-acc0-59a01f5e8805-1000x562-g-AZp-KPbta-M54Wkdf-Kewr-DZgv4n8EANx-CLf5HENXU-(1).webp"
+],
   rating:"4.7",
   description:"لعبة فوازير تفاعلية للمتصفح بدون تحميل. تنافس مع أصدقائك في حل الفوازير والأسئلة الممتعة مع بطاقات خاصة وجو مليء بالحماس.",
   reviews:[
@@ -249,8 +256,12 @@ priceCurrency:"SAR",
   code:"20066",
   name:"خمن الرابط",
 image:"https://i.postimg.cc/zBZC1v2v/rbt.jpg",
-  screenshots:[],
-  rating:"4.9",
+screenshots: [
+  "https://i.postimg.cc/JzGt9zPm/khmn-alrabt1.webp",
+  "https://i.postimg.cc/pX0pGFYT/1.webp",
+  "https://i.postimg.cc/QdHVRd0D/1111.webp",
+  "https://i.postimg.cc/NfN5JH7F/121.webp"
+],  rating:"4.9",
 description:"لعبة جماعية تعتمد على ربط الصور وتخمين الإجابة الصحيحة بأسرع وقت قبل الفريق المنافس.",
   reviews:[
     { name:"سلمان", stars:"⭐⭐⭐⭐⭐", comment:"فكرة اللعبة رهيبة وممتعة." },
@@ -279,8 +290,15 @@ priceCurrency:"SAR",
 name: "مين الأطرش في الزفة",
   image: "https://i.postimg.cc/7683yhtb/alatrsh-qbl-aldght.jpg",
 
-  screenshots: [],
+screenshots: [
+    "https://i.postimg.cc/7hfpqdcd/6b048dd7-630c-47b6-b4eb-fed7ac977ec6-1000x650-Gv1v-C1y0Uzy6jm-X1zy-R7UQ8i52td-J0dl-SIut-Bx-W8.webp",
+  "https://i.postimg.cc/GtHZbVN6/768588ca-7bc8-4820-b8cc-feb4b16def60-1000x650-Qy71j-Mq14gtdy9g-Ijyh-MNq-A1c-Ajw-Vfz-Juw-W43z43.webp",
+  "https://i.postimg.cc/kGBk7zZk/8ab782b9-c05a-4745-8576-871fd63212af-1000x650-R2x-Jzx-Z65yz6VKSz-Fx7DUBd-CEKEr-T8b6QZB6ka-HU.webp",
 
+  "https://i.postimg.cc/KjwCjQSQ/28a35446-3e9c-4ced-bfb9-7cabecfbd4e6-1000x650-T3Qf-O50sr4xa-CNd6u-B7n-O5XFuvb-T0js6Ju-M38O4I.webp",
+  "https://i.postimg.cc/MHNgHt2d/09289e88-3044-4d9e-8f72-d9099840bcf5-1000x650-aj4rtuk8js-Pg7mqd1DNwp-Xrn-EOFw-Ai-C84EEh9t-Q6.webp"
+
+],
   rating: "5.0",
 
   description: "لعبة تحرٍ اجتماعية مليئة بالضحك والذكاء، وتُعد نسخة محسنة من فكرة “برا السالفة”. يحصل أحد اللاعبين على سؤال مختلف دون أن يعلم، بينما يحاول الجميع كشفه من خلال إجاباته وتصرفاته. مناسبة لـ 3 لاعبين فأكثر، وتضمن جلسات مليئة بالحماس والمواقف المضحكة.",
@@ -664,6 +682,7 @@ startPresenceTracking();
 
 
 function App() {
+  const [previewImage, setPreviewImage] = React.useState(null);
 
   const getGameFromUrl = () => {
     const path = window.location.pathname;
@@ -935,8 +954,10 @@ React.useEffect(() => {
 
     description: getGameSeoDescription(selectedGame),
 
-    image: [selectedGame.image],
-
+image: [
+  selectedGame.image,
+  ...(selectedGame.screenshots || [])
+],
     url:
       `https://zamn-games.vercel.app/game/${selectedGame.slug}`,
 
@@ -2165,31 +2186,69 @@ if (ownedGames.includes(String(selectedGame.code))) {
   </p>
 
 </section>
+{selectedGame.screenshots?.length > 0 && (
+  <section className="bg-white border border-[#eadcff] rounded-3xl p-5 md:p-8 shadow-xl mb-10">
 
- 
-{false && (
-  <>
-    <h2 className="text-3xl font-black mb-5">
-      صور من اللعبة
-    </h2>
-
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
-      {selectedGame.screenshots.map((img,index)=>(
-        <div
-          key={index}
-          className="rounded-3xl overflow-hidden aspect-video bg-[#1b1435]"
-        >
-         <img
-  src={img}
-  alt={`لقطة من لعبة ${selectedGame.name}`}
-  loading="lazy"
-  className="w-full h-full object-cover"
-/>
-        </div>
-      ))}
+    <div className="mb-6 text-center">
+      <h2 className="text-2xl md:text-3xl font-black text-[#3b0764]">
+        صور من الداخل
+      </h2>
     </div>
-  </>
+
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
+
+      {selectedGame.screenshots.map((img, index) => (
+        <button
+          type="button"
+          key={index}
+          onClick={() => setPreviewImage(img)}
+          className="group block w-full cursor-zoom-in overflow-hidden rounded-3xl border border-[#e5e7eb] shadow-sm hover:shadow-md transition"
+        >
+          <img
+            src={img}
+            alt={`صورة ${index + 1} من داخل لعبة ${selectedGame.name}`}
+            title={`لقطة من لعبة ${selectedGame.name}`}
+            width="1920"
+            height="1080"
+            loading="lazy"
+            decoding="async"
+            className="w-full aspect-[16/9] object-cover group-hover:scale-[1.03] transition duration-300"
+          />
+        </button>
+      ))}
+
+    </div>
+
+  </section>
 )}
+
+{previewImage && (
+  <div
+    role="dialog"
+    aria-modal="true"
+    aria-label="معاينة صورة اللعبة"
+    onClick={() => setPreviewImage(null)}
+    className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
+  >
+    <button
+      type="button"
+      aria-label="إغلاق الصورة"
+      onClick={() => setPreviewImage(null)}
+      className="absolute top-4 right-4 z-10 flex h-14 w-14 items-center justify-center rounded-full bg-white/15 text-4xl font-light text-white hover:bg-white/25 transition"
+    >
+      ×
+    </button>
+
+    <img
+      src={previewImage}
+      alt={`صورة مكبرة من داخل لعبة ${selectedGame.name}`}
+      onClick={(e) => e.stopPropagation()}
+      className="max-h-[90vh] max-w-[96vw] rounded-3xl object-contain shadow-2xl"
+    />
+  </div>
+)}
+
+
 {selectedGame.reviews.length > 0 && (
   <>
     <h2 className="text-3xl font-black mb-5">
