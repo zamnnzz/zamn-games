@@ -714,6 +714,7 @@ const [selectedArticle, setSelectedArticle] = React.useState(() => {
 
 
 // تحديث عنوان الصفحة والوصف وروابط المشاركة
+
 React.useEffect(() => {
   const canonical = document.querySelector('link[rel="canonical"]');
   const description = document.querySelector('meta[name="description"]');
@@ -724,6 +725,93 @@ React.useEffect(() => {
   const ogUrl = document.querySelector('meta[property="og:url"]');
   const ogImage = document.querySelector('meta[property="og:image"]');
 
+  // صفحة مقال
+  if (selectedArticle && selectedArticle !== "blog-list") {
+    const articleUrl =
+      `https://zamn-games.vercel.app/blog/${selectedArticle.slug}`;
+
+    const articleTitle =
+      `${selectedArticle.title} | ألعاب زامن`;
+
+    document.title = articleTitle;
+
+    description?.setAttribute(
+      "content",
+      selectedArticle.description
+    );
+
+    canonical?.setAttribute(
+      "href",
+      articleUrl
+    );
+
+    ogTitle?.setAttribute(
+      "content",
+      articleTitle
+    );
+
+    ogDescription?.setAttribute(
+      "content",
+      selectedArticle.description
+    );
+
+    ogUrl?.setAttribute(
+      "content",
+      articleUrl
+    );
+
+    ogImage?.setAttribute(
+      "content",
+      "https://i.postimg.cc/MKrfPPHy/s.png"
+    );
+
+    return;
+  }
+
+  // صفحة المدونة
+  if (selectedArticle === "blog-list") {
+    const blogTitle =
+      "مدونة ألعاب زامن | ألعاب جماعية وأفكار للجمعات";
+
+    const blogDescription =
+      "مقالات وأفكار عن الألعاب الجماعية والجلسات العائلية وتجمعات الأصدقاء من ألعاب زامن.";
+
+    document.title = blogTitle;
+
+    canonical?.setAttribute(
+      "href",
+      "https://zamn-games.vercel.app/blog"
+    );
+
+    description?.setAttribute(
+      "content",
+      blogDescription
+    );
+
+    ogTitle?.setAttribute(
+      "content",
+      blogTitle
+    );
+
+    ogDescription?.setAttribute(
+      "content",
+      blogDescription
+    );
+
+    ogUrl?.setAttribute(
+      "content",
+      "https://zamn-games.vercel.app/blog"
+    );
+
+    ogImage?.setAttribute(
+      "content",
+      "https://i.postimg.cc/MKrfPPHy/s.png"
+    );
+
+    return;
+  }
+
+  // صفحة لعبة
   if (selectedGame) {
     const gameUrl =
       `https://zamn-games.vercel.app/game/${selectedGame.slug}`;
@@ -762,46 +850,49 @@ React.useEffect(() => {
       "content",
       selectedGame.image
     );
-  } else {
-    const homeTitle =
-      "ألعاب زامن | ألعاب جماعية وحروف وفوازير بدون تحميل";
 
-    const homeDescription =
-      "ألعاب زامن منصة ألعاب جماعية عربية تضم حروف وألوف، فاميلي فيود، الفوازير، تحدي الصور وألعاب الجمعات للعائلة والأصدقاء.";
-
-    document.title = homeTitle;
-
-    canonical?.setAttribute(
-      "href",
-      "https://zamn-games.vercel.app/"
-    );
-
-    description?.setAttribute(
-      "content",
-      homeDescription
-    );
-
-    ogTitle?.setAttribute(
-      "content",
-      homeTitle
-    );
-
-    ogDescription?.setAttribute(
-      "content",
-      homeDescription
-    );
-
-    ogUrl?.setAttribute(
-      "content",
-      "https://zamn-games.vercel.app/"
-    );
-
-    ogImage?.setAttribute(
-      "content",
-      "https://i.postimg.cc/MKrfPPHy/s.png"
-    );
+    return;
   }
-}, [selectedGame]);
+
+  // الصفحة الرئيسية
+  const homeTitle =
+    "ألعاب زامن | ألعاب جماعية وحروف وفوازير بدون تحميل";
+
+  const homeDescription =
+    "ألعاب زامن منصة ألعاب جماعية عربية تضم حروف وألوف، فاميلي فيود، الفوازير، تحدي الصور وألعاب الجمعات للعائلة والأصدقاء.";
+
+  document.title = homeTitle;
+
+  canonical?.setAttribute(
+    "href",
+    "https://zamn-games.vercel.app/"
+  );
+
+  description?.setAttribute(
+    "content",
+    homeDescription
+  );
+
+  ogTitle?.setAttribute(
+    "content",
+    homeTitle
+  );
+
+  ogDescription?.setAttribute(
+    "content",
+    homeDescription
+  );
+
+  ogUrl?.setAttribute(
+    "content",
+    "https://zamn-games.vercel.app/"
+  );
+
+  ogImage?.setAttribute(
+    "content",
+    "https://i.postimg.cc/MKrfPPHy/s.png"
+  );
+}, [selectedGame, selectedArticle]);
 
 
 
