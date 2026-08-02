@@ -3471,19 +3471,12 @@ className="game-card"
 
 
 
-
-
-
-
-
-
-
-
-
+</div>
 
 
 {/* Footer */}
 <div className="mt-0 bg-gradient-to-r from-[#3b0764] to-[#6d28d9] text-white rounded-t-[40px]">
+ 
   <div className="max-w-6xl mx-auto px-6 py-10">
 
     <div className="grid md:grid-cols-3 gap-10">
@@ -3577,12 +3570,22 @@ className="game-card"
     </div>
 
   </div>
-</div>
 
 </div>
 </div>
 </>
 );
 }
+
+
+
+
+
+
+
+
+
+
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
