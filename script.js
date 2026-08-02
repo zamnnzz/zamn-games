@@ -31,13 +31,16 @@ const games = [
   code:"1950",
   name:"حروف والوف مع جرس مدمج",
   image:"https://i.postimg.cc/HxwQWmFr/image-(1).jpg",
- screenshots: [
-  "/screenshots/horof/1.webp",
-  "/screenshots/horof/2.webp",
-  "/screenshots/horof/3.webp",
-  "/screenshots/horof/4.webp",
-  "/screenshots/horof/5.webp"
+
+
+screenshots: [
+  "/screenshots/horof/1.webp?v=2",
+  "/screenshots/horof/2.webp?v=2",
+  "/screenshots/horof/3.webp?v=2",
+  "/screenshots/horof/4.webp?v=2",
+  "/screenshots/horof/5.webp?v=2"
 ],
+
   rating:"5",
   description:"لعبة حروف تفاعلية للمتصفح بدون تحميل. تنافس مع أصدقائك في تكوين الكلمات وتحقيق أعلى النقاط في جو مليء بالحماس والتحدي.",
   reviews:[
