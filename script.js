@@ -225,8 +225,9 @@ image:"https://i.postimg.cc/3RXgrhzW/fwazyr.jpg",
   screenshots: [
   
    "/screenshots/fawazeer/1.webp",
-  "/screenshots/fawazeer/3.webp",
   "/screenshots/fawazeer/2.webp",
+      "/screenshots/fawazeer/3.webp"
+
   ],
   rating:"4.7",
   description:"لعبة فوازير تفاعلية للمتصفح بدون تحميل. تنافس مع أصدقائك في حل الفوازير والأسئلة الممتعة مع بطاقات خاصة وجو مليء بالحماس.",
