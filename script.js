@@ -20,17 +20,23 @@ const games = [
 
 
 
+
+
+
+
+
+
   id:1,
   slug:"horof-bell",
   code:"1950",
   name:"حروف والوف مع جرس مدمج",
   image:"https://i.postimg.cc/HxwQWmFr/image-(1).jpg",
  screenshots: [
-  "https://i.postimg.cc/cHvvDT99/lqtt-alshasht-1448-02-19-fy-6-15-53-s.png",
-  "https://i.postimg.cc/2611HTcX/lqtt-alshasht-1448-02-19-fy-6-16-10-s.png",
-  "https://i.postimg.cc/SsnnZVT1/lqtt-alshasht-1448-02-19-fy-6-16-20-s.png",
-  "https://i.postimg.cc/ZRWWfj7Q/lqtt-alshasht-1448-02-19-fy-6-17-25-s.png",
-  "https://i.postimg.cc/qRNNmQb9/lqtt-alshasht-1448-02-19-fy-6-17-44-s.png"
+  "/screenshots/horof/1.webp",
+  "/screenshots/horof/2.webp",
+  "/screenshots/horof/3.webp",
+  "/screenshots/horof/4.webp",
+  "/screenshots/horof/5.webp"
 ],
   rating:"5",
   description:"لعبة حروف تفاعلية للمتصفح بدون تحميل. تنافس مع أصدقائك في تكوين الكلمات وتحقيق أعلى النقاط في جو مليء بالحماس والتحدي.",
@@ -68,10 +74,10 @@ priceCurrency:"SAR",
   image:"https://i.postimg.cc/C1GjM09Z/yimage.jpg",
 
 screenshots: [
-    "https://i.postimg.cc/RFZkbkVL/lqtt-alshasht-1448-02-19-fy-4-42-33-m.webp",
-  "https://i.postimg.cc/bJw7F7Ng/lqtt-alshasht-1448-02-19-fy-4-43-08-m.webp",
-  "https://i.postimg.cc/02Ksv1GW/lqtt-alshasht-1448-02-19-fy-4-44-40-m.webp",
-  "https://i.postimg.cc/26SsXs8x/lqtt-alshasht-1448-02-19-fy-4-44-50-m.webp"
+  "/screenshots/horof-bell/1.webp",
+  "/screenshots/horof-bell/2.webp",
+  "/screenshots/horof-bell/3.webp",
+  "/screenshots/horof-bell/4.webp"
 ],
   rating:"5",
   description:"الجزء الثاني من لعبة حروف والوف بتحديات جديدة وجو جماعي ممتع.",
@@ -181,9 +187,9 @@ priceCurrency:"SAR",
   code:"19009",
   name:"فاميلي فيود",
 image:"https://i.postimg.cc/PxsWkJVD/famyly.jpg",
-  screenshots: [
-  "https://i.postimg.cc/BngNwN7f/mdghwth.webp",
-  "https://i.postimg.cc/CxNJ6JrV/mʿdlh.webp"
+ screenshots: [
+  "/screenshots/family-feud/1.webp",
+  "/screenshots/family-feud/2.webp"
 ],
   rating:"5.0",
   description:"لعبة فاميلي فيود التفاعلية للمتصفح بدون تحميل. تنافس مع عائلتك وأصدقائك في تخمين الإجابات الأكثر شيوعاً في جو مليء بالحماس والضحك.",
@@ -212,13 +218,12 @@ priceCurrency:"SAR",
   code:"20026",
   name:"فوازير ",
 image:"https://i.postimg.cc/3RXgrhzW/fwazyr.jpg",
- screenshots: [
-    "https://i.postimg.cc/Y2b6HJ2m/2992-(1).webp"  ,
+  screenshots: [
+  
+   "/screenshots/fawazeer/1.webp",
 
-
-  "https://i.postimg.cc/qBjsT9B3/5ab9145c-5afd-46cb-a4bc-fea22a212f4f-1000x650-4nmpockzx9S0xgz-R7q-SGfna0Olll-N0Ufh-Q3j-UTCW-(1).webp",
-  "https://i.postimg.cc/zD0Cr9DH/797f99b5-2f05-40d6-acc0-59a01f5e8805-1000x562-g-AZp-KPbta-M54Wkdf-Kewr-DZgv4n8EANx-CLf5HENXU-(1).webp"
-],
+  "/screenshots/fawazeer/2.webp",
+  ],
   rating:"4.7",
   description:"لعبة فوازير تفاعلية للمتصفح بدون تحميل. تنافس مع أصدقائك في حل الفوازير والأسئلة الممتعة مع بطاقات خاصة وجو مليء بالحماس.",
   reviews:[
@@ -244,12 +249,16 @@ priceCurrency:"SAR",
   code:"20066",
   name:"خمن الرابط",
 image:"https://i.postimg.cc/zBZC1v2v/rbt.jpg",
+
+
 screenshots: [
-  "https://i.postimg.cc/JzGt9zPm/khmn-alrabt1.webp",
-  "https://i.postimg.cc/pX0pGFYT/1.webp",
-  "https://i.postimg.cc/QdHVRd0D/1111.webp",
-  "https://i.postimg.cc/NfN5JH7F/121.webp"
-],  rating:"4.9",
+  "/screenshots/guess-link/1.webp",
+  "/screenshots/guess-link/2.webp",
+  "/screenshots/guess-link/3.webp",
+  "/screenshots/guess-link/4.webp"
+],
+
+  rating:"4.9",
 description:"لعبة جماعية تعتمد على ربط الصور وتخمين الإجابة الصحيحة بأسرع وقت قبل الفريق المنافس.",
   reviews:[
     { name:"سلمان", stars:"⭐⭐⭐⭐⭐", comment:"فكرة اللعبة رهيبة وممتعة." },
@@ -279,13 +288,11 @@ name: "مين الأطرش في الزفة",
   image: "https://i.postimg.cc/7683yhtb/alatrsh-qbl-aldght.jpg",
 
 screenshots: [
-    "https://i.postimg.cc/7hfpqdcd/6b048dd7-630c-47b6-b4eb-fed7ac977ec6-1000x650-Gv1v-C1y0Uzy6jm-X1zy-R7UQ8i52td-J0dl-SIut-Bx-W8.webp",
-  "https://i.postimg.cc/GtHZbVN6/768588ca-7bc8-4820-b8cc-feb4b16def60-1000x650-Qy71j-Mq14gtdy9g-Ijyh-MNq-A1c-Ajw-Vfz-Juw-W43z43.webp",
-  "https://i.postimg.cc/kGBk7zZk/8ab782b9-c05a-4745-8576-871fd63212af-1000x650-R2x-Jzx-Z65yz6VKSz-Fx7DUBd-CEKEr-T8b6QZB6ka-HU.webp",
-
-  "https://i.postimg.cc/KjwCjQSQ/28a35446-3e9c-4ced-bfb9-7cabecfbd4e6-1000x650-T3Qf-O50sr4xa-CNd6u-B7n-O5XFuvb-T0js6Ju-M38O4I.webp",
-  "https://i.postimg.cc/MHNgHt2d/09289e88-3044-4d9e-8f72-d9099840bcf5-1000x650-aj4rtuk8js-Pg7mqd1DNwp-Xrn-EOFw-Ai-C84EEh9t-Q6.webp"
-
+  "/screenshots/alatrash/1.webp",
+  "/screenshots/alatrash/2.webp",
+  "/screenshots/alatrash/3.webp",
+  "/screenshots/alatrash/4.webp",
+  "/screenshots/alatrash/5.webp"
 ],
   rating: "5.0",
 
@@ -310,6 +317,17 @@ priceCurrency:"SAR",
   }
 
 ];
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2192,16 +2210,16 @@ if (ownedGames.includes(String(selectedGame.code))) {
           onClick={() => setPreviewImage(img)}
           className="group block w-full cursor-zoom-in overflow-hidden rounded-3xl border border-[#e5e7eb] shadow-sm hover:shadow-md transition"
         >
-          <img
-            src={img}
-            alt={`صورة ${index + 1} من داخل لعبة ${selectedGame.name}`}
-            title={`لقطة من لعبة ${selectedGame.name}`}
-            width="1920"
-            height="1080"
-            loading="lazy"
-            decoding="async"
-            className="w-full aspect-[16/9] object-cover group-hover:scale-[1.03] transition duration-300"
-          />
+        <img
+  src={img}
+  alt={`صورة ${index + 1} من داخل لعبة ${selectedGame.name}`}
+  title={`لقطة من لعبة ${selectedGame.name}`}
+  width="1920"
+  height="1080"
+  loading={index < 3 ? "eager" : "lazy"}
+  decoding="async"
+  className="w-full aspect-[16/9] object-cover group-hover:scale-[1.03] transition duration-300"
+/>
         </button>
       ))}
 
@@ -2227,12 +2245,15 @@ if (ownedGames.includes(String(selectedGame.code))) {
       ×
     </button>
 
-    <img
-      src={previewImage}
-      alt={`صورة مكبرة من داخل لعبة ${selectedGame.name}`}
-      onClick={(e) => e.stopPropagation()}
-      className="max-h-[90vh] max-w-[96vw] rounded-3xl object-contain shadow-2xl"
-    />
+
+   <img
+  src={previewImage}
+  alt={`صورة مكبرة من داخل لعبة ${selectedGame.name}`}
+  onClick={(e) => e.stopPropagation()}
+  decoding="async"
+  fetchPriority="high"
+  className="max-h-[90vh] max-w-[96vw] rounded-3xl object-contain shadow-2xl"
+/>
   </div>
 )}
 
@@ -3140,7 +3161,7 @@ className="bg-white hover:bg-[#f4f0ff] border-2 border-[#eadcff] rounded-2xl p-2
   alt={`${game.name} - صورة اللعبة`}
   width="56"
   height="56"
-  loading="lazy"
+loading="eager"
   decoding="async"
   className="w-14 h-14 rounded-2xl object-cover border"
 />
