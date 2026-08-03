@@ -75,7 +75,7 @@ priceCurrency:"SAR",
   slug:"horof",
   code:"19050",
   name:"حروف والوف ",
-  image:"https://i.postimg.cc/C1GjM09Z/yimage.jpg",
+  image:"https://i.postimg.cc/kgRSbkTC/2222222.webp",
 
 screenshots: [
   "/screenshots/horof-bell/1.webp",
@@ -95,7 +95,7 @@ screenshots: [
   ],
   category:"لعبة جماعية",
  players:"٢+ لاعبين",
-questions:"أكثر من 1400 سؤال",
+questions:"أكثر من 2000 سؤال",
   status:"متاحة الآن",
 price:"4.99 ريال",
 priceValue:4.99,
@@ -110,7 +110,7 @@ priceCurrency:"SAR",
   slug:"photos-1",
   code:"1950",
   name:"تحدي الصور الجزء الاول ",
-image:"https://i.postimg.cc/gJFVPjtn/swrh-thdy-alswr-qbl-alghdt1.jpg",
+image:"https://i.postimg.cc/wMkRQmr5/alawl-bʿd-alatar.webp",
  
   rating:"4.6",
   description:"تقدر تجيب الحل بسرعة؟  تعرّف على الصور الغامضة وتحدَّ أصدقاءك في لعبة بصرية ممتعة. متعة ومنافسة تعتمد على دقة الملاحظة وسرعة البديهة.",
@@ -141,7 +141,7 @@ priceCurrency:"SAR",
   slug:"photos-2",
   code:"1850",
   name:"تحدي الصور الجزء الثاني",
-image:"https://i.postimg.cc/gJFVPjtw/swrh-thdy-alswr-qbl-alghdt2.jpg",
+image:"https://i.postimg.cc/rF8rFfdZ/althany-bʿd-alatar.webp",
  
   rating:"4.8",
 description:"تحدي الصور الجزء الثاني لعبة جماعية تحتوي على صور وألغاز جديدة لاختبار سرعة الملاحظة والتخمين، مناسبة للعائلة والأصدقاء وتعمل مباشرة من المتصفح.",
@@ -166,7 +166,7 @@ priceCurrency:"SAR",
   slug:"photos-3",
   code:"17007",
   name:"تحدي الصور الجزء الثالث",
-image:"https://i.postimg.cc/j50Hr23N/swrh-thdy-alswr-qbl-alghdt3.jpg",
+image:"https://i.postimg.cc/5NxCNsH7/althalth-bʿd-azalh-alatar.webp",
   
   rating:"4.9",
   description:"الجزء الثالث من تحدي الصور بتحديات أكثر وحماس أعلى.",
@@ -221,7 +221,7 @@ priceCurrency:"SAR",
   slug:"fawazeer",
   code:"20026",
   name:"فوازير ",
-image:"https://i.postimg.cc/3RXgrhzW/fwazyr.jpg",
+image:"https://i.postimg.cc/7PBx09tP/dwn-ʿnwan-(1280-x-960-byksl).webp",
   screenshots: [
   
    "/screenshots/fawazeer/1.webp",
@@ -357,6 +357,10 @@ const articles = [
     "إذا كنت تبحث عن لعبة جماعية عربية تعمل بدون تحميل وتناسب جميع الأعمار، فإن لعبة حروف وألوف من ألعاب زامن تعد خيارًا مناسبًا للجلسات العائلية والمناسبات."
   ]
 },
+
+
+
+
 
 
 
@@ -688,10 +692,6 @@ startPresenceTracking();
 
 
 
-
-
-
-
 function App() {
   const [previewImage, setPreviewImage] = React.useState(null);
 
@@ -709,29 +709,55 @@ function App() {
   };
 
   const getArticleFromUrl = () => {
-  const path = window.location.pathname;
-  const match = path.match(/^\/blog\/([^/]+)\/?$/);
+    const path = window.location.pathname;
+    const match = path.match(/^\/blog\/([^/]+)\/?$/);
 
-  if (!match) {
-    return null;
-  }
+    if (!match) {
+      return null;
+    }
 
-  const slug = decodeURIComponent(match[1]);
+    const slug = decodeURIComponent(match[1]);
 
-  return articles.find((article) => article.slug === slug) || null;
-};
+    return articles.find((article) => article.slug === slug) || null;
+  };
 
   const [selectedGame, setSelectedGame] = React.useState(getGameFromUrl);
 
-const [selectedArticle, setSelectedArticle] = React.useState(() => {
-  const path = window.location.pathname;
+  const [selectedArticle, setSelectedArticle] = React.useState(() => {
+    const path = window.location.pathname;
 
-  if (path === "/blog" || path === "/blog/") {
-    return "blog-list";
-  }
+    if (path === "/blog" || path === "/blog/") {
+      return "blog-list";
+    }
 
-  return getArticleFromUrl();
-});
+    return getArticleFromUrl();
+  });
+
+  React.useEffect(() => {
+    const elements = document.querySelectorAll(".reveal-on-scroll");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.12
+      }
+    );
+
+    elements.forEach((element) => {
+      observer.observe(element);
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [selectedGame, selectedArticle]);
 
 
 
@@ -743,8 +769,17 @@ const [selectedArticle, setSelectedArticle] = React.useState(() => {
 
 
 
-// تحديث عنوان الصفحة والوصف وروابط المشاركة
 
+
+
+
+
+
+
+
+
+
+// تحديث عنوان الصفحة والوصف والأيقونة وروابط المشاركة
 React.useEffect(() => {
   const canonical = document.querySelector('link[rel="canonical"]');
   const description = document.querySelector('meta[name="description"]');
@@ -755,15 +790,47 @@ React.useEffect(() => {
   const ogUrl = document.querySelector('meta[property="og:url"]');
   const ogImage = document.querySelector('meta[property="og:image"]');
 
-  // صفحة مقال
+  const siteUrl = "https://zamn-games.vercel.app";
+  const siteIcon = `${siteUrl}/favicon.png?v=10`;
+  const siteImage = "https://i.postimg.cc/MKrfPPHy/s.png";
+
+  // حذف الأيقونة القديمة وإنشاء أيقونة جديدة
+  // هذه الطريقة تجبر المتصفح على تحديثها
+  const setIcon = (iconUrl) => {
+    document
+      .querySelectorAll(
+        'link[rel="icon"], link[rel="shortcut icon"], link[rel="apple-touch-icon"]'
+      )
+      .forEach((link) => link.remove());
+
+    const favicon = document.createElement("link");
+    favicon.rel = "icon";
+    favicon.href = iconUrl;
+    document.head.appendChild(favicon);
+
+    const shortcutIcon = document.createElement("link");
+    shortcutIcon.rel = "shortcut icon";
+    shortcutIcon.href = iconUrl;
+    document.head.appendChild(shortcutIcon);
+
+    const appleIcon = document.createElement("link");
+    appleIcon.rel = "apple-touch-icon";
+    appleIcon.href = iconUrl;
+    document.head.appendChild(appleIcon);
+  };
+
+  // صفحة المقال
   if (selectedArticle && selectedArticle !== "blog-list") {
     const articleUrl =
-      `https://zamn-games.vercel.app/blog/${selectedArticle.slug}`;
+      `${siteUrl}/blog/${selectedArticle.slug}`;
 
     const articleTitle =
       `${selectedArticle.title} | ألعاب زامن`;
 
     document.title = articleTitle;
+
+    // شعار ألعاب زامن
+    setIcon(siteIcon);
 
     description?.setAttribute(
       "content",
@@ -792,7 +859,7 @@ React.useEffect(() => {
 
     ogImage?.setAttribute(
       "content",
-      "https://i.postimg.cc/MKrfPPHy/s.png"
+      siteImage
     );
 
     return;
@@ -808,9 +875,12 @@ React.useEffect(() => {
 
     document.title = blogTitle;
 
+    // شعار ألعاب زامن
+    setIcon(siteIcon);
+
     canonical?.setAttribute(
       "href",
-      "https://zamn-games.vercel.app/blog"
+      `${siteUrl}/blog`
     );
 
     description?.setAttribute(
@@ -830,26 +900,35 @@ React.useEffect(() => {
 
     ogUrl?.setAttribute(
       "content",
-      "https://zamn-games.vercel.app/blog"
+      `${siteUrl}/blog`
     );
 
     ogImage?.setAttribute(
       "content",
-      "https://i.postimg.cc/MKrfPPHy/s.png"
+      siteImage
     );
 
     return;
   }
 
-  // صفحة لعبة
+  // صفحة اللعبة
   if (selectedGame) {
     const gameUrl =
-      `https://zamn-games.vercel.app/game/${selectedGame.slug}`;
+      `${siteUrl}/game/${selectedGame.slug}`;
 
-    const gameTitle = getGameSeoTitle(selectedGame);
-    const gameDescription = getGameSeoDescription(selectedGame);
+    const gameTitle =
+      getGameSeoTitle(selectedGame);
+
+    const gameDescription =
+      getGameSeoDescription(selectedGame);
+
+    const gameIcon =
+      selectedGame.icon || selectedGame.image;
 
     document.title = gameTitle;
+
+    // صورة اللعبة في تبويب المتصفح
+    setIcon(gameIcon);
 
     description?.setAttribute(
       "content",
@@ -893,9 +972,12 @@ React.useEffect(() => {
 
   document.title = homeTitle;
 
+  // إعادة شعار ألعاب زامن في الرئيسية
+  setIcon(siteIcon);
+
   canonical?.setAttribute(
     "href",
-    "https://zamn-games.vercel.app/"
+    `${siteUrl}/`
   );
 
   description?.setAttribute(
@@ -915,23 +997,14 @@ React.useEffect(() => {
 
   ogUrl?.setAttribute(
     "content",
-    "https://zamn-games.vercel.app/"
+    `${siteUrl}/`
   );
 
   ogImage?.setAttribute(
     "content",
-    "https://i.postimg.cc/MKrfPPHy/s.png"
+    siteImage
   );
 }, [selectedGame, selectedArticle]);
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1782,7 +1855,7 @@ const gameOrigin = "https://alatrash.oneapp.dev";
 
 if (selectedArticle === "blog-list") {
   return (
-    <div className="min-h-screen bg-[#f4f0ff]">
+<div className="min-h-screen bg-[#f4f0ff] page-enter">
 
       <div className="bg-gradient-to-br from-[#3b0764] via-[#6d28d9] to-[#a855f7] text-white px-5 py-12">
         <div className="max-w-6xl mx-auto">
@@ -1876,8 +1949,7 @@ if (
   selectedArticle !== "blog-list"
 ) {
   return (
-    <div className="min-h-screen bg-[#f4f0ff]">
-
+<div className="min-h-screen bg-[#f4f0ff] page-enter">
       <div className="bg-gradient-to-br from-[#3b0764] via-[#6d28d9] to-[#a855f7] text-white px-5 py-12">
 
         <div className="max-w-4xl mx-auto">
@@ -2069,7 +2141,15 @@ return (
 
 
 
-<div className="min-h-screen bg-[#f4f0ff] text-[#3b0764]">
+<div
+  className="min-h-screen bg-[#f4f0ff] text-[#3b0764]"
+  style={{
+    fontFamily:
+selectedGame?.slug === "horof-bell"
+        ? '"AA Galaxy", sans-serif'
+        : "inherit"
+  }}
+>
 
 
 
@@ -2079,53 +2159,185 @@ return (
 
 
 
-<div className="relative overflow-hidden bg-gradient-to-br from-[#3b0764] via-[#6d28d9] to-[#a855f7] text-white rounded-b-[45px] shadow-xl">
+
+
+
+
+{selectedGame.slug === "horof-bell" ? (
+  /* واجهة خاصة بلعبة حروف وألوف مع الجرس */
+  <section className="relative overflow-hidden bg-gradient-to-br from-[#3b0764] via-[#6d28d9] to-[#9333ea] text-white rounded-b-[45px] shadow-xl">
+
 <button
   onClick={closeGameDetails}
-  className="absolute top-5 right-5 z-20 bg-black/50 backdrop-blur px-5 py-3 rounded-xl font-bold"
+  className="cairo-btn absolute top-4 right-4 md:top-5 md:right-5 z-20 bg-black/30 hover:bg-black/45 backdrop-blur-md px-4 py-2.5 md:px-5 md:py-3 rounded-2xl font-black flex items-center gap-2 text-white"
 >
-  ← رجوع
+  <i className="fa-solid fa-house text-white"></i>
+  <span>الرئيسية</span>
 </button>
 
+    <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-5 pt-20 md:pt-24 pb-8 md:pb-10">
 
-  <div className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-12">
+<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-center">
+        {/* النص والبطاقات */}
+        <div className="text-center lg:text-right order-2 lg:order-1">
 
-    <div className="bg-purple-600 inline-block px-4 py-2 rounded-full text-sm font-bold mb-4">
-      الأكثر شعبية
-    </div>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black leading-tight mb-2">
+            حروف وألوف مع جرس مدمج
+          </h1>
 
-    <h1 className="text-5xl md:text-7xl font-black mb-7">
-      {selectedGame.name}
-    </h1>
+          <h2 className="text-lg sm:text-xl md:text-2xl font-black text-yellow-300 mb-3">
+            تحدي الخلية
+          </h2>
 
-    <div className="grid grid-cols-2 md:grid-cols-3 gap-3 max-w-3xl mb-7">
-      <div className="bg-white/15 backdrop-blur border border-white/20 rounded-2xl px-4 py-3 text-center">
-        <div className="font-black">{selectedGame.players}</div>
-      </div>
+          <p className="max-w-2xl mx-auto lg:mx-0 text-sm md:text-base leading-7 text-white/90 font-bold mb-5">
+            لعبة حروف جماعية تعمل مباشرة من المتصفح بدون تحميل.
+            تنافس مع أصدقائك في الإجابة عن أكثر من 2000 سؤال،
+            واضغط الجرس قبل الفريق المنافس لتحقيق أعلى النقاط.
+          </p>
 
-      <div className="bg-white/15 backdrop-blur border border-white/20 rounded-2xl px-4 py-3 text-center">
-        <div className="font-black">{selectedGame.category}</div>
-      </div>
+          {/* بطاقتان في كل صف */}
+          <div className="grid grid-cols-2 gap-2 max-w-md mx-auto lg:mx-0">
 
-      <div className="bg-white/15 backdrop-blur border border-white/20 rounded-2xl px-4 py-3 text-center">
-        <div className="font-black text-green-400">{selectedGame.status}</div>
-      </div>
-    </div>
+            <div className="min-h-[60px] md:min-h-[68px] flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-2 bg-white/15 border border-white/25 backdrop-blur-md rounded-2xl px-2 py-2 text-center">
+              <i className="fa-solid fa-bell text-yellow-300 text-base md:text-lg"></i>
 
-    <div className="max-w-3xl bg-white/15 backdrop-blur border border-white/20 rounded-3xl p-5 shadow-2xl">
+              <span className="text-[11px] sm:text-xs md:text-sm font-black leading-5">
+                جرس مدمج
+              </span>
+            </div>
 
-  <div className="text-sm font-black text-yellow-300 mb-2">
-    ✨ وصف اللعبة
-  </div>
+            <div className="min-h-[60px] md:min-h-[68px] flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-2 bg-white/15 border border-white/25 backdrop-blur-md rounded-2xl px-2 py-2 text-center">
+              <i className="fa-solid fa-users text-yellow-300 text-base md:text-lg"></i>
 
-  <p className="text-base md:text-xl leading-9 text-white font-bold">
-    {selectedGame.description}
-  </p>
+              <span className="text-[11px] sm:text-xs md:text-sm font-black leading-5">
+                لاعبان فأكثر
+              </span>
+            </div>
 
+            <div className="min-h-[60px] md:min-h-[68px] flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-2 bg-white/15 border border-white/25 backdrop-blur-md rounded-2xl px-2 py-2 text-center">
+              <i className="fa-solid fa-question text-yellow-300 text-base md:text-lg"></i>
+
+              <span className="text-[11px] sm:text-xs md:text-sm font-black leading-5">
+                أكثر من 2000 سؤال
+              </span>
+            </div>
+
+            <div className="min-h-[60px] md:min-h-[68px] flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-2 bg-white/15 border border-white/25 backdrop-blur-md rounded-2xl px-2 py-2 text-center">
+              <i className="fa-solid fa-mobile-screen-button text-yellow-300 text-base md:text-lg"></i>
+
+              <span className="text-[11px] sm:text-xs md:text-sm font-black leading-5">
+                الجوال والتلفزيون
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+
+        {/* الصورة تظهر في كل الشاشات */}
+
+
+
+
+         {/* الصورة */}
+
+<div className="flex justify-center lg:justify-start items-center order-1 lg:order-2">
+  <img
+    src="https://i.postimg.cc/cLs9NqGk/shat.webp"
+    alt="لعبة حروف وألوف مع جرس مدمج"
+    width="440"
+    height="440"
+    loading="eager"
+    decoding="async"
+
+
+ className="w-[230px] sm:w-[280px] md:w-[340px] lg:w-[430px] xl:w-[520px] h-auto object-contain drop-shadow-2xllg:-translate-x-24 xl:-translate-x-28"  
+  />
 </div>
 
-</div>
-  </div>
+      </div>
+
+    </div>
+
+  </section>
+) : (
+  /* ضع هنا تصميم بقية الألعاب كما هو */
+  
+  /* الواجهة العادية لبقية الألعاب */
+  <section className="relative overflow-hidden bg-gradient-to-br from-[#3b0764] via-[#6d28d9] to-[#a855f7] text-white rounded-b-[45px] shadow-xl">
+
+   <button
+  onClick={closeGameDetails}
+  className="cairo-btn absolute top-4 right-4 md:top-5 md:right-5 z-20 bg-black/30 hover:bg-black/45 backdrop-blur-md px-4 py-2.5 md:px-5 md:py-3 rounded-2xl font-black flex items-center gap-2 text-white"
+>
+  <i className="fa-solid fa-house text-white"></i>
+  <span>الرئيسية</span>
+</button>
+
+    <div className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-12">
+
+      <h1 className="text-4xl md:text-7xl font-black mb-7">
+        {selectedGame.name}
+      </h1>
+
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 max-w-3xl mb-7">
+
+        <div className="bg-white/15 backdrop-blur border border-white/20 rounded-2xl px-4 py-3 text-center">
+          <div className="font-black">
+            {selectedGame.players}
+          </div>
+        </div>
+
+        <div className="bg-white/15 backdrop-blur border border-white/20 rounded-2xl px-4 py-3 text-center">
+          <div className="font-black">
+            {selectedGame.category}
+          </div>
+        </div>
+
+        <div className="bg-white/15 backdrop-blur border border-white/20 rounded-2xl px-4 py-3 text-center">
+          <div className="font-black text-green-400">
+            {selectedGame.status}
+          </div>
+        </div>
+
+      </div>
+
+      <div className="max-w-3xl bg-white/15 backdrop-blur border border-white/20 rounded-3xl p-5 shadow-2xl">
+
+        <div className="text-sm font-black text-yellow-300 mb-2">
+          ✨ وصف اللعبة
+        </div>
+
+        <p className="text-base md:text-xl leading-9 text-white font-bold">
+          {selectedGame.description}
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+)}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2154,50 +2366,123 @@ if (ownedGames.includes(String(selectedGame.code))) {
   setShowCodeBox(true);
 }
   }}
-  className="w-full bg-[#7c3aed] hover:bg-[#6d28d9] text-white py-4 rounded-2xl text-xl font-black mb-3"
+className="cairo-btn w-full bg-[#7c3aed] hover:bg-[#6d28d9] text-white py-4 rounded-2xl text-xl font-black mb-3"
 >
-  🚀 العب الآن
+  ▶ العب الآن
 </button>
 
     <button
       onClick={buyGame}
-      className="w-full bg-gradient-to-r from-emerald-500 to-green-600 text-white py-4 rounded-2xl text-xl font-black mb-3"
+className="cairo-btn w-full bg-gradient-to-r from-emerald-500 to-green-600 text-white py-4 rounded-2xl text-xl font-black mb-3"
     >
       💳 اشتر الآن - {selectedGame.price}
     </button>
 
        <button
       onClick={startTrial}
-      className="w-full bg-[#f4f0ff] border-2 border-[#7c3aed] text-[#7c3aed] py-4 rounded-2xl text-xl font-black"
+className="cairo-btn w-full bg-[#f4f0ff] border-2 border-[#7c3aed] text-[#7c3aed] py-4 rounded-2xl text-xl font-black"
     >
       🎮 جرّب مجاناً 45 ثانية
     </button>
 </div>
 
-<section className="bg-white border border-[#eadcff] rounded-3xl p-6 md:p-8 shadow-xl mb-8">
 
-  <h2 className="text-2xl md:text-3xl font-black text-[#3b0764] mb-5">
-    معلومات عن لعبة {selectedGame.name}
-  </h2>
 
-  <p className="text-gray-700 leading-9 text-base md:text-lg font-bold mb-4">
-    {selectedGame.description}
-  </p>
 
-  <p className="text-gray-700 leading-9 text-base md:text-lg font-bold mb-4">
-    تعمل لعبة {selectedGame.name} مباشرة من المتصفح بدون الحاجة إلى
-    تحميل تطبيق، ويمكن تشغيلها على الجوال أو الكمبيوتر وعرضها على
-    شاشة التلفزيون أثناء الجلسات العائلية وتجمعات الأصدقاء.
-  </p>
 
-  <p className="text-gray-700 leading-9 text-base md:text-lg font-bold">
-    اللعبة مناسبة لـ {selectedGame.players}، وتصنف ضمن
-    {" "}{selectedGame.category}. يمكنك تجربة اللعبة لمدة 45 ثانية،
-    ثم شراء النسخة الكاملة والوصول إليها من حساب اللاعب.
-  </p>
 
-</section>
+
+
+
+
+
+{/* طريقة اللعب — تظهر فقط في حروف وألوف مع الجرس */}
+{selectedGame.slug === "horof-bell" && (
+  <section className="bg-white border border-[#eadcff] rounded-3xl p-6 md:p-8 shadow-xl mb-10">
+
+    <div className="text-center mb-8">
+      <h2 className="text-3xl md:text-4xl font-black text-[#3b0764] mb-3">
+        كيف تلعب حروف وألوف مع الجرس؟
+      </h2>
+
+      <p className="text-gray-500 text-base md:text-lg font-bold">
+        ابدأ التحدي في ثلاث خطوات بسيطة
+      </p>
+    </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+      {/* الخطوة الأولى */}
+      <div className="relative bg-[#faf7ff] border border-[#eadcff] rounded-3xl p-6 text-center shadow-sm">
+
+        <span className="absolute top-4 right-4 w-9 h-9 rounded-full bg-[#7c3aed] text-white flex items-center justify-center font-black">
+          1
+        </span>
+
+        <div className="w-20 h-20 mx-auto mb-5 rounded-3xl bg-purple-100 text-[#7c3aed] flex items-center justify-center">
+          <i className="fa-solid fa-users text-4xl"></i>
+        </div>
+
+        <h3 className="text-xl md:text-2xl font-black text-[#3b0764] mb-3">
+          قسّم اللاعبين
+        </h3>
+
+        <p className="text-gray-600 font-bold leading-8">
+          قسّم المشاركين إلى فريقين، ثم اختر أسماء الفرق وابدأ جولة جديدة.
+        </p>
+
+      </div>
+
+      {/* الخطوة الثانية */}
+      <div className="relative bg-[#faf7ff] border border-[#eadcff] rounded-3xl p-6 text-center shadow-sm">
+
+        <span className="absolute top-4 right-4 w-9 h-9 rounded-full bg-[#7c3aed] text-white flex items-center justify-center font-black">
+          2
+        </span>
+
+        <div className="w-20 h-20 mx-auto mb-5 rounded-3xl bg-purple-100 text-[#7c3aed] flex items-center justify-center">
+          <i className="fa-solid fa-tv text-4xl"></i>
+        </div>
+
+        <h3 className="text-xl md:text-2xl font-black text-[#3b0764] mb-3">
+          اعرض اللعبة
+        </h3>
+
+        <p className="text-gray-600 font-bold leading-8">
+          اعرض اللعبة على التلفزيون أو الشاشة الكبيرة ليشاهد الجميع الحروف والأسئلة.
+        </p>
+
+      </div>
+
+      {/* الخطوة الثالثة */}
+      <div className="relative bg-[#faf7ff] border border-[#eadcff] rounded-3xl p-6 text-center shadow-sm">
+
+        <span className="absolute top-4 right-4 w-9 h-9 rounded-full bg-[#7c3aed] text-white flex items-center justify-center font-black">
+          3
+        </span>
+
+        <div className="w-20 h-20 mx-auto mb-5 rounded-3xl bg-purple-100 text-[#7c3aed] flex items-center justify-center">
+          <i className="fa-solid fa-bell text-4xl"></i>
+        </div>
+
+        <h3 className="text-xl md:text-2xl font-black text-[#3b0764] mb-3">
+          اضغط الجرس وأجب
+        </h3>
+
+        <p className="text-gray-600 font-bold leading-8">
+          أول فريق يضغط الجرس يحصل على فرصة الإجابة، والإجابة الصحيحة تمنحه النقطة.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+)}
+
 {selectedGame.screenshots?.length > 0 && (
+
+
   <section className="bg-white border border-[#eadcff] rounded-3xl p-5 md:p-8 shadow-xl mb-10">
 
     <div className="mb-6 text-center">
@@ -2353,15 +2638,233 @@ if (ownedGames.includes(String(selectedGame.code))) {
 
 
 
+{selectedGame.slug === "horof-bell" && (
+  <section className="faq-section">
 
+    <div className="faq-heading-wrap">
+      <h2 className="faq-heading">
+        الأسئلة الشائعة عن حروف وألوف مع الجرس
+      </h2>
+    </div>
 
+    <div className="faq-list">
 
+      {[
+        {
+          question: "هل هذه لعبة حروف مع عزيز التابعة لفريق فالكونز؟",
+          answer:
+            "لا، هذه لعبة حروف إصدار مستقل أُطلق عام 2025، ولا ترتبط بأي علاقة رسمية ببرنامج «لعبة حروف مع عزيز» التابع لفريق فالكونز. تقدم اللعبة تجربة تخمين كلمات وصور ممتعة مستوحاة من هذا النوع من الألعاب، ويمكن لعبها مباشرة من المتصفح دون تحميل باستخدام الجوال أو الكمبيوتر أو شاشة التلفزيون."
+        },
+        {
+          question: "ما الفرق بين حروف وألوف مع الجرس والنسخة العادية؟",
+          answer:
+            "تحتوي هذه النسخة على جرس مدمج داخل اللعبة لإضافة أجواء تنافسية وحماس أكبر أثناء اللعب."
+        },
+        {
+          question: "كم عدد الأسئلة في اللعبة؟",
+          answer:
+            "تحتوي اللعبة على أكثر من 2000 سؤال متنوع يغطي جميع الحروف."
+        },
+        {
+          question: "هل تعمل اللعبة بدون تحميل؟",
+          answer:
+            "نعم، تعمل مباشرة من المتصفح على الجوال أو الكمبيوتر بدون الحاجة إلى تحميل أي تطبيق."
+        },
+        {
+          question: "هل يمكن تشغيل اللعبة على التلفزيون؟",
+          answer:
+            "نعم، يمكن عرض اللعبة على شاشة التلفزيون لتستمتع بها العائلة والأصدقاء."
+        },
+        {
+          question: "كم عدد اللاعبين؟",
+          answer:
+            "يمكن لعبها بواسطة لاعبين أو أكثر، وكلما زاد عدد اللاعبين أصبحت المنافسة أكثر متعة."
+        },
+        {
+          question: "هل توجد تجربة مجانية؟",
+          answer:
+            "نعم، يمكنك تجربة اللعبة مجانًا لمدة 45 ثانية قبل شراء النسخة الكاملة."
+        }
+      ].map((item, index) => {
 
+        const key = `horofbellfaq-${index}`;
+        const isOpen = openFaq === key;
+
+        return (
+          <div key={key} className="faq-item">
+
+            <button
+              className="faq-question"
+              onClick={() => setOpenFaq(isOpen ? null : key)}
+            >
+              <span className="faq-question-text">
+                {item.question}
+              </span>
+
+              <span
+                className={`faq-icon ${isOpen ? "open" : ""}`}
+              ></span>
+            </button>
+
+            <div className={`faq-answer ${isOpen ? "open" : ""}`}>
+              <div className="faq-answer-inner">
+                <p className="faq-answer-text">
+                  {item.answer}
+                </p>
+              </div>
+            </div>
+
+          </div>
+        );
+      })}
+
+    </div>
+
+  </section>
+)}
 
 </div>
 </div>
 </div>
+
+{/* Footer — يظهر في جميع صفحات الألعاب */}
+<footer className="mt-10 bg-gradient-to-r from-[#3b0764] via-[#6d28d9] to-[#7c3aed] text-white rounded-t-[40px]">
+
+  <div className="max-w-6xl mx-auto px-6 py-12">
+
+    <div className="grid md:grid-cols-3 gap-10 items-start">
+
+      {/* التعريف */}
+      <div>
+        <h2 className="text-3xl font-black mb-4">
+          ألعاب زامن
+        </h2>
+
+        <p className="text-white/80 leading-8 text-base">
+          منصة ألعاب تفاعلية عربية تجمع العائلة والأصدقاء في تجربة
+          مليئة بالمرح والتحدي. حوّل أي جلسة إلى لحظات لا تُنسى مع
+          ألعاب جماعية متنوعة تعمل مباشرة من المتصفح.
+        </p>
+      </div>
+
+      {/* الروابط */}
+      <div>
+        <h2 className="text-3xl font-black mb-4">
+          روابط سريعة
+        </h2>
+
+        <div className="flex flex-col gap-3">
+
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+
+              window.history.pushState({}, "", "/");
+
+              setSelectedGame(null);
+              setSelectedArticle(null);
+
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+              });
+            }}
+            className="w-full flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 border border-white/20 px-5 py-4 rounded-2xl font-black transition"
+          >
+            <i className="fa-solid fa-gamepad text-lg"></i>
+            <span>ألعابنا</span>
+          </a>
+
+          <a
+            href="/blog"
+            onClick={(e) => {
+              e.preventDefault();
+
+              window.history.pushState({}, "", "/blog");
+
+              setSelectedGame(null);
+              setSelectedArticle("blog-list");
+
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+              });
+            }}
+            className="w-full flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 border border-white/20 px-5 py-4 rounded-2xl font-black transition"
+          >
+            <i className="fa-solid fa-newspaper text-lg"></i>
+            <span>المدونة</span>
+          </a>
+
+          <a
+            href="https://zamn1.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 border border-white/20 px-5 py-4 rounded-2xl font-black transition"
+          >
+            <i className="fa-solid fa-cart-shopping text-lg"></i>
+            <span>المتجر</span>
+          </a>
+
+        </div>
+      </div>
+
+      {/* التواصل */}
+      <div>
+        <h2 className="text-3xl font-black mb-6">
+          تواصل معنا
+        </h2>
+
+        <div className="flex gap-5">
+
+          <a
+            href="https://zamn1.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="زيارة متجر ألعاب زامن"
+            className="w-20 h-20 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition duration-300"
+          >
+            <i className="fa-solid fa-store text-4xl text-white"></i>
+          </a>
+
+          <a
+            href="https://wa.me/message/ZDFHGX5MVYMOF1"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="التواصل عبر واتساب"
+            className="w-20 h-20 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition duration-300"
+          >
+            <i className="fa-brands fa-whatsapp text-4xl text-white"></i>
+          </a>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div className="border-t border-white/20 mt-10 pt-6 text-center text-white/70 font-bold">
+      © {new Date().getFullYear()} جميع الحقوق محفوظة - متجر ZAMN
+    </div>
+
+  </div>
+
+</footer>
+
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 {showCodeBox && (
@@ -2475,8 +2978,7 @@ updateOnlinePlayer({
 }
 return (
 <>
-<div className="min-h-screen bg-[#f4f0ff]">
-{showStats && (
+<div className="min-h-screen bg-[#f4f0ff] page-enter">{showStats && (
   <div className="fixed inset-0 z-[10000] bg-[#f4f0ff] overflow-y-auto">
 
     <div className="sticky top-0 z-20 bg-gradient-to-r from-[#3b0764] to-[#7c3aed] text-white p-5 flex items-center justify-between">
@@ -2903,7 +3405,7 @@ return (
 <div className="max-w-6xl mx-auto px-6 py-10 md:py-14">
     <div className="grid md:grid-cols-2 gap-10 items-center">
 
-      <div className="text-center md:text-right">
+<div className="text-center md:text-right hero-text-enter">
 <h1
   onClick={handleStatsSecretClick}
   className="text-4xl md:text-5xl font-black mb-4 cursor-default select-none"
@@ -2942,21 +3444,26 @@ className="bg-white/15 px-4 py-2 rounded-full backdrop-blur text-sm font-bold"  
               behavior:"smooth"
             });
           }}
-className="bg-orange-500 hover:bg-orange-600 px-7 py-3 rounded-full font-black text-base"        >
-          استعرض الألعاب
-        </button>
 
+
+  className="bg-orange-500 hover:bg-orange-600 px-7 py-3 rounded-full font-black text-base inline-flex items-center justify-center gap-2"
+>
+
+  <i className="fa-solid fa-play text-xs"></i>
+  <span>استعرض الألعاب</span>
+</button>
       </div>
 
-      <div className="flex justify-center">
+<div className="flex justify-center hero-logo-enter">
 
-       <img
-  src="https://i.postimg.cc/MKrfPPHy/s.png"
+
+    <img
+  src="https://i.postimg.cc/Y9T6ZMng/nqn.webp"
   alt="شعار ألعاب زامن"
-  width="192"
-  height="192"
-  className="w-32 md:w-48"
-/>
+  width="256"
+  height="256"
+  className="w-52 md:w-72"
+  />
 
 
       </div>
@@ -2964,9 +3471,16 @@ className="bg-orange-500 hover:bg-orange-600 px-7 py-3 rounded-full font-black t
     </div>
   </div>
 
-<svg className="w-full -mt-8" viewBox="0 0 1440 120">
-      <path fill="#f4f0ff" d="M0,80 C250,130 500,130 720,90 C950,50 1200,40 1440,80 L1440,120 L0,120 Z"/>
-  </svg>
+<svg
+  className="block w-full -mt-8 -mb-[2px]"
+  viewBox="0 0 1440 120"
+  preserveAspectRatio="none"
+>
+  <path
+    fill="#f4f0ff"
+    d="M0,80 C250,130 500,130 720,90 C950,50 1200,40 1440,80 L1440,120 L0,120 Z"
+  />
+</svg>
 
 </div>
 
@@ -3245,21 +3759,29 @@ loading="eager"
   onLoad={sendHostAccessToGame}
 ></iframe>
 
-
-  </div>
-)}
-<div id="games-list" className="max-w-6xl mx-auto px-5 py-8">
-       <div className="flex justify-center mb-8">
-
-  <div className="bg-white border-2 border-[#eadcff] shadow-lg rounded-full px-10 py-3">
-
-    <h2 className="text-3xl font-black text-[#3b0764] text-center">
-      ألعابنا
-    </h2>
-
-  </div>
-
 </div>
+
+)}
+
+
+
+<div id="games-list" className="max-w-6xl mx-auto px-5 py-8">
+<div className="flex flex-col items-center mb-10 reveal-on-scroll">
+<div className="bg-white border border-[#f1e8ff] shadow-md rounded-full px-8 py-2">
+      <h2 className="text-2xl md:text-3xl font-black text-[#3b0764] text-center">
+        ألعابنا
+      </h2>
+    </div>
+
+    <p className="mt-5 text-center text-gray-500 text-base md:text-lg font-bold leading-8 max-w-2xl">
+      اختر لعبتك المفضلة وابدأ التحدي مع أصدقائك.
+    </p>
+
+  </div>
+  
+  {/* هنا تبدأ بطاقات الألعاب */}
+
+
 
 
 {[
@@ -3295,8 +3817,7 @@ loading="eager"
 
       <div className="games-grid">
 
-        {section.items.map(game => (
-
+{section.items.map((game, index) => (
 
 
 
@@ -3310,8 +3831,7 @@ loading="eager"
     e.preventDefault();
     openGameDetails(game);
   }}
-
-className="game-card"
+className={`game-card reveal-on-scroll reveal-delay-${(index % 4) + 1}`}
 >
 
   <div className="game-image-box">
@@ -3377,6 +3897,189 @@ className="game-card"
 
 
 
+
+
+{/* الباقات */}
+<section className="py-20 px-5 bg-[#f7f2ff]">
+
+  <div className="text-center mb-12">
+
+    <span className="inline-block bg-[#3b0764] text-white px-8 py-3 rounded-full text-xl font-black">
+      الباقات
+    </span>
+
+    <h2 className="text-4xl font-black text-[#3b0764] mt-6">
+      وفر أكثر مع الباقات
+    </h2>
+
+    <p className="text-gray-600 text-lg mt-3 font-bold">
+      اشتر أكثر من لعبة واحصل على أفضل سعر.
+    </p>
+
+  </div>
+
+  <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
+
+    {/* باقة جميع الألعاب */}
+<div className="package-card reveal-on-scroll reveal-delay-1 relative bg-white rounded-[30px] border-4 border-[#7c3aed] shadow-2xl p-8 overflow-hidden">
+
+      <div className="absolute top-4 left-4 bg-[#7c3aed] text-white px-4 py-2 rounded-full text-sm font-black rotate-[-8deg]">
+        الأكثر توفيرًا
+      </div>
+
+      <div className="text-6xl text-center mb-4">
+        👑
+      </div>
+
+      <h3 className="text-3xl text-center font-black text-[#3b0764]">
+        باقة جميع الألعاب
+      </h3>
+
+      <p className="text-center text-gray-500 mt-4 leading-8 font-bold">
+        احصل على جميع ألعاب زامن الحالية
+        وجميع الألعاب التي ستصدر لاحقًا ضمن الباقة.
+      </p>
+
+      <a
+        href="https://zamn1.com/%D8%A8%D9%83%D8%AC-%D8%A7%D9%84%D8%A3%D9%84%D8%B9%D8%A7%D8%A8-%D8%A7%D9%84%D8%A3%D9%83%D8%A8%D8%B1-%D8%A8%D8%A7%D9%84%D8%AA%D8%A7%D8%B1%D9%8A%D8%AE!/p1077969731"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-8 flex justify-center items-center bg-gradient-to-r from-[#7c3aed] to-[#9333ea] text-white h-14 rounded-full font-black text-lg transition hover:scale-105"
+      >
+        شراء الباقة 👑
+      </a>
+
+    </div>
+
+    {/* باقة 4 ألعاب */}
+<div className="package-card reveal-on-scroll reveal-delay-2 relative bg-white rounded-[30px] border-2 border-[#eadcff] shadow-xl p-6 md:p-7 md:scale-95">
+      <div className="text-6xl text-center mb-4">
+        🎁
+      </div>
+
+      <h3 className="text-3xl text-center font-black text-[#3b0764]">
+        باقة 4 ألعاب
+      </h3>
+
+      <p className="text-center text-gray-500 mt-4 leading-8 font-bold">
+      تضم الباقة:
+حروف مع عزيز + تحدي الصور + فوازير + فاميلي فيود
+بسعر أوفر من شراء كل لعبة بشكل منفصل.
+      </p>
+
+      <a
+        href="https://zamn1.com/%D8%AD%D8%B1%D9%88%D9%81-%D9%85%D8%B9-%D8%B9%D8%B2%D9%8A%D8%B2-+%D8%AA%D8%AD%D8%AF%D9%8A-%D8%A7%D9%84%D8%B5%D9%88%D8%B1-+%D9%81%D9%88%D8%A7%D8%B2%D9%8A%D8%B1/p1476560404"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-8 flex justify-center items-center bg-gradient-to-r from-[#7c3aed] to-[#9333ea] text-white h-14 rounded-full font-black text-lg transition hover:scale-105"
+      >
+        شراء الباقة 🎁
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{/* لماذا ألعاب زامن؟ */}
+<section className="max-w-6xl mx-auto px-5 py-14">
+
+  <div className="flex justify-center mb-10">
+    <div className="bg-gradient-to-r from-[#7c3aed] to-[#6d28d9] text-white px-10 py-3 rounded-full shadow-lg">
+      <h2 className="text-3xl font-black">
+        لماذا ألعاب زامن؟
+      </h2>
+    </div>
+  </div>
+
+  <div className="grid md:grid-cols-2 gap-6">
+
+<div className="feature-card reveal-on-scroll reveal-delay-1 bg-white rounded-3xl border border-purple-100 shadow-lg p-8 text-center">
+      <div className="w-20 h-20 rounded-3xl bg-purple-100 flex items-center justify-center mx-auto mb-5">
+        <i className="fa-solid fa-language text-4xl text-[#7c3aed]"></i>
+      </div>
+
+      <h3 className="text-2xl font-black text-[#3b0764] mb-3">
+        محتوى عربي
+      </h3>
+
+      <p className="text-gray-600 leading-8 font-bold">
+        ألعاب مصممة بالكامل باللغة العربية ومناسبة للثقافة العربية.
+      </p>
+    </div>
+
+<div className="feature-card reveal-on-scroll reveal-delay-2 bg-white rounded-3xl border border-purple-100 shadow-lg p-8 text-center">
+      <div className="w-20 h-20 rounded-3xl bg-purple-100 flex items-center justify-center mx-auto mb-5">
+        <i className="fa-solid fa-bolt text-4xl text-[#7c3aed]"></i>
+      </div>
+
+      <h3 className="text-2xl font-black text-[#3b0764] mb-3">
+        العب فورًا
+      </h3>
+
+      <p className="text-gray-600 leading-8 font-bold">
+        بدون تحميل تطبيقات، افتح الرابط والعب مباشرة من أي جهاز.
+      </p>
+    </div>
+
+<div className="feature-card reveal-on-scroll reveal-delay-3 bg-white rounded-3xl border border-purple-100 shadow-lg p-8 text-center">
+      <div className="w-20 h-20 rounded-3xl bg-purple-100 flex items-center justify-center mx-auto mb-5">
+        <i className="fa-solid fa-tv text-4xl text-[#7c3aed]"></i>
+      </div>
+
+      <h3 className="text-2xl font-black text-[#3b0764] mb-3">
+        شاشة كبيرة
+      </h3>
+
+      <p className="text-gray-600 leading-8 font-bold">
+        اعرض اللعبة على التلفزيون وكل لاعب يستخدم جواله كجهاز تحكم.
+      </p>
+    </div>
+
+<div className="feature-card reveal-on-scroll reveal-delay-4 bg-white rounded-3xl border border-purple-100 shadow-lg p-8 text-center">
+      <div className="w-20 h-20 rounded-3xl bg-purple-100 flex items-center justify-center mx-auto mb-5">
+        <i className="fa-solid fa-users text-4xl text-[#7c3aed]"></i>
+      </div>
+
+      <h3 className="text-2xl font-black text-[#3b0764] mb-3">
+        تجمعات أحلى
+      </h3>
+
+      <p className="text-gray-600 leading-8 font-bold">
+        حوّل أي جلسة إلى تحدٍ ممتع ومنافسة حماسية بين العائلة والأصدقاء.
+      </p>
+    </div>
+
+  </div>
+
+</section>
 
 
 
