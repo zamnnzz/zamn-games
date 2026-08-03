@@ -15,7 +15,6 @@
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://zamn-games.vercel.app/">
 
-
 <title>ألعاب زامن | لعبة حروف، فاميلي فيود، فوازير وألعاب جماعية</title>
 
 <meta name="description" content="ألعاب زامن هي منصة للألعاب الجماعية العربية، استمتع بلعبة حروف، فاميلي فيود، الفوازير، تحدي الصور، خمن الرابط، وحروف وألوف مع الأصدقاء والعائلة أونلاين بسهولة وفي أي وقت.">
@@ -506,6 +505,174 @@ body{
 
 
 
+/* =========================
+   ظهور العناصر عند النزول إليها
+========================= */
+
+.reveal-on-scroll{
+  opacity:0;
+  transform:translateY(28px) scale(.985);
+  filter:blur(4px);
+
+  transition:
+    opacity .85s cubic-bezier(.22,1,.36,1),
+    transform .85s cubic-bezier(.22,1,.36,1),
+    filter .85s cubic-bezier(.22,1,.36,1);
+
+  will-change:opacity,transform,filter;
+}
+
+.reveal-on-scroll.is-visible{
+  opacity:1;
+  transform:translateY(0) scale(1);
+  filter:blur(0);
+}
+
+/* تأخير بسيط ومتدرج */
+
+.reveal-delay-1{
+  transition-delay:.05s;
+}
+
+.reveal-delay-2{
+  transition-delay:.12s;
+}
+
+.reveal-delay-3{
+  transition-delay:.19s;
+}
+
+.reveal-delay-4{
+  transition-delay:.26s;
+}
+
+
+/* =========================
+   بطاقات الألعاب
+========================= */
+
+.game-card{
+  transition:
+    transform .45s cubic-bezier(.22,1,.36,1),
+    box-shadow .45s ease,
+    border-color .45s ease;
+}
+
+.game-card:hover{
+  transform:translateY(-5px) scale(1.015);
+  border-color:#d8b4fe;
+  box-shadow:0 22px 45px rgba(76,29,149,.16);
+}
+
+.game-card .game-image{
+  transition:
+    transform .6s cubic-bezier(.22,1,.36,1);
+}
+
+.game-card:hover .game-image{
+  transform:scale(1.045);
+}
+
+
+/* =========================
+   الباقات والمميزات
+========================= */
+
+.feature-card,
+.package-card{
+  transition:
+    transform .45s cubic-bezier(.22,1,.36,1),
+    box-shadow .45s ease;
+}
+
+.feature-card:hover,
+.package-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 20px 38px rgba(76,29,149,.14);
+}
+
+
+/* =========================
+   الأزرار
+========================= */
+
+button,
+.game-btn,
+.faq-more-btn{
+  transition:
+    transform .25s cubic-bezier(.22,1,.36,1),
+    box-shadow .25s ease,
+    background-color .25s ease,
+    color .25s ease;
+}
+
+button:hover,
+.game-btn:hover,
+.faq-more-btn:hover{
+  transform:translateY(-2px);
+}
+
+button:active,
+.game-btn:active,
+.faq-more-btn:active{
+  transform:scale(.97);
+}
+
+
+/* =========================
+   احترام إعداد تقليل الحركة
+========================= */
+
+@media (prefers-reduced-motion:reduce){
+
+  .reveal-on-scroll{
+    opacity:1;
+    transform:none;
+    filter:none;
+    transition:none;
+  }
+
+  .game-card,
+  .feature-card,
+  .package-card,
+  button,
+  .game-btn,
+  .faq-more-btn{
+    transition:none;
+  }
+
+  .game-card:hover,
+  .feature-card:hover,
+  .package-card:hover,
+  button:hover,
+  .game-btn:hover,
+  .faq-more-btn:hover{
+    transform:none;
+    box-shadow:none;
+  }
+
+}
+
+
+
+
+
+
+@font-face {
+  font-family: "AA Galaxy";
+  src: url("https://raw.githubusercontent.com/zamnnzz/fonts/main/hroffont-B6Zk_0ya.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+
+
+
+.cairo-btn{
+  font-family: "Cairo", sans-serif !important;
+}
 
 
 
@@ -561,6 +728,10 @@ body{
     }
   ]
 }
+
+
+
+
 </script>
 
 </head>
