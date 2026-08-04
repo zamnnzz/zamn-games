@@ -256,6 +256,8 @@ priceCurrency:"SAR",
 image:"https://i.postimg.cc/zBZC1v2v/rbt.jpg",
 
 
+
+
 screenshots: [
   "/screenshots/guess-link/1.webp",
   "/screenshots/guess-link/2.webp",
@@ -865,6 +867,30 @@ React.useEffect(() => {
     return;
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   // صفحة المدونة
   if (selectedArticle === "blog-list") {
     const blogTitle =
@@ -1377,17 +1403,199 @@ const [siteMessage,setSiteMessage] = React.useState(null);
 const messageTimer = React.useRef(null);
 const trialTimer = React.useRef(null);
 const overlayTimer = React.useRef(null);
-const showMessage = (text,type="info") => {
-  if(messageTimer.current){
+
+
+const showMessage = (text, type = "info") => {
+  if (messageTimer.current) {
     clearTimeout(messageTimer.current);
+    messageTimer.current = null;
   }
 
-  setSiteMessage({ text, type });
+  setSiteMessage({
+    text: String(text || ""),
+    type
+  });
+
+  // رسالة التأكيد لا تُغلق تلقائيًا
+  if (type === "confirm") {
+    return;
+  }
 
   messageTimer.current = setTimeout(() => {
     setSiteMessage(null);
     messageTimer.current = null;
-  }, 5000);
+  }, 4000);
+};
+
+const SiteMessageModal = () => {
+  if (!siteMessage) return null;
+
+  const closeMessage = () => {
+    setSiteMessage(null);
+
+    if (messageTimer.current) {
+      clearTimeout(messageTimer.current);
+      messageTimer.current = null;
+    }
+  };
+
+  return (
+    <div
+      className="
+        fixed inset-0 z-[999999]
+        flex items-center justify-center
+        bg-[#1f122d]/85 backdrop-blur-md
+        p-4
+      "
+      onClick={() => {
+        if (siteMessage.type !== "confirm") {
+          closeMessage();
+        }
+      }}
+    >
+      <div
+        dir="rtl"
+        role="dialog"
+        aria-modal="true"
+        onClick={(e) => e.stopPropagation()}
+        className="
+          relative w-full max-w-[390px]
+          overflow-hidden rounded-[26px]
+          border-[3px] border-[#d8cbea]
+          bg-white
+          shadow-[8px_8px_0_#9b8aaa,0_25px_70px_rgba(31,18,45,.45)]
+          animate-[codeBoxPop_.25s_ease-out]
+        "
+      >
+        <span className="absolute left-4 top-4 z-30 h-3 w-3 bg-yellow-300"></span>
+        <span className="absolute left-9 top-4 z-30 h-3 w-3 bg-white/50"></span>
+        <span className="absolute bottom-4 right-4 z-30 h-3 w-3 bg-purple-300"></span>
+
+        <div
+          className={`
+            relative overflow-hidden
+            border-b-[3px] px-6 py-7
+            text-center text-white
+
+            ${
+              siteMessage.type === "error"
+                ? "border-[#991b1b] bg-gradient-to-br from-[#7f1d1d] via-[#dc2626] to-[#f87171]"
+                : siteMessage.type === "confirm"
+                ? "border-[#92400e] bg-gradient-to-br from-[#78350f] via-[#d97706] to-[#fbbf24]"
+                : "border-[#4c1d95] bg-gradient-to-br from-[#3b0764] via-[#6d28d9] to-[#8b5cf6]"
+            }
+          `}
+        >
+          <div
+            className="pointer-events-none absolute inset-0 opacity-20"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(255,255,255,.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.4) 1px, transparent 1px)",
+              backgroundSize: "18px 18px"
+            }}
+          />
+
+          <div className="relative z-10">
+            <div
+              className="
+                mx-auto mb-4 flex h-20 w-20
+                items-center justify-center
+                rounded-2xl
+                border-[3px] border-white/40
+                bg-white/15
+                text-5xl
+                shadow-[6px_6px_0_rgba(37,13,64,.45)]
+              "
+            >
+              {siteMessage.type === "error"
+                ? "❌"
+                : siteMessage.type === "confirm"
+                ? "⚠️"
+                : "✅"}
+            </div>
+
+            <h2 className="text-2xl font-black">
+              {siteMessage.type === "error"
+                ? "تنبيه"
+                : siteMessage.type === "confirm"
+                ? "تأكيد العملية"
+                : "تم بنجاح"}
+            </h2>
+          </div>
+        </div>
+
+        <div
+          className="p-5 md:p-6"
+          style={{
+            backgroundColor: "#faf8fc",
+            backgroundImage:
+              "linear-gradient(rgba(124,58,237,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(124,58,237,.045) 1px, transparent 1px)",
+            backgroundSize: "24px 24px"
+          }}
+        >
+          <p className="mb-6 text-center text-lg font-black leading-8 text-[#3b0764]">
+            {siteMessage.text}
+          </p>
+
+          {siteMessage.type === "confirm" ? (
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={closeMessage}
+                className="
+                  cairo-btn min-h-[54px]
+                  rounded-xl
+                  border-[3px] border-[#b8afbd]
+                  bg-white
+                  font-black text-[#514957]
+                  shadow-[4px_4px_0_#99909f]
+                "
+              >
+                إلغاء
+              </button>
+
+              <button
+                type="button"
+                onClick={async () => {
+                  closeMessage();
+                  setShowLoginBox(false);
+                  await logoutPhone();
+                }}
+                className="
+                  cairo-btn min-h-[54px]
+                  rounded-xl
+                  border-[3px] border-[#991b1b]
+                  bg-[#ef4444]
+                  font-black text-white
+                  shadow-[4px_4px_0_#991b1b]
+                "
+              >
+                تأكيد
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={closeMessage}
+              className={`
+                cairo-btn min-h-[56px] w-full
+                rounded-xl border-[3px]
+                text-lg font-black text-white
+
+                ${
+                  siteMessage.type === "error"
+                    ? "border-[#991b1b] bg-[#ef4444] shadow-[5px_5px_0_#991b1b]"
+                    : "border-[#4c1d95] bg-gradient-to-r from-[#6d28d9] to-[#8b5cf6] shadow-[5px_5px_0_#4c1d95]"
+                }
+              `}
+            >
+              حسناً
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 const handleStatsSecretClick = () => {
@@ -1853,9 +2061,15 @@ const gameOrigin = "https://alatrash.oneapp.dev";
 
 
 
+
+
+
+
+
+
 if (selectedArticle === "blog-list") {
   return (
-<div className="min-h-screen bg-[#f4f0ff] page-enter">
+<div className="home-game-background page-enter">
 
       <div className="bg-gradient-to-br from-[#3b0764] via-[#6d28d9] to-[#a855f7] text-white px-5 py-12">
         <div className="max-w-6xl mx-auto">
@@ -1949,7 +2163,7 @@ if (
   selectedArticle !== "blog-list"
 ) {
   return (
-<div className="min-h-screen bg-[#f4f0ff] page-enter">
+<div className="home-game-background page-enter">
       <div className="bg-gradient-to-br from-[#3b0764] via-[#6d28d9] to-[#a855f7] text-white px-5 py-12">
 
         <div className="max-w-4xl mx-auto">
@@ -2121,18 +2335,12 @@ if (
     </div>
   );
 }
-
 if (selectedGame) {
-
-
-return (
-
+  return (
     <>
+      <SiteMessageModal />
 
-   
-
-
-
+        
 
 
 
@@ -2165,7 +2373,7 @@ selectedGame?.slug === "horof-bell"
 
 {selectedGame.slug === "horof-bell" ? (
   /* واجهة خاصة بلعبة حروف وألوف مع الجرس */
-  <section className="relative overflow-hidden bg-gradient-to-br from-[#3b0764] via-[#6d28d9] to-[#9333ea] text-white rounded-b-[45px] shadow-xl">
+<section className="game-details-hero relative overflow-hidden text-white">
 
 <button
   onClick={closeGameDetails}
@@ -2264,7 +2472,7 @@ selectedGame?.slug === "horof-bell"
   /* ضع هنا تصميم بقية الألعاب كما هو */
   
   /* الواجهة العادية لبقية الألعاب */
-  <section className="relative overflow-hidden bg-gradient-to-br from-[#3b0764] via-[#6d28d9] to-[#a855f7] text-white rounded-b-[45px] shadow-xl">
+<section className="game-details-hero relative overflow-hidden text-white">
 
    <button
   onClick={closeGameDetails}
@@ -2274,7 +2482,7 @@ selectedGame?.slug === "horof-bell"
   <span>الرئيسية</span>
 </button>
 
-    <div className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-12">
+<div className="relative z-10 max-w-7xl mx-auto px-5 pt-24 pb-14">
 
       <h1 className="text-4xl md:text-7xl font-black mb-7">
         {selectedGame.name}
@@ -2351,7 +2559,7 @@ selectedGame?.slug === "horof-bell"
 
 <div className="md:col-span-2">
 
-  <div className="bg-white border border-[#eadcff] rounded-3xl p-6 shadow-xl mb-8">
+<div className="game-details-action-card mb-8">
 
   <button
   onClick={()=>{
@@ -2366,21 +2574,21 @@ if (ownedGames.includes(String(selectedGame.code))) {
   setShowCodeBox(true);
 }
   }}
-className="cairo-btn w-full bg-[#7c3aed] hover:bg-[#6d28d9] text-white py-4 rounded-2xl text-xl font-black mb-3"
+className="cairo-btn game-details-btn game-details-play mb-4"
 >
   ▶ العب الآن
 </button>
 
     <button
       onClick={buyGame}
-className="cairo-btn w-full bg-gradient-to-r from-emerald-500 to-green-600 text-white py-4 rounded-2xl text-xl font-black mb-3"
+className="cairo-btn game-details-btn game-details-buy mb-4"
     >
       💳 اشتر الآن - {selectedGame.price}
     </button>
 
        <button
       onClick={startTrial}
-className="cairo-btn w-full bg-[#f4f0ff] border-2 border-[#7c3aed] text-[#7c3aed] py-4 rounded-2xl text-xl font-black"
+className="cairo-btn game-details-btn game-details-trial"
     >
       🎮 جرّب مجاناً 45 ثانية
     </button>
@@ -2643,7 +2851,8 @@ className="cairo-btn w-full bg-[#f4f0ff] border-2 border-[#7c3aed] text-[#7c3aed
 
     <div className="faq-heading-wrap">
       <h2 className="faq-heading">
-        الأسئلة الشائعة عن حروف وألوف مع الجرس
+الأسئلة الشائعة حول لعبة حروف
+
       </h2>
     </div>
 
@@ -2855,77 +3064,211 @@ className="cairo-btn w-full bg-[#f4f0ff] border-2 border-[#7c3aed] text-[#7c3aed
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 {showCodeBox && (
-  <div className="fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-5">
+  <div
+    className="
+      fixed inset-0 z-[99999]
+      flex items-center justify-center
+      bg-[#1f122d]/90 backdrop-blur-md
+      p-4
+    "
+    onClick={() => {
+      setShowCodeBox(false);
+      setCodeInput("");
+    }}
+  >
+    <div
+      dir="rtl"
+      onClick={(e) => e.stopPropagation()}
+      className="
+        relative w-full max-w-md overflow-hidden
+        rounded-[26px]
+        border-[3px] border-[#d8cbea]
+        bg-white
+        shadow-[8px_8px_0_#a99ab8,0_25px_70px_rgba(31,18,45,.45)]
+        animate-[codeBoxPop_.25s_ease-out]
+      "
+    >
+      {/* مربعات كرتونية */}
+      <span className="absolute left-4 top-4 z-20 h-3 w-3 bg-yellow-300"></span>
+      <span className="absolute left-9 top-4 z-20 h-3 w-3 bg-white/50"></span>
+      <span className="absolute bottom-4 right-4 z-20 h-3 w-3 bg-purple-300"></span>
 
-    <div className="w-full max-w-md bg-white rounded-[35px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,.4)]">
+      {/* رأس النافذة */}
+      <div
+        className="
+          relative overflow-hidden
+          border-b-[3px] border-[#4c1d95]
+          bg-gradient-to-br
+          from-[#3b0764] via-[#6d28d9] to-[#8b5cf6]
+          px-6 py-8 text-center text-white
+        "
+      >
+        {/* شبكة الخلفية */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-20"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.4) 1px, transparent 1px)",
+            backgroundSize: "18px 18px"
+          }}
+        />
 
-      <div className="bg-gradient-to-r from-[#7c3aed] to-[#9333ea] text-white p-8 text-center">
+        <div className="relative z-10">
+          <div
+            className="
+              mx-auto mb-4 flex h-20 w-20
+              items-center justify-center
+              rounded-2xl
+              border-[3px] border-white/40
+              bg-white/15
+              text-5xl
+              shadow-[6px_6px_0_rgba(37,13,64,.5)]
+            "
+          >
+            🎮
+          </div>
 
-        <div className="text-6xl mb-3">
-          🎮
+          <h2 className="text-3xl font-black">
+            دخول اللعبة
+          </h2>
+
+          <p className="mt-2 text-sm font-bold text-white/80 md:text-base">
+            أدخل رمز التفعيل لبدء اللعب
+          </p>
         </div>
-
-        <h2 className="text-3xl font-black">
-          دخول اللعبة
-        </h2>
-
-        <p className="opacity-90 mt-2">
-          أدخل رمز التفعيل الخاص بك
-        </p>
-
       </div>
 
-      <div className="p-6">
+      {/* جسم النافذة */}
+      <div
+        className="p-5 md:p-6"
+        style={{
+          backgroundColor: "#faf8fc",
+          backgroundImage:
+            "linear-gradient(rgba(124,58,237,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(124,58,237,.04) 1px, transparent 1px)",
+          backgroundSize: "24px 24px"
+        }}
+      >
+        <label className="mb-2 block text-right text-sm font-black text-[#3b0764]">
+          رمز اللعبة
+        </label>
 
         <input
           value={codeInput}
-          onChange={(e)=>setCodeInput(e.target.value)}
+          onChange={(e) => setCodeInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              checkCode();
+            }
+          }}
+          inputMode="numeric"
+          autoComplete="one-time-code"
+          autoFocus
           placeholder="اكتب الرمز هنا"
-          className="w-full h-16 rounded-2xl border-2 border-purple-200 text-center text-2xl font-black outline-none focus:border-purple-600 mb-5"
+          className="
+            mb-5 h-16 w-full
+            rounded-xl
+            border-[3px] border-[#d8cfe0]
+            bg-white px-4
+            text-center text-2xl font-black
+            text-[#3b0764]
+            outline-none
+            shadow-[4px_4px_0_#bfb3c9]
+            transition
+            focus:-translate-y-0.5
+            focus:border-[#7c3aed]
+            focus:shadow-[4px_4px_0_#4c1d95]
+          "
         />
 
         <button
+          type="button"
           onClick={checkCode}
-          className="w-full bg-green-500 hover:bg-green-600 text-white py-4 rounded-2xl font-black text-lg mb-3 transition"
+          className="
+            cairo-btn mb-4 flex h-14 w-full
+            items-center justify-center gap-2
+            rounded-xl
+            border-[3px] border-[#15803d]
+            bg-[#22c55e]
+            text-lg font-black text-white
+            shadow-[5px_5px_0_#15803d]
+            transition
+            hover:-translate-y-1
+            hover:brightness-105
+            active:translate-x-1
+            active:translate-y-1
+            active:shadow-none
+          "
         >
-          🚀 دخول اللعبة
+          <i className="fa-solid fa-play"></i>
+          <span>دخول اللعبة</span>
         </button>
 
         <a
-  href={selectedGame.buyLink}
-  target="_blank"
-  rel="noopener noreferrer"
-          className="block w-full bg-purple-600 hover:bg-purple-700 text-white py-4 rounded-2xl font-black text-lg text-center mb-3 transition"
+          href={selectedGame.buyLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="
+            cairo-btn mb-4 flex h-14 w-full
+            items-center justify-center gap-2
+            rounded-xl
+            border-[3px] border-[#4c1d95]
+            bg-gradient-to-r
+            from-[#6d28d9] to-[#8b5cf6]
+            text-lg font-black text-white
+            shadow-[5px_5px_0_#4c1d95]
+            transition
+            hover:-translate-y-1
+            hover:brightness-105
+            active:translate-x-1
+            active:translate-y-1
+            active:shadow-none
+          "
         >
-          🔑 الحصول على الرمز
+          <i className="fa-solid fa-key"></i>
+          <span>الحصول على الرمز</span>
         </a>
 
         <button
-          onClick={()=>setShowCodeBox(false)}
-          className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-4 rounded-2xl font-black transition"
+          type="button"
+          onClick={() => {
+            setShowCodeBox(false);
+            setCodeInput("");
+          }}
+          className="
+            cairo-btn flex h-13 w-full
+            items-center justify-center
+            rounded-xl
+            border-[3px] border-[#cfc5d5]
+            bg-white
+            py-3
+            font-black text-[#52485a]
+            shadow-[5px_5px_0_#bfb4c6]
+            transition
+            hover:-translate-y-1
+            hover:bg-[#f3eff7]
+            active:translate-x-1
+            active:translate-y-1
+            active:shadow-none
+          "
         >
           إغلاق
         </button>
-
       </div>
-
     </div>
-
   </div>
 )}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2976,10 +3319,38 @@ updateOnlinePlayer({
 </>
 );
 }
+
+
+
+
+
 return (
 <>
-<div className="min-h-screen bg-[#f4f0ff] page-enter">{showStats && (
-  <div className="fixed inset-0 z-[10000] bg-[#f4f0ff] overflow-y-auto">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div className="home-game-background page-enter">
+  {showStats && (
+      <div className="fixed inset-0 z-[10000] bg-[#f4f0ff] overflow-y-auto">
 
     <div className="sticky top-0 z-20 bg-gradient-to-r from-[#3b0764] to-[#7c3aed] text-white p-5 flex items-center justify-between">
 
@@ -3347,50 +3718,14 @@ return (
 
   </div>
 )}
-{siteMessage && (
-  <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-5">
-    <div className="bg-white rounded-[30px] p-6 w-full max-w-sm text-center shadow-2xl">
-      <div className="text-4xl mb-3">
-        {siteMessage.type === "confirm" ? "⚠️" : "✅"}
-      </div>
 
-      <div className="text-[#3b0764] text-xl font-black mb-5">
-        {siteMessage.text}
-      </div>
 
-      {siteMessage.type === "confirm" ? (
-        <div className="flex gap-3">
-          <button
-            onClick={()=>{
-              setSiteMessage(null);
-            }}
-            className="flex-1 bg-gray-100 text-gray-700 py-3 rounded-2xl font-black"
-          >
-            إلغاء
-          </button>
 
-      <button
-  onClick={()=>{
-    setSiteMessage(null);
-    setShowLoginBox(false);
-    logoutPhone();
-  }}
-  className="flex-1 bg-red-500 text-white py-3 rounded-2xl font-black"
->
-  تأكيد
-</button>
-        </div>
-      ) : (
-        <button
-          onClick={()=>setSiteMessage(null)}
-          className="w-full bg-[#7c3aed] text-white py-3 rounded-2xl font-black"
-        >
-          تم
-        </button>
-      )}
-    </div>
-  </div>
-)}
+<SiteMessageModal />
+
+
+
+
 {!gameFrame && (
   <div className="fixed top-2 left-2 z-[3000]">
     <button
@@ -3471,6 +3806,16 @@ className="bg-white/15 px-4 py-2 rounded-full backdrop-blur text-sm font-bold"  
     </div>
   </div>
 
+
+
+
+
+
+
+
+
+
+
 <svg
   className="block w-full -mt-8 -mb-[2px]"
   viewBox="0 0 1440 120"
@@ -3485,239 +3830,343 @@ className="bg-white/15 px-4 py-2 rounded-full backdrop-blur text-sm font-bold"  
 </div>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {showLoginBox && (
-<div className="fixed inset-0 bg-black/80 backdrop-blur-lg z-[4000]">
-<div className="w-screen h-screen bg-white overflow-hidden flex flex-col">
-<div className="sticky top-0 z-20 bg-gradient-to-br from-[#3b0764] via-[#7c3aed] to-[#a855f7] text-white p-6 text-center overflow-hidden">
-          <div className="absolute -top-10 -right-10 w-28 h-28 bg-white/10 rounded-full"></div>
-        <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-white/10 rounded-full"></div>
+  <div className="player-login-overlay">
 
-    <button
-  onClick={()=>setShowLoginBox(false)}
-className="absolute top-3 right-3 z-[99999] bg-white/20 hover:bg-white/30 text-white h-11 px-5 rounded-full font-black backdrop-blur">
-  العودة
-</button>
+    <div className="player-login-page">
 
-{phone && (
-  <button
-    onClick={()=>{
-      showMessage("هل أنت متأكد من تسجيل الخروج؟", "confirm");
-    }}
-className="absolute top-3 left-3 z-[99999] bg-red-500 hover:bg-red-600 text-white h-11 px-5 rounded-full font-black shadow-lg"  >
-    تسجيل الخروج
-  </button>
-)}
+      <div className="player-login-header">
 
-        <div className="relative z-10">
-          <div className="text-5xl mb-2">🎮</div>
-          <h2 className="text-3xl font-black mb-1">
-            {phone ? "مكتبتي" : "دخول اللاعب"}
-          </h2>
-          <p className="text-white/80 font-bold text-sm">
-            {phone ? "ألعابك المحفوظة في مكان واحد" : "اكتب رقم جوالك لعرض ألعابك"}
-          </p>
+        <div className="player-login-pixels">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
-      </div>
 
-<div className="flex-1 overflow-y-auto bg-[#f8f5ff] p-6">
-
-
-
-
-
-
-
-
-
-
-
-
-{!phone ? (
-  <div className="bg-white rounded-3xl p-4 shadow border border-purple-100">
-
-    <label className="block text-[#3b0764] font-black mb-2">
-      رقم الجوال
-    </label>
-
-    <div className="flex gap-2 mb-3" dir="ltr">
-      <div className="relative w-24">
         <button
           type="button"
-          onClick={()=>setShowCountries(!showCountries)}
-          className="w-full h-14 rounded-2xl border-2 border-purple-200 bg-[#f4f0ff] text-[#3b0764] font-black flex items-center justify-center gap-1"
+          onClick={() => setShowLoginBox(false)}
+          className="player-login-back"
         >
-          <span>{selectedCountry.flag}</span>
-          <span>+{selectedCountry.code}</span>
-          <span>⌄</span>
+          <i className="fa-solid fa-house"></i>
+          <span>الرئيسية</span>
         </button>
 
-        {showCountries && (
-          <div className="absolute left-0 top-16 w-48 max-h-56 overflow-y-auto bg-white border-2 border-purple-200 rounded-2xl shadow-2xl z-[9999]">
-            {arabCountries.map(country => (
-              <button
-                key={country.code}
-                type="button"
-                onClick={()=>{
-                  setSelectedCountry(country);
-                  setShowCountries(false);
-                  setPhoneInput("");
-                }}
-                className="w-full px-3 py-3 text-right hover:bg-[#f4f0ff] font-black text-[#3b0764] flex justify-between"
-              >
-                <span>{country.name}</span>
-                <span>{country.flag} +{country.code}</span>
-              </button>
-            ))}
-          </div>
+        {phone && (
+          <button
+            type="button"
+            onClick={() => {
+              showMessage("هل أنت متأكد من تسجيل الخروج؟", "confirm");
+            }}
+            className="player-login-logout"
+          >
+            <i className="fa-solid fa-right-from-bracket"></i>
+            <span>تسجيل الخروج</span>
+          </button>
         )}
+
+        <div className="player-login-header-grid"></div>
+
+        <div className="player-login-header-content">
+
+          <div className="player-login-icon">
+            {phone ? "🕹️" : "🎮"}
+          </div>
+
+          <h2 className="player-login-title">
+            {phone ? "مكتبتي" : "دخول اللاعب"}
+          </h2>
+
+          <p className="player-login-subtitle">
+            {phone
+              ? "ألعابك المحفوظة في مكان واحد"
+              : "سجّل رقمك للوصول إلى ألعابك"}
+          </p>
+
+        </div>
+
       </div>
 
-     <input
-  value={phoneInput}
-  onChange={(e)=>setPhoneInput(e.target.value.replace(/\D/g,""))}
-  placeholder="رقم الجوال"
-  maxLength={selectedCountry.length}
-  className="flex-1 h-14 rounded-2xl border-2 border-purple-200 bg-[#faf7ff] text-center text-xl font-black outline-none focus:border-[#7c3aed]"
-/>
-</div>
-{needName && (
-  <div className="mt-3">
-    <div className="text-center text-red-500 font-black mb-2">
-      اكتب اسم اللاعب أولاً
-    </div>
+      <div className="player-login-content">
 
-    <input
-      value={playerName}
-      onChange={(e)=>setPlayerName(e.target.value)}
-      placeholder="اسم اللاعب"
-      className="w-full h-14 rounded-2xl border-2 border-purple-200 bg-[#faf7ff] text-center text-xl font-black outline-none focus:border-[#7c3aed]"
-    />
+        {!phone ? (
+          <div className="player-login-card">
 
-    <label className="flex items-start gap-2 mt-4 text-sm font-black text-[#3b0764]">
-      <input
-        type="checkbox"
-        checked={agreeTerms}
-        onChange={(e)=>setAgreeTerms(e.target.checked)}
-        className="mt-1"
-      />
+            <label className="player-login-label">
+              رقم الجوال
+            </label>
 
-      <span>
-        أتعهد بعدم نشر الألعاب أو نشر رموز التشغيل أو أي معلومات من داخل الألعاب، وأتحمل المسؤولية عند مخالفة ذلك.
-      </span>
-    </label>
+            <div className="player-phone-row" dir="ltr">
 
-  </div>
-)}
-  <button
-  onClick={needName ? savePlayerName : loginPhone}
-  disabled={loadingPhone}
-  className="w-full bg-gradient-to-r from-[#7c3aed] to-[#9333ea] text-white py-3 rounded-2xl font-black text-lg shadow-lg"
->
-  {loadingPhone ? "جاري الدخول..." : needName ? "حفظ الاسم" : "دخول"}
-</button>
+              <div className="player-country-wrap">
 
-    <p className="text-center text-gray-500 text-xs font-bold mt-3">
-      أدخل رمز اللعبة مرة واحدة وسيتم حفظها تلقائيًا.
-    </p>
+                <button
+                  type="button"
+                  onClick={() => setShowCountries(!showCountries)}
+                  className="player-country-button"
+                >
+                  <span>{selectedCountry.flag}</span>
+                  <span>+{selectedCountry.code}</span>
+                  <span className="player-country-arrow">⌄</span>
+                </button>
 
-  </div>
-) : (
+                {showCountries && (
+                  <div className="player-country-list">
 
-
-
-
-          <>
-            <div className="bg-white rounded-3xl p-3 shadow border border-purple-100 mb-3">
-              <div className="flex items-center justify-between gap-3">
-                <div>
-                 <div className="text-gray-400 text-xs font-bold">حساب اللاعب</div>
-
-<div className="text-[#3b0764] text-lg font-black">
-  {playerName || "لا يوجد اسم"}
-</div>
-
-<div className="text-gray-400 text-xs font-bold mt-1">
-  {phone}
-</div>
-         </div>
-
-                <div className="bg-green-100 text-green-700 px-3 py-2 rounded-full font-black text-xs">
-                  متصل ✅
-                </div>
-              </div>
-            </div>
-
-            <div className="mb-3">
-              <h3 className="text-xl font-black text-[#3b0764] mb-2">
-                ألعابي المحفوظة
-              </h3>
-
-              {ownedGames.length === 0 ? (
-                <div className="bg-white rounded-3xl p-5 text-center border border-purple-100 shadow">
-                  <div className="text-4xl mb-2">🕹️</div>
-                  <p className="text-gray-500 font-bold leading-7 text-sm">
-                    ما عندك ألعاب محفوظة حاليًا.
-                    اختر لعبة وأدخل رمزها مرة واحدة.
-                  </p>
-                </div>
-              ) : (
-<div className="grid grid-cols-1 gap-3">                    {games
-                    .filter(game => ownedGames.includes(game.code))
-                    .map(game => (
+                    {arabCountries.map((country) => (
                       <button
-                        key={game.id}
-                       onClick={()=>{
-  setShowLoginBox(false);
-  openGameDetails(game);
-}}
-
-
-className="bg-white hover:bg-[#f4f0ff] border-2 border-[#eadcff] rounded-2xl p-2 text-right shadow transition flex items-center gap-3"
+                        key={country.code}
+                        type="button"
+                        onClick={() => {
+                          setSelectedCountry(country);
+                          setShowCountries(false);
+                          setPhoneInput("");
+                        }}
+                        className="player-country-item"
                       >
+                        <span>{country.name}</span>
 
-           <img
-  src={game.image}
-  alt={`${game.name} - صورة اللعبة`}
-  width="56"
-  height="56"
-loading="eager"
-  decoding="async"
-  className="w-14 h-14 rounded-2xl object-cover border"
-/>
-
-                        <div className="flex-1">
-                          <div className="text-[#3b0764] font-black text-base">
-                            {game.name}
-                          </div>
-                          <div className="text-gray-500 text-xs font-bold">
-                            {game.category} • {game.players}
-                          </div>
-                        </div>
-
-                        <div className="bg-[#7c3aed] text-white px-3 py-2 rounded-xl font-black text-xs">
-                          فتح
-                        </div>
+                        <span>
+                          {country.flag} +{country.code}
+                        </span>
                       </button>
                     ))}
-                </div>
-              )}
+
+                  </div>
+                )}
+
+              </div>
+
+              <input
+                value={phoneInput}
+                onChange={(e) =>
+                  setPhoneInput(e.target.value.replace(/\D/g, ""))
+                }
+                placeholder="رقم الجوال"
+                maxLength={selectedCountry.length}
+                inputMode="numeric"
+                className="player-login-input"
+              />
+
             </div>
 
+            {needName && (
+              <div className="player-name-section">
 
+                <div className="player-login-notice">
+                  اكتب اسم اللاعب أولاً
+                </div>
 
+                <input
+                  value={playerName}
+                  onChange={(e) => setPlayerName(e.target.value)}
+                  placeholder="اسم اللاعب"
+                  className="player-login-input player-name-input"
+                />
 
+                <label className="player-terms">
 
-         
+                  <input
+                    type="checkbox"
+                    checked={agreeTerms}
+                    onChange={(e) => setAgreeTerms(e.target.checked)}
+                  />
 
+                  <span>
+                    أتعهد بعدم نشر الألعاب أو رموز التشغيل أو أي معلومات
+                    من داخل الألعاب، وأتحمل المسؤولية عند مخالفة ذلك.
+                  </span>
 
-          </>
+                </label>
+
+              </div>
+            )}
+
+            <button
+              type="button"
+              onClick={needName ? savePlayerName : loginPhone}
+              disabled={loadingPhone}
+              className="player-login-main-button"
+            >
+              <i className="fa-solid fa-play"></i>
+
+              <span>
+                {loadingPhone
+                  ? "جاري الدخول..."
+                  : needName
+                  ? "حفظ الاسم"
+                  : "دخول"}
+              </span>
+            </button>
+
+            <p className="player-login-help">
+              أدخل رمز اللعبة مرة واحدة وسيتم حفظها تلقائيًا.
+            </p>
+
+          </div>
+        ) : (
+          <div className="player-library">
+
+            <div className="player-account-card">
+
+              <div>
+                <div className="player-account-label">
+                  حساب اللاعب
+                </div>
+
+                <div className="player-account-name">
+                  {playerName || "لا يوجد اسم"}
+                </div>
+
+                <div className="player-account-phone">
+                  +{phone}
+                </div>
+              </div>
+
+              <div className="player-online-badge">
+                <span></span>
+                متصل
+              </div>
+
+            </div>
+
+            <div className="player-library-heading">
+
+              <div>
+                <h3>ألعابي المحفوظة</h3>
+                <p>اختر اللعبة التي تريد فتحها</p>
+              </div>
+
+              <div className="player-library-count">
+                {ownedGames.length}
+              </div>
+
+            </div>
+
+            {ownedGames.length === 0 ? (
+              <div className="player-empty-library">
+
+                <div className="player-empty-icon">
+                  🕹️
+                </div>
+
+                <h3>
+                  لا توجد ألعاب محفوظة
+                </h3>
+
+                <p>
+                  اختر لعبة من الصفحة الرئيسية، ثم أدخل رمزها مرة واحدة.
+                </p>
+
+                <button
+                  type="button"
+                  onClick={() => setShowLoginBox(false)}
+                  className="player-empty-button"
+                >
+                  استعرض الألعاب
+                </button>
+
+              </div>
+            ) : (
+              <div className="player-games-list">
+
+                {games
+                  .filter((game) =>
+                    ownedGames.includes(String(game.code))
+                  )
+                  .map((game) => (
+                    <button
+                      key={game.id}
+                      type="button"
+                      onClick={() => {
+                        setShowLoginBox(false);
+                        openGameDetails(game);
+                      }}
+                      className="player-library-game"
+                    >
+
+                      <div className="player-library-image-wrap">
+
+                        <img
+                          src={game.image}
+                          alt={`${game.name} - صورة اللعبة`}
+                          width="74"
+                          height="74"
+                          loading="eager"
+                          decoding="async"
+                          className="player-library-image"
+                        />
+
+                      </div>
+
+                      <div className="player-library-game-info">
+
+                        <h4>
+                          {game.name}
+                        </h4>
+
+                        <p>
+                          {game.category} • {game.players}
+                        </p>
+
+                        <div className="player-library-tags">
+
+                          {game.badge && (
+                            <span>
+                              {game.badge}
+                            </span>
+                          )}
+
+                          {game.questions && (
+                            <span>
+                              {game.questions}
+                            </span>
+                          )}
+
+                        </div>
+
+                      </div>
+
+                      <div className="player-library-open">
+                        فتح
+                      </div>
+
+                    </button>
+                  ))}
+
+              </div>
+            )}
+
+          </div>
         )}
 
-     
       </div>
+
     </div>
+
   </div>
 )}
+
+
+
+
+
+
 {gameFrame && (
   <div className="fixed inset-0 bg-black z-[999]">
 
@@ -3900,7 +4349,7 @@ className={`game-card reveal-on-scroll reveal-delay-${(index % 4) + 1}`}
 
 
 {/* الباقات */}
-<section className="py-20 px-5 bg-[#f7f2ff]">
+<section className="py-20 px-5 bg-white/35">
 
   <div className="text-center mb-12">
 
@@ -4299,7 +4748,6 @@ className={`game-card reveal-on-scroll reveal-delay-${(index % 4) + 1}`}
 </>
 );
 }
-
 
 
 
