@@ -58,16 +58,114 @@
 <style>
 
 
+
+
+
+/* =====================================================
+   إعدادات عامة
+===================================================== */
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  min-height:100%;
+  background:#f4f0ff;
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  margin:0;
+  font-family:"Tajawal",sans-serif;
+  color:#3b0764;
+  background:#f4f0ff;
+}
+
+button,
+input,
+a{
+  font-family:inherit;
+}
+
+button,
+a{
+  -webkit-tap-highlight-color:transparent;
+}
+
+img{
+  display:block;
+  max-width:100%;
+}
+
+#root{
+  min-height:100vh;
+}
+
+@font-face{
+  font-family:"AA Galaxy";
+  src:url("https://raw.githubusercontent.com/zamnnzz/fonts/main/hroffont-B6Zk_0ya.woff2") format("woff2");
+  font-weight:normal;
+  font-style:normal;
+  font-display:swap;
+}
+
+.cairo-btn{
+  font-family:"Cairo",sans-serif !important;
+}
+
+
+/* =====================================================
+   خلفية الصفحة الرئيسية بدون مربعات
+===================================================== */
+
+.home-game-background{
+  position:relative;
+  isolation:isolate;
+  min-height:100vh;
+  overflow:hidden;
+
+  background:
+    radial-gradient(
+      circle at 12% 18%,
+      rgba(168,85,247,.12),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 88% 72%,
+      rgba(124,58,237,.10),
+      transparent 28%
+    ),
+    #f4f0ff;
+}
+
+/* إلغاء جميع المربعات والخطوط المتحركة */
+.home-game-background::before,
+.home-game-background::after{
+  content:none !important;
+  display:none !important;
+}
+
+/* =====================================================
+   الشريط العلوي
+===================================================== */
+
 .top-offer{
   position:relative;
-  top:0;
   width:100%;
   z-index:9999;
-  background:linear-gradient(90deg,#7c3aed,#9333ea);
-  color:#fff;
-  padding:6px 0;
   overflow:hidden;
-  box-shadow:0 4px 12px rgba(0,0,0,.10);
+  padding:7px 0;
+
+  color:#fff;
+  background:linear-gradient(90deg,#6d28d9,#8b5cf6);
+
+  border-bottom:3px solid #4c1d95;
+
+  box-shadow:
+    0 5px 0 rgba(76,29,149,.22),
+    0 10px 20px rgba(76,29,149,.12);
 }
 
 .offer-track{
@@ -82,201 +180,328 @@
   gap:10px;
   padding-inline:32px;
   white-space:nowrap;
-  font-weight:900;
   font-size:14px;
+  font-weight:900;
 }
 
 .offer-btn{
-  background:#fff;
+  padding:6px 13px;
+  border:2px solid rgba(255,255,255,.7);
+  border-radius:10px;
+
   color:#6d28d9;
-  padding:5px 12px;
-  border-radius:999px;
-  text-decoration:none;
-  font-weight:900;
+  background:#fff;
+
   font-size:12px;
+  font-weight:900;
+  text-decoration:none;
+
+  box-shadow:3px 3px 0 #4c1d95;
 }
 
 @keyframes offerMove{
   from{
     transform:translateX(0);
   }
+
   to{
     transform:translateX(50%);
   }
 }
 
 
+/* =====================================================
+   شبكة الألعاب
+===================================================== */
 
-body{
-  font-family:'Tajawal',sans-serif;
-  background:#f4f0ff;
-}
-/* شبكة بطاقات الألعاب */
 .games-grid{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:10px;
   justify-content:center;
+  gap:12px;
   width:100%;
 }
+
+
+/* =====================================================
+   بطاقة اللعبة الكرتونية
+===================================================== */
+
 .game-card{
+  position:relative;
   width:100%;
   height:300px;
   margin:auto;
-  background:#fff;
-  border-radius:22px;
   overflow:hidden;
-  border:1px solid #eadcff;
-  box-shadow:0 10px 25px rgba(80,30,120,.12);
-  cursor:pointer;
-  transition:.25s ease;
+
   display:flex;
   flex-direction:column;
+
+  color:inherit;
+  text-decoration:none;
+
+  background:#fff;
+
+  border:3px solid #e5e0ea;
+  border-radius:18px;
+
+  box-shadow:
+    6px 6px 0 #d2cbd8,
+    12px 12px 25px rgba(59,7,100,.10);
+
+  cursor:pointer;
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+/* لمعة كرتونية */
+.game-card::before{
+  content:"";
+  position:absolute;
+  top:-130%;
+  left:-70%;
+  z-index:5;
+
+  width:55%;
+  height:330%;
+
+  pointer-events:none;
+
+  background:
+    linear-gradient(
+      120deg,
+      transparent,
+      rgba(255,255,255,.45),
+      transparent
+    );
+
+  transform:rotate(24deg);
+  transition:left .75s ease;
+}
+
+.game-card:hover::before{
+  left:135%;
+}
+
+/* إطار داخلي */
+.game-card::after{
+  content:"";
+  position:absolute;
+  inset:7px;
+  z-index:4;
+  pointer-events:none;
+
+  border:1px dashed rgba(124,58,237,.16);
+  border-radius:12px;
 }
 
 .game-card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 18px 35px rgba(80,30,120,.22);
-}
-.game-rating{
-  position:absolute;
-  top:8px;
-  right:8px;
-  background:#fff;
-  color:#6d28d9;
-  padding:4px 10px;
-  border-radius:999px;
-  font-size:12px;
-  font-weight:900;
-  box-shadow:0 4px 12px rgba(0,0,0,.12);
+  transform:translateY(-7px) rotate(-.3deg);
+  border-color:#c4b5fd;
+
+  box-shadow:
+    8px 8px 0 #b8afd0,
+    17px 17px 32px rgba(76,29,149,.16);
 }
 
+
+/* =====================================================
+   صورة اللعبة
+===================================================== */
+
+
+
+.game-image-box{
+  position:relative;
+  height:145px;
+  overflow:hidden;
+  flex-shrink:0;
+
+  background:#ede9fe;
+  border-bottom:3px solid #e4dff0;
+}
+
+.game-image-box::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 60%,
+      rgba(59,7,100,.12)
+    );
+}
+
+.game-image{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+
+  transition:
+    transform .4s ease,
+    filter .4s ease;
+}
+
+.game-card:hover .game-image{
+  transform:scale(1.055);
+  filter:saturate(1.08) contrast(1.02);
+}
+/* =====================================================
+   تقييم اللعبة
+===================================================== */
+
+.game-rating{
+  position:absolute;
+  top:9px;
+  right:9px;
+  z-index:10;
+
+  padding:5px 10px;
+
+  color:#4c1d95;
+  background:#fff;
+
+  border:2px solid #ddd6fe;
+  border-radius:9px;
+
+  font-size:12px;
+  font-weight:900;
+
+  box-shadow:3px 3px 0 #c4b5fd;
+}
+
+
+/* =====================================================
+   محتوى بطاقة اللعبة
+===================================================== */
+
 .game-content{
-  padding:12px;
+  position:relative;
+  z-index:6;
+
   display:flex;
-  flex-direction:column;
   flex:1;
+  flex-direction:column;
+
+  padding:12px;
 }
 
 .game-title{
+  margin:0 0 8px;
+
+  color:#3b0764;
+
   font-size:17px;
   line-height:1.3;
   font-weight:900;
-  color:#3b0764;
-  margin-bottom:8px;
+  letter-spacing:-.2px;
 }
 
 .game-desc{
-  color:#6b7280;
+  height:42px;
+  margin:0 0 10px;
+  overflow:hidden;
+
+  color:#746c7d;
+
   font-size:13px;
   line-height:1.5;
-  height:42px;
-  overflow:hidden;
+}
+
+
+/* =====================================================
+   وسوم الألعاب
+===================================================== */
+
+.game-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+
+  margin-top:auto;
   margin-bottom:10px;
 }
 
-.game-btn{
-  margin-top:auto;
-  width:100%;
-  height:38px;
-  background:#7c3aed;
-  color:#fff;
-  font-size:14px;
-  border:none;
-  border-radius:12px;
+.game-tag{
+  padding:5px 8px;
+
+  color:#554a63;
+  background:#f4f1f7;
+
+  border:2px solid #e2dce8;
+  border-radius:7px;
+
+  font-size:11px;
   font-weight:900;
-  cursor:pointer;
+
+  box-shadow:2px 2px 0 #d5cedb;
+}
+
+
+/* =====================================================
+   زر عرض اللعبة
+===================================================== */
+
+.game-btn{
+  width:100%;
+  height:40px;
+  margin-top:auto;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  color:#fff;
+  background:linear-gradient(90deg,#6d28d9,#8b5cf6);
+
+  border:2px solid #4c1d95;
+  border-radius:9px;
+
+  font-size:14px;
+  font-weight:900;
+
+  box-shadow:
+    4px 4px 0 #4c1d95,
+    0 8px 16px rgba(109,40,217,.18);
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    filter .2s ease;
 }
 
 .game-btn:hover{
-  background:#6d28d9;
+  filter:brightness(1.07);
+  transform:translateY(-1px);
+
+  box-shadow:
+    5px 5px 0 #4c1d95,
+    0 10px 20px rgba(109,40,217,.22);
+}
+
+.game-btn:active{
+  transform:translate(3px,3px);
+
+  box-shadow:
+    1px 1px 0 #4c1d95,
+    0 5px 10px rgba(109,40,217,.16);
 }
 
 
-/* الكمبيوتر */
-@media (min-width:560px){
+/* =====================================================
+   الأسئلة الشائعة
+===================================================== */
 
-  .games-grid{
-    grid-template-columns:repeat(auto-fit,245px);
-    justify-content:center;
-    gap:24px;
-  }
-
-  .game-card{
-    max-width:245px;
-    height:345px;
-  }
-
-  .game-image-box{
-    height:175px;
-  }
-
-  .game-title{
-    font-size:22px;
-  }
-
-  .game-desc{
-    font-size:14px;
-    height:48px;
-  }
-
-  .game-btn{
-    height:46px;
-    font-size:16px;
-  }
-
-}
-
-
-
-
-
-
-
-
-
-
-.game-title{
-  font-size:22px;
-  font-weight:900;
-}
-@media (max-width:559px){
-    .game-title{
-    font-size:14px;
-    line-height:1.25;
-  }
-}
-
-
-
-
-
-
-.game-tags{
-  margin-top:auto;
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
-  margin-bottom:8px;
-}
-
-.game-tag{
-  background:#f3f4f6;
-  color:#4b5563;
-  padding:4px 8px;
-  border-radius:999px;
-  font-size:11px;
-  font-weight:800;
-}
-
-
-
-
-/* قسم الأسئلة الشائعة - متناسق مع ألوان المتجر */
 .faq-section{
   width:100%;
   max-width:950px;
-  margin:30px auto 70px;
+  margin:35px auto 70px;
   padding:0 16px;
 }
 
@@ -287,14 +512,38 @@ body{
 }
 
 .faq-heading{
+  position:relative;
   margin:0;
-  background:linear-gradient(135deg,#3b0764,#7c3aed);
+  padding:14px 46px;
+
   color:#fff;
-  padding:14px 48px;
-  border-radius:999px;
+  background:linear-gradient(135deg,#3b0764,#7c3aed);
+
+  border:3px solid #4c1d95;
+  border-radius:15px;
+
   font-size:28px;
   font-weight:900;
-  box-shadow:0 10px 25px rgba(109,40,217,.22);
+  text-align:center;
+
+  box-shadow:
+    6px 6px 0 #4c1d95,
+    0 12px 24px rgba(76,29,149,.18);
+}
+
+.faq-heading::after{
+  content:"";
+  position:absolute;
+  right:12px;
+  bottom:8px;
+
+  width:9px;
+  height:9px;
+
+  background:#facc15;
+
+  box-shadow:
+    -17px 0 0 rgba(255,255,255,.45);
 }
 
 .faq-list{
@@ -304,11 +553,17 @@ body{
 }
 
 .faq-item{
-  background:#fff;
-  border:1px solid #eadcff;
-  border-radius:22px;
   overflow:hidden;
-  box-shadow:0 9px 24px rgba(80,30,120,.10);
+
+  background:#fff;
+
+  border:3px solid #e5e0e8;
+  border-radius:17px;
+
+  box-shadow:
+    5px 5px 0 #d3ccd8,
+    11px 11px 24px rgba(0,0,0,.07);
+
   transition:
     transform .2s ease,
     box-shadow .2s ease,
@@ -316,105 +571,119 @@ body{
 }
 
 .faq-item:hover{
-  transform:translateY(-2px);
-  border-color:#d8b4fe;
-  box-shadow:0 14px 30px rgba(80,30,120,.16);
+  transform:translateY(-3px);
+  border-color:#cfc4dc;
+
+  box-shadow:
+    7px 7px 0 #c5bccd,
+    15px 15px 28px rgba(0,0,0,.10);
 }
 
 .faq-question{
   width:100%;
   min-height:82px;
-  padding:17px 24px;
-  border:0;
-  outline:0;
-  background:transparent;
-  cursor:pointer;
+  padding:17px 22px;
 
   display:flex;
-  flex-direction:row;
   align-items:center;
   justify-content:space-between;
   gap:18px;
 
+  color:inherit;
+  background:#fff;
+
+  border:0;
+  outline:0;
+
+  cursor:pointer;
   text-align:right;
-  font-family:'Tajawal',sans-serif;
 }
 
 .faq-question-text{
   flex:1;
-  color:#3b0764;
+
+  color:#3b2e47;
+
   font-size:19px;
-  font-weight:900;
   line-height:1.7;
+  font-weight:900;
 }
 
 .faq-icon{
+  position:relative;
+
   width:48px;
   height:48px;
   min-width:48px;
   min-height:48px;
-  padding:0;
-  margin:0;
-
-  border-radius:50%;
-  background:#ddd6fe;
-  color:#6d28d9;
 
   display:flex;
   align-items:center;
   justify-content:center;
 
-  position:relative;
+  color:#62566e;
+  background:#f0ecf3;
+
+  border:2px solid #dcd4e2;
+  border-radius:9px;
+
+  box-shadow:3px 3px 0 #d2cad8;
+
   transition:
     transform .25s ease,
+    color .25s ease,
     background .25s ease,
-    color .25s ease;
+    box-shadow .25s ease;
 }
 
-/* رسم السهم بدل استخدام رمز نصي غير مضبوط */
 .faq-icon::before{
   content:"";
-  width:10px;
-  height:10px;
-  border-left:3px solid currentColor;
-  border-top:3px solid currentColor;
-  transform:rotate(45deg);
   position:absolute;
   top:50%;
   left:50%;
-  margin-left:-6px;
-  margin-top:-3px;
+
+  width:10px;
+  height:10px;
+
+  border-top:3px solid currentColor;
+  border-left:3px solid currentColor;
+
+  transform:translate(-50%,-65%) rotate(225deg);
 }
 
-/* السؤال المغلق: السهم للأسفل */
-.faq-icon:not(.open)::before{
-  transform:rotate(225deg);
-  margin-top:-7px;
-}
-
-/* السؤال المفتوح: السهم للأعلى */
 .faq-icon.open{
-  background:#7c3aed;
   color:#fff;
+  background:#7c3aed;
+
+  border-color:#4c1d95;
+
+  box-shadow:3px 3px 0 #4c1d95;
 }
 
 .faq-icon.open::before{
-  transform:rotate(45deg);
-  margin-top:-3px;
+  transform:translate(-50%,-30%) rotate(45deg);
 }
 
 .faq-answer{
   display:grid;
   grid-template-rows:0fr;
   opacity:0;
+
+  background:#fcfaff;
+
+  border-top:0 solid transparent;
+
   transition:
-    grid-template-rows .3s ease,
-    opacity .25s ease;
+    grid-template-rows .28s ease,
+    opacity .22s ease,
+    border-color .22s ease;
 }
 
 .faq-answer.open{
   grid-template-rows:1fr;
   opacity:1;
+
+  border-top:2px dashed #e2dbe8;
 }
 
 .faq-answer-inner{
@@ -423,232 +692,2070 @@ body{
 
 .faq-answer-text{
   margin:0;
-  padding:0 24px 24px;
-  color:#6b7280;
+  padding:20px 24px 24px;
+
+  color:#706778;
+
   font-size:17px;
-  font-weight:700;
   line-height:2;
+  font-weight:700;
 }
 
 .faq-more-wrap{
   display:flex;
   justify-content:center;
-  margin-top:25px;
+  margin-top:27px;
 }
 
 .faq-more-btn{
-  border:2px solid #7c3aed;
+  padding:13px 30px;
+
+  color:#4c1d95;
   background:#fff;
-  color:#6d28d9;
-  padding:13px 31px;
-  border-radius:999px;
-  font-family:'Tajawal',sans-serif;
+
+  border:3px solid #d8cfe0;
+  border-radius:11px;
+
   font-size:16px;
   font-weight:900;
   cursor:pointer;
-  box-shadow:0 8px 20px rgba(109,40,217,.13);
-  transition:.2s ease;
+
+  box-shadow:4px 4px 0 #c8bfd0;
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    background .2s ease;
 }
 
 .faq-more-btn:hover{
-  background:#7c3aed;
-  color:#fff;
+  background:#f6f2fa;
   transform:translateY(-2px);
+
+  box-shadow:6px 6px 0 #bfb4c8;
 }
 
-@media (max-width:560px){
+.faq-more-btn:active{
+  transform:translate(3px,3px);
+  box-shadow:1px 1px 0 #bfb4c8;
+}
+
+
+/* =====================================================
+   الباقات والمميزات
+===================================================== */
+
+.feature-card,
+.package-card{
+  position:relative;
+
+  border:3px solid #e6e0e9 !important;
+  border-radius:20px !important;
+
+  box-shadow:
+    6px 6px 0 #d1c9d7,
+    13px 13px 28px rgba(0,0,0,.08) !important;
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.feature-card::after,
+.package-card::after{
+  content:"";
+  position:absolute;
+  top:10px;
+  left:10px;
+
+  width:8px;
+  height:8px;
+
+  background:#c4b5fd;
+
+  box-shadow:
+    14px 0 0 #e9d5ff;
+}
+
+.feature-card:hover,
+.package-card:hover{
+  transform:translateY(-5px) rotate(-.2deg);
+
+  box-shadow:
+    8px 8px 0 #c0b6c8,
+    18px 18px 34px rgba(0,0,0,.11) !important;
+}
+
+
+/* =====================================================
+   ظهور العناصر عند النزول
+===================================================== */
+
+/*
+   أبقينا العناصر ظاهرة افتراضيًا.
+   هذا يمنع مشكلة ظهور البطاقات ثم اختفائها.
+*/
+
+.reveal-on-scroll{
+  opacity:1;
+  transform:none;
+  filter:none;
+}
+
+.reveal-on-scroll.is-visible{
+  opacity:1;
+  transform:none;
+  filter:none;
+}
+
+.reveal-delay-1,
+.reveal-delay-2,
+.reveal-delay-3,
+.reveal-delay-4{
+  transition-delay:0s;
+}
+
+/* =====================================================
+   الكمبيوتر
+===================================================== */
+
+@media (min-width:560px){
+
+  .games-grid{
+    grid-template-columns:repeat(auto-fit,minmax(245px,300px));
+    justify-content:center;
+    gap:25px;
+  }
+
+  .game-card{
+    width:100%;
+    max-width:300px;
+    height:345px;
+  }
+
+  .game-image-box{
+    height:175px;
+  }
+
+  .game-title{
+    font-size:21px;
+  }
+
+  .game-desc{
+    height:48px;
+    font-size:14px;
+  }
+
+  .game-btn{
+    height:46px;
+    font-size:16px;
+  }
+}
+
+
+/* =====================================================
+   الجوال
+============/* =====================================================
+   الجوال
+===================================================== */
+@media (max-width:559px){
+
+  .games-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+  }
+
+  .game-card{
+    width:100%;
+    height:345px;
+    border-radius:18px;
+  }
+
+  .game-image-box{
+    height:175px;
+  }
+
+  .game-content{
+    padding:12px;
+  }
+
+  .game-title{
+    font-size:17px;
+    line-height:1.3;
+  }
+
+  .game-desc{
+    height:48px;
+    font-size:13px;
+  }
+
+  .game-tag{
+    padding:5px 8px;
+    font-size:11px;
+  }
+
+  .game-btn{
+    height:46px;
+    font-size:16px;
+  }
+
+  .game-card:hover{
+    transform:none;
+  }
+
+  .game-card:hover .game-image{
+    transform:none;
+  }
+}
   .faq-section{
-    margin:20px auto 50px;
+    margin:25px auto 50px;
     padding:0 12px;
   }
 
   .faq-heading{
-    padding:12px 34px;
-    font-size:22px;
+    width:100%;
+    padding:12px 18px;
+
+    font-size:21px;
+
+    box-shadow:
+      4px 4px 0 #4c1d95,
+      0 8px 18px rgba(76,29,149,.16);
   }
 
   .faq-question{
-    min-height:72px;
-    padding:15px 16px;
-    gap:12px;
+    min-height:70px;
+    padding:14px;
+    gap:11px;
   }
 
   .faq-question-text{
-    font-size:16px;
+    min-width:0;
+
+    font-size:15px;
+    line-height:1.6;
+
+    overflow-wrap:anywhere;
   }
 
   .faq-icon{
-    width:42px;
-    height:42px;
-    min-width:42px;
-    min-height:42px;
+    width:40px;
+    height:40px;
+    min-width:40px;
+    min-height:40px;
   }
 
   .faq-answer-text{
-    padding:0 16px 19px;
+    padding:17px 15px 19px;
+
     font-size:14px;
     line-height:1.9;
   }
 }
 
 
+/* الشاشات الصغيرة جدًا */
+@media (max-width:365px){
 
+  .games-grid{
+    gap:8px;
+  }
 
+  .game-card{
+    height:280px;
+  }
 
+  .game-image-box{
+    height:125px;
+  }
 
+  .game-content{
+    padding:8px;
+  }
 
+  .game-title{
+    font-size:12px;
+  }
 
+  .game-tag{
+    padding:3px 5px;
+    font-size:8px;
+  }
 
-
-
-
-
-
-
-/* =========================
-   ظهور العناصر عند النزول إليها
-========================= */
-
-.reveal-on-scroll{
-  opacity:0;
-  transform:translateY(28px) scale(.985);
-  filter:blur(4px);
-
-  transition:
-    opacity .85s cubic-bezier(.22,1,.36,1),
-    transform .85s cubic-bezier(.22,1,.36,1),
-    filter .85s cubic-bezier(.22,1,.36,1);
-
-  will-change:opacity,transform,filter;
+  .game-btn{
+    height:35px;
+    font-size:11px;
+  }
 }
 
-.reveal-on-scroll.is-visible{
-  opacity:1;
-  transform:translateY(0) scale(1);
-  filter:blur(0);
-}
+/* =====================================================
+   التركيز والوصول
+===================================================== */
 
-/* تأخير بسيط ومتدرج */
-
-.reveal-delay-1{
-  transition-delay:.05s;
-}
-
-.reveal-delay-2{
-  transition-delay:.12s;
-}
-
-.reveal-delay-3{
-  transition-delay:.19s;
-}
-
-.reveal-delay-4{
-  transition-delay:.26s;
+button:focus-visible,
+a:focus-visible,
+input:focus-visible{
+  outline:3px solid rgba(124,58,237,.32);
+  outline-offset:3px;
 }
 
 
-/* =========================
-   بطاقات الألعاب
-========================= */
-
-.game-card{
-  transition:
-    transform .45s cubic-bezier(.22,1,.36,1),
-    box-shadow .45s ease,
-    border-color .45s ease;
-}
-
-.game-card:hover{
-  transform:translateY(-5px) scale(1.015);
-  border-color:#d8b4fe;
-  box-shadow:0 22px 45px rgba(76,29,149,.16);
-}
-
-.game-card .game-image{
-  transition:
-    transform .6s cubic-bezier(.22,1,.36,1);
-}
-
-.game-card:hover .game-image{
-  transform:scale(1.045);
-}
-
-
-/* =========================
-   الباقات والمميزات
-========================= */
-
-.feature-card,
-.package-card{
-  transition:
-    transform .45s cubic-bezier(.22,1,.36,1),
-    box-shadow .45s ease;
-}
-
-.feature-card:hover,
-.package-card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 20px 38px rgba(76,29,149,.14);
-}
-
-
-/* =========================
-   الأزرار
-========================= */
-
-button,
-.game-btn,
-.faq-more-btn{
-  transition:
-    transform .25s cubic-bezier(.22,1,.36,1),
-    box-shadow .25s ease,
-    background-color .25s ease,
-    color .25s ease;
-}
-
-button:hover,
-.game-btn:hover,
-.faq-more-btn:hover{
-  transform:translateY(-2px);
-}
-
-button:active,
-.game-btn:active,
-.faq-more-btn:active{
-  transform:scale(.97);
-}
-
-
-/* =========================
-   احترام إعداد تقليل الحركة
-========================= */
+/* =====================================================
+   تقليل الحركة
+===================================================== */
 
 @media (prefers-reduced-motion:reduce){
 
-  .reveal-on-scroll{
-    opacity:1;
-    transform:none;
-    filter:none;
-    transition:none;
-  }
-
-  .game-card,
-  .feature-card,
-  .package-card,
-  button,
-  .game-btn,
-  .faq-more-btn{
-    transition:none;
+  *,
+  *::before,
+  *::after{
+    scroll-behavior:auto !important;
+    animation:none !important;
+    transition:none !important;
   }
 
   .game-card:hover,
   .feature-card:hover,
   .package-card:hover,
-  button:hover,
-  .game-btn:hover,
-  .faq-more-btn:hover{
+  .faq-item:hover{
     transform:none;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   نافذة دخول اللعبة الكرتونية
+===================================================== */
+
+.game-login-overlay{
+  position:fixed;
+  inset:0;
+  z-index:5000;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  padding:16px;
+
+  background:rgba(31,18,45,.82);
+  backdrop-filter:blur(7px);
+}
+
+.game-login-card{
+  position:relative;
+  width:100%;
+  max-width:430px;
+  overflow:hidden;
+
+  background:#fff;
+
+  border:3px solid #ddd6e3;
+  border-radius:18px;
+
+  box-shadow:
+    9px 9px 0 #bdb3c6,
+    0 28px 70px rgba(31,18,45,.42);
+
+  animation:gameLoginPop .28s ease;
+}
+
+@keyframes gameLoginPop{
+  from{
+    opacity:0;
+    transform:translateY(18px) scale(.96);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+.game-login-pixels span{
+  position:absolute;
+  z-index:20;
+
+  width:12px;
+  height:12px;
+
+  image-rendering:pixelated;
+}
+
+.game-login-pixels span:nth-child(1){
+  top:12px;
+  left:12px;
+  background:#fde047;
+}
+
+.game-login-pixels span:nth-child(2){
+  top:12px;
+  left:31px;
+  background:rgba(255,255,255,.5);
+}
+
+.game-login-pixels span:nth-child(3){
+  right:12px;
+  bottom:12px;
+  background:#c4b5fd;
+}
+
+.game-login-header{
+  position:relative;
+  overflow:hidden;
+
+  padding:32px 24px;
+
+  color:#fff;
+  text-align:center;
+
+  background:
+    linear-gradient(
+      135deg,
+      #3b0764,
+      #6d28d9 55%,
+      #8b5cf6
+    );
+
+  border-bottom:3px solid #4c1d95;
+}
+
+.game-login-grid{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+
+  opacity:.18;
+
+  background-image:
+    linear-gradient(
+      rgba(255,255,255,.35) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.35) 1px,
+      transparent 1px
+    );
+
+  background-size:18px 18px;
+}
+
+.game-login-header::after{
+  content:"";
+  position:absolute;
+  right:18px;
+  bottom:14px;
+
+  width:9px;
+  height:9px;
+
+  background:#fde047;
+
+  box-shadow:
+    -17px 0 0 rgba(255,255,255,.4);
+}
+
+.game-login-header-content{
+  position:relative;
+  z-index:2;
+}
+
+.game-login-icon{
+  width:82px;
+  height:82px;
+  margin:0 auto 15px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:rgba(255,255,255,.14);
+
+  border:3px solid rgba(255,255,255,.48);
+  border-radius:14px;
+
+  font-size:48px;
+
+  box-shadow:
+    6px 6px 0 rgba(37,13,64,.45);
+}
+
+.game-login-title{
+  margin:0;
+
+  font-size:30px;
+  font-weight:900;
+}
+
+.game-login-subtitle{
+  margin:8px 0 0;
+
+  color:rgba(255,255,255,.85);
+
+  font-size:15px;
+  font-weight:700;
+}
+
+.game-login-body{
+  padding:22px;
+
+  background:
+    linear-gradient(
+      rgba(124,58,237,.035) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(124,58,237,.035) 1px,
+      transparent 1px
+    ),
+    #faf8fc;
+
+  background-size:24px 24px;
+}
+
+.game-login-label{
+  display:block;
+  margin-bottom:8px;
+
+  color:#3b0764;
+
+  text-align:right;
+  font-size:14px;
+  font-weight:900;
+}
+
+.game-login-input{
+  width:100%;
+  height:64px;
+  margin-bottom:18px;
+  padding:0 14px;
+
+  color:#3b0764;
+  background:#fff;
+
+  border:3px solid #ddd5e3;
+  border-radius:10px;
+  outline:none;
+
+  text-align:center;
+  font-size:24px;
+  font-weight:900;
+
+  box-shadow:
+    4px 4px 0 #cfc6d6;
+
+  transition:
+    border-color .2s ease,
+    box-shadow .2s ease,
+    transform .2s ease;
+}
+
+.game-login-input:focus{
+  border-color:#7c3aed;
+
+  box-shadow:
+    4px 4px 0 #4c1d95;
+
+  transform:translateY(-1px);
+}
+
+.game-login-button{
+  width:100%;
+  min-height:54px;
+  margin-bottom:12px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+
+  border-radius:10px;
+
+  font-size:17px;
+  font-weight:900;
+  text-decoration:none;
+
+  cursor:pointer;
+
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    filter .18s ease;
+}
+
+.game-login-play{
+  color:#fff;
+  background:#22c55e;
+
+  border:3px solid #15803d;
+
+  box-shadow:
+    5px 5px 0 #15803d;
+}
+
+.game-login-buy{
+  color:#fff;
+  background:linear-gradient(90deg,#6d28d9,#8b5cf6);
+
+  border:3px solid #4c1d95;
+
+  box-shadow:
+    5px 5px 0 #4c1d95;
+}
+
+.game-login-close{
+  margin-bottom:0;
+
+  color:#52485a;
+  background:#fff;
+
+  border:3px solid #d6cedb;
+
+  box-shadow:
+    5px 5px 0 #c8bfce;
+}
+
+.game-login-button:hover{
+  filter:brightness(1.05);
+  transform:translateY(-2px);
+}
+
+.game-login-button:active{
+  transform:translate(3px,3px);
+  box-shadow:1px 1px 0 currentColor;
+}
+
+@media (max-width:560px){
+
+  .game-login-card{
+    max-width:390px;
+    border-radius:14px;
+  }
+
+  .game-login-header{
+    padding:27px 20px;
+  }
+
+  .game-login-icon{
+    width:72px;
+    height:72px;
+    font-size:42px;
+  }
+
+  .game-login-title{
+    font-size:26px;
+  }
+
+  .game-login-body{
+    padding:18px;
+  }
+
+  .game-login-input{
+    height:58px;
+    font-size:22px;
+  }
+
+  .game-login-button{
+    min-height:50px;
+    font-size:15px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================
+   صفحة تفاصيل اللعبة بعد الضغط على عرض اللعبة
+========================================= */
+
+.game-details-page{
+  position:relative;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* هيدر صفحة اللعبة */
+.game-details-hero{
+  background:
+    linear-gradient(
+      rgba(255,255,255,.07) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.07) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      135deg,
+      #3b0764,
+      #6d28d9 55%,
+      #8b5cf6
+    );
+
+  background-size:
+    24px 24px,
+    24px 24px,
+    auto;
+
+  border-bottom:4px solid #4c1d95;
+  border-radius:0 0 38px 38px;
+
+  box-shadow:
+    0 7px 0 #4c1d95,
+    0 20px 38px rgba(76,29,149,.22);
+}
+
+.game-details-hero::before,
+.game-details-hero::after{
+  content:"";
+  position:absolute;
+  pointer-events:none;
+  image-rendering:pixelated;
+}
+
+.game-details-hero::before{
+  width:16px;
+  height:16px;
+  top:28%;
+  left:7%;
+
+  background:#fde047;
+
+  box-shadow:
+    35px 45px 0 rgba(255,255,255,.28),
+    125px -30px 0 rgba(255,255,255,.18),
+    240px 60px 0 rgba(253,224,71,.45),
+    410px -20px 0 rgba(255,255,255,.15);
+}
+
+.game-details-hero::after{
+  width:12px;
+  height:12px;
+  right:7%;
+  bottom:22%;
+
+  background:#c4b5fd;
+
+  box-shadow:
+    -42px -52px 0 rgba(255,255,255,.22),
+    -150px 24px 0 rgba(253,224,71,.4),
+    -280px -40px 0 rgba(255,255,255,.15);
+}
+
+/* المربعات داخل الهيدر */
+.game-details-hero .bg-white\/15{
+  border:2px solid rgba(255,255,255,.28) !important;
+  border-radius:14px !important;
+
+  background:rgba(255,255,255,.14) !important;
+
+  box-shadow:
+    4px 4px 0 rgba(37,13,64,.36);
+
+  backdrop-filter:blur(8px);
+
+  transition:
+    transform .22s ease,
+    background .22s ease,
+    box-shadow .22s ease;
+}
+
+.game-details-hero .bg-white\/15:hover{
+  transform:translateY(-3px);
+
+  background:rgba(255,255,255,.2) !important;
+
+  box-shadow:
+    6px 6px 0 rgba(37,13,64,.42);
+}
+
+/* زر الرجوع */
+.game-details-hero > button,
+.game-details-hero .cairo-btn{
+  border:2px solid rgba(255,255,255,.28);
+
+  box-shadow:
+    4px 4px 0 rgba(37,13,64,.42);
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+.game-details-hero > button:hover,
+.game-details-hero .cairo-btn:hover{
+  transform:translateY(-2px);
+
+  box-shadow:
+    6px 6px 0 rgba(37,13,64,.5);
+}
+
+/* بطاقة أزرار اللعب */
+.game-details-action-card{
+  position:relative;
+  overflow:hidden;
+
+  padding:24px;
+
+  background:
+    linear-gradient(
+      rgba(124,58,237,.04) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(124,58,237,.04) 1px,
+      transparent 1px
+    ),
+    #fff;
+
+  background-size:22px 22px;
+
+  border:3px solid #ded6e8;
+  border-radius:24px;
+
+  box-shadow:
+    7px 7px 0 #c8bfd1,
+    0 20px 40px rgba(51,40,63,.1);
+}
+
+.game-details-action-card::before{
+  content:"";
+  position:absolute;
+  top:13px;
+  left:13px;
+
+  width:11px;
+  height:11px;
+
+  background:#fde047;
+
+  box-shadow:
+    20px 0 0 #c4b5fd;
+}
+
+/* أزرار صفحة اللعبة */
+.game-details-btn{
+  width:100%;
+  min-height:62px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  padding:14px 18px;
+
+  border-radius:13px;
+  border:3px solid transparent;
+
+  font-size:20px;
+  font-weight:900;
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    filter .2s ease;
+}
+
+.game-details-btn:hover{
+  transform:translateY(-3px);
+  filter:brightness(1.04);
+}
+
+.game-details-btn:active{
+  transform:translate(3px,3px);
+  box-shadow:none;
+}
+
+.game-details-play{
+  color:#fff;
+
+  background:
+    linear-gradient(90deg,#6d28d9,#8b5cf6);
+
+  border-color:#4c1d95;
+
+  box-shadow:
+    5px 5px 0 #4c1d95,
+    0 12px 24px rgba(109,40,217,.2);
+}
+
+.game-details-buy{
+  color:#fff;
+
+  background:
+    linear-gradient(90deg,#10b981,#22c55e);
+
+  border-color:#15803d;
+
+  box-shadow:
+    5px 5px 0 #15803d,
+    0 12px 24px rgba(34,197,94,.18);
+}
+
+.game-details-trial{
+  color:#6d28d9;
+
+  background:#f5f0ff;
+
+  border-color:#7c3aed;
+
+  box-shadow:
+    5px 5px 0 #c4b5fd,
+    0 12px 24px rgba(109,40,217,.1);
+}
+
+/* الأقسام البيضاء داخل صفحة اللعبة */
+.game-details-page section.bg-white,
+.game-details-page div.bg-white.border{
+  border-width:2px !important;
+  border-color:#e2dbe8 !important;
+
+  box-shadow:
+    5px 5px 0 #d4cdd9,
+    0 16px 30px rgba(51,40,63,.07) !important;
+}
+
+/* صور من داخل اللعبة */
+.game-details-page button.group{
+  border:3px solid #ded6e5 !important;
+  border-radius:18px !important;
+
+  box-shadow:
+    5px 5px 0 #cfc6d5 !important;
+}
+
+.game-details-page button.group:hover{
+  transform:translateY(-3px);
+
+  box-shadow:
+    7px 7px 0 #c2b7ca !important;
+}
+
+/* الألعاب الأخرى */
+.game-details-page section.mt-12 a img{
+  border:3px solid #ded6e5;
+
+  border-radius:18px;
+
+  box-shadow:
+    5px 5px 0 #cfc6d5,
+    0 12px 24px rgba(51,40,63,.08);
+
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease;
+}
+
+.game-details-page section.mt-12 a:hover img{
+  transform:translateY(-4px) scale(1.02);
+
+  box-shadow:
+    7px 7px 0 #c2b7ca,
+    0 17px 28px rgba(51,40,63,.11);
+}
+
+/* الجوال */
+@media (max-width:560px){
+
+  .game-details-hero{
+    border-radius:0 0 28px 28px;
+
+    box-shadow:
+      0 5px 0 #4c1d95,
+      0 15px 28px rgba(76,29,149,.2);
+  }
+
+  .game-details-action-card{
+    padding:17px;
+    border-radius:19px;
+
+    box-shadow:
+      5px 5px 0 #c8bfd1,
+      0 15px 30px rgba(51,40,63,.09);
+  }
+
+  .game-details-btn{
+    min-height:55px;
+    font-size:17px;
+  }
+
+  .game-details-hero::before,
+  .game-details-hero::after{
+    opacity:.55;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ======================================
+   واجهة تسجيل اللاعب الكرتونية
+====================================== */
+.player-login-overlay{
+  position:fixed;
+  inset:0;
+  z-index:5000;
+  overflow-y:auto;
+  padding:0;
+
+  display:block;
+
+  background:#f7f5fb;
+  backdrop-filter:none;
+
+  animation:playerOverlayShow .25s ease both;
+}
+
+.player-login-page{
+  position:relative;
+  width:100%;
+  max-width:none;
+  min-height:100vh;
+  overflow:hidden;
+
+  background:#f7f5fb;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
+
+  animation:playerLoginPop .35s cubic-bezier(.22,1,.36,1) both;
+}
+
+
+
+.player-login-header{
+  position:relative;
+  min-height:260px;
+  overflow:hidden;
+  padding:30px 24px 20px;
+  text-align:center;
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+
+  background:
+    linear-gradient(135deg,#3b0764,#6d28d9 55%,#8b5cf6);
+}
+@media (max-width:600px){
+  .player-login-header{
+    min-height:275px;
+    padding:24px 20px 18px;
+    align-items:flex-start;
+  }
+
+  .player-login-header-content{
+    transform:translateY(-12px);
+  }
+}
+
+
+
+
+
+
+
+.player-login-header-grid{
+  position:absolute;
+  inset:0;
+  opacity:.18;
+
+  background-image:
+    linear-gradient(rgba(255,255,255,.35) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.35) 1px,transparent 1px);
+
+  background-size:19px 19px;
+}
+
+
+
+
+
+.player-login-header::after{
+    content:"";
+    position:absolute;
+    left:-5%;
+    right:-5%;
+    bottom:-35px;
+    height:75px;
+    border-radius:50% 50% 0 0;
+
+    /* نفس لون خلفية المربعات */
+    background:#ede9fe;
+}
+
+.player-login-header-content{
+  position:relative;
+  z-index:3;
+}
+
+.player-login-pixels span{
+  position:absolute;
+  z-index:4;
+  width:12px;
+  height:12px;
+  image-rendering:pixelated;
+}
+
+.player-login-pixels span:nth-child(1){
+  top:18px;
+  left:24px;
+  background:#fde047;
+}
+
+.player-login-pixels span:nth-child(2){
+  top:18px;
+  left:43px;
+  background:rgba(255,255,255,.52);
+}
+
+.player-login-pixels span:nth-child(3){
+  right:24px;
+  bottom:42px;
+  background:#c084fc;
+}
+
+.player-login-back,
+.player-login-logout{
+  position:absolute;
+  top:18px;
+  z-index:20;
+
+  min-height:44px;
+  padding:10px 16px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+
+  border:2px solid rgba(255,255,255,.24);
+  border-radius:10px;
+
+  color:#fff;
+  font-family:'Tajawal',sans-serif;
+  font-size:14px;
+  font-weight:900;
+  cursor:pointer;
+
+  box-shadow:
+    3px 3px 0 rgba(0,0,0,.22);
+
+  transition:
+    transform .2s ease,
+    background .2s ease,
+    box-shadow .2s ease;
+}
+
+.player-login-back{
+  right:18px;
+  background:rgba(0,0,0,.22);
+}
+
+.player-login-logout{
+  left:18px;
+  background:#ef4444;
+  border-color:#b91c1c;
+  box-shadow:
+    3px 3px 0 #991b1b;
+}
+
+.player-login-back:hover,
+.player-login-logout:hover{
+  transform:translateY(-2px);
+}
+
+.player-login-back:active,
+.player-login-logout:active{
+  transform:translate(2px,2px);
+  box-shadow:1px 1px 0 rgba(0,0,0,.25);
+}
+
+.player-login-icon{
+  width:84px;
+  height:84px;
+  margin:0 auto 16px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border:3px solid rgba(255,255,255,.5);
+  border-radius:12px;
+
+  background:rgba(255,255,255,.14);
+
+  font-size:48px;
+
+  box-shadow:
+    6px 6px 0 rgba(0,0,0,.26);
+}
+
+.player-login-title{
+  margin:0 0 8px;
+  font-size:38px;
+  line-height:1.2;
+  font-weight:900;
+}
+
+.player-login-subtitle{
+  margin:0;
+  color:rgba(255,255,255,.82);
+  font-size:16px;
+  font-weight:800;
+}
+
+.player-login-content{
+  position:relative;
+  z-index:4;
+  padding:22px;
+}
+
+.player-login-card,
+.player-account-card,
+.player-empty-library{
+  background:#fff;
+  border:2px solid #e5e2e8;
+  border-radius:16px;
+
+  box-shadow:
+    5px 5px 0 #d7d4da,
+    0 14px 32px rgba(0,0,0,.07);
+}
+
+.player-login-card{
+  max-width:540px;
+  margin:0 auto;
+  padding:24px;
+}
+
+.player-login-label{
+  display:block;
+  margin-bottom:10px;
+
+  color:#3b0764;
+  font-size:15px;
+  font-weight:900;
+}
+
+.player-phone-row{
+  display:flex;
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.player-country-wrap{
+  position:relative;
+  flex:0 0 120px;
+}
+
+.player-country-button{
+  width:100%;
+  height:58px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+
+  border:3px solid #d8d5dc;
+  border-radius:10px;
+  background:#f4f0ff;
+  color:#3b0764;
+
+  font-family:'Tajawal',sans-serif;
+  font-size:14px;
+  font-weight:900;
+  cursor:pointer;
+
+  box-shadow:
+    4px 4px 0 #d2cfd5;
+}
+
+.player-country-arrow{
+  font-size:17px;
+}
+
+.player-country-list{
+  position:absolute;
+  top:67px;
+  left:0;
+  z-index:200;
+  width:230px;
+  max-height:260px;
+  overflow-y:auto;
+
+  background:#fff;
+  border:3px solid #d8d5dc;
+  border-radius:12px;
+
+  box-shadow:
+    6px 6px 0 #aaa6af,
+    0 20px 45px rgba(0,0,0,.20);
+}
+
+.player-country-item{
+  width:100%;
+  padding:13px 12px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+
+  border:0;
+  border-bottom:1px solid #eceaec;
+  background:#fff;
+  color:#3b0764;
+
+  text-align:right;
+  font-family:'Tajawal',sans-serif;
+  font-size:13px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.player-country-item:hover{
+  background:#f4f0ff;
+}
+
+.player-login-input{
+  width:100%;
+  min-width:0;
+  height:58px;
+  padding:0 16px;
+
+  border:3px solid #d8d5dc;
+  border-radius:10px;
+  outline:0;
+
+  background:#fff;
+  color:#3b0764;
+
+  text-align:center;
+  font-family:'Tajawal',sans-serif;
+  font-size:19px;
+  font-weight:900;
+
+  box-shadow:
+    4px 4px 0 #d2cfd5;
+
+  transition:
+    border-color .2s ease,
+    box-shadow .2s ease,
+    transform .2s ease;
+}
+
+.player-login-input:focus{
+  border-color:#7c3aed;
+  box-shadow:
+    4px 4px 0 #4c1d95;
+  transform:translateY(-1px);
+}
+
+.player-name-section{
+  margin-top:17px;
+  padding-top:17px;
+  border-top:2px dashed #e5e2e8;
+}
+
+.player-name-input{
+  margin-bottom:15px;
+}
+
+.player-login-notice{
+  margin-bottom:10px;
+  color:#dc2626;
+  text-align:center;
+  font-size:14px;
+  font-weight:900;
+}
+
+.player-terms{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+
+  padding:13px;
+  border:2px solid #eee9f3;
+  border-radius:10px;
+
+  background:#faf7ff;
+  color:#4b4054;
+
+  font-size:13px;
+  font-weight:800;
+  line-height:1.8;
+}
+
+.player-terms input{
+  width:18px;
+  height:18px;
+  margin-top:4px;
+  accent-color:#7c3aed;
+}
+
+.player-login-main-button{
+  width:100%;
+  min-height:56px;
+  margin-top:20px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+
+  border:3px solid #4c1d95;
+  border-radius:10px;
+
+  background:linear-gradient(90deg,#6d28d9,#8b5cf6);
+  color:#fff;
+
+  font-family:'Tajawal',sans-serif;
+  font-size:18px;
+  font-weight:900;
+  cursor:pointer;
+
+  box-shadow:
+    5px 5px 0 #4c1d95,
+    0 13px 25px rgba(109,40,217,.20);
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    filter .2s ease;
+}
+
+.player-login-main-button:hover{
+  transform:translateY(-2px);
+  filter:brightness(1.05);
+
+  box-shadow:
+    6px 6px 0 #4c1d95,
+    0 17px 30px rgba(109,40,217,.25);
+}
+
+.player-login-main-button:active{
+  transform:translate(3px,3px);
+  box-shadow:
+    2px 2px 0 #4c1d95;
+}
+
+.player-login-main-button:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+.player-login-help{
+  margin:15px 0 0;
+  text-align:center;
+  color:#77717d;
+  font-size:12px;
+  font-weight:800;
+}
+
+.player-library{
+  max-width:650px;
+  margin:0 auto;
+}
+
+.player-account-card{
+  padding:18px;
+  margin-bottom:22px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.player-account-label{
+  margin-bottom:3px;
+  color:#8a8490;
+  font-size:12px;
+  font-weight:800;
+}
+
+.player-account-name{
+  color:#3b0764;
+  font-size:22px;
+  font-weight:900;
+}
+
+.player-account-phone{
+  margin-top:4px;
+  color:#8a8490;
+  font-size:13px;
+  font-weight:800;
+  direction:ltr;
+  text-align:right;
+}
+
+.player-online-badge{
+  display:flex;
+  align-items:center;
+  gap:7px;
+
+  padding:8px 12px;
+  border:2px solid #bbf7d0;
+  border-radius:999px;
+
+  background:#dcfce7;
+  color:#15803d;
+
+  font-size:12px;
+  font-weight:900;
+
+  box-shadow:
+    3px 3px 0 #bbf7d0;
+}
+
+.player-online-badge span{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:#22c55e;
+  box-shadow:0 0 0 4px rgba(34,197,94,.15);
+}
+
+.player-library-heading{
+  margin-bottom:14px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.player-library-heading h3{
+  margin:0;
+  color:#3b0764;
+  font-size:24px;
+  font-weight:900;
+}
+
+.player-library-heading p{
+  margin:4px 0 0;
+  color:#7d7682;
+  font-size:13px;
+  font-weight:800;
+}
+
+.player-library-count{
+  min-width:48px;
+  height:48px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border:3px solid #4c1d95;
+  border-radius:10px;
+
+  background:#7c3aed;
+  color:#fff;
+
+  font-size:19px;
+  font-weight:900;
+
+  box-shadow:
+    4px 4px 0 #4c1d95;
+}
+
+.player-empty-library{
+  padding:35px 24px;
+  text-align:center;
+}
+
+.player-empty-icon{
+  width:88px;
+  height:88px;
+  margin:0 auto 18px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border:3px solid #d8d5dc;
+  border-radius:14px;
+
+  background:#f4f0ff;
+  font-size:48px;
+
+  box-shadow:
+    5px 5px 0 #d2cfd5;
+}
+
+.player-empty-library h3{
+  margin:0 0 8px;
+  color:#3b0764;
+  font-size:22px;
+  font-weight:900;
+}
+
+.player-empty-library p{
+  max-width:420px;
+  margin:0 auto;
+  color:#77717d;
+  line-height:1.9;
+  font-size:14px;
+  font-weight:800;
+}
+
+.player-empty-button{
+  margin-top:20px;
+  min-height:48px;
+  padding:0 24px;
+
+  border:3px solid #4c1d95;
+  border-radius:10px;
+
+  background:#7c3aed;
+  color:#fff;
+
+  font-family:'Tajawal',sans-serif;
+  font-size:15px;
+  font-weight:900;
+  cursor:pointer;
+
+  box-shadow:
+    4px 4px 0 #4c1d95;
+}
+
+.player-games-list{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.player-library-game{
+  position:relative;
+  width:100%;
+  overflow:hidden;
+  padding:12px;
+
+  display:flex;
+  align-items:center;
+  gap:14px;
+
+  border:2px solid #e5e2e8;
+  border-radius:15px;
+
+  background:#fff;
+  color:inherit;
+
+  text-align:right;
+  font-family:'Tajawal',sans-serif;
+  cursor:pointer;
+
+  box-shadow:
+    5px 5px 0 #d7d4da,
+    0 11px 24px rgba(0,0,0,.06);
+
+  transition:
+    transform .23s ease,
+    box-shadow .23s ease,
+    border-color .23s ease;
+}
+
+.player-library-game::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.3),transparent 38%);
+}
+
+.player-library-game:hover{
+  transform:translateY(-3px);
+  border-color:#cfc9d5;
+
+  box-shadow:
+    6px 6px 0 #cbc7cf,
+    0 16px 28px rgba(0,0,0,.10);
+}
+
+.player-library-image-wrap{
+  position:relative;
+  z-index:2;
+  flex:0 0 74px;
+  height:74px;
+
+  overflow:hidden;
+  border:3px solid #d8d5dc;
+  border-radius:10px;
+
+  box-shadow:
+    3px 3px 0 #d2cfd5;
+}
+
+.player-library-image{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.player-library-game-info{
+  position:relative;
+  z-index:2;
+  flex:1;
+  min-width:0;
+}
+
+.player-library-game-info h4{
+  margin:0 0 4px;
+  color:#3b0764;
+  font-size:17px;
+  font-weight:900;
+}
+
+.player-library-game-info p{
+  margin:0;
+  color:#77717d;
+  font-size:12px;
+  font-weight:800;
+}
+
+.player-library-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:9px;
+}
+
+.player-library-tags span{
+  padding:4px 7px;
+
+  border:1px solid #e1dce5;
+  border-radius:6px;
+
+  background:#f4f0ff;
+  color:#61586c;
+
+  font-size:10px;
+  font-weight:900;
+}
+
+.player-library-open{
+  position:relative;
+  z-index:2;
+
+  min-width:60px;
+  padding:10px 12px;
+
+  border:2px solid #4c1d95;
+  border-radius:9px;
+
+  background:#7c3aed;
+  color:#fff;
+
+  text-align:center;
+  font-size:13px;
+  font-weight:900;
+
+  box-shadow:
+    3px 3px 0 #4c1d95;
+}
+
+@keyframes playerOverlayShow{
+  from{
+    opacity:0;
+  }
+
+  to{
+    opacity:1;
+  }
+}
+
+@keyframes playerLoginPop{
+  from{
+    opacity:0;
+    transform:translateY(20px) scale(.96);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+@media (max-width:600px){
+
+  .player-login-overlay{
+    padding:0;
+    background:#f7f5fb;
+  }
+
+  .player-login-page{
+    min-height:100vh;
+    border:0;
+    border-radius:0;
     box-shadow:none;
+  }
+
+  .player-login-header{
+    min-height:235px;
+    padding:74px 16px 32px;
+  }
+
+  .player-login-title{
+    font-size:31px;
+  }
+
+  .player-login-icon{
+    width:74px;
+    height:74px;
+    font-size:41px;
+  }
+
+  .player-login-back,
+  .player-login-logout{
+    top:13px;
+    min-height:40px;
+    padding:8px 11px;
+    font-size:12px;
+  }
+
+  .player-login-back{
+    right:12px;
+  }
+
+  .player-login-logout{
+    left:12px;
+  }
+
+  .player-login-content{
+    padding:15px 12px 25px;
+  }
+
+  .player-login-card{
+    padding:17px 14px;
+  }
+
+  .player-phone-row{
+    gap:7px;
+  }
+
+  .player-country-wrap{
+    flex-basis:104px;
+  }
+
+  .player-country-button{
+    height:55px;
+    font-size:12px;
+  }
+
+  .player-login-input{
+    height:55px;
+    font-size:16px;
+    padding-inline:9px;
+  }
+
+  .player-country-list{
+    width:210px;
+  }
+
+  .player-account-card{
+    padding:14px;
+  }
+
+  .player-account-name{
+    font-size:18px;
+  }
+
+  .player-library-heading h3{
+    font-size:20px;
+  }
+
+  .player-library-game{
+    padding:9px;
+    gap:10px;
+  }
+
+  .player-library-image-wrap{
+    flex-basis:62px;
+    height:62px;
+  }
+
+  .player-library-game-info h4{
+    font-size:14px;
+  }
+
+  .player-library-game-info p{
+    font-size:10px;
+  }
+
+  .player-library-open{
+    min-width:52px;
+    padding:8px 9px;
+    font-size:11px;
+  }
+
+  .player-library-tags{
+    display:none;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+
+  .player-login-overlay,
+  .player-login-page{
+    animation:none;
+  }
+
+  .player-login-back,
+  .player-login-logout,
+  .player-login-main-button,
+  .player-library-game{
+    transition:none;
+  }
+}
+
+.player-library-count{
+    visibility:hidden;
+}
+
+
+
+
+
+
+
+
+@keyframes codeBoxPop{
+  from{
+    opacity:0;
+    transform:translateY(20px) scale(.94);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* ===== إجبار بطاقات الألعاب على نفس حجم الكمبيوتر ===== */
+
+.games-grid{
+  grid-template-columns:repeat(auto-fit,245px) !important;
+  justify-content:center !important;
+  gap:25px !important;
+}
+
+.game-card{
+  width:100% !important;
+  max-width:245px !important;
+  height:345px !important;
+  border-radius:18px !important;
+}
+
+.game-image-box{
+  height:175px !important;
+}
+
+.game-content{
+  padding:12px !important;
+}
+
+.game-title{
+  font-size:17px !important;
+}
+
+.game-desc{
+  height:48px !important;
+  font-size:14px !important;
+}
+
+.game-tag{
+  padding:5px 8px !important;
+  font-size:11px !important;
+}
+
+.game-btn{
+  height:46px !important;
+  font-size:16px !important;
+}
+
+
+
+@media (max-width:559px){
+
+  .game-image-box{
+
+    height:160px !important;
+
   }
 
 }
@@ -656,23 +2763,440 @@ button:active,
 
 
 
+/* بطاقتان في الجوال */
+@media (max-width:559px){
+
+  .games-grid{
+    display:grid !important;
+    grid-template-columns:repeat(2, 1fr) !important;
+    gap:12px !important;
+    width:100% !important;
+  }
+
+  .game-card{
+    width:100% !important;
+    max-width:none !important;
+    min-width:0 !important;
+    height:345px !important;
+  }
+
+}
 
 
-@font-face {
-  font-family: "AA Galaxy";
-  src: url("https://raw.githubusercontent.com/zamnnzz/fonts/main/hroffont-B6Zk_0ya.woff2") format("woff2");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+
+/* تعديل بطاقات الجوال */
+@media (max-width:559px){
+
+  .games-grid{
+    grid-template-columns:repeat(2,1fr) !important;
+    gap:10px !important;
+  }
+
+  .game-card{
+    width:95% !important;
+    max-width:220px !important;
+    height:345px !important;
+    margin:auto !important;
+  }
+
+  .game-title{
+    font-size:14px !important;
+    line-height:1.25 !important;
+  }
+
+  .game-desc{
+    font-size:12px !important;
+    height:34px !important;
+  }
+
+  .game-tag{
+    font-size:9px !important;
+    padding:3px 6px !important;
+  }
+
+  .game-btn{
+    font-size:13px !important;
+    height:40px !important;
+  }
 }
 
 
 
 
 
-.cairo-btn{
-  font-family: "Cairo", sans-serif !important;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================
+   الباقات - ستايل جديد مثل بطاقات الألعاب
+========================================== */
+
+.packages-section{
+    padding:70px 16px;
 }
+
+.packages-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:28px;
+    max-width:1100px;
+    margin:auto;
+}
+
+.package-card{
+    position:relative;
+    overflow:hidden;
+
+    background:#fff;
+    border:3px solid #e5e0ea !important;
+    border-radius:20px !important;
+
+    box-shadow:
+        6px 6px 0 #d2cbd8,
+        12px 12px 25px rgba(59,7,100,.10) !important;
+
+    transition:.25s;
+}
+
+.package-card:hover{
+    transform:translateY(-7px);
+
+    box-shadow:
+        8px 8px 0 #c7bfd2,
+        18px 18px 32px rgba(59,7,100,.16) !important;
+}
+
+.package-card::before{
+    content:"";
+    position:absolute;
+    top:-120%;
+    left:-60%;
+
+    width:55%;
+    height:320%;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent,
+            rgba(255,255,255,.45),
+            transparent
+        );
+
+    transform:rotate(24deg);
+    transition:.8s;
+}
+
+.package-card:hover::before{
+    left:130%;
+}
+
+.package-card::after{
+    content:"";
+    position:absolute;
+    inset:8px;
+
+    border:1px dashed rgba(124,58,237,.18);
+    border-radius:14px;
+
+    pointer-events:none;
+}
+
+.package-card h3{
+    font-size:28px;
+    font-weight:900;
+    color:#3b0764;
+}
+
+.package-card .price{
+    font-size:42px;
+    font-weight:900;
+    color:#6d28d9;
+}
+
+.package-card ul{
+    margin:22px 0;
+    padding:0;
+    list-style:none;
+}
+
+.package-card li{
+    padding:10px 0;
+    font-size:15px;
+    font-weight:700;
+    color:#555;
+    border-bottom:1px dashed #e8e3ef;
+}
+
+.package-card button,
+.package-card a{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    width:100%;
+    height:48px;
+
+    border:none;
+    border-radius:10px;
+
+    background:linear-gradient(90deg,#6d28d9,#8b5cf6);
+    color:#fff;
+
+    font-size:16px;
+    font-weight:900;
+
+    box-shadow:
+        4px 4px 0 #4c1d95;
+
+    transition:.2s;
+}
+
+.package-card button:hover,
+.package-card a:hover{
+    transform:translateY(-2px);
+}
+
+.package-card button:active,
+.package-card a:active{
+    transform:translate(3px,3px);
+    box-shadow:1px 1px 0 #4c1d95;
+}
+
+/* الباقة المميزة */
+
+.package-card.featured{
+    border-color:#facc15 !important;
+}
+
+.package-card.featured::after{
+    border-color:#facc15;
+}
+
+.package-card.featured .price{
+    color:#ca8a04;
+}
+
+/* الجوال */
+
+@media(max-width:560px){
+
+    .packages-grid{
+        grid-template-columns:1fr;
+        gap:18px;
+    }
+
+    .package-card h3{
+        font-size:23px;
+    }
+
+    .package-card .price{
+        font-size:35px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.hero-grid-wave-svg{
+  display:block;
+  position:relative;
+  z-index:3;
+
+  width:100%;
+  height:105px;
+
+  margin-top:-42px;
+  margin-bottom:-1px;
+}
+
+@media (max-width:559px){
+  .hero-grid-wave-svg{
+    height:75px;
+    margin-top:-28px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+.hero-grid-wave-svg{
+  display:block;
+  position:relative;
+  z-index:3;
+  width:100%;
+  height:120px;
+  margin-top:-1px;
+  margin-bottom:-1px;
+  flex-shrink:0;
+}
+
+@media (max-width:559px){
+  .hero-grid-wave-svg{
+    height:85px;
+  }
+}
+
+
+
+
+
+
+
+
+.home-game-background{
+  background:#f4f0ff !important;
+  background-image:none !important;
+}
+
+.hero-grid-wave-svg{
+  background:#f4f0ff !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   الحل النهائي لبطاقات الألعاب على الجوال
+   بطاقتان بجانب بعض + صورة بلا تمطيط + بطاقة غير طويلة
+===================================================== */
+
+@media (max-width:559px){
+
+  .games-grid{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:10px !important;
+    width:100% !important;
+  }
+
+  .game-card{
+    width:100% !important;
+    max-width:none !important;
+    min-width:0 !important;
+
+    /* لا تفرض ارتفاعًا ثابتًا */
+    height:auto !important;
+    min-height:0 !important;
+
+    margin:0 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    overflow:hidden !important;
+  }
+
+  /* الحفاظ على نفس نسبة صورة الكمبيوتر: 245 × 175 */
+  .game-image-box{
+    position:relative !important;
+    width:100% !important;
+    height:auto !important;
+    aspect-ratio:7 / 5 !important;
+
+    flex:none !important;
+    flex-shrink:0 !important;
+    overflow:hidden !important;
+  }
+
+  .game-image{
+    display:block !important;
+    width:100% !important;
+    height:100% !important;
+
+    object-fit:cover !important;
+    object-position:center !important;
+
+    transform:none;
+  }
+
+  .game-content{
+    display:flex !important;
+    flex-direction:column !important;
+    flex:1 !important;
+
+    min-height:0 !important;
+    padding:8px !important;
+  }
+
+  .game-title{
+    margin:0 0 6px !important;
+    font-size:13px !important;
+    line-height:1.3 !important;
+  }
+
+  .game-desc{
+    display:none !important;
+  }
+
+  .game-tags{
+    margin:0 0 8px !important;
+    gap:4px !important;
+  }
+
+  .game-tag{
+    padding:3px 5px !important;
+    font-size:8px !important;
+    line-height:1.3 !important;
+  }
+
+  .game-btn{
+    width:100% !important;
+    height:36px !important;
+    min-height:36px !important;
+    margin-top:auto !important;
+
+    font-size:12px !important;
+  }
+}
+
 
 
 
@@ -728,6 +3252,11 @@ button:active,
     }
   ]
 }
+
+
+
+
+
 
 
 
