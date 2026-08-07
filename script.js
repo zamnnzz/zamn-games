@@ -1051,14 +1051,20 @@ React.useEffect(() => {
       String(selectedGame.price || "").replace(/[^\d.]/g, "")
     );
 
-  const validReviews = (selectedGame.reviews || []).filter(
+  // جميع التقييمات الظاهرة في صفحة اللعبة تُستخدم لحساب المتوسط والعدد.
+  // المراجعات النصية فقط تُرسل كعناصر Review منفصلة.
+  const allRatings = (selectedGame.reviews || []).filter(
+    review => String(review.name || "").trim() || String(review.stars || "").trim()
+  );
+
+  const validReviews = allRatings.filter(
     review => String(review.comment || "").trim()
   );
 
   const productSchema = {
     "@type": "Product",
     "@id":
-      `https://zamn-games.vercel.app/game/${selectedGame.slug}#product`,
+      `${window.location.origin}/game/${selectedGame.slug}#product`,
 
     name: selectedGame.name.trim(),
 
@@ -1069,7 +1075,7 @@ image: [
   ...(selectedGame.screenshots || [])
 ],
     url:
-      `https://zamn-games.vercel.app/game/${selectedGame.slug}`,
+      `${window.location.origin}/game/${selectedGame.slug}`,
 
     sku: String(selectedGame.id),
 
@@ -1084,7 +1090,7 @@ image: [
       "@type": "Offer",
 
       url:
-        `https://zamn-games.vercel.app/game/${selectedGame.slug}`,
+        `${window.location.origin}/game/${selectedGame.slug}`,
 
       price: numericPrice,
 
@@ -1098,7 +1104,7 @@ image: [
         "https://schema.org/NewCondition"
     },
 
-    ...(validReviews.length > 0
+    ...(allRatings.length > 0
       ? {
           aggregateRating: {
             "@type": "AggregateRating",
@@ -1106,8 +1112,11 @@ image: [
             ratingValue:
               Number(selectedGame.rating),
 
+            ratingCount:
+              allRatings.length,
+
             reviewCount:
-              validReviews.length,
+              allRatings.length,
 
             bestRating: 5,
 
@@ -1153,7 +1162,7 @@ image: [
         name: "الرئيسية",
 
         item:
-          "https://zamn-games.vercel.app/"
+          `${window.location.origin}/`
       },
 
       {
@@ -1165,7 +1174,7 @@ image: [
           selectedGame.name.trim(),
 
         item:
-          `https://zamn-games.vercel.app/game/${selectedGame.slug}`
+          `${window.location.origin}/game/${selectedGame.slug}`
       }
     ]
   };

@@ -1,15 +1,11 @@
 {
   "rewrites": [
     {
-      "source": "/blog",
+      "source": "/",
       "destination": "/index.html"
     },
     {
-      "source": "/blog/:path*",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/game/:path*",
+      "source": "/game/:slug",
       "destination": "/index.html"
     }
   ]
