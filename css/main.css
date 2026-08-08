@@ -3596,3 +3596,161 @@ body.horof-bell-mode .horof-step p{
     font-size:24px !important;
   }
 }
+
+/* تنبيه إضافة الموقع للشاشة الرئيسية — مرة واحدة في الجلسة */
+.home-screen-tip[hidden]{display:none!important}
+.home-screen-tip{
+  position:fixed;inset:0;z-index:999999;
+  display:flex;align-items:center;justify-content:center;
+  padding:18px;background:rgba(36,31,25,.58);
+  backdrop-filter:blur(2px);
+}
+.home-screen-tip-card{
+  position:relative;width:min(520px,100%);
+  padding:34px 28px 28px;
+  direction:rtl;text-align:center;
+  background:#fff;border:4px solid #090909;border-radius:34px;
+  box-shadow:8px 10px 0 #090909;
+  color:#080808;font-family:"Tajawal",sans-serif;
+}
+.home-screen-tip-close{
+  position:absolute;top:18px;left:18px;
+  width:48px;height:48px;border:3px solid #090909;border-radius:50%;
+  background:#fff;color:#090909;font-size:34px;line-height:1;cursor:pointer;
+}
+.home-screen-tip-phone{font-size:42px;margin:0 0 8px}
+.home-screen-tip-card h2{margin:0;font-size:34px;line-height:1.25;font-weight:900}
+.home-screen-tip-lead{
+  margin:14px auto 26px;max-width:410px;
+  color:#4d4d4d;font-size:20px;line-height:1.6;font-weight:900;
+}
+.home-screen-tip-step{
+  display:grid;grid-template-columns:46px 1fr 56px;
+  gap:12px;align-items:center;margin:15px 0;text-align:right;
+  font-size:19px;font-weight:900;
+}
+.home-screen-tip-step b{
+  width:38px;height:38px;display:grid;place-items:center;
+  justify-self:center;border-radius:50%;background:#000;color:#fff;
+}
+.home-screen-tip-step em{font-style:normal;direction:ltr;unicode-bidi:isolate}
+.home-screen-tip-icon{
+  width:54px;height:54px;display:grid;place-items:center;
+  border:3px solid #090909;border-radius:13px;font-size:34px;font-weight:500;
+}
+.home-screen-tip-plus{font-size:42px}
+.home-screen-tip-done{
+  width:100%;min-height:68px;margin-top:18px;
+  border:3px solid #000;border-radius:22px;background:#000;color:#fff;
+  font:900 25px "Tajawal",sans-serif;cursor:pointer;
+  box-shadow:5px 6px 0 #aaa;
+}
+@media(max-width:600px){
+  .home-screen-tip{padding:14px}
+  .home-screen-tip-card{padding:28px 20px 22px;border-radius:28px}
+  .home-screen-tip-card h2{font-size:29px}
+  .home-screen-tip-lead{font-size:17px;margin-bottom:20px}
+  .home-screen-tip-step{grid-template-columns:40px 1fr 50px;gap:8px;font-size:16px}
+  .home-screen-tip-icon{width:48px;height:48px}
+  .home-screen-tip-close{width:44px;height:44px;top:14px;left:14px}
+  .home-screen-tip-done{min-height:60px;font-size:22px}
+}
+
+/* تحسين أيقونات المشاركة والإضافة */
+.home-screen-tip-icon{
+  background:#fff;
+  box-shadow:3px 4px 0 #111;
+}
+.home-screen-tip-icon svg{
+  width:29px;
+  height:29px;
+  display:block;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:2.2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.home-screen-tip-plus svg{
+  width:31px;
+  height:31px;
+  stroke-width:2.4;
+}
+.home-screen-tip-step:hover .home-screen-tip-icon{
+  transform:translateY(-1px) rotate(-2deg);
+}
+
+/* أيقونة تطبيق ألعاب زامن داخل نافذة الإضافة */
+.home-screen-tip-app-icon{
+  width:76px;
+  height:76px;
+  margin:0 auto 12px;
+  padding:4px;
+  border:3px solid #090909;
+  border-radius:20px;
+  background:#fff;
+  box-shadow:4px 5px 0 #111;
+  overflow:hidden;
+  transform:rotate(-2deg);
+}
+.home-screen-tip-app-icon img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  border-radius:14px;
+}
+@media(max-width:600px){
+  .home-screen-tip-app-icon{
+    width:68px;
+    height:68px;
+    border-radius:18px;
+  }
+  .home-screen-tip-app-icon img{
+    border-radius:12px;
+  }
+}
+
+/* =====================================================
+   Full screen mobile — portrait + landscape
+===================================================== */
+html,
+body{
+  width:100%;
+  min-width:100%;
+  min-height:100%;
+  margin:0;
+}
+
+body{
+  min-height:100vh;
+  min-height:100svh;
+  min-height:100dvh;
+}
+
+#app,
+.app-shell,
+main{
+  min-height:100vh;
+  min-height:100svh;
+  min-height:100dvh;
+}
+
+/* عند قلب الجوال، استغل كامل العرض والارتفاع */
+@media (orientation: landscape) and (max-height: 600px){
+  html,
+  body,
+  #app,
+  .app-shell,
+  main{
+    width:100vw;
+    min-width:100vw;
+    min-height:100vh;
+    min-height:100dvh;
+  }
+
+  body{
+    padding-left:env(safe-area-inset-left);
+    padding-right:env(safe-area-inset-right);
+  }
+}

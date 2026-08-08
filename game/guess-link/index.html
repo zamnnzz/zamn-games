@@ -5,7 +5,7 @@
 <link rel="icon" href="https://i.postimg.cc/zBZC1v2v/rbt.jpg">
 <link rel="shortcut icon" href="https://i.postimg.cc/zBZC1v2v/rbt.jpg">
 <link rel="apple-touch-icon" href="https://i.postimg.cc/zBZC1v2v/rbt.jpg">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="google-site-verification" content="DuT1gHuCD6dDFT7s7EuWfnQMOAmpzF7dING4q6P6ZOk">
 <meta name="google-site-verification" content="inn2xViCLwRViHG1bO-4WjG8P9LWKz0m5Nwwq4rAynA">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
@@ -23,8 +23,43 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="/css/main.css">
 <script id="page-schema" type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Product","@id":"https://zamn-games.vercel.app/game/guess-link#product","name":"خمن الرابط","description":"لعبة خمن الرابط تحدي جماعي يعتمد على تجميع الصور ومعرفة الإجابة الصحيحة بسرعة قبل الفريق المنافس.","image":["https://i.postimg.cc/zBZC1v2v/rbt.jpg","https://zamn-games.vercel.app/screenshots/guess-link/1.webp","https://zamn-games.vercel.app/screenshots/guess-link/2.webp","https://zamn-games.vercel.app/screenshots/guess-link/3.webp","https://zamn-games.vercel.app/screenshots/guess-link/4.webp"],"url":"https://zamn-games.vercel.app/game/guess-link","sku":"8","category":"تحديات","brand":{"@type":"Brand","name":"ألعاب زامن"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","ratingCount":2,"bestRating":"5","worstRating":"1"},"offers":{"@type":"Offer","url":"https://zamn-games.vercel.app/game/guess-link","price":4.99,"priceCurrency":"SAR","availability":"https://schema.org/InStock","itemCondition":"https://schema.org/NewCondition"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"الرئيسية","item":"https://zamn-games.vercel.app/"},{"@type":"ListItem","position":2,"name":"خمن الرابط","item":"https://zamn-games.vercel.app/game/guess-link"}]},{"@type":"ImageObject","@id":"https://zamn-games.vercel.app/game/guess-link#primaryimage","url":"https://i.postimg.cc/zBZC1v2v/rbt.jpg","contentUrl":"https://i.postimg.cc/zBZC1v2v/rbt.jpg","caption":"خمن الرابط"},{"@type":"ItemList","name":"ألعاب مشابهة لـ خمن الرابط","itemListElement":[{"@type":"ListItem","position":1,"url":"https://zamn-games.vercel.app/game/photos-1","name":"تحدي الصور الجزء الاول"},{"@type":"ListItem","position":2,"url":"https://zamn-games.vercel.app/game/fawazeer","name":"فوازير"},{"@type":"ListItem","position":3,"url":"https://zamn-games.vercel.app/game/family-feud","name":"فاميلي فيود"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"هل تعمل اللعبة بدون تحميل؟","acceptedAnswer":{"@type":"Answer","text":"نعم، تعمل اللعبة مباشرة من المتصفح بدون الحاجة إلى تحميل تطبيق."}},{"@type":"Question","name":"كم عدد اللاعبين؟","acceptedAnswer":{"@type":"Answer","text":"٢+ لاعبين"}},{"@type":"Question","name":"هل اللعبة متاحة الآن؟","acceptedAnswer":{"@type":"Answer","text":"متاحة الآن"}}]}]}</script>
 <meta property="og:image:alt" content="خمن الرابط - ألعاب زامن">
+
+<meta name="application-name" content="ألعاب زامن">
+<meta name="apple-mobile-web-app-title" content="ألعاب زامن">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="/manifest.webmanifest">
+
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
+
+<div id="homeScreenTip" class="home-screen-tip" hidden>
+  <div class="home-screen-tip-card" role="dialog" aria-modal="true" aria-labelledby="homeScreenTipTitle">
+    <button id="homeScreenTipClose" class="home-screen-tip-close" type="button" aria-label="إغلاق">×</button>
+    <div class="home-screen-tip-app-icon" aria-hidden="true"><img src="/favicon.png?v=10" alt=""></div>
+    <h2 id="homeScreenTipTitle">للحصول على أفضل تجربة</h2>
+    <p class="home-screen-tip-lead">أضف ألعاب زامن إلى الشاشة الرئيسية للعب بملء الشاشة</p>
+
+    <div class="home-screen-tip-step">
+      <b>١</b>
+      <span>اضغط على أيقونة المشاركة</span>
+      <span class="home-screen-tip-icon" aria-hidden="true">
+<svg viewBox="0 0 24 24" role="img"><path d="M12 16V3m0 0L7.5 7.5M12 3l4.5 4.5M5 11v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8"/></svg>
+</span>
+    </div>
+    <div class="home-screen-tip-step">
+      <b>٢</b>
+      <span>اختر <em>«إضافة إلى الصفحة الرئيسية»</em></span>
+      <span class="home-screen-tip-icon home-screen-tip-plus" aria-hidden="true">
+<svg viewBox="0 0 24 24" role="img"><path d="M12 6v12M6 12h12"/></svg>
+</span>
+    </div>
+
+    <button id="homeScreenTipDone" class="home-screen-tip-done" type="button">فهمت</button>
+  </div>
+</div>
+
   <button id="homeLogin" class="login-float" type="button">ألعابي <span aria-hidden="true">🎮</span></button>
 
   <header id="homeHero" class="hero">
@@ -660,5 +695,38 @@
 <script src="/js/games.js"></script>
 <script src="/js/app.js" defer></script>
 <script src="/js/account.js" defer></script>
+
+<script>
+(function(){
+  var KEY="zamn_home_screen_tip_seen";
+  var tip=document.getElementById("homeScreenTip");
+  var close=document.getElementById("homeScreenTipClose");
+  var done=document.getElementById("homeScreenTipDone");
+  if(!tip) return;
+
+  function hide(){
+    tip.hidden=true;
+    try{ sessionStorage.setItem(KEY,"1"); }catch(e){}
+  }
+
+  function shouldShow(){
+    try{
+      if(sessionStorage.getItem(KEY)==="1") return false;
+    }catch(e){}
+    var standalone=window.matchMedia && window.matchMedia("(display-mode: standalone)").matches;
+    if(navigator.standalone===true) standalone=true;
+    return !standalone;
+  }
+
+  if(close) close.addEventListener("click",hide);
+  if(done) done.addEventListener("click",hide);
+  tip.addEventListener("click",function(e){ if(e.target===tip) hide(); });
+
+  window.addEventListener("load",function(){
+    if(shouldShow()) setTimeout(function(){ tip.hidden=false; },650);
+  });
+})();
+</script>
+
 </body>
 </html>

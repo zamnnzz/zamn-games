@@ -1,0 +1,20 @@
+{
+  "name": "ألعاب زامن",
+  "short_name": "ألعاب زامن",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/",
+  "scope": "/",
+  "display": "fullscreen",
+  "background_color": "#ffffff",
+  "theme_color": "#6d28d9",
+  "icons": [
+    {
+      "src": "/favicon.png?v=10",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "orientation": "any"
+}
