@@ -3828,3 +3828,52 @@ main{
     top:calc(env(safe-area-inset-top, 0px) + 8px) !important;
   }
 }
+
+/* =====================================================
+   Mobile top controls spacing v2
+   يمنع تداخل الأزرار العلوية مع المحتوى الذي تحتها
+===================================================== */
+@media (max-width: 760px){
+
+  /* الرئيسية: اترك مساحة تحت زر ألعابي */
+  #homeHero .hero-inner{
+    padding-top:calc(env(safe-area-inset-top, 0px) + 58px) !important;
+  }
+
+  /* صفحات الألعاب: اترك مساحة تحت شريط الرجوع/الرئيسية */
+  .retro-game-shell,
+  .retro-game-header,
+  .game-view-content{
+    padding-top:calc(env(safe-area-inset-top, 0px) + 64px) !important;
+    box-sizing:border-box;
+  }
+
+  /* واجهة الحساب: أبعد المحتوى الداخلي عن أزرار الرجوع/تسجيل الخروج */
+  .player-login-header-content{
+    padding-top:14px !important;
+  }
+
+  .player-login-body,
+  .account-panel,
+  .account-content{
+    position:relative;
+    z-index:1;
+  }
+}
+
+/* في العرض الأفقي نقلل المسافة حتى لا نخسر ارتفاع الشاشة */
+@media (orientation: landscape) and (max-height: 600px){
+  #homeHero .hero-inner{
+    padding-top:calc(env(safe-area-inset-top, 0px) + 34px) !important;
+  }
+
+  .retro-game-shell,
+  .retro-game-header,
+  .game-view-content{
+    padding-top:calc(env(safe-area-inset-top, 0px) + 38px) !important;
+  }
+
+  .player-login-header-content{
+    padding-top:6px !important;
+  }
+}
