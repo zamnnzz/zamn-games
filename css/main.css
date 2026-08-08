@@ -3877,3 +3877,31 @@ main{
     padding-top:6px !important;
   }
 }
+
+/* =====================================================
+   Mobile keyboard / input focus fix
+===================================================== */
+@media (max-width: 760px){
+  input,
+  textarea,
+  select,
+  .player-login-input,
+  .code-entry-input{
+    pointer-events:auto !important;
+    touch-action:manipulation !important;
+
+    -webkit-user-select:text !important;
+    user-select:text !important;
+
+    -webkit-touch-callout:default !important;
+
+    /* 16px prevents iOS zoom/focus glitches */
+    font-size:16px !important;
+  }
+
+  .player-login-input,
+  .code-entry-input{
+    position:relative;
+    z-index:5;
+  }
+}

@@ -738,5 +738,52 @@
 </script>
 
 <script src="/js/update-check.js?v=20260808-1705" defer></script>
+
+<script>
+(function(){
+  function wireMobileKeyboard(){
+    var fields = document.querySelectorAll(
+      '#phoneInput, #playerNameInput, #gameCodeInput, input[type="text"], input[type="tel"], input[inputmode="numeric"], textarea'
+    );
+
+    fields.forEach(function(field){
+      if(field.dataset.zamnKeyboardReady === "1") return;
+      field.dataset.zamnKeyboardReady = "1";
+
+      field.addEventListener("touchend", function(){
+        if(document.activeElement !== field){
+          try { field.focus(); } catch(e) {}
+        }
+      }, {passive:true});
+
+      field.addEventListener("click", function(){
+        if(document.activeElement !== field){
+          try { field.focus(); } catch(e) {}
+        }
+      });
+
+      field.addEventListener("focus", function(){
+        setTimeout(function(){
+          try {
+            field.scrollIntoView({block:"center", inline:"nearest", behavior:"smooth"});
+          } catch(e) {}
+        }, 250);
+      });
+    });
+  }
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", wireMobileKeyboard);
+  }else{
+    wireMobileKeyboard();
+  }
+
+  /* الحقول داخل النوافذ قد تظهر بعد فتحها */
+  document.addEventListener("click", function(){
+    setTimeout(wireMobileKeyboard, 0);
+  });
+})();
+</script>
+
 </body>
 </html>
