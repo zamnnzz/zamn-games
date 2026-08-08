@@ -3905,3 +3905,83 @@ main{
     z-index:5;
   }
 }
+
+
+/* =====================================================
+   ZAMN mobile player viewport hardening
+   Fixes white gaps / stale height after orientation + fullscreen changes
+===================================================== */
+:root{
+  --zamn-viewport-height:100dvh;
+}
+
+body.player-open{
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:var(--zamn-viewport-height,100dvh) !important;
+  min-height:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  overscroll-behavior:none !important;
+  background:#14081f !important;
+}
+
+.game-player-overlay{
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:var(--zamn-viewport-height,100dvh) !important;
+  min-height:0 !important;
+  max-height:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  overscroll-behavior:none !important;
+  background:#14081f !important;
+}
+
+#gameIframe{
+  position:absolute !important;
+  inset:0 !important;
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  min-width:100% !important;
+  min-height:100% !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  background:#14081f !important;
+}
+
+/* Keep the floating player controls inside the real safe area. */
+.game-player-top{
+  top:env(safe-area-inset-top,0px) !important;
+  padding-left:calc(14px + env(safe-area-inset-left,0px)) !important;
+  padding-right:calc(14px + env(safe-area-inset-right,0px)) !important;
+}
+
+/* Code-entry back button: move it down from the notch/status-bar area. */
+@media(max-width:560px){
+  .code-entry-overlay{
+    height:var(--zamn-viewport-height,100dvh) !important;
+    min-height:0 !important;
+    overflow:hidden !important;
+  }
+  .code-entry-card{
+    width:100% !important;
+    height:100% !important;
+    min-height:0 !important;
+    max-height:none !important;
+    overflow-y:auto !important;
+    overscroll-behavior:contain !important;
+    padding-top:calc(82px + env(safe-area-inset-top,0px)) !important;
+    padding-bottom:calc(28px + env(safe-area-inset-bottom,0px)) !important;
+  }
+  .code-entry-back{
+    top:calc(26px + env(safe-area-inset-top,0px)) !important;
+    right:calc(14px + env(safe-area-inset-right,0px)) !important;
+  }
+}

@@ -1,5 +1,26 @@
 
 (() => {
+
+  // Keep fullscreen game/code overlays locked to the real mobile visual viewport.
+  function syncZamnViewportHeight(){
+    const h=Math.round((window.visualViewport && window.visualViewport.height) || window.innerHeight || document.documentElement.clientHeight || 0);
+    if(h>0) document.documentElement.style.setProperty("--zamn-viewport-height",h+"px");
+  }
+  let zamnViewportTimers=[];
+  function settleZamnViewport(){
+    zamnViewportTimers.forEach(clearTimeout);
+    zamnViewportTimers=[];
+    [0,60,160,320,650].forEach(ms=>zamnViewportTimers.push(setTimeout(syncZamnViewportHeight,ms)));
+  }
+  syncZamnViewportHeight();
+  window.addEventListener("resize",settleZamnViewport,{passive:true});
+  window.addEventListener("orientationchange",settleZamnViewport,{passive:true});
+  document.addEventListener("fullscreenchange",settleZamnViewport);
+  if(window.visualViewport){
+    window.visualViewport.addEventListener("resize",settleZamnViewport,{passive:true});
+    window.visualViewport.addEventListener("scroll",syncZamnViewportHeight,{passive:true});
+  }
+
   const GAMES = window.ZAMN_GAMES || [];
   const CFG = window.ZAMN_FIREBASE_CONFIG || {};
   const countries = [
