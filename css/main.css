@@ -3771,3 +3771,60 @@ main{
     min-height:calc(100dvh - 20px);
   }
 }
+
+/* =====================================================
+   Mobile fullscreen safe top controls
+   يبقي ملء الشاشة كما هو، وينزل عناصر التحكم العلوية فقط
+===================================================== */
+@media (max-width: 760px){
+
+  /* زر ألعابي / تسجيل الدخول في الرئيسية */
+  .login-float{
+    top:calc(env(safe-area-inset-top, 0px) + 12px) !important;
+    left:10px !important;
+  }
+
+  /* شريط الرجوع في واجهة تفاصيل الألعاب القديمة */
+  .game-view-topbar{
+    padding-top:calc(env(safe-area-inset-top, 0px) + 12px) !important;
+    padding-left:14px !important;
+    padding-right:14px !important;
+  }
+
+  /* زر الرئيسية داخل تصميم صفحة اللعبة الحالي */
+  .retro-home-btn{
+    top:calc(env(safe-area-inset-top, 0px) + 14px) !important;
+    right:14px !important;
+  }
+
+  /* رجوع + تسجيل الخروج داخل واجهة الحساب */
+  .player-login-back,
+  .player-login-logout{
+    top:calc(env(safe-area-inset-top, 0px) + 13px) !important;
+  }
+
+  /* نعطي رأس تسجيل الدخول مساحة كافية للأزرار بعد إنزالها */
+  .player-login-header{
+    padding-top:calc(env(safe-area-inset-top, 0px) + 72px) !important;
+  }
+}
+
+/* في العرض الأفقي: نستخدم Safe Area فقط بدون زيادة كبيرة */
+@media (orientation: landscape) and (max-height: 600px){
+  .login-float{
+    top:calc(env(safe-area-inset-top, 0px) + 7px) !important;
+  }
+
+  .game-view-topbar{
+    padding-top:calc(env(safe-area-inset-top, 0px) + 7px) !important;
+  }
+
+  .retro-home-btn{
+    top:calc(env(safe-area-inset-top, 0px) + 8px) !important;
+  }
+
+  .player-login-back,
+  .player-login-logout{
+    top:calc(env(safe-area-inset-top, 0px) + 8px) !important;
+  }
+}
