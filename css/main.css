@@ -4389,3 +4389,10 @@ html.player-open .game-player-top{
       0 8px 18px rgba(76,29,149,.16) !important;
   }
 }
+
+/* Compact visible aggregate rating — horof-bell page only */
+.horof-bell-mode .horof-rating-mini{display:flex;align-items:center;justify-content:center;gap:7px;width:max-content;max-width:100%;margin:12px auto 0;padding:6px 11px;border:1px solid #eadff7;border-radius:999px;background:rgba(255,255,255,.88);box-shadow:0 2px 7px rgba(76,29,149,.06);font-size:12px;line-height:1;color:#51485c}
+.horof-bell-mode .horof-rating-mini .horof-rating-stars{color:#f59e0b;font-size:12px;letter-spacing:1px}
+.horof-bell-mode .horof-rating-mini strong{font-size:12px;color:#2f2638}
+.horof-bell-mode .horof-rating-mini small{font-size:11px;color:#81778a}
+@media(max-width:600px){.horof-bell-mode .horof-rating-mini{margin-top:9px;padding:5px 9px;gap:6px}.horof-bell-mode .horof-rating-mini .horof-rating-stars,.horof-bell-mode .horof-rating-mini strong{font-size:11px}.horof-bell-mode .horof-rating-mini small{font-size:10px}}
