@@ -4050,4 +4050,193 @@ html.player-open .game-player-top{
 .game-seo-faq h3{margin:0 0 6px;color:#3b0764;font-size:16px}
 .game-seo-faq p{margin:0;color:#6b7280;line-height:1.9}
 @media(max-width:560px){.hero-copy > h2.seo-home-heading{font-size:34px}.game-seo-content .seo-copy{font-size:14px}}
-\n\n/* FAQ صفحات الألعاب — نفس تصميم الأسئلة الأصلي مع الحفاظ على SEO */\n.game-seo-faq-title{\n  width:max-content;max-width:100%;margin:34px auto 28px;padding:14px 46px;\n  color:#fff;background:linear-gradient(135deg,#3b0764,#7c3aed);\n  border:3px solid #4c1d95;border-radius:15px;font-size:28px;font-weight:900;text-align:center;\n  box-shadow:6px 6px 0 #4c1d95,0 12px 24px rgba(76,29,149,.18);\n}\n.game-seo-faq{display:flex!important;flex-direction:column;gap:17px;margin-top:0!important}\n.game-seo-faq-item{overflow:hidden;background:#fff;border:3px solid #e5e0e8;border-radius:17px;\n  box-shadow:5px 5px 0 #d3ccd8,11px 11px 24px rgba(0,0,0,.07);\n  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}\n.game-seo-faq-item:hover{transform:translateY(-3px);border-color:#cfc4dc;box-shadow:7px 7px 0 #c5bccd,15px 15px 28px rgba(0,0,0,.10)}\n.game-seo-faq-question{list-style:none;width:100%;min-height:82px;padding:17px 22px;display:flex;align-items:center;justify-content:space-between;gap:18px;background:#fff;cursor:pointer;text-align:right}\n.game-seo-faq-question::-webkit-details-marker{display:none}\n.game-seo-faq-question::marker{display:none;content:""}\n.game-seo-faq-question-text{flex:1;color:#3b2e47;font-size:19px;line-height:1.7;font-weight:900}\n.game-seo-faq-icon{position:relative;width:48px;height:48px;min-width:48px;display:flex;align-items:center;justify-content:center;color:#62566e;background:#f0ecf3;border:2px solid #dcd4e2;border-radius:9px;box-shadow:3px 3px 0 #d2cad8;transition:.25s}\n.game-seo-faq-icon::before{content:"";position:absolute;top:50%;left:50%;width:10px;height:10px;border-top:3px solid currentColor;border-left:3px solid currentColor;transform:translate(-50%,-65%) rotate(225deg)}\n.game-seo-faq-item[open] .game-seo-faq-icon{color:#fff;background:#7c3aed;border-color:#4c1d95;box-shadow:3px 3px 0 #4c1d95}\n.game-seo-faq-item[open] .game-seo-faq-icon::before{transform:translate(-50%,-30%) rotate(45deg)}\n.game-seo-faq-answer{background:#fcfaff;border-top:2px dashed #e2dbe8}\n.game-seo-faq-answer p{margin:0;padding:20px 24px 24px;color:#706778;font-size:17px;line-height:2;font-weight:700}\n@media(max-width:559px){\n  .game-seo-faq-title{width:100%;padding:12px 18px;font-size:21px;box-shadow:4px 4px 0 #4c1d95,0 8px 18px rgba(76,29,149,.16)}\n  .game-seo-faq-question{min-height:70px;padding:14px;gap:11px}\n  .game-seo-faq-question-text{min-width:0;font-size:15px;line-height:1.6;overflow-wrap:anywhere}\n  .game-seo-faq-icon{width:40px;height:40px;min-width:40px}\n  .game-seo-faq-answer p{padding:17px 15px 19px;font-size:14px;line-height:1.9}\n}\n
+
+/* =====================================================
+   أسئلة صفحات الألعاب — نفس تصميم الأسئلة في الملف الأصلي
+===================================================== */
+
+.game-seo-faq-title{
+  position:relative;
+  width:max-content;
+  max-width:100%;
+  margin:34px auto 28px;
+  padding:14px 46px;
+  color:#fff;
+  background:linear-gradient(135deg,#3b0764,#7c3aed);
+  border:3px solid #4c1d95;
+  border-radius:15px;
+  font-size:28px;
+  font-weight:900;
+  text-align:center;
+  box-shadow:
+    6px 6px 0 #4c1d95,
+    0 12px 24px rgba(76,29,149,.18);
+}
+
+.game-seo-faq-title::after{
+  content:"";
+  position:absolute;
+  right:12px;
+  bottom:8px;
+  width:9px;
+  height:9px;
+  background:#facc15;
+  box-shadow:-17px 0 0 rgba(255,255,255,.45);
+}
+
+.game-seo-faq{
+  display:flex !important;
+  flex-direction:column;
+  gap:17px;
+  margin-top:0 !important;
+}
+
+.game-seo-faq-item{
+  overflow:hidden;
+  background:#fff;
+  border:3px solid #e5e0e8;
+  border-radius:17px;
+  box-shadow:
+    5px 5px 0 #d3ccd8,
+    11px 11px 24px rgba(0,0,0,.07);
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    border-color .2s ease;
+}
+
+.game-seo-faq-item:hover{
+  transform:translateY(-3px);
+  border-color:#cfc4dc;
+  box-shadow:
+    7px 7px 0 #c5bccd,
+    15px 15px 28px rgba(0,0,0,.10);
+}
+
+.game-seo-faq-question{
+  list-style:none;
+  width:100%;
+  min-height:82px;
+  padding:17px 22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  color:inherit;
+  background:#fff;
+  border:0;
+  outline:0;
+  cursor:pointer;
+  text-align:right;
+}
+
+.game-seo-faq-question::-webkit-details-marker{
+  display:none;
+}
+
+.game-seo-faq-question::marker{
+  content:"";
+}
+
+.game-seo-faq-question-text{
+  flex:1;
+  color:#3b2e47;
+  font-size:19px;
+  line-height:1.7;
+  font-weight:900;
+}
+
+.game-seo-faq-icon{
+  position:relative;
+  width:48px;
+  height:48px;
+  min-width:48px;
+  min-height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#62566e;
+  background:#f0ecf3;
+  border:2px solid #dcd4e2;
+  border-radius:9px;
+  box-shadow:3px 3px 0 #d2cad8;
+  transition:
+    transform .25s ease,
+    color .25s ease,
+    background .25s ease,
+    box-shadow .25s ease;
+}
+
+.game-seo-faq-icon::before{
+  content:"";
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:10px;
+  height:10px;
+  border-top:3px solid currentColor;
+  border-left:3px solid currentColor;
+  transform:translate(-50%,-65%) rotate(225deg);
+}
+
+.game-seo-faq-item[open] .game-seo-faq-icon{
+  color:#fff;
+  background:#7c3aed;
+  border-color:#4c1d95;
+  box-shadow:3px 3px 0 #4c1d95;
+}
+
+.game-seo-faq-item[open] .game-seo-faq-icon::before{
+  transform:translate(-50%,-30%) rotate(45deg);
+}
+
+.game-seo-faq-answer{
+  background:#fcfaff;
+  border-top:2px dashed #e2dbe8;
+}
+
+.game-seo-faq-answer p{
+  margin:0;
+  padding:20px 24px 24px;
+  color:#706778;
+  font-size:17px;
+  line-height:2;
+  font-weight:700;
+}
+
+@media (max-width:559px){
+  .game-seo-faq-title{
+    width:100%;
+    padding:12px 18px;
+    font-size:21px;
+    box-shadow:
+      4px 4px 0 #4c1d95,
+      0 8px 18px rgba(76,29,149,.16);
+  }
+
+  .game-seo-faq-question{
+    min-height:70px;
+    padding:14px;
+    gap:11px;
+  }
+
+  .game-seo-faq-question-text{
+    min-width:0;
+    font-size:15px;
+    line-height:1.6;
+    overflow-wrap:anywhere;
+  }
+
+  .game-seo-faq-icon{
+    width:40px;
+    height:40px;
+    min-width:40px;
+    min-height:40px;
+  }
+
+  .game-seo-faq-answer p{
+    padding:17px 15px 19px;
+    font-size:14px;
+    line-height:1.9;
+  }
+}
