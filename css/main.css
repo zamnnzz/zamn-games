@@ -3985,3 +3985,56 @@ body.player-open{
     right:calc(14px + env(safe-area-inset-right,0px)) !important;
   }
 }
+
+
+/* =====================================================
+   ZAMN PWA hard lock — game player must never reveal the parent site
+   when the mobile keyboard opens or the device rotates.
+===================================================== */
+html.player-open{
+  position:fixed !important;
+  inset:0 !important;
+  width:100% !important;
+  height:var(--zamn-viewport-height,100dvh) !important;
+  min-height:0 !important;
+  overflow:hidden !important;
+  overscroll-behavior:none !important;
+  background:#14081f !important;
+}
+
+html.player-open,
+html.player-open body,
+body.player-open{
+  touch-action:none;
+  -webkit-overflow-scrolling:auto;
+}
+
+html.player-open .game-player-overlay{
+  top:0 !important;
+  left:0 !important;
+  right:auto !important;
+  bottom:auto !important;
+  width:100vw !important;
+  height:var(--zamn-viewport-height,100dvh) !important;
+  min-height:var(--zamn-viewport-height,100dvh) !important;
+  max-height:var(--zamn-viewport-height,100dvh) !important;
+  overflow:hidden !important;
+  background:#14081f !important;
+  contain:layout paint size;
+}
+
+html.player-open #gameIframe{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  max-width:none !important;
+  max-height:none !important;
+  display:block !important;
+  background:#14081f !important;
+}
+
+/* Keep native input interaction inside the iframe; only the parent page is locked. */
+html.player-open .game-player-top{
+  touch-action:manipulation;
+}

@@ -1,24 +1,71 @@
 
 (() => {
 
-  // Keep fullscreen game/code overlays locked to the real mobile visual viewport.
-  function syncZamnViewportHeight(){
-    const h=Math.round((window.visualViewport && window.visualViewport.height) || window.innerHeight || document.documentElement.clientHeight || 0);
-    if(h>0) document.documentElement.style.setProperty("--zamn-viewport-height",h+"px");
-  }
+  // Stable mobile/PWA viewport:
+  // - keyboard resize must NOT shrink the game player and reveal the site behind it
+  // - orientation/fullscreen changes DO refresh the stable screen size after settling
   let zamnViewportTimers=[];
-  function settleZamnViewport(){
+  let zamnStableH=0;
+  let zamnStableW=0;
+  let zamnOrientationKey="";
+
+  function currentViewport(){
+    const vv=window.visualViewport;
+    return {
+      w:Math.round((vv && vv.width) || window.innerWidth || document.documentElement.clientWidth || 0),
+      h:Math.round((vv && vv.height) || window.innerHeight || document.documentElement.clientHeight || 0)
+    };
+  }
+
+  function orientationKey(){
+    const v=currentViewport();
+    return v.w>=v.h ? "landscape" : "portrait";
+  }
+
+  function applyStableViewport(force){
+    const v=currentViewport();
+    const key=orientationKey();
+
+    if(force || !zamnStableH || key!==zamnOrientationKey){
+      zamnOrientationKey=key;
+      zamnStableW=v.w;
+      zamnStableH=v.h;
+    }else{
+      // Width changes normally mean a real rotation/layout change.
+      // A large height-only drop is usually the on-screen keyboard: ignore it.
+      const widthChanged=Math.abs(v.w-zamnStableW)>40;
+      const heightGrew=v.h>zamnStableH;
+      if(widthChanged || heightGrew){
+        zamnStableW=v.w;
+        zamnStableH=v.h;
+      }
+    }
+
+    if(zamnStableH>0){
+      document.documentElement.style.setProperty("--zamn-viewport-height",zamnStableH+"px");
+    }
+  }
+
+  function settleZamnViewport(force){
     zamnViewportTimers.forEach(clearTimeout);
     zamnViewportTimers=[];
-    [0,60,160,320,650].forEach(ms=>zamnViewportTimers.push(setTimeout(syncZamnViewportHeight,ms)));
+    [0,70,180,360,700].forEach(ms=>{
+      zamnViewportTimers.push(setTimeout(()=>applyStableViewport(!!force),ms));
+    });
   }
-  syncZamnViewportHeight();
-  window.addEventListener("resize",settleZamnViewport,{passive:true});
-  window.addEventListener("orientationchange",settleZamnViewport,{passive:true});
-  document.addEventListener("fullscreenchange",settleZamnViewport);
+
+  applyStableViewport(true);
+
+  // Ordinary resize includes keyboard opening, so do not force a smaller height.
+  window.addEventListener("resize",()=>settleZamnViewport(false),{passive:true});
+
+  // Real orientation/fullscreen changes need a new stable baseline.
+  window.addEventListener("orientationchange",()=>settleZamnViewport(true),{passive:true});
+  document.addEventListener("fullscreenchange",()=>settleZamnViewport(true));
+
   if(window.visualViewport){
-    window.visualViewport.addEventListener("resize",settleZamnViewport,{passive:true});
-    window.visualViewport.addEventListener("scroll",syncZamnViewportHeight,{passive:true});
+    window.visualViewport.addEventListener("resize",()=>settleZamnViewport(false),{passive:true});
+    window.visualViewport.addEventListener("scroll",()=>applyStableViewport(false),{passive:true});
   }
 
   const GAMES = window.ZAMN_GAMES || [];
@@ -248,7 +295,7 @@
     const overlay=$("gamePlayerOverlay"), iframe=$("gameIframe");
     $("playingGameName").textContent=game.name;
     $("trialCounter").textContent="";
-    overlay.hidden=false; document.body.classList.add("player-open");
+    overlay.hidden=false; document.body.classList.add("player-open"); document.documentElement.classList.add("player-open"); settleZamnViewport(true);
     const playerTop = document.querySelector(".game-player-top");
     if(playerTop){
       playerTop.classList.remove("player-top-hidden");
@@ -272,7 +319,7 @@
     const playerTop=document.querySelector(".game-player-top");
     if(playerTop) playerTop.classList.remove("player-top-hidden");
     $("gameIframe").src="about:blank"; $("gamePlayerOverlay").hidden=true;
-    $("trialCounter").textContent=""; document.body.classList.remove("player-open");
+    $("trialCounter").textContent=""; document.body.classList.remove("player-open"); document.documentElement.classList.remove("player-open"); settleZamnViewport(true);
     updatePresence();
   }
 
