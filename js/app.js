@@ -183,6 +183,37 @@ function openGame(game,push=true){
   setText("detailPlayers",game.players || "٢+ لاعبين");
   setText("detailCategory",game.category || game.badge || "لعبة جماعية");
   setText("detailStatus",game.status || "متاحة الآن");
+
+  // تقييم صفحة اللعبة فقط — لا يغيّر تقييم بطاقات الصفحة الرئيسية.
+  const PAGE_RATINGS = {
+    "horof-bell":"5",
+    "horof":"5",
+    "photos-1":"4.7",
+    "photos-2":"5",
+    "photos-3":"5",
+    "family-feud":"5",
+    "fawazeer":"5"
+  };
+  const infoRow=document.querySelector("#gameView .retro-info-row");
+  let detailRating=document.getElementById("detailRating");
+  const pageRating=PAGE_RATINGS[game.slug] || "";
+  if(infoRow){
+    if(pageRating){
+      if(!detailRating){
+        detailRating=document.createElement("div");
+        detailRating.id="detailRating";
+        detailRating.className="retro-info-card retro-rating-card";
+        infoRow.appendChild(detailRating);
+      }
+      detailRating.textContent=`★ ${pageRating}`;
+      detailRating.setAttribute("aria-label",`تقييم اللعبة ${pageRating} من 5`);
+      detailRating.hidden=false;
+      infoRow.classList.add("has-rating");
+    }else{
+      if(detailRating) detailRating.remove();
+      infoRow.classList.remove("has-rating");
+    }
+  }
   const play=document.getElementById("gamePlayBtn");
   const buy=document.getElementById("gameBuyBtn");
   const trial=document.getElementById("gameTrialBtn");
