@@ -97,8 +97,21 @@ function setSEO(game){
   setText("gameSeoHowText",p.how||"ابدأ اللعبة من المتصفح واتبع التعليمات الظاهرة على الشاشة.");
   const kw=document.getElementById("gameSeoKeywords");
   if(kw){kw.innerHTML="";(p.keywords||[]).forEach(x=>{const s=document.createElement("span");s.textContent=x;kw.appendChild(s);});}
+  const fqTitle=document.getElementById("gameSeoFaqTitle");
+  if(fqTitle) fqTitle.textContent=`الأسئلة الشائعة حول ${game.name}`;
   const fq=document.getElementById("gameSeoFaq");
-  if(fq){fq.innerHTML="";(p.faq||[]).forEach(([q,a])=>{const article=document.createElement("article");const h=document.createElement("h3");const t=document.createElement("p");h.textContent=q;t.textContent=a;article.append(h,t);fq.appendChild(article);});}
+  if(fq){
+    fq.innerHTML="";
+    (p.faq||[]).forEach(([q,a])=>{
+      const details=document.createElement("details"); details.className="game-seo-faq-item";
+      const summary=document.createElement("summary"); summary.className="game-seo-faq-question";
+      const text=document.createElement("span"); text.className="game-seo-faq-question-text"; text.textContent=q;
+      const icon=document.createElement("span"); icon.className="game-seo-faq-icon"; icon.setAttribute("aria-hidden","true");
+      const answer=document.createElement("div"); answer.className="game-seo-faq-answer";
+      const para=document.createElement("p"); para.textContent=a;
+      summary.append(text,icon); answer.appendChild(para); details.append(summary,answer); fq.appendChild(details);
+    });
+  }
 }
 function resetSEO(){
   document.title=homeTitle;
