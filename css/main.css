@@ -4038,3 +4038,15 @@ html.player-open #gameIframe{
 html.player-open .game-player-top{
   touch-action:manipulation;
 }
+
+/* SEO semantic parity for static game routes */
+.hero-copy > h2.seo-home-heading{margin:0 0 16px;font-size:52px;line-height:1.1;font-weight:900}
+.game-seo-content{margin-top:26px}
+.game-seo-content .seo-copy{max-width:900px;margin:0 auto;color:#5b5563;font-size:16px;line-height:2;text-align:right}
+.game-seo-keywords{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:16px}
+.game-seo-keywords span{background:#f3ecff;color:#5b21b6;border:1px solid #e5d5ff;border-radius:999px;padding:6px 11px;font-size:12px;font-weight:800}
+.game-seo-faq{margin-top:22px;display:grid;gap:10px}
+.game-seo-faq article{background:#fff;border:1px solid #eadcff;border-radius:14px;padding:14px 16px}
+.game-seo-faq h3{margin:0 0 6px;color:#3b0764;font-size:16px}
+.game-seo-faq p{margin:0;color:#6b7280;line-height:1.9}
+@media(max-width:560px){.hero-copy > h2.seo-home-heading{font-size:34px}.game-seo-content .seo-copy{font-size:14px}}
