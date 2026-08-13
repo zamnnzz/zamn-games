@@ -81,7 +81,7 @@ body{overflow-x:hidden}
 
 
 /* =====================================================
-   شبكة الألعاب الجديدة: 2 ثم 3 ثم 4
+   شبكة الالعاب الجديدة: 2 ثم 3 ثم 4
 ===================================================== */
 .games-section{
   max-width:1240px;
@@ -176,7 +176,7 @@ body{overflow-x:hidden}
 
 
 /* =====================================================
-   V5 - فرز الألعاب وإصلاح البطاقات نهائياً
+   V5 - فرز الالعاب وإصلاح البطاقات نهائياً
 ===================================================== */
 .games-section{max-width:1280px;margin:0 auto;padding:36px 24px 84px;overflow:visible}
 .game-category{width:100%;margin:0 auto 58px}
@@ -339,7 +339,7 @@ body.game-mode #gameView .game-footer{display:block!important}
   .retro-shot,.retro-shot div{min-height:215px}.other-game-image{font-size:58px}.other-game-card h3{font-size:18px}
 }
 
-/* V8 - بيانات الألعاب الحقيقية وصورها */
+/* V8 - بيانات الالعاب الحقيقية وصورها */
 .game-card-image{width:100%;height:100%;object-fit:cover;transition:transform .25s ease}
 .games-row .game-card:hover .game-card-image{transform:scale(1.025)}
 .retro-shot{padding:0;overflow:hidden;background:#fff}
@@ -433,7 +433,7 @@ body:not(.game-mode) .game-btn:active{
 
 
 /* =====================================================
-   شبكة الألعاب
+   شبكة الالعاب
 ===================================================== */
 
 .games-grid{
@@ -638,7 +638,7 @@ body:not(.game-mode) .game-btn:active{
 
 
 /* =====================================================
-   وسوم الألعاب
+   وسوم الالعاب
 ===================================================== */
 
 .game-tags{
@@ -757,7 +757,7 @@ body:not(.game-mode) .game-btn:active{
 
 
 /* =====================================================
-   الحل النهائي لبطاقات الألعاب على الجوال
+   الحل النهائي لبطاقات الالعاب على الجوال
    بطاقتان بجانب بعض + صورة بلا تمطيط + بطاقة غير طويلة
 ===================================================== */
 
@@ -899,7 +899,7 @@ body.horof-bell-mode #gameBackBtn{
 
 
 /* =====================================================
-   بطاقات الألعاب — من المشروع القديم
+   بطاقات الالعاب — من المشروع القديم
 ===================================================== */
 body:not(.game-mode) .game-card{
   position:relative;
@@ -1443,7 +1443,7 @@ body:not(.game-mode) .game-btn:active{
 }
 
 /* =====================================================
-   الحساب / الرموز / المكتبة / مشغل الألعاب
+   الحساب / الرموز / المكتبة / مشغل الالعاب
 ===================================================== */
 .z-modal[hidden],.game-player-overlay[hidden],.z-message[hidden]{display:none!important}
 .z-modal{position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(31,18,45,.82);backdrop-filter:blur(8px)}
@@ -2034,7 +2034,7 @@ body.horof-bell-mode .horof-bell-hero-visual img{
 }
 
 /* =====================================================
-   V21 — صفحة ألعابي / التسجيل: مطابقة أقرب للمشروع القديم
+   V21 — صفحة العابي / التسجيل: مطابقة أقرب للمشروع القديم
 ===================================================== */
 .player-login-overlay{
   background:#f7f5fb !important;
@@ -3687,7 +3687,7 @@ body.horof-bell-mode .horof-step p{
   transform:translateY(-1px) rotate(-2deg);
 }
 
-/* أيقونة تطبيق ألعاب زامن داخل نافذة الإضافة */
+/* أيقونة تطبيق العاب زامن داخل نافذة الإضافة */
 .home-screen-tip-app-icon{
   width:76px;
   height:76px;
@@ -3785,13 +3785,13 @@ main{
 ===================================================== */
 @media (max-width: 760px){
 
-  /* زر ألعابي / تسجيل الدخول في الرئيسية */
+  /* زر العابي / تسجيل الدخول في الرئيسية */
   .login-float{
     top:calc(env(safe-area-inset-top, 0px) + 12px) !important;
     left:10px !important;
   }
 
-  /* شريط الرجوع في واجهة تفاصيل الألعاب القديمة */
+  /* شريط الرجوع في واجهة تفاصيل الالعاب القديمة */
   .game-view-topbar{
     padding-top:calc(env(safe-area-inset-top, 0px) + 12px) !important;
     padding-left:14px !important;
@@ -3842,12 +3842,12 @@ main{
 ===================================================== */
 @media (max-width: 760px){
 
-  /* الرئيسية: اترك مساحة تحت زر ألعابي */
+  /* الرئيسية: اترك مساحة تحت زر العابي */
   #homeHero .hero-inner{
     padding-top:calc(env(safe-area-inset-top, 0px) + 58px) !important;
   }
 
-  /* صفحات الألعاب: اترك مساحة تحت شريط الرجوع/الرئيسية */
+  /* صفحات الالعاب: اترك مساحة تحت شريط الرجوع/الرئيسية */
   .retro-game-shell,
   .retro-game-header,
   .game-view-content{
@@ -4059,7 +4059,7 @@ html.player-open .game-player-top{
 @media(max-width:560px){.hero-copy > h2.seo-home-heading{font-size:34px}.game-seo-content .seo-copy{font-size:14px}}
 
 /* =====================================================
-   أسئلة صفحات الألعاب — نفس تصميم الأسئلة في الملف الأصلي
+   أسئلة صفحات الالعاب — نفس تصميم الأسئلة في الملف الأصلي
 ===================================================== */
 
 .game-seo-faq-title{
@@ -4422,7 +4422,7 @@ html.player-open .game-player-top{
   }
 }
 
-/* 2026-08-13 — إظهار FAQ صفحات الألعاب بنفس تصميم حروف مع الجرس فقط */
+/* 2026-08-13 — إظهار FAQ صفحات الالعاب بنفس تصميم حروف مع الجرس فقط */
 body.game-mode .game-seo-content,
 body.game-mode .game-seo-faq-title,
 body.game-mode .game-seo-faq{
