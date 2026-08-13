@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Top 10 — شاشة العرض</title>
+<link rel="stylesheet" href="/assets/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+<div class="stars"></div>
+
+<main class="display-app">
+  <!-- 1 setup -->
+  <section id="setupScreen" class="screen active">
+    <a class="setup-exit-btn" href="https://zamn-games.vercel.app/" aria-label="خروج">خروج</a>
+    <div class="panel setup-panel">
+      <div class="logo-small">TOP <span>10</span></div>
+      <span class="eyebrow">التجهيز</span>
+      <h1>جهّز اللعبة</h1>
+      <p class="muted">اكتب أسماء الفريقين، اختر الثيم، وحدد عدد الجولات.</p>
+
+      <section class="theme-picker">
+        <div class="theme-title"><b>اختر شكل اللعبة</b><small>الثيم ينتقل تلقائياً لشاشة الهوست</small></div>
+        <div id="themeChoices" class="theme-choices">
+          <button class="theme-choice active" data-theme="night">
+            <span class="theme-preview night-preview"><i></i><i></i><i></i></span>
+            <b>ليلي بنفسجي</b>
+          </button>
+          <button class="theme-choice" data-theme="sunset">
+            <span class="theme-preview sunset-preview"><i></i><i></i><i></i></span>
+            <b>بيج وبرتقالي</b>
+          </button>
+          <button class="theme-choice" data-theme="mint">
+            <span class="theme-preview mint-preview"><i></i><i></i><i></i></span>
+            <b>نعناعي سماوي</b>
+          </button>
+        </div>
+      </section>
+
+      <div class="team-grid">
+        <label class="team-box blue">
+          <b>الفريق الأول</b>
+          <input id="team1" maxlength="18" placeholder="مثال: الصقور">
+        </label>
+        <label class="team-box green">
+          <b>الفريق الثاني</b>
+          <input id="team2" maxlength="18" placeholder="مثال: الذئاب">
+        </label>
+      </div>
+
+      <div class="round-box">
+        <div><b>عدد الجولات</b><small>كل جولة = فئة واحدة</small></div>
+        <div id="roundBtns" class="round-btns">
+          <button data-n="2">2</button>
+          <button data-n="4" class="active">4</button>
+          <button data-n="6">6</button>
+          <button data-n="8">8</button>
+        </div>
+      </div>
+
+      <button id="toCategories" class="primary">التالي: اختيار الفئات ←</button>
+    </div>
+  </section>
+
+  <!-- 2 draft categories -->
+  <section id="categoryScreen" class="screen">
+    <div class="panel wide">
+      <span class="eyebrow">اختيار الجولات</span>
+      <h1 id="pickTitle">الدور على الفريق</h1>
+      <p id="pickHint" class="muted"></p>
+
+      <div class="progress"><i id="pickProgress"></i></div>
+      <div id="categories" class="category-grid"></div>
+
+      <div class="picks-area">
+        <div>
+          <b id="p1Title"></b>
+          <div id="p1Picks" class="chips"></div>
+        </div>
+        <div>
+          <b id="p2Title"></b>
+          <div id="p2Picks" class="chips"></div>
+        </div>
+      </div>
+
+      <button id="finishSetup" class="primary center hidden">إنهاء التجهيز وإظهار الهوست ←</button>
+    </div>
+  </section>
+
+  <!-- 3 pairing host -->
+  <section id="pairScreen" class="screen">
+    <div class="pair-panel">
+      <span class="eyebrow">ربط جهاز التحكم</span>
+      <h1>امسح الباركود من جهاز الهوست</h1>
+      <p class="muted">كل شيء جاهز. افتح الرابط في جوال أو لابتوب المقدم، وبعدها يبدأ اللعب من هناك.</p>
+
+      <div class="qr-shell"><div id="qr"></div></div>
+
+      <div class="session-code">كود الجلسة: <strong id="sessionCode"></strong></div>
+
+      <div class="link-box">
+        <span>رابط الهوست</span>
+        <code id="hostLink"></code>
+      </div>
+
+      <button id="copyHostLink" class="copy-btn">📋 نسخ رابط الهوست</button>
+      <div id="pairStatus" class="pair-status">ننتظر دخول الهوست...</div>
+
+      <section id="liveRedraftView" class="live-redraft-view hidden">
+        <span class="live-redraft-kicker">اختيار الفئات للجولة الجديدة</span>
+        <h2 id="liveRedraftTurn"></h2>
+        <p id="liveRedraftProgress" class="muted"></p>
+
+        <div class="live-redraft-teams">
+          <div class="live-redraft-team team-one">
+            <b id="liveRedraftTeam1Name"></b>
+            <div id="liveRedraftTeam1Picks" class="live-redraft-picks"></div>
+          </div>
+          <div class="live-redraft-team team-two">
+            <b id="liveRedraftTeam2Name"></b>
+            <div id="liveRedraftTeam2Picks" class="live-redraft-picks"></div>
+          </div>
+        </div>
+
+        <div id="liveLatestPick" class="live-latest-pick hidden">
+          <span>آخر اختيار</span>
+          <strong id="liveLatestPickText"></strong>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <!-- 4 actual game -->
+  <section id="gameScreen" class="screen">
+    <div class="game-panel">
+      <header class="scorebar">
+        <div id="scoreCard1" class="score-card blue">
+          <span id="name1"></span><b id="score1">0</b>
+          <small class="strike-mini">❌ <strong id="strikes1">0/3</strong></small>
+        </div>
+        <div class="round-center">
+          <span id="roundCountText"></span>
+          <strong id="categoryName"></strong>
+        </div>
+        <div id="scoreCard2" class="score-card green">
+          <span id="name2"></span><b id="score2">0</b>
+          <small class="strike-mini">❌ <strong id="strikes2">0/3</strong></small>
+        </div>
+      </header>
+
+      <section class="question-area">
+        <span id="ownerLabel" class="owner-label"></span>
+        <h1 id="questionText"></h1>
+        <div id="activeHintBox" class="active-hint hidden">
+          <span>💡 التلميحات المستخدمة</span>
+          <div id="activeHintsList" class="targeted-hints-list"></div>
+        </div>
+      </section>
+
+      <section id="answerBoard" class="answers"></section>
+
+      <div class="turn-line">الدور على: <strong id="turnName"></strong></div>
+
+      <div id="suspenseFx" class="suspense-fx hidden" aria-live="polite">
+        <div id="suspenseStage" class="suspense-stage">
+          <span class="suspense-label">كم نقطة؟</span>
+          <strong id="suspenseNumber">1</strong>
+          <small>...</small>
+        </div>
+        <div id="suspenseResult" class="suspense-result hidden">
+          <div id="suspenseResultIcon" class="suspense-result-icon">✓</div>
+          <b id="suspenseResultText"></b>
+          <span id="suspenseResultPoints"></span>
+        </div>
+      </div>
+
+      <div id="revealFx" class="reveal-fx hidden">
+        <div class="spark">✨</div>
+        <b id="revealAnswerText"></b>
+        <span id="revealAnswerPoints"></span>
+      </div>
+      <div id="wrongFx" class="wrong-fx hidden">✕ مو موجودة!</div>
+      <div id="hintEarnedFx" class="hint-earned-fx hidden">
+        <div class="hint-bulb">💡</div>
+        <b>تم الحصول على تلميح!</b>
+        <span id="hintEarnedTeam"></span>
+      </div>
+      <div id="hintUsedFx" class="hint-used-fx hidden">
+        <div class="hint-bulb">💡</div>
+        <b>التلميح</b>
+        <span id="hintUsedText"></span>
+      </div>
+    </div>
+  </section>
+
+  <section id="finishScreen" class="screen">
+    <div class="finish-panel winner-panel">
+      <div class="winner-confetti" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        <i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+
+      <div class="winner-top">
+        <span class="winner-kicker">انتهت اللعبة</span>
+        <div class="winner-trophy-wrap">
+          <span class="winner-rays"></span>
+          <div class="trophy winner-trophy">🏆</div>
+        </div>
+        <div id="winnerCrown" class="winner-crown">👑</div>
+        <h1 id="winnerText"></h1>
+        <p id="winnerSubtitle" class="winner-subtitle">مبروك للفريق الفائز!</p>
+      </div>
+
+      <div class="winner-scoreboard">
+        <div id="finalTeam1Card" class="winner-team-card team-one">
+          <span class="winner-team-label">الفريق الأول</span>
+          <b id="finalTeam1Name"></b>
+          <strong id="finalTeam1Score">0</strong>
+          <small>نقطة</small>
+        </div>
+
+        <div class="winner-vs">
+          <span>النتيجة النهائية</span>
+          <b>VS</b>
+        </div>
+
+        <div id="finalTeam2Card" class="winner-team-card team-two">
+          <span class="winner-team-label">الفريق الثاني</span>
+          <b id="finalTeam2Name"></b>
+          <strong id="finalTeam2Score">0</strong>
+          <small>نقطة</small>
+        </div>
+      </div>
+
+      <p id="finalScore" class="winner-score-text"></p>
+    </div>
+  </section>
+</main>
+
+<script type="module" src="/assets/display.js"></script>
+</body>
+</html>
