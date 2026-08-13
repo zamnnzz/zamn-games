@@ -3375,6 +3375,13 @@ body.horof-bell-mode .horof-bell-hero-visual img{
   max-height:36px;
 }
 
+/* ضبط سماعة واتساب داخل الدائرة بدون تغيير بقية التصميم */
+.footer-contact-old-whatsapp svg path:nth-child(2){
+  transform-box:fill-box;
+  transform-origin:center;
+  transform:scale(.91);
+}
+
 @media(max-width:760px){
   .footer-contact-old{
     text-align:center;
