@@ -4421,3 +4421,15 @@ html.player-open .game-player-top{
     gap:8px;
   }
 }
+
+/* 2026-08-13 — إظهار FAQ صفحات الألعاب بنفس تصميم حروف مع الجرس فقط */
+body.game-mode .game-seo-content,
+body.game-mode .game-seo-faq-title,
+body.game-mode .game-seo-faq{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+}
+body.game-mode .game-seo-faq{
+  display:flex !important;
+}
