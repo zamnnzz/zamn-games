@@ -241,7 +241,7 @@
       if(!target)return;
       target.innerHTML="";
       if(!owned.length){
-        target.innerHTML='<div class="z-empty">لا توجد ألعاب محفوظة في حسابك حتى الآن.</div>';
+        target.innerHTML='<div class="z-empty">لا توجد العاب محفوظة في حسابك حتى الآن.</div>';
         return;
       }
       owned.forEach(g=>{
