@@ -69,6 +69,7 @@
   }
 
   const GAMES = window.ZAMN_GAMES || [];
+  const gamePath=g=>g?.path||("/game/"+g.slug);
   const CFG = window.ZAMN_FIREBASE_CONFIG || {};
   const countries = [
     {name:"السعودية",flag:"🇸🇦",code:"966",length:9},{name:"الإمارات",flag:"🇦🇪",code:"971",length:9},
@@ -313,7 +314,7 @@
       }
       owned.forEach(g=>{
         const a=document.createElement("a");
-        a.href="/game/"+g.slug;
+        a.href=gamePath(g);
         if(oldStyle){
           a.className="player-library-game";
           a.innerHTML=`<div class="player-library-image-wrap"><img class="player-library-image" src="${g.image}" alt=""></div><div class="player-library-game-info"><h4>${g.name}</h4><p>لعبة محفوظة في حسابك</p></div><span class="player-library-open">فتح</span>`;
@@ -433,17 +434,19 @@
     });
 
     $("ownedGamesInline")?.addEventListener("click",(e)=>{
-      const link=e.target.closest("a[href^='/game/']");
+      const link=e.target.closest("a[href]");
       if(!link)return;
+      const href=link.getAttribute("href");
+      const normalized=(href||"").replace(/\/$/,"")||"/";
+      const game=GAMES.find(g=>gamePath(g).replace(/\/$/,"")===normalized);
+      if(!game)return;
       e.preventDefault();
       modal("accountModal",false);
-      history.pushState({},"",link.getAttribute("href"));
-      const slug=link.getAttribute("href").replace(/^\/game\//,"").replace(/\/$/,"");
-      const game=GAMES.find(g=>g.slug===slug);
-      if(game && typeof window.openGame==="function"){
+      history.pushState({},"",href);
+      if(typeof window.openGame==="function"){
         window.openGame(game,false);
       }else{
-        window.location.href=link.getAttribute("href");
+        window.location.href=href;
       }
     });
     $("verifyCodeBtn")?.addEventListener("click",verifyCode);

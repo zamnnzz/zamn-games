@@ -14,7 +14,7 @@ function renderSeoRelated(game){
     if(!g)return;
     const a=document.createElement("a");
     a.className="seo-related-card";
-    a.href="/game/"+g.slug;
+    a.href=gamePath(g);
     a.innerHTML=`<img src="${g.image}" alt="${g.name}" loading="lazy" decoding="async"><span>${g.name}</span>`;
     gamesBox.appendChild(a);
   });
@@ -48,6 +48,11 @@ function setPageIcon(iconUrl){
 
 const GAMES = window.ZAMN_GAMES || [];
 const bySlug = slug => GAMES.find(g => g.slug === slug);
+const gamePath = game => game?.path || `/game/${game.slug}`;
+const gameByPath = pathname => {
+  const normalized=(pathname||"/").replace(/\/$/,"") || "/";
+  return GAMES.find(g=>gamePath(g).replace(/\/$/,"")===normalized) || null;
+};
 const homeTitle = document.title;
 const pageDescription = document.getElementById("pageDescription");
 const canonicalLink = document.getElementById("canonicalLink");
@@ -68,7 +73,7 @@ function setText(id, value){
 }
 function setSEO(game){
   const p=ZAMN_SEO_PROFILES[game.slug]||{};
-  const url=`https://zamn.games/game/${game.slug}`;
+  const url=`https://zamn.games${gamePath(game)}`;
   document.title=p.title||game.seoTitle||`${game.name} | العاب زامن`;
   if(pageDescription) pageDescription.setAttribute("content",p.desc||game.seoDescription||game.description||"");
   if(canonicalLink) canonicalLink.setAttribute("href",url);
@@ -170,7 +175,7 @@ function renderOtherGames(game){
   GAMES.filter(g=>g.slug!==game.slug).forEach(g=>{
     const a=document.createElement("a");
     a.className="other-game-card";
-    a.href=`/game/${g.slug}`;
+    a.href=gamePath(g);
     a.dataset.slug=g.slug;
     a.innerHTML=`<div class="other-game-image"><img src="${g.image}" alt="${g.name}" loading="lazy" decoding="async"></div><h3></h3>`;
     a.querySelector("h3").textContent=g.name;
@@ -253,7 +258,7 @@ function openGame(game,push=true){
   document.body.classList.add("game-mode");
   gameView.hidden=false;
   window.scrollTo({top:0,behavior:"auto"});
-  if(push) history.pushState({view:"game",slug:game.slug},"",`/game/${game.slug}`);
+  if(push) history.pushState({view:"game",slug:game.slug},"",gamePath(game));
 }
 window.openGame = openGame;
 
@@ -277,10 +282,11 @@ function closeGame(push=true){
   if(push) history.pushState({view:"home"},"","/");
 }
 document.addEventListener("click",e=>{
-  const link=e.target.closest('a[href^="/game/"]');
+  const link=e.target.closest('a[href]');
   if(!link)return;
-  const slug=link.getAttribute("href").replace(/^\/game\//,"").replace(/\/$/,"");
-  const game=bySlug(slug);
+  const href=link.getAttribute("href");
+  if(!href || !href.startsWith("/"))return;
+  const game=gameByPath(href.split("?")[0].split("#")[0]);
   if(!game)return;
   e.preventDefault();
   openGame(game,true);
@@ -300,20 +306,16 @@ if(faqMoreBtn){
 }
 
 window.addEventListener("popstate",(event)=>{
-  const m=location.pathname.match(/^\/game\/([^/]+)\/?$/);
-  if(m){
-    const g=bySlug(decodeURIComponent(m[1]));
-    if(g) openGame(g,false); else closeGame(false);
-    return;
-  }
+  const pathGame=gameByPath(location.pathname);
+  if(pathGame){ openGame(pathGame,false); return; }
   if(event.state && event.state.view==="game" && event.state.slug){
     const g=bySlug(event.state.slug);
     if(g){ openGame(g,false); return; }
   }
   closeGame(false);
 });
-const initial=location.pathname.match(/^\/game\/([^/]+)\/?$/);
-if(initial){ const g=bySlug(decodeURIComponent(initial[1])); if(g) openGame(g,false); }
+const initialGame=gameByPath(location.pathname);
+if(initialGame) openGame(initialGame,false);
 
 let lightbox;
 function openLightbox(src,alt){
@@ -332,7 +334,7 @@ function openLightbox(src,alt){
 
 document.addEventListener("DOMContentLoaded",()=>{
   const path=window.location.pathname;
-  if(!/^\/game\//.test(path)){
+  if(!gameByPath(path)){
     setPageIcon("https://zamn.games/favicon.png?v=10");
   }
 });
