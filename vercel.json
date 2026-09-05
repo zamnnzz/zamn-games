@@ -11,6 +11,15 @@
       ]
     },
     {
+      "source": "/game/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow, noarchive"
+        }
+      ]
+    },
+    {
       "source": "/games/(.*)",
       "headers": [
         {
@@ -81,63 +90,6 @@
           "value": "no-cache, must-revalidate"
         }
       ]
-    }
-  ],
-  "redirects": [
-    {
-      "source": "/game/horof",
-      "destination": "/hrof",
-      "permanent": true
-    },
-    {
-      "source": "/game/photos-2",
-      "destination": "/thdi",
-      "permanent": true
-    },
-    {
-      "source": "/game/photos-3",
-      "destination": "/thdi",
-      "permanent": true
-    },
-    {
-      "source": "/game/horof-bell",
-      "destination": "/hrof",
-      "permanent": true
-    },
-    {
-      "source": "/game/photos-1",
-      "destination": "/thdi",
-      "permanent": true
-    },
-    {
-      "source": "/game/family-feud",
-      "destination": "/family",
-      "permanent": true
-    },
-    {
-      "source": "/game/fawazeer",
-      "destination": "/fwzr",
-      "permanent": true
-    },
-    {
-      "source": "/game/guess-link",
-      "destination": "/link",
-      "permanent": true
-    },
-    {
-      "source": "/game/alatrash",
-      "destination": "/atrsh",
-      "permanent": true
-    },
-    {
-      "source": "/game/top-ten",
-      "destination": "/top10",
-      "permanent": true
-    },
-    {
-      "source": "/game/mn-ana",
-      "destination": "/mnana",
-      "permanent": true
     }
   ]
 }
