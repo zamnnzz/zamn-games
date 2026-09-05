@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>إدارة نشاط الزوار | زامن</title>
+<style>
+:root{font-family:Tajawal,system-ui,-apple-system,sans-serif;color:#2f1457;background:#f5f1ff}*{box-sizing:border-box}body{margin:0;padding:24px}.wrap{max-width:1100px;margin:auto}.card{background:#fff;border:1px solid #eadcff;border-radius:18px;padding:18px;box-shadow:0 10px 30px rgba(80,30,120,.08);margin-bottom:16px}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}input,button,select{font:inherit;border-radius:12px;padding:11px 13px;border:1px solid #d8c7f3}input{flex:1;min-width:220px}button{background:#6d28d9;color:#fff;border:0;font-weight:800;cursor:pointer}.muted{color:#6b7280}.hidden{display:none}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}.stat{background:#faf8ff;border-radius:14px;padding:14px}.stat b{display:block;font-size:24px}.sessions{display:grid;gap:10px}.session{border:1px solid #eee3ff;border-radius:14px;padding:13px;background:#fff}.events{margin-top:10px;padding-right:18px;display:grid;gap:7px}.event{border-right:3px solid #c4b5fd;padding-right:10px}.event small{color:#6b7280}.warn{background:#fff7ed;color:#9a3412;border-color:#fed7aa}code{direction:ltr;display:inline-block}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>نشاط الزوار</h1>
+  <div class="card warn">هذه الصفحة تعرض مسار الجلسات والضغطات فقط. لا تسجل كلمات المرور أو أرقام الجوال أو رموز الألعاب أو محتوى الحقول، ولا تسجل فيديو للشاشة.</div>
+  <section id="loginCard" class="card">
+    <h2>دخول الإدارة</h2>
+    <div class="row"><input id="email" type="email" placeholder="بريد مدير Firebase"><input id="password" type="password" placeholder="كلمة المرور"><button id="login">دخول</button></div>
+    <p id="loginMsg" class="muted">يتطلب تفعيل Firebase Authentication (Email/Password) وحساب مدير، مع قواعد Database تمنع قراءة analytics لغير المدير.</p>
+  </section>
+  <section id="dashboard" class="hidden">
+    <div class="row" style="justify-content:space-between"><div><h2>آخر الجلسات</h2><p class="muted">تحديث مباشر من Firebase</p></div><button id="logout">خروج</button></div>
+    <div class="card stats"><div class="stat"><span>الجلسات المعروضة</span><b id="sessionCount">0</b></div><div class="stat"><span>الضغطات</span><b id="clickCount">0</b></div><div class="stat"><span>مشاهدات الصفحات</span><b id="pageCount">0</b></div></div>
+    <div class="card"><div class="row"><label>عدد الجلسات <select id="limit"><option>20</option><option>50</option><option>100</option></select></label><button id="refresh">تحديث</button></div></div>
+    <div id="sessions" class="sessions"></div>
+  </section>
+</div>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<script src="/js/games.js"></script>
+<script>
+(function(){
+  const cfg=window.ZAMN_FIREBASE_CONFIG||{};
+  if(!firebase.apps.length) firebase.initializeApp(cfg);
+  const auth=firebase.auth(), db=firebase.database();
+  const $=id=>document.getElementById(id);
+  const fmt=t=>t?new Date(t).toLocaleString('ar-SA'):'';
+  function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  async function load(){
+    const lim=Number($('limit').value)||20;
+    const snap=await db.ref('analytics/sessionEvents').limitToLast(lim).get();
+    const data=snap.val()||{};
+    const sessions=Object.entries(data).map(([id,eventsObj])=>{
+      const events=Object.values(eventsObj||{}).sort((a,b)=>(a.at||0)-(b.at||0));
+      return {id,events,last:events.at(-1)?.at||0};
+    }).sort((a,b)=>b.last-a.last);
+    let clicks=0,pages=0;
+    $('sessions').innerHTML=sessions.map(s=>{
+      s.events.forEach(e=>{if(e.type==='click')clicks++; if(e.type==='pageview')pages++;});
+      const first=s.events[0]||{};
+      return `<article class="session"><div><b>جلسة ${esc(s.id.slice(-8))}</b> <span class="muted">${esc(fmt(s.last))}</span></div><div class="muted">زائر: ${esc((first.visitorId||'').slice(-10))}</div><div class="events">${s.events.map(e=>`<div class="event"><b>${esc(e.type==='click'?'ضغطة':e.type==='pageview'?'فتح صفحة':'تنقل')}</b> — ${esc(e.path||'')} ${e.target?`<br><small>${esc(e.target)}</small>`:''}<br><small>${esc(fmt(e.at))} ${esc(e.viewport||'')}</small></div>`).join('')}</div></article>`;
+    }).join('') || '<div class="card muted">لا توجد بيانات جلسات حتى الآن.</div>';
+    $('sessionCount').textContent=sessions.length; $('clickCount').textContent=clicks; $('pageCount').textContent=pages;
+  }
+  $('login').onclick=async()=>{try{await auth.signInWithEmailAndPassword($('email').value.trim(),$('password').value);$('loginMsg').textContent='تم الدخول';}catch(e){$('loginMsg').textContent=e.message||'تعذر الدخول';}};
+  $('logout').onclick=()=>auth.signOut(); $('refresh').onclick=()=>load().catch(e=>alert(e.message||e));
+  auth.onAuthStateChanged(user=>{ $('loginCard').classList.toggle('hidden',!!user); $('dashboard').classList.toggle('hidden',!user); if(user) load().catch(e=>alert('تعذر قراءة analytics. تأكد من قواعد Firebase: '+(e.message||e))); });
+})();
+</script>
+</body>
+</html>

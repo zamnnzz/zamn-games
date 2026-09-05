@@ -121,10 +121,26 @@
   }
 
   function normalizeCode(v){ return normalizeDigits(v); }
+  const LEGACY_PHOTO_CODES = ["1850","17007"];
+  const NEW_PHOTO_CODE = "116677";
+
+  async function migrateLegacyPhotoOwnership(p){
+    // Safe migration only: old parts 2 and 3 had unique codes.
+    // The historical part-1 code 1950 overlaps with the current Horof code,
+    // so it cannot be migrated automatically without granting the new game
+    // to unrelated Horof owners.
+    const hasLegacy = LEGACY_PHOTO_CODES.some(code => ownedCodes.includes(code));
+    if(!hasLegacy || ownedCodes.includes(NEW_PHOTO_CODE)) return false;
+    await db.ref("customers/"+p+"/games/"+NEW_PHOTO_CODE).set(true);
+    ownedCodes.push(NEW_PHOTO_CODE);
+    return true;
+  }
+
   async function loadOwnedGames(p){
     await ensureFirebase();
     const snap=await db.ref("customers/"+p+"/games").get();
     ownedCodes=Object.keys(snap.val()||{});
+    try{ await migrateLegacyPhotoOwnership(p); }catch(e){ console.warn("legacy photo migration",e); }
     renderLibrary();
     return ownedCodes;
   }
@@ -159,6 +175,57 @@
       await db.ref().update(u);
       await updatePresence(game,entryType);
     }catch(e){ console.warn("analytics",e); }
+  }
+
+  function getAnalyticsVisitorId(){
+    let visitorId=localStorage.getItem("zamnVisitorId");
+    if(!visitorId){
+      visitorId="v_"+Date.now()+"_"+Math.random().toString(36).slice(2);
+      localStorage.setItem("zamnVisitorId",visitorId);
+    }
+    return visitorId;
+  }
+
+  function safeTargetLabel(el){
+    if(!el) return "";
+    const aria=el.getAttribute?.("aria-label");
+    const title=el.getAttribute?.("title");
+    const txt=(el.textContent||"").replace(/\s+/g," ").trim();
+    return String(aria||title||txt||el.id||el.tagName||"").slice(0,100);
+  }
+
+  async function logVisitorEvent(type,extra={}){
+    try{
+      await ensureFirebase();
+      const visitorId=getAnalyticsVisitorId();
+      const sessionId=sessionStorage.getItem("zamnSessionId") || ("s_"+Date.now()+"_"+Math.random().toString(36).slice(2));
+      sessionStorage.setItem("zamnSessionId",sessionId);
+      const ref=db.ref("analytics/sessionEvents/"+sessionId).push();
+      await ref.set({
+        visitorId, sessionId, type,
+        path:location.pathname+location.search,
+        title:document.title,
+        viewport:Math.round(window.innerWidth||0)+"x"+Math.round(window.innerHeight||0),
+        at:firebase.database.ServerValue.TIMESTAMP,
+        ...extra
+      });
+    }catch(e){ console.warn("visitor event",e); }
+  }
+
+  function wireVisitorActivity(){
+    logVisitorEvent("pageview",{referrer:(document.referrer||"").slice(0,180)});
+    document.addEventListener("click",e=>{
+      const el=e.target.closest?.("a,button,[role='button'],summary");
+      if(!el) return;
+      const payload={
+        target:safeTargetLabel(el),
+        element:(el.tagName||"").toLowerCase(),
+        href:el.tagName==="A" ? String(el.getAttribute("href")||"").slice(0,220) : null
+      };
+      // Never capture input values, phone numbers, codes, or typed text.
+      logVisitorEvent("click",payload);
+    },{passive:true});
+    window.addEventListener("popstate",()=>logVisitorEvent("navigation"),{passive:true});
   }
 
   function showLogin(){
@@ -266,6 +333,7 @@
 
   async function requestPlay(game){
     if(!game)return;
+    if(game.directPlay===true){ openPlayer(game,"direct"); return; }
     if(!phone){
       pendingGame=game; showLogin(); message("سجل دخولك أولاً","error"); return;
     }
@@ -337,6 +405,7 @@
   }
 
   function init(){
+    wireVisitorActivity();
     const select=$("countrySelect");
     countries.forEach((c,i)=>{
       const o=document.createElement("option");o.value=i;o.textContent=`${c.flag} ${c.name} +${c.code}`;select.appendChild(o);

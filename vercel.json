@@ -2,6 +2,24 @@
   "cleanUrls": true,
   "headers": [
     {
+      "source": "/admin/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        }
+      ]
+    },
+    {
+      "source": "/games/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        }
+      ]
+    },
+    {
       "source": "/screenshots/(.*)",
       "headers": [
         {
@@ -63,6 +81,23 @@
           "value": "no-cache, must-revalidate"
         }
       ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/game/horof",
+      "destination": "/game/horof-bell",
+      "permanent": true
+    },
+    {
+      "source": "/game/photos-2",
+      "destination": "/game/photos-1",
+      "permanent": true
+    },
+    {
+      "source": "/game/photos-3",
+      "destination": "/game/photos-1",
+      "permanent": true
     }
   ]
 }
