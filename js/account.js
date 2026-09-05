@@ -361,6 +361,12 @@
 
   function openPlayer(game,entryType){
     modal("codeModal",false);
+    // أثناء تشغيل اللعبة نُظهر مسار اللعبة القديم فقط، بدون تغيير رابط التشغيل نفسه.
+    // صفحات /game/... تبقى خارج الـ sitemap ومعلّمة noindex كما هي.
+    try{
+      const legacyPath="/game/"+game.slug;
+      history.replaceState(history.state||{},"",legacyPath);
+    }catch(_){}
     const overlay=$("gamePlayerOverlay"), iframe=$("gameIframe");
     $("playingGameName").textContent=game.name;
     $("trialCounter").textContent="";
@@ -384,6 +390,11 @@
 
   function closePlayer(){
     clearInterval(trialTimer); trialTimer=null;
+    // عند إغلاق اللعبة نرجع لصفحة المنتج المختصرة.
+    try{
+      const game=currentGame();
+      if(game?.path) history.replaceState(history.state||{},"",game.path);
+    }catch(_){}
     clearTimeout(playerTopTimer); playerTopTimer=null;
     const playerTop=document.querySelector(".game-player-top");
     if(playerTop) playerTop.classList.remove("player-top-hidden");
