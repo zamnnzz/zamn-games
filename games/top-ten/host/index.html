@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Top 10 — الهوست</title>
+<link rel="stylesheet" href="../assets/style.css?v=20260814-1">
+</head>
+<body class="host-page">
+<div class="stars"></div>
+<header class="host-header">
+  <div class="logo-small host-logo-static" aria-label="TOP 10">TOP <span>10</span></div>
+  <div style="display:flex;align-items:center;gap:8px">
+    <div id="connectionBadge" class="connection-badge">جاري الاتصال...</div>
+  </div>
+</header>
+
+<main class="host-wrap">
+  <section id="badSession" class="host-card hidden">
+    <h1>الرابط غير صحيح</h1>
+    <p class="muted">افتح رابط الهوست الذي ظهر على شاشة العرض.</p>
+  </section>
+
+  <section id="readyHost" class="host-card hidden">
+    <span class="eyebrow">الجلسة جاهزة</span>
+    <h1 id="readyTitle">جاهز تبدأ؟</h1>
+    <p class="muted">راجع الاختيارات ثم ابدأ اللعب.</p>
+    <div id="readyPicks" class="ready-picks"></div>
+
+    <section id="hostRedraftPicker" class="host-redraft-picker hidden">
+      <div class="host-redraft-head">
+        <b id="hostRedraftTurn"></b>
+        <small id="hostRedraftProgress"></small>
+      </div>
+      <div id="hostRedraftCategories" class="host-redraft-categories"></div>
+    </section>
+
+    <button id="startGameBtn" class="primary">ابدأ اللعب ▶</button>
+  </section>
+
+  <section id="controlHost" class="host-card hidden" data-turn="1">
+    <div class="host-control-head">
+      <div>
+        <span class="eyebrow" id="hostRoundLabel"></span>
+        <h1 id="hostCategory"></h1>
+        <p id="hostQuestion"></p>
+      </div>
+      <div class="host-scores">
+        <span id="hostTeamCard1"><b id="hostName1"></b><strong id="hostScore1">0</strong><small>❌ <i id="hostWrong1">0/3</i></small></span>
+        <span id="hostTeamCard2"><b id="hostName2"></b><strong id="hostScore2">0</strong><small>❌ <i id="hostWrong2">0/3</i></small></span>
+      </div>
+    </div>
+
+    <div class="host-turn">الدور: <strong id="hostTurnName"></strong></div>
+
+    <section class="hint-control">
+      <div class="hint-team">
+        <div><b id="hintTeam1Name">الفريق الأول</b><span>💡 <strong id="hintCount1">0</strong> تلميح</span></div>
+        <button id="useHint1" class="hint-btn" disabled>استخدام تلميح</button>
+      </div>
+      <div class="hint-team">
+        <div><b id="hintTeam2Name">الفريق الثاني</b><span>💡 <strong id="hintCount2">0</strong> تلميح</span></div>
+        <button id="useHint2" class="hint-btn" disabled>استخدام تلميح</button>
+      </div>
+      <p class="hint-note">كل فريق يحصل على تلميح بعد كل إجابتين صحيحتين متتاليتين. لا يقدر يستخدم التلميح إلا وقت دوره، وعند الاستخدام يختار رقم الإجابة التي يريد تلميحاً عنها.</p>
+    </section>
+
+    <h3>اضغط الإجابة التي قالها الفريق</h3>
+    <div id="hostAnswers" class="host-answers"></div>
+
+    <div class="host-actions">
+      <button id="wrongBtn" class="wrong-btn">✕ إجابة خطأ</button>
+      <button id="nextRoundBtn" class="next-btn hidden">الجولة التالية ←</button>
+    </div>
+  </section>
+
+  <section id="finishHost" class="host-card hidden host-winner-card">
+    <div class="host-winner-confetti" aria-hidden="true">
+      <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      <i></i><i></i><i></i><i></i>
+    </div>
+
+    <div class="host-winner-trophy">🏆</div>
+    <span class="host-winner-kicker">انتهت اللعبة</span>
+    <h1 id="hostWinner"></h1>
+    <p id="hostWinnerSubtitle" class="host-winner-subtitle">مبروك للفريق الفائز!</p>
+
+    <div class="host-winner-scores">
+      <div id="hostFinalTeam1Card" class="host-final-team team-one">
+        <small>الفريق الأول</small>
+        <b id="hostFinalTeam1Name"></b>
+        <strong id="hostFinalTeam1Score">0</strong>
+        <span>نقطة</span>
+      </div>
+
+      <div class="host-final-vs">VS</div>
+
+      <div id="hostFinalTeam2Card" class="host-final-team team-two">
+        <small>الفريق الثاني</small>
+        <b id="hostFinalTeam2Name"></b>
+        <strong id="hostFinalTeam2Score">0</strong>
+        <span>نقطة</span>
+      </div>
+    </div>
+
+    <p id="hostFinalScore" class="host-final-score-line"></p>
+    <button id="newGameBtn" class="primary host-new-game-btn">ابدأ جولة جديدة ↻</button>
+    <small class="host-new-game-note">ترجع لاختيار الفئات — والأسئلة السابقة ما تتكرر</small>
+  </section>
+</main>
+
+<script type="module" src="../assets/host.js?v=20260814-1"></script>
+
+<div id="hintAnswerModal" class="modal hidden">
+  <div class="modal-card hint-answer-card">
+    <button class="close" id="closeHintAnswer">×</button>
+    <span class="eyebrow">استخدام تلميح</span>
+    <h2>اختر رقم الإجابة</h2>
+    <p class="muted">اختر الخانة اللي تبغى تلميح عنها. التلميح ينخصم من رصيد الفريق صاحب الدور.</p>
+    <div id="hintAnswerChoices" class="hint-answer-choices"></div>
+  </div>
+</div>
+
+</body>
+</html>

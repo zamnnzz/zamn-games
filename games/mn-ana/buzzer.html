@@ -1,0 +1,1496 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>من أنا؟ — الجرس</title>
+<style>
+:root{--ink:#18384c;--bg:#f1f7e3;--dot:#dbe9c8;--panel:#e9f8cf;--green:#57cd78;--blue:#6ed3ef;--orange:#ff7d31;--shadow:#b7c6a8}
+*{box-sizing:border-box}.hidden{display:none!important}html,body{margin:0;min-height:100%;font-family:Tahoma,"Segoe UI",Arial,sans-serif;color:var(--ink)}
+body{background-color:var(--bg);background-image:radial-gradient(circle,var(--dot) 2px,transparent 2.2px);background-size:16px 16px;display:grid;place-items:center}
+button{font:inherit;cursor:pointer}
+.phone{width:min(480px,100%);padding:20px}.logo{text-align:center;font-size:52px;font-weight:1000;line-height:.9;margin:10px 0 28px}
+.small{font-size:13px}.muted{color:#627a68}.card{background:rgba(234,249,208,.96);border:4px solid var(--ink);border-radius:18px;box-shadow:0 7px 0 var(--shadow);padding:20px;text-align:center}
+.badge{display:inline-block;background:var(--ink);color:#fff;border-radius:999px;padding:7px 12px;font-weight:900}
+.teamPick{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}.btn{border:3px solid var(--ink);border-radius:13px;padding:12px 15px;font-weight:900;background:#fff;color:var(--ink);box-shadow:0 4px 0 #9fac9e}.teamPick button.active{background:var(--blue)}
+.status{border:3px solid var(--ink);border-radius:14px;background:#fff;padding:13px;text-align:center;font-weight:900}
+.bigBuzzer{width:min(300px,76vw);aspect-ratio:1;border-radius:50%;border:8px solid var(--ink);background:var(--orange);font-size:42px;font-weight:1000;color:var(--ink);box-shadow:0 15px 0 #b54e1f,0 26px 40px rgba(24,56,76,.18);margin:24px auto;display:grid;place-items:center;transition:.12s}
+.bigBuzzer:active{transform:translateY(8px);box-shadow:0 7px 0 #b54e1f}.bigBuzzer:disabled{filter:grayscale(.45);opacity:.6;transform:none}.bigBuzzer.win{background:var(--green);box-shadow:0 15px 0 #2f8850}.bigBuzzer.lose{background:#c8d0c4;box-shadow:0 15px 0 #889487}
+.x2btn{width:100%;margin-top:2px;background:#ffe277;border:3px solid var(--ink);border-radius:14px;padding:14px;font-weight:1000;font-size:18px;box-shadow:0 4px 0 #b79c3d}.x2btn.active{background:#ffb347}.x2btn:disabled{opacity:.55;filter:grayscale(.3)}
+.x2hint{font-size:12px;color:#657262;margin:8px 0 2px}
+
+.inapp-toast{
+  position:fixed;
+  left:50%;
+  bottom:22px;
+  transform:translateX(-50%) translateY(18px);
+  z-index:9999;
+  max-width:min(500px,90vw);
+  background:var(--navy);
+  color:#fff;
+  border:3px solid var(--navy);
+  border-radius:14px;
+  padding:12px 16px;
+  font-weight:900;
+  text-align:center;
+  opacity:0;
+  pointer-events:none;
+  transition:.2s ease;
+  box-shadow:0 5px 0 rgba(24,56,76,.18);
+}
+.inapp-toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+
+/* compact buzzer layout */
+html,body{width:100%;min-height:100%;overflow-x:hidden}
+body{min-height:100dvh;display:grid;place-items:center}
+.phone{width:min(460px,100%);padding:10px 14px}
+.logo{font-size:clamp(36px,6vh,46px);line-height:.95;margin:2px 0 12px}
+.card{border-width:3px;border-radius:16px;box-shadow:0 4px 0 var(--shadow);padding:14px}
+.badge{padding:5px 10px;font-size:13px}
+#registration>div[style*="margin:14px"]{margin:8px 0 5px!important;font-size:13px}
+#playerName{padding:9px 11px!important;border-width:3px!important;font-size:14px!important}
+.teamPick{gap:8px;margin:8px 0 10px}.btn{padding:9px 10px;border-width:3px;box-shadow:0 3px 0 #9fac9e;font-size:13px}
+.status{padding:8px 10px;border-width:3px;font-size:13px}#savedPlayer{margin-bottom:7px!important}
+.bigBuzzer{
+  width:min(230px,56vw,29vh);min-width:160px;border-width:6px;font-size:clamp(28px,5vh,38px);
+  box-shadow:0 10px 0 #b54e1f,0 18px 28px rgba(24,56,76,.16);margin:14px auto
+}
+.bigBuzzer:active{transform:translateY(5px);box-shadow:0 5px 0 #b54e1f}
+.bigBuzzer.win{box-shadow:0 10px 0 #2f8850}.bigBuzzer.lose{box-shadow:0 10px 0 #889487}
+.x2btn{margin-top:0;padding:10px;font-size:15px;box-shadow:0 3px 0 #b79c3d}
+.x2hint{font-size:11px;margin:6px 0 0;line-height:1.35}#connection{margin-top:8px!important;font-size:11px}
+@media(max-height:700px){
+  .phone{padding:6px 12px}.logo{font-size:30px;margin:0 0 7px}.card{padding:10px 12px}.badge{padding:4px 9px;font-size:11px}
+  #registration>div[style*="margin:14px"]{margin:5px 0 3px!important;font-size:11px}
+  #playerName{padding:7px 9px!important;font-size:12px!important}.teamPick{margin:6px 0 7px;gap:6px}
+  .btn{padding:7px 8px;font-size:11px}.status{padding:6px 8px;font-size:11px}
+  .bigBuzzer{width:min(176px,42vw,25vh);min-width:130px;border-width:5px;font-size:27px;margin:9px auto;box-shadow:0 7px 0 #b54e1f,0 12px 20px rgba(24,56,76,.14)}
+  .x2btn{padding:7px;font-size:12px}.x2hint{font-size:9px;margin-top:4px}#connection{margin-top:5px!important;font-size:9px}
+}
+@media(max-width:420px){
+  .phone{padding:8px 10px}.logo{font-size:34px}.card{padding:11px}.bigBuzzer{width:min(210px,58vw,28vh)}
+}
+
+
+/* واجهة الجرس بشكل قريب من التصميم المرجعي */
+body{
+  background-color:#f3f8e5;
+  background-image:none;
+  display:block;
+}
+.phone{
+  width:100%;
+  min-height:100dvh;
+  padding:0;
+  display:flex;
+  flex-direction:column;
+}
+.logo{
+  width:100%;
+  margin:0;
+  padding:18px 16px 16px;
+  border-bottom:3px solid var(--ink);
+  text-align:center;
+  font-size:clamp(27px,5.4vw,38px);
+  line-height:1;
+  background:#edf7cf;
+}
+.player-topbar{
+  width:100%;
+  min-height:82px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:14px 20px;
+  border-bottom:3px solid var(--ink);
+  background:#edf7cf;
+}
+.player-team-name{
+  min-width:0;
+  font-size:clamp(20px,4.6vw,29px);
+  font-weight:1000;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.player-score-pill{
+  flex:0 0 auto;
+  background:#245c63;
+  color:#fff;
+  border:3px solid var(--ink);
+  border-radius:999px;
+  padding:9px 15px;
+  font-size:clamp(14px,3.4vw,18px);
+  font-weight:1000;
+  box-shadow:0 3px 0 rgba(24,56,76,.18);
+}
+.card{
+  width:min(460px,calc(100% - 24px));
+  margin:18px auto;
+  background:rgba(234,249,208,.96);
+}
+
+/* بعد حفظ بيانات اللاعب تصبح الشاشة مفتوحة وبسيطة مثل المرجع */
+body.registered .card{
+  width:100%;
+  flex:1;
+  margin:0;
+  padding:0 18px 18px;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
+  background:transparent;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+body.registered #registrationBadge,
+body.registered #registration{
+  display:none!important;
+}
+body.registered #savedPlayer{
+  border:0;
+  background:transparent;
+  padding:8px 10px 0;
+  margin:0!important;
+  font-size:13px;
+  color:#607267;
+}
+body.registered #status{
+  order:4;
+  border:0;
+  background:transparent;
+  padding:4px 8px;
+  margin-top:8px;
+  min-height:28px;
+  font-size:14px;
+}
+body.registered .bigBuzzer{
+  order:2;
+  width:min(310px,68vw,42vh);
+  min-width:220px;
+  margin:auto auto 12px;
+  border:7px solid var(--ink);
+  outline:7px solid rgba(24,56,76,.13);
+  outline-offset:10px;
+  background:#69d27d;
+  color:var(--ink);
+  font-size:clamp(30px,7vw,46px);
+  box-shadow:
+    0 12px 0 #355d62,
+    0 22px 34px rgba(24,56,76,.14);
+}
+body.registered .bigBuzzer:active{
+  transform:translateY(6px);
+  box-shadow:
+    0 6px 0 #355d62,
+    0 14px 24px rgba(24,56,76,.12);
+}
+body.registered .bigBuzzer:disabled{
+  opacity:1;
+  filter:none;
+}
+body.registered .bigBuzzer.win{
+  background:#69d27d;
+  box-shadow:0 12px 0 #355d62,0 22px 34px rgba(24,56,76,.14);
+}
+body.registered .bigBuzzer.lose{
+  background:#c8d0c4;
+  box-shadow:0 12px 0 #7b8981,0 22px 34px rgba(24,56,76,.12);
+}
+body.registered .x2btn{
+  order:5;
+  width:min(360px,92%);
+  margin:6px auto 0;
+  padding:9px 12px;
+  font-size:14px;
+}
+body.registered .x2hint{
+  order:6;
+  max-width:360px;
+  margin:6px auto 0;
+  font-size:10px;
+}
+body.registered #connection{
+  order:7;
+  margin-top:7px!important;
+  padding-bottom:4px;
+}
+@media(max-height:680px){
+  .logo{padding:12px 14px 11px;font-size:28px}
+  .player-topbar{min-height:64px;padding:9px 16px}
+  .player-team-name{font-size:20px}
+  .player-score-pill{padding:7px 12px;font-size:14px}
+  body.registered .bigBuzzer{
+    width:min(240px,56vw,36vh);
+    min-width:180px;
+    margin:auto auto 8px;
+    outline-width:5px;
+    outline-offset:7px;
+  }
+  body.registered .x2btn{padding:7px 10px;font-size:12px}
+  body.registered #status{font-size:12px;margin-top:4px}
+}
+
+
+.bigBuzzer{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  text-align:center;
+}
+#buzzMainText{
+  display:block;
+  font-size:inherit;
+  font-weight:1000;
+  line-height:1;
+}
+.buzz-subtext{
+  display:block;
+  max-width:78%;
+  font-size:clamp(12px,3.2vw,17px);
+  font-weight:900;
+  line-height:1.35;
+  opacity:.92;
+}
+body.registered #status{
+  display:none!important;
+}
+body.registered .bigBuzzer.muted-state{
+  background:rgba(200,208,196,.34);
+  color:rgba(24,56,76,.62);
+  box-shadow:
+    0 10px 0 rgba(53,93,98,.32),
+    0 18px 28px rgba(24,56,76,.08);
+}
+body.registered .bigBuzzer.muted-state .buzz-subtext{
+  opacity:.68;
+}
+body.registered .bigBuzzer.active-state{
+  background:#69d27d;
+  color:var(--ink);
+}
+
+
+.delete2btn{
+  width:100%;
+  margin-top:8px;
+  background:#d7eff8;
+  border:3px solid var(--ink);
+  border-radius:14px;
+  padding:10px;
+  font-weight:1000;
+  font-size:15px;
+  box-shadow:0 3px 0 #8fb7c3;
+}
+.delete2btn:disabled{opacity:.5;filter:grayscale(.25)}
+body.registered .delete2btn{
+  order:7;
+  width:min(360px,92%);
+  margin:7px auto 0;
+}
+body.registered #delete2hint{order:8}
+body.registered #connection{order:9}
+@media(max-height:680px){
+  body.registered .delete2btn{padding:7px 10px;font-size:12px;margin-top:5px}
+}
+
+
+/* قدرات الفريق والخصم في هيدر الجرس */
+.player-topbar{
+  flex-direction:column;
+  align-items:stretch;
+  gap:10px;
+}
+.player-topbar-main{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+.header-powers{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:8px;
+  width:100%;
+}
+.header-power-team{
+  min-width:0;
+  border:2px solid var(--ink);
+  border-radius:13px;
+  padding:7px 9px;
+  background:rgba(255,255,255,.42);
+}
+.header-power-team.is-mine{
+  background:rgba(105,210,125,.16);
+}
+.header-power-team-title{
+  font-size:11px;
+  font-weight:1000;
+  opacity:.7;
+  margin-bottom:5px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.header-power-list{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+.header-power{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:27px;
+  padding:4px 8px;
+  border:2px solid var(--ink);
+  border-radius:999px;
+  background:#fff;
+  font-size:11px;
+  font-weight:1000;
+  line-height:1;
+  transition:.2s ease;
+}
+.header-power.active{
+  background:#ffe277;
+  opacity:1;
+}
+.header-power.used{
+  opacity:.28;
+  filter:grayscale(1);
+  text-decoration:line-through;
+}
+@media(max-width:420px){
+  .player-topbar{padding:10px 12px}
+  .header-power{font-size:10px;padding:4px 6px}
+  .header-power-team{padding:6px 7px}
+}
+
+
+/* إعادة ترتيب متجاوبة لصفحة الجرس مع الحفاظ على نفس التصميم */
+html,body{
+  width:100%;
+  min-height:100%;
+}
+body{
+  min-height:100dvh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:clamp(8px,2vh,18px);
+  overflow-x:hidden;
+}
+.phone{
+  width:min(430px,100%);
+  max-width:430px;
+  margin:0 auto;
+}
+.logo{
+  margin-bottom:clamp(6px,1.4vh,12px);
+}
+.player-topbar{
+  width:100%;
+}
+.player-topbar-main{
+  gap:10px;
+}
+.header-powers{
+  width:100%;
+}
+.header-power-team{
+  min-width:0;
+}
+body.registered .card{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+body.registered #savedPlayer{
+  width:100%;
+}
+body.registered #status{
+  width:100%;
+}
+body.registered .bigBuzzer{
+  width:clamp(190px,52vw,280px);
+  height:clamp(190px,52vw,280px);
+  min-width:190px;
+  min-height:190px;
+  max-width:280px;
+  max-height:280px;
+  margin:clamp(8px,1.7vh,16px) auto;
+  flex:0 0 auto;
+}
+body.registered .x2btn,
+body.registered .delete2btn{
+  width:min(360px,94%);
+}
+body.registered #x2hint,
+body.registered #delete2hint{
+  width:min(360px,94%);
+}
+body.registered #connection{
+  width:100%;
+  text-align:center;
+}
+
+/* جوالات قصيرة: نفس الشكل لكن نقلل الفراغات فقط */
+@media(max-height:760px){
+  body{
+    align-items:flex-start;
+    padding-top:8px;
+    padding-bottom:8px;
+  }
+  .logo{
+    margin:0 0 6px;
+  }
+  .player-topbar{
+    margin-bottom:7px;
+  }
+  body.registered .card{
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  body.registered .bigBuzzer{
+    width:clamp(180px,46vw,230px);
+    height:clamp(180px,46vw,230px);
+    min-width:180px;
+    min-height:180px;
+    margin:8px auto;
+  }
+  body.registered .x2btn,
+  body.registered .delete2btn{
+    margin-top:6px;
+  }
+  body.registered #x2hint,
+  body.registered #delete2hint{
+    margin-top:3px;
+    line-height:1.3;
+  }
+  body.registered #connection{
+    margin-top:7px!important;
+  }
+}
+
+/* جوالات ضيقة */
+@media(max-width:390px){
+  body{
+    padding-left:7px;
+    padding-right:7px;
+  }
+  .phone{
+    width:100%;
+  }
+  .player-topbar{
+    padding-left:9px;
+    padding-right:9px;
+  }
+  .player-team-name{
+    font-size:clamp(13px,4vw,16px);
+  }
+  .player-score-pill{
+    white-space:nowrap;
+  }
+  .header-power{
+    font-size:10px;
+    padding:4px 7px;
+  }
+  body.registered .bigBuzzer{
+    width:min(210px,58vw);
+    height:min(210px,58vw);
+    min-width:170px;
+    min-height:170px;
+  }
+}
+
+/* شاشات شديدة القصر: لا نغير الهوية، فقط نضغط المقاسات */
+@media(max-height:640px){
+  .logo{
+    font-size:clamp(24px,7vw,30px);
+  }
+  .player-topbar{
+    gap:6px;
+    padding-top:7px;
+    padding-bottom:7px;
+  }
+  .header-power-team-title{
+    margin-bottom:3px;
+  }
+  body.registered .bigBuzzer{
+    width:165px;
+    height:165px;
+    min-width:165px;
+    min-height:165px;
+    margin:5px auto 6px;
+  }
+  body.registered .x2btn,
+  body.registered .delete2btn{
+    padding-top:7px;
+    padding-bottom:7px;
+    font-size:12px;
+  }
+  body.registered #x2hint,
+  body.registered #delete2hint{
+    font-size:9px;
+    line-height:1.2;
+  }
+}
+
+/* تابلت وشاشات أكبر: نحافظ على نفس بطاقة الجوال بدون تمديد مبالغ */
+@media(min-width:700px){
+  body{
+    padding:24px;
+  }
+  .phone{
+    width:430px;
+  }
+}
+
+
+/* إزالة حصر صفحة الجرس داخل مقاس جوال ثابت */
+.phone{
+  width:min(96vw,760px);
+  max-width:760px;
+}
+
+/* الشاشات المتوسطة والكبيرة تستفيد من المساحة بدل شكل جوال ضيق */
+@media(min-width:700px){
+  body{
+    align-items:center;
+    padding:24px;
+  }
+
+  .phone{
+    width:min(92vw,760px);
+    max-width:760px;
+  }
+
+  .player-topbar{
+    padding:12px 16px;
+  }
+
+  body.registered .card{
+    padding:16px 18px 18px;
+  }
+
+  body.registered .bigBuzzer{
+    width:clamp(230px,28vw,320px);
+    height:clamp(230px,28vw,320px);
+    max-width:320px;
+    max-height:320px;
+  }
+
+  body.registered .x2btn,
+  body.registered .delete2btn,
+  body.registered #x2hint,
+  body.registered #delete2hint{
+    width:min(520px,92%);
+  }
+}
+
+/* على الشاشات الواسعة نخلي الهيدر والبطاقة أريح بدون تغيير الهوية */
+@media(min-width:1000px){
+  .phone{
+    width:min(86vw,900px);
+    max-width:900px;
+  }
+
+  .player-topbar{
+    padding:14px 18px;
+  }
+
+  .player-topbar-main{
+    gap:18px;
+  }
+
+  body.registered .card{
+    padding:18px 22px 20px;
+  }
+
+  body.registered .bigBuzzer{
+    width:300px;
+    height:300px;
+  }
+
+  body.registered .x2btn,
+  body.registered .delete2btn,
+  body.registered #x2hint,
+  body.registered #delete2hint{
+    width:min(580px,90%);
+  }
+}
+
+/* الجوال يظل مرن بدون تمدد مبالغ */
+@media(max-width:699px){
+  .phone{
+    width:100%;
+    max-width:430px;
+  }
+}
+
+
+/* تصحيح نهائي لتجاوب صفحة الجرس: نفس التصميم بدون تضخيم على الكمبيوتر */
+body{
+  min-height:100dvh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:12px;
+}
+
+.phone{
+  width:min(100%,560px);
+  max-width:560px;
+  margin:0 auto;
+}
+
+.player-topbar{
+  width:100%;
+}
+
+body.registered .card{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+body.registered .bigBuzzer{
+  width:clamp(190px,34vh,260px);
+  height:clamp(190px,34vh,260px);
+  min-width:190px;
+  min-height:190px;
+  max-width:260px;
+  max-height:260px;
+  margin:10px auto;
+}
+
+body.registered .x2btn,
+body.registered .delete2btn,
+body.registered #x2hint,
+body.registered #delete2hint{
+  width:min(390px,92%);
+}
+
+/* كمبيوتر ولابتوب: نستخدم مساحة مريحة لكن لا نكبر العناصر */
+@media(min-width:700px){
+  body{
+    padding:18px;
+  }
+
+  .phone{
+    width:min(72vw,620px);
+    max-width:620px;
+  }
+
+  body.registered .bigBuzzer{
+    width:240px;
+    height:240px;
+    min-width:240px;
+    min-height:240px;
+    max-width:240px;
+    max-height:240px;
+  }
+
+  body.registered .x2btn,
+  body.registered .delete2btn,
+  body.registered #x2hint,
+  body.registered #delete2hint{
+    width:min(420px,88%);
+  }
+}
+
+/* شاشات الكمبيوتر القصيرة */
+@media(min-width:700px) and (max-height:760px){
+  body{
+    align-items:flex-start;
+    padding-top:8px;
+  }
+
+  .logo{
+    margin-bottom:6px;
+  }
+
+  body.registered .bigBuzzer{
+    width:205px;
+    height:205px;
+    min-width:205px;
+    min-height:205px;
+    max-width:205px;
+    max-height:205px;
+    margin:7px auto;
+  }
+}
+
+/* الجوال: يأخذ العرض المتاح بدون خروج أو ضغط */
+@media(max-width:699px){
+  body{
+    align-items:flex-start;
+    padding:8px;
+  }
+
+  .phone{
+    width:100%;
+    max-width:430px;
+  }
+
+  body.registered .bigBuzzer{
+    width:clamp(180px,56vw,235px);
+    height:clamp(180px,56vw,235px);
+    min-width:180px;
+    min-height:180px;
+    max-width:235px;
+    max-height:235px;
+  }
+}
+
+/* الجوال القصير */
+@media(max-width:699px) and (max-height:680px){
+  body.registered .bigBuzzer{
+    width:175px;
+    height:175px;
+    min-width:175px;
+    min-height:175px;
+    max-width:175px;
+    max-height:175px;
+    margin:6px auto;
+  }
+
+  body.registered .x2btn,
+  body.registered .delete2btn{
+    padding-top:7px;
+    padding-bottom:7px;
+  }
+}
+
+/* إلغاء توسيعات النسخة السابقة على الشاشات الكبيرة */
+@media(min-width:1000px){
+  .phone{
+    width:min(58vw,620px);
+    max-width:620px;
+  }
+
+  body.registered .card{
+    padding:14px 16px 16px;
+  }
+
+  body.registered .bigBuzzer{
+    width:240px;
+    height:240px;
+  }
+
+  body.registered .x2btn,
+  body.registered .delete2btn,
+  body.registered #x2hint,
+  body.registered #delete2hint{
+    width:min(420px,88%);
+  }
+}
+
+
+/* تمديد البانرات العلوية بعرض الشاشة مع بقاء الجرس في المنتصف */
+@media(min-width:700px){
+  .phone{
+    width:100%;
+    max-width:none;
+    margin:0;
+  }
+
+  .phone > .logo,
+  .phone > .player-topbar{
+    width:100vw;
+    max-width:none;
+    margin-left:calc(50% - 50vw);
+    margin-right:calc(50% - 50vw);
+    border-radius:0;
+    box-sizing:border-box;
+  }
+
+  .phone > .logo{
+    padding-left:24px;
+    padding-right:24px;
+  }
+
+  .phone > .player-topbar{
+    padding-left:max(24px,calc((100vw - 1100px)/2));
+    padding-right:max(24px,calc((100vw - 1100px)/2));
+  }
+
+  .phone > .card{
+    width:min(620px,92vw);
+    margin-left:auto;
+    margin-right:auto;
+  }
+}
+
+
+/* موازنة الأحجام فقط: تصغير الأعلى وتكبير منطقة الجرس */
+@media(min-width:700px){
+  .phone > .logo{
+    padding-top:12px!important;
+    padding-bottom:10px!important;
+    font-size:clamp(30px,3vw,40px)!important;
+  }
+
+  .phone > .player-topbar{
+    padding-top:10px!important;
+    padding-bottom:10px!important;
+  }
+
+  .player-team-name{
+    font-size:clamp(22px,2.2vw,30px)!important;
+  }
+
+  .player-score-pill{
+    font-size:clamp(14px,1.35vw,18px)!important;
+    padding:7px 12px!important;
+  }
+
+  .header-power-team{
+    padding:5px 8px!important;
+  }
+
+  .header-power-team-title{
+    font-size:10px!important;
+    margin-bottom:3px!important;
+  }
+
+  .header-power{
+    min-height:24px!important;
+    padding:3px 7px!important;
+    font-size:10px!important;
+  }
+
+  body.registered .bigBuzzer{
+    width:270px!important;
+    height:270px!important;
+    min-width:270px!important;
+    min-height:270px!important;
+    max-width:270px!important;
+    max-height:270px!important;
+    margin:14px auto 16px!important;
+  }
+
+  body.registered #buzzMainText{
+    font-size:50px!important;
+  }
+
+  body.registered .buzz-subtext{
+    font-size:15px!important;
+  }
+
+  body.registered .x2btn,
+  body.registered .delete2btn{
+    width:min(500px,88vw)!important;
+    padding:11px 14px!important;
+    font-size:15px!important;
+    margin-top:7px!important;
+  }
+
+  body.registered #x2hint,
+  body.registered #delete2hint{
+    width:min(500px,88vw)!important;
+    font-size:11px!important;
+  }
+}
+
+/* الكمبيوتر القصير: نفس النسب لكن بدون خروج من الشاشة */
+@media(min-width:700px) and (max-height:760px){
+  .phone > .logo{
+    padding-top:8px!important;
+    padding-bottom:7px!important;
+    font-size:30px!important;
+  }
+
+  .phone > .player-topbar{
+    padding-top:7px!important;
+    padding-bottom:7px!important;
+  }
+
+  body.registered .bigBuzzer{
+    width:225px!important;
+    height:225px!important;
+    min-width:225px!important;
+    min-height:225px!important;
+    max-width:225px!important;
+    max-height:225px!important;
+    margin:8px auto 10px!important;
+  }
+
+  body.registered .x2btn,
+  body.registered .delete2btn{
+    padding:8px 12px!important;
+    font-size:13px!important;
+  }
+}
+
+
+
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="logo">من أنا؟</div>
+
+  <div id="playerTopbar" class="player-topbar hidden">
+    <div class="player-topbar-main">
+      <div id="buzzerTeamName" class="player-team-name">الفريق الأول</div>
+      <div class="player-score-pill">النقاط: <strong id="buzzerTeamScore">0</strong></div>
+    </div>
+    <div class="header-powers own-only">
+      <div class="header-power-team is-mine">
+        <div class="header-power-team-title">قدرات فريقك</div>
+        <div class="header-power-list">
+          <span id="myX2Power" class="header-power">x2</span>
+          <span id="myDelete2Power" class="header-power">حذف 2</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div id="registrationBadge" class="badge">بيانات المتسابق</div>
+<div id="registration">
+      <div style="text-align:right;margin:14px 0 8px;font-weight:900">اسمك</div>
+      <input id="playerName" type="text" placeholder="اكتب اسمك" style="width:100%;padding:13px;border:3px solid var(--ink);border-radius:12px;font:inherit;font-weight:800;background:#fff">
+      <div style="text-align:right;margin:14px 0 8px;font-weight:900">اختر فريقك</div>
+      <div class="teamPick" style="margin-top:0">
+        <button id="regPick1" class="btn" onclick="chooseTeam(1)">الفريق الأول</button>
+        <button id="regPick2" class="btn" onclick="chooseTeam(2)">الفريق الثاني</button>
+      </div>
+      <button id="savePlayerBtn" class="btn" style="width:100%;background:var(--green)" onclick="savePlayer()">حفظ</button>
+    </div>
+
+    <div id="savedPlayer" class="status" style="display:none;margin-bottom:12px"></div>
+    <div id="status" class="status">اكتب اسمك واختر فريقك ثم اضغط حفظ</div>
+
+    <button id="buzz" class="bigBuzzer" onclick="buzzNow()" disabled>
+      <span id="buzzMainText">جرس</span>
+      <span id="buzzSubText" class="buzz-subtext"></span>
+    </button>
+
+    <button id="x2" class="x2btn" onclick="activateX2()" disabled>مضاعفة النقاط x2</button>
+    <div id="x2hint" class="x2hint">لكل فريق استخدام واحد فقط طوال اللعبة.</div>
+
+    <button id="delete2" class="delete2btn" onclick="activateDelete2()" disabled>حذف خيارين</button>
+    <div id="delete2hint" class="x2hint">لكل فريق استخدام واحد فقط طوال اللعبة.</div>
+
+    <div id="connection" class="small muted" style="margin-top:14px">جاري الاتصال…</div>
+  </div>
+</div>
+
+<div id="inappToast" class="inapp-toast"></div>
+
+<script src="./firebase-config.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getDatabase, ref, onValue, runTransaction, set } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+const app=initializeApp(window.firebaseConfig);
+let inappToastTimer=null;
+function showInappNotice(message){
+  const box=document.getElementById("inappToast");
+  if(!box) return;
+  box.textContent=message;
+  box.classList.add("show");
+  if(inappToastTimer) clearTimeout(inappToastTimer);
+  inappToastTimer=setTimeout(()=>box.classList.remove("show"),2400);
+}
+const db=getDatabase(app);
+const el=id=>document.getElementById(id);
+const gameSessionId=new URLSearchParams(location.search).get("session")||"";
+const sessionPath=gameSessionId?`mn_ana_sessions/${gameSessionId}`:"";
+const gameRef=ref(db,sessionPath||"mn_ana_invalid_session");
+
+const storagePrefix=`mnAna:${gameSessionId}:`;
+let team=Number(localStorage.getItem(storagePrefix+"team")||0);
+let playerName=localStorage.getItem(storagePrefix+"playerName")||"";
+let playerId=localStorage.getItem(storagePrefix+"playerId")||crypto.randomUUID();
+localStorage.setItem(storagePrefix+"playerId",playerId);
+
+let state=null;
+let saved=!!(team && playerName);
+let countdownTimer=null;
+let countdownOpening=false;
+
+if(!gameSessionId){
+  document.body.innerHTML='<div style="font-family:system-ui;text-align:center;padding:50px"><h2>رابط الجلسة غير صالح</h2></div>';
+}
+
+onValue(gameRef,snap=>{
+  el("connection").textContent="متصل";
+  state=snap.val();
+  try{
+    render();
+  }catch(e){
+    console.error("Buzzer render error",e);
+    el("connection").textContent="متصل — خطأ عرض";
+  }
+},err=>{el("connection").textContent="تعذر الاتصال";console.error(err)});
+
+window.chooseTeam=n=>{
+  team=Number(n);
+  el("regPick1").classList.toggle("active",team===1);
+  el("regPick2").classList.toggle("active",team===2);
+};
+
+window.savePlayer=async()=>{
+  const name=el("playerName").value.trim();
+  if(!name) return showInappNotice("اكتب اسمك.");
+  if(team!==1 && team!==2) return showInappNotice("اختر فريقك.");
+
+  playerName=name;
+  saved=true;
+  localStorage.setItem(storagePrefix+"team",String(team));
+  localStorage.setItem(storagePrefix+"playerName",playerName);
+
+  await set(ref(db,`${sessionPath}/players/${playerId}`),{
+    name:playerName,
+    team,
+    savedAt:Date.now()
+  });
+
+  render();
+};
+
+function teamData(n){return state?.teams?.[n]||state?.teams?.[String(n)]||{}}
+
+function setBuzzerCenter(mainText,subText="",mode="active"){
+  const btn=el("buzz");
+  el("buzzMainText").textContent=mainText;
+  el("buzzSubText").textContent=subText;
+  btn.classList.toggle("muted-state",mode==="muted");
+  btn.classList.toggle("active-state",mode!=="muted");
+}
+
+function clearCountdownTimer(){
+  if(countdownTimer){
+    clearInterval(countdownTimer);
+    countdownTimer=null;
+  }
+}
+
+async function advanceBuzzerPhase(){
+  if(countdownOpening) return;
+  countdownOpening=true;
+  try{
+    await runTransaction(ref(db,`${sessionPath}/buzzer`),current=>{
+      if(!current) return;
+      const until=Number(current.countdownUntil||0);
+      if(!until || Date.now()<until) return;
+
+      // انتهى وقت صاحب الضغطة الأولى: تنتقل الفرصة تلقائيًا للفريق الآخر.
+      if(current.phase==="first"){
+        const firstTeam=Number(current.firstTeam||0);
+        if(firstTeam!==1 && firstTeam!==2) return;
+        const otherTeam=firstTeam===1?2:1;
+        const seconds=Math.max(1,Number(state?.settings?.secondTimer||10));
+        return {
+          ...current,
+          open:true,
+          phase:"second",
+          allowedTeam:otherTeam,
+          winner:null,
+          winnerPlayerId:"",
+          winnerPlayerName:"",
+          countdownUntil:Date.now()+(seconds*1000),
+          countdownSeconds:seconds
+        };
+      }
+
+      // انتهى وقت الفريق الثاني بدون ضغطة.
+      if(current.phase==="second"){
+        return {
+          ...current,
+          open:false,
+          phase:"ended",
+          allowedTeam:0,
+          countdownUntil:0,
+          countdownSeconds:0
+        };
+      }
+    });
+  }finally{
+    countdownOpening=false;
+  }
+}
+
+function renderPhaseCountdown(bz){
+  const until=Number(bz?.countdownUntil||0);
+  if(!until || (bz?.phase!=="first" && bz?.phase!=="second")){
+    clearCountdownTimer();
+    return false;
+  }
+
+  const draw=()=>{
+    const ms=until-Date.now();
+    const remaining=Math.max(0,Math.ceil(ms/1000));
+
+    if(bz.phase==="first"){
+      const mine=bz.firstPlayerId===playerId;
+      const sameTeam=Number(bz.firstTeam||0)===team;
+      const firstTeamData=teamData(Number(bz.firstTeam||0));
+      const firstPlayerName=bz.firstPlayerName||"اللاعب";
+      const firstTeamName=firstTeamData.name||("الفريق "+Number(bz.firstTeam||0));
+      el("buzz").disabled=true;
+
+      if(mine){
+        setBuzzerCenter(firstPlayerName,`${firstTeamName} • ${remaining} ث • جاوب الآن`,"active");
+        el("buzz").classList.add("win");
+      }else if(sameTeam){
+        setBuzzerCenter(firstPlayerName,`${firstTeamName} • ${remaining} ث`,"muted");
+      }else{
+        setBuzzerCenter(firstPlayerName,`${firstTeamName} • ${remaining} ث`,"muted");
+      }
+    }else{
+      const allowed=Number(bz.allowedTeam||0);
+      const myTurn=allowed===team;
+      const allowedTeamData=teamData(allowed);
+      const allowedTeamName=allowedTeamData.name||("الفريق "+allowed);
+      el("buzz").disabled=!myTurn;
+
+      if(myTurn){
+        setBuzzerCenter("انتقل الجرس",`${allowedTeamName} • ${remaining} ث`,"active");
+      }else{
+        setBuzzerCenter("انتقل الجرس",`${allowedTeamName} • ${remaining} ث`,"muted");
+      }
+    }
+
+    if(ms<=0){
+      clearCountdownTimer();
+      advanceBuzzerPhase();
+    }
+  };
+
+  draw();
+  if(!countdownTimer) countdownTimer=setInterval(draw,200);
+  return true;
+}
+
+function render(){
+  const t1=teamData(1),t2=teamData(2);
+  el("regPick1").textContent=t1.name||"الفريق الأول";
+  el("regPick2").textContent=t2.name||"الفريق الثاني";
+  el("regPick1").classList.toggle("active",team===1);
+  el("regPick2").classList.toggle("active",team===2);
+
+  if(!saved){
+    document.body.classList.remove("registered");
+    el("playerTopbar").classList.add("hidden");
+    el("registration").classList.remove("hidden");
+    el("savedPlayer").style.display="none";
+    // لا تعيد كتابة الحقل أثناء ما المستخدم يكتب.
+    if(document.activeElement!==el("playerName") && !el("playerName").value){
+      el("playerName").value=playerName;
+    }
+    el("status").textContent="اكتب اسمك واختر فريقك ثم اضغط حفظ";
+    el("buzz").disabled=true;
+    el("x2").disabled=true;
+    el("delete2").disabled=true;
+    return;
+  }
+
+  document.body.classList.add("registered");
+  el("playerTopbar").classList.remove("hidden");
+  el("registration").classList.add("hidden");
+  el("savedPlayer").style.display="block";
+  const myTeam=teamData(team);
+  el("savedPlayer").textContent=playerName;
+  el("buzzerTeamName").textContent=myTeam.name||("الفريق "+team);
+  el("buzzerTeamScore").textContent=Number(myTeam.score||0);
+
+  const setPowerState=(id,{used=false,active=false}={})=>{
+    const node=el(id);
+    node.classList.toggle("used",!!used);
+    node.classList.toggle("active",!!active && !used);
+    node.title=used?"تم استخدامها":active?"مفعّلة الآن":"متاحة";
+  };
+
+  const legacyHeaderX2=Number(state?.question?.x2Team||0);
+  const headerX2Teams={
+    ...(state?.question?.x2Teams||{}),
+    ...(legacyHeaderX2?{[legacyHeaderX2]:true}:{})
+  };
+
+  setPowerState("myX2Power",{
+    used:!!myTeam.x2Used,
+    active:!!myTeam.x2Active || !!headerX2Teams[team] || !!headerX2Teams[String(team)]
+  });
+  setPowerState("myDelete2Power",{used:!!myTeam.delete2Used});
+
+  const me=myTeam;
+  el("buzz").classList.remove("win","lose");
+  el("x2").classList.remove("active");
+
+  const bz=state?.buzzer||{};
+
+  const legacyQuestionX2=Number(state?.question?.x2Team||0);
+  const questionX2Teams={
+    ...(state?.question?.x2Teams||{}),
+    ...(legacyQuestionX2?{[legacyQuestionX2]:true}:{})
+  };
+  const myX2Active=!!(questionX2Teams[team]||questionX2Teams[String(team)]);
+  const buzzerPhase=bz.phase||"open";
+  const powerAvailable=
+    bz.open===true &&
+    buzzerPhase==="open" &&
+    !bz.winner &&
+    !Number(bz.countdownUntil||0) &&
+    !state?.question?.revealed &&
+    !!state?.question?.historyKey;
+
+  if(myX2Active){
+    el("x2").textContent="x2 مفعّل على هذا السؤال ✓";
+    el("x2").classList.add("active");
+    el("x2").disabled=true;
+    el("x2hint").textContent="إذا جاوب فريقك هذا السؤال صح، نقاطه تتضاعف.";
+  }else if(me.x2Used){
+    el("x2").textContent="تم استخدام x2";
+    el("x2").disabled=true;
+    el("x2hint").textContent="انتهت فرصة المضاعفة لفريقك.";
+  }else if(!powerAvailable){
+    el("x2").textContent="مضاعفة النقاط x2";
+    el("x2").disabled=true;
+    el("x2hint").textContent="x2 متاحة فقط قبل أول ضغطة وقبل كشف الإجابة.";
+  }else{
+    el("x2").textContent="مضاعفة النقاط x2";
+    el("x2").disabled=false;
+    el("x2hint").textContent="يمكن للفريقين تفعيل x2 على نفس السؤال.";
+  }
+
+  const choices=Array.isArray(state?.question?.choices)?state.question.choices:[];
+  const hasDelete2=Array.isArray(state?.question?.hiddenChoices) && state.question.hiddenChoices.length>=2;
+  const delete2Available=powerAvailable && choices.length>=4 && !hasDelete2;
+
+  if(me.delete2Used){
+    el("delete2").textContent="تم استخدام حذف خيارين";
+    el("delete2").disabled=true;
+    el("delete2hint").textContent="انتهت فرصة حذف خيارين لفريقك.";
+  }else if(hasDelete2){
+    el("delete2").textContent="تم حذف خيارين";
+    el("delete2").disabled=true;
+    el("delete2hint").textContent="تم تطبيق حذف خيارين على هذا السؤال.";
+  }else if(!delete2Available){
+    el("delete2").textContent="حذف خيارين";
+    el("delete2").disabled=true;
+    el("delete2hint").textContent=choices.length<4?"متاحة في أسئلة الخيارات فقط.":"متاحة قبل أول ضغطة وقبل كشف الإجابة.";
+  }else{
+    el("delete2").textContent="حذف خيارين";
+    el("delete2").disabled=false;
+    el("delete2hint").textContent="تحذف خيارين خاطئين من شاشة السؤال.";
+  }
+
+  setBuzzerCenter("جرس","","active");
+
+  if(renderPhaseCountdown(bz)) return;
+
+  if(bz.phase==="second_answer" && bz.winner){
+    const winnerPlayer=bz.winnerPlayerName||"اللاعب";
+    const wt=teamData(Number(bz.winner));
+    const winnerTeamName=wt.name||("الفريق "+Number(bz.winner));
+    if(bz.winnerPlayerId===playerId){
+      setBuzzerCenter(winnerPlayer,`${winnerTeamName} • جاوب الآن`,"active");
+      el("buzz").classList.add("win");
+    }else{
+      setBuzzerCenter(winnerPlayer,winnerTeamName,"muted");
+      el("buzz").classList.add("lose");
+    }
+    el("buzz").disabled=true;
+    return;
+  }
+
+  if(bz.phase==="ended"){
+    setBuzzerCenter("انتهى الوقت","للفريقين","muted");
+    el("buzz").disabled=true;
+    return;
+  }
+
+  if(!bz.open){
+    setBuzzerCenter("الجرس مغلق","","muted");
+    el("buzz").disabled=true;
+    return;
+  }
+
+  const allowed=Number(bz.allowedTeam||0);
+  if(allowed && allowed!==team){
+    const allowedTeamData=teamData(allowed);
+    setBuzzerCenter("الفرصة عند",allowedTeamData.name||("الفريق "+allowed),"muted");
+    el("buzz").disabled=true;
+    return;
+  }
+
+  setBuzzerCenter("جاهز","","active");
+  el("buzz").disabled=false;
+}
+
+window.buzzNow=async()=>{
+  if(!saved||!team||!state?.buzzer?.open)return;
+  el("buzz").disabled=true;
+
+  const firstSeconds=Math.max(1,Number(state?.settings?.firstTimer||5));
+
+  const result=await runTransaction(ref(db,`${sessionPath}/buzzer`),current=>{
+    if(!current?.open) return;
+
+    const phase=current.phase||"open";
+    const allowed=Number(current.allowedTeam||0);
+    if(allowed && allowed!==team) return;
+
+    // أول ضغطة: صاحبها يحصل على المؤقت الأول.
+    if(phase==="open"){
+      return {
+        ...current,
+        open:false,
+        phase:"first",
+        allowedTeam:0,
+        firstTeam:team,
+        firstPlayerId:playerId,
+        firstPlayerName:playerName,
+        winner:team,
+        winnerPlayerId:playerId,
+        winnerPlayerName:playerName,
+        pressedAt:Date.now(),
+        countdownUntil:Date.now()+(firstSeconds*1000),
+        countdownSeconds:firstSeconds
+      };
+    }
+
+    // بعد انتهاء المؤقت الأول: الجرس متاح فقط للفريق الآخر.
+    if(phase==="second" && allowed===team){
+      return {
+        ...current,
+        open:false,
+        phase:"second_answer",
+        allowedTeam:team,
+        winner:team,
+        winnerPlayerId:playerId,
+        winnerPlayerName:playerName,
+        pressedAt:Date.now(),
+        countdownUntil:0,
+        countdownSeconds:0
+      };
+    }
+  });
+
+  if(!result.committed) render();
+};
+
+window.activateX2=async()=>{
+  if(!saved||!team)return;
+
+  const teamState=teamData(team);
+  if(teamState.x2Used) return showInappNotice("تم استخدام x2 مسبقًا.");
+  if(!state?.question?.historyKey) return showInappNotice("انتظر بدء سؤال أولًا.");
+  if(state?.question?.answeredTeam) return showInappNotice("هذا السؤال انتهى.");
+  if(state?.question?.revealed) return showInappNotice("لا يمكن استخدام x2 بعد كشف الإجابة.");
+
+  const liveBuzzer=state?.buzzer||{};
+  if(
+    liveBuzzer.open!==true ||
+    (liveBuzzer.phase||"open")!=="open" ||
+    liveBuzzer.winner ||
+    Number(liveBuzzer.countdownUntil||0)
+  ){
+    return showInappNotice("x2 متاحة فقط قبل أول ضغطة.");
+  }
+
+  const result=await runTransaction(gameRef,current=>{
+    if(!current) return;
+    const t=current.teams?.[team]||current.teams?.[String(team)];
+    const currentBuzzer=current.buzzer||{};
+    if(!t || t.x2Used) return;
+    if(!current.question?.historyKey || current.question?.answeredTeam || current.question?.revealed) return;
+    if(
+      currentBuzzer.open!==true ||
+      (currentBuzzer.phase||"open")!=="open" ||
+      currentBuzzer.winner ||
+      Number(currentBuzzer.countdownUntil||0)
+    ) return;
+
+    current.question.x2Teams=current.question.x2Teams||{};
+    if(current.question.x2Team){
+      current.question.x2Teams[current.question.x2Team]=true;
+    }
+    if(current.question.x2Teams[team]||current.question.x2Teams[String(team)]) return;
+
+    current.question.x2Teams[team]=true;
+    current.question.x2Team=null;
+    current.question.x2Consumed=false;
+    t.x2Active=true;
+    return current;
+  });
+
+  if(!result.committed){
+    showInappNotice("تعذر تفعيل x2 في هذه اللحظة.");
+    render();
+  }
+};
+
+window.activateDelete2=async()=>{
+  if(!saved||!team)return;
+
+  const teamState=teamData(team);
+  if(teamState.delete2Used) return showInappNotice("تم استخدام حذف خيارين مسبقًا.");
+
+  const result=await runTransaction(gameRef,current=>{
+    if(!current) return;
+    const t=current.teams?.[team]||current.teams?.[String(team)];
+    const q=current.question||{};
+    const b=current.buzzer||{};
+    const choices=Array.isArray(q.choices)?q.choices:[];
+
+    if(!t || t.delete2Used) return;
+    if(!q.historyKey || q.revealed || q.answeredTeam) return;
+    if(b.open!==true || (b.phase||"open")!=="open" || b.winner || Number(b.countdownUntil||0)) return;
+    if(choices.length<4) return;
+    if(Array.isArray(q.hiddenChoices) && q.hiddenChoices.length>=2) return;
+
+    const normalizeChoice=value=>String(value??"")
+      .trim()
+      .toLowerCase()
+      .replace(/[أإآ]/g,"ا")
+      .replace(/ى/g,"ي")
+      .replace(/ة/g,"ه")
+      .replace(/\s+/g," ");
+
+    const normalizedAnswer=normalizeChoice(q.answer);
+    const correctIndexes=choices
+      .map((choice,i)=>normalizeChoice(choice)===normalizedAnswer?i:-1)
+      .filter(i=>i>=0);
+
+    if(correctIndexes.length===0) return;
+
+    const wrong=choices
+      .map((_,i)=>i)
+      .filter(i=>!correctIndexes.includes(i));
+
+    if(wrong.length<2) return;
+
+    // احذف خيارين خاطئين فقط، ولا يمكن أن تُحذف الإجابة الصحيحة.
+    for(let i=wrong.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [wrong[i],wrong[j]]=[wrong[j],wrong[i]];
+    }
+    q.hiddenChoices=wrong.slice(0,2);
+    t.delete2Used=true;
+    return current;
+  });
+
+  if(!result.committed){
+    showInappNotice("لا يمكن استخدام حذف خيارين الآن.");
+    render();
+  }
+};
+
+</script>
+</body>
+</html>

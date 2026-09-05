@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>من أنا؟ — البداية</title>
+<style>
+:root{
+  --navy:#18384c;
+  --bg:#f3f8e5;
+  --dot:#d8e7c6;
+  --panel:#eaf8d2;
+  --green:#57cd78;
+  --shadow:#a9b89b;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Tahoma,"Segoe UI",Arial,sans-serif;color:var(--navy)}
+body{
+  background-color:var(--bg);
+  background-image:radial-gradient(circle,var(--dot) 2px,transparent 2.2px);
+  background-size:16px 16px;
+}
+.wrap{
+  width:min(560px,94vw);
+  margin:0 auto;
+  padding:clamp(28px,5vh,54px) 0 42px;
+}
+.logo{
+  text-align:center;
+  font-size:clamp(58px,7vw,82px);
+  line-height:.88;
+  font-weight:1000;
+  letter-spacing:-3px;
+  margin-bottom:5px;
+}
+.sub{
+  text-align:center;
+  color:#5b715e;
+  font-size:15px;
+  margin-bottom:32px;
+}
+.card{
+  background:rgba(234,248,210,.97);
+  border:3px solid var(--navy);
+  border-radius:18px;
+  box-shadow:0 7px 0 var(--shadow);
+  padding:22px 24px;
+  margin-bottom:22px;
+}
+.card h2{
+  font-size:22px;
+  margin:0 0 20px;
+}
+.field{margin-bottom:18px}
+.field:last-child{margin-bottom:0}
+label{
+  display:block;
+  font-weight:900;
+  margin-bottom:8px;
+}
+input{
+  width:100%;
+  background:#fffefa;
+  border:3px solid var(--navy);
+  border-radius:12px;
+  box-shadow:0 4px 0 #aab6a3;
+  padding:14px 16px;
+  color:var(--navy);
+  font-weight:800;
+  outline:none;
+  font-size:17px;
+}
+.timers{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+.start{
+  width:100%;
+  background:var(--green);
+  color:var(--navy);
+  border:3px solid var(--navy);
+  border-radius:18px;
+  box-shadow:0 7px 0 #2f8550;
+  padding:17px 20px;
+  font-weight:1000;
+  font-size:22px;
+  cursor:pointer;
+}
+.start:active{
+  transform:translateY(3px);
+  box-shadow:0 4px 0 #2f8550;
+}
+.exit-btn{
+  display:block;
+  width:100%;
+  margin-top:12px;
+  background:#fff;
+  color:var(--navy);
+  border:3px solid var(--navy);
+  border-radius:16px;
+  box-shadow:0 5px 0 #aab6a3;
+  padding:13px 18px;
+  text-align:center;
+  text-decoration:none;
+  font-weight:1000;
+  font-size:18px;
+}
+.exit-btn:active{
+  transform:translateY(2px);
+  box-shadow:0 3px 0 #aab6a3;
+}
+.status{
+  text-align:center;
+  margin-top:13px;
+  font-size:13px;
+  color:#607267;
+}
+@media(max-width:560px){
+  .wrap{width:92vw}
+  .card{padding:18px}
+  .timers{grid-template-columns:1fr}
+  .logo{font-size:58px}
+}
+
+.hidden{display:none!important}
+.connect-overlay{
+  position:fixed;inset:0;z-index:50;
+  background:rgba(243,248,229,.96);
+  backdrop-filter:blur(4px);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+}
+.connect-card{
+  width:min(520px,94vw);
+  background:var(--panel);
+  border:3px solid var(--navy);
+  border-radius:22px;
+  box-shadow:0 10px 0 var(--shadow);
+  padding:26px 24px;
+  text-align:center;
+}
+.connect-card h2{margin:0 0 8px;font-size:27px}
+.connect-card p{margin:0 auto 18px;max-width:420px;line-height:1.7;color:#55705d;font-weight:700}
+.qr-box{
+  width:230px;height:230px;margin:16px auto;
+  background:#fff;border:3px solid var(--navy);border-radius:18px;
+  display:grid;place-items:center;padding:12px;
+  box-shadow:0 5px 0 #aab6a3;
+}
+.qr-box img,.qr-box canvas{max-width:100%!important;max-height:100%!important}
+.spinner{
+  width:35px;height:35px;margin:14px auto 8px;border-radius:50%;
+  border:4px solid #c5d7b9;border-top-color:var(--navy);
+  animation:spin .85s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.connect-state{font-weight:900;margin-top:8px}
+.secondary{
+  width:100%;margin-top:10px;background:#fff;color:var(--navy);
+  border:3px solid var(--navy);border-radius:16px;padding:14px 18px;
+  font-weight:900;font-size:17px;cursor:pointer;
+  box-shadow:0 4px 0 #aab6a3;
+}
+.success-mark{
+  width:58px;height:58px;border-radius:50%;margin:4px auto 12px;
+  display:grid;place-items:center;background:var(--green);
+  border:3px solid var(--navy);font-size:29px;font-weight:1000
+}
+.url-hint{font-size:11px;color:#718174;overflow-wrap:anywhere;margin-top:8px}
+
+
+input::placeholder{
+  color:rgba(24,56,76,.38);
+  opacity:1;
+}
+
+.qr-connect-card{width:min(980px,94vw)}
+.qr-pair{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:22px;
+  align-items:start;
+}
+.qr-side{min-width:0;text-align:center}
+.copy-link-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:12px;
+}
+.copy-url{
+  flex:1;
+  min-width:0;
+  direction:ltr;
+  text-align:left;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.copy-link-btn{
+  flex:0 0 auto;
+  border:3px solid var(--ink);
+  border-radius:12px;
+  background:#fff;
+  color:var(--ink);
+  padding:9px 12px;
+  font:inherit;
+  font-weight:900;
+  cursor:pointer;
+}
+@media(max-width:720px){
+  .qr-pair{grid-template-columns:1fr}
+}
+
+
+/* تحسين ترتيب نافذة الباركود فقط */
+.qr-connect-card{
+  width:min(920px,94vw);
+  padding:28px;
+}
+.qr-pair{
+  gap:26px;
+}
+.qr-side{
+  background:#fff;
+  border:3px solid var(--navy);
+  border-radius:20px;
+  padding:22px 18px 18px;
+  box-shadow:0 6px 0 rgba(24,56,76,.14);
+}
+.qr-side h2{
+  margin:0 0 6px;
+  font-size:25px;
+}
+.qr-side p{
+  margin:0 0 14px;
+  color:#617665;
+  font-size:14px;
+}
+.qr-side .qr-box{
+  margin-left:auto;
+  margin-right:auto;
+}
+.copy-link-row{
+  margin-top:14px;
+  padding-top:12px;
+  border-top:1px dashed rgba(24,56,76,.24);
+}
+.copy-url{
+  background:#f7faf2;
+  border:1px solid rgba(24,56,76,.18);
+  border-radius:10px;
+  padding:9px 10px;
+}
+.copy-link-btn{
+  min-height:40px;
+}
+@media(max-width:720px){
+  .qr-connect-card{padding:18px}
+  .qr-pair{gap:16px}
+  .qr-side{padding:18px 14px}
+}
+
+
+.question-count-card{text-align:center}
+.round-count-note{
+  margin:4px 0 14px;
+  font-size:15px;
+  font-weight:900;
+  color:#617665;
+}
+.question-count-options{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+.question-count-btn{
+  min-height:52px;
+  border:3px solid var(--ink);
+  border-radius:13px;
+  background:#fff;
+  color:var(--ink);
+  font:inherit;
+  font-size:21px;
+  font-weight:1000;
+  cursor:pointer;
+  box-shadow:0 4px 0 rgba(24,56,76,.15);
+  transition:.15s ease;
+}
+.question-count-btn.active{
+  background:#6ed3ef;
+  transform:translateY(2px);
+  box-shadow:0 2px 0 rgba(24,56,76,.15);
+}
+.question-count-hint{
+  margin-top:10px;
+  font-size:12px;
+  font-weight:800;
+  color:#71816f;
+}
+@media(max-width:560px){
+  .question-count-options{grid-template-columns:repeat(2,1fr)}
+}
+
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="logo">من أنا؟</div>
+  <div class="sub" aria-hidden="true">&nbsp;</div>
+
+  <section class="card">
+    <h2>• أسماء الفرق (فريقين فقط)</h2>
+
+    <div class="field">
+      <label>● الفريق الأول</label>
+      <input id="team1" value="الفريق الأول" autocomplete="off">
+    </div>
+
+    <div class="field">
+      <label>○ الفريق الثاني</label>
+      <input id="team2" value="الفريق الثاني" autocomplete="off">
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>• إعدادات مؤقت الجرس</h2>
+
+    <div class="timers">
+      <div class="field">
+        <label>مؤقت الضغطة الأولى (بالثواني)</label>
+        <input id="firstTimer" type="number" min="1" value="5">
+      </div>
+
+      <div class="field">
+        <label>مؤقت الفريق الآخر (بالثواني)</label>
+        <input id="secondTimer" type="number" min="1" value="10">
+      </div>
+    </div>
+  </section>
+
+  <section class="card question-count-card">
+    <h2>• اختر عدد الأسئلة</h2>
+    <div class="round-count-note">عدد الجولات: <strong>3</strong></div>
+    <div class="question-count-options" role="radiogroup" aria-label="عدد الأسئلة في كل جولة">
+      <button type="button" class="question-count-btn" data-count="3">3</button>
+      <button type="button" class="question-count-btn active" data-count="5">5</button>
+      <button type="button" class="question-count-btn" data-count="7">7</button>
+      <button type="button" class="question-count-btn" data-count="10">10</button>
+    </div>
+    <div class="question-count-hint">العدد المختار يطبق على كل جولة</div>
+  </section>
+
+  <button id="startBtn" class="start">ابدأ الجولة!</button>
+  <a class="exit-btn" href="https://zamn-games.vercel.app/" target="_self">خروج</a>
+  <div id="status" class="status">جاري الاتصال…</div>
+</main>
+
+
+<div id="connectOverlay" class="connect-overlay hidden">
+  <div class="connect-card qr-connect-card">
+    <div class="qr-pair">
+      <div id="hostStep" class="qr-side">
+        <h2>باركود المقدم</h2>
+        <p>افتح صفحة المقدم من جهاز المقدم.</p>
+        <div id="hostQr" class="qr-box"></div>
+        <div class="copy-link-row">
+          <div id="hostUrlHint" class="url-hint copy-url"></div>
+          <button type="button" class="copy-link-btn" onclick="copyGameLink('hostUrlHint', this)">نسخ الرابط</button>
+        </div>
+      </div>
+
+      <div id="buzzerStep" class="qr-side">
+        <h2>باركود الجرس</h2>
+        <p>خل المتسابقين يصورون باركود الجرس من جوالاتهم.</p>
+        <div id="buzzerQr" class="qr-box"></div>
+        <div class="copy-link-row">
+          <div id="buzzerUrlHint" class="url-hint copy-url"></div>
+          <button type="button" class="copy-link-btn" onclick="copyGameLink('buzzerUrlHint', this)">نسخ الرابط</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script src="./firebase-config.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getDatabase, ref, get, set, update, onValue } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+const app = initializeApp(window.firebaseConfig);
+const db = getDatabase(app);
+let gameRef=null;
+let gameSessionId="";
+let stopGameStartedWatch=null;
+let stopStartSignalWatch=null;
+let gameStartedFallback=null;
+
+const t1 = document.getElementById("team1");
+const t2 = document.getElementById("team2");
+const firstTimer = document.getElementById("firstTimer");
+const secondTimer = document.getElementById("secondTimer");
+const questionCountButtons=[...document.querySelectorAll(".question-count-btn")];
+let questionsPerRound=5;
+questionCountButtons.forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    questionsPerRound=Number(btn.dataset.count||5);
+    questionCountButtons.forEach(b=>b.classList.toggle("active",b===btn));
+  });
+});
+const status = document.getElementById("status");
+const overlay = document.getElementById("connectOverlay");
+const hostStep = document.getElementById("hostStep");
+const buzzerStep = document.getElementById("buzzerStep");
+
+const rootUrl = location.origin + location.pathname.replace(/\/[^/]*$/, "/");
+
+function makeQr(el, url){
+  el.innerHTML = "";
+  if(window.QRCode){
+    new QRCode(el, {text:url,width:200,height:200,correctLevel:QRCode.CorrectLevel.M});
+  }else{
+    el.textContent = "تعذر إنشاء الباركود";
+  }
+}
+
+
+window.copyGameLink=async(id,btn)=>{
+  const text=document.getElementById(id)?.textContent?.trim()||"";
+  if(!text) return;
+  try{
+    if(navigator.clipboard?.writeText){
+      await navigator.clipboard.writeText(text);
+    }else{
+      const ta=document.createElement("textarea");
+      ta.value=text;
+      ta.style.position="fixed";
+      ta.style.opacity="0";
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
+    }
+    const old=btn.textContent;
+    btn.textContent="تم النسخ ✓";
+    setTimeout(()=>btn.textContent=old,1200);
+  }catch(e){
+    console.error("Copy link error",e);
+  }
+};
+
+let stopHostWatch = null;
+
+document.getElementById("startBtn").addEventListener("click", async () => {
+  const team1Name = t1.value.trim();
+  const team2Name = t2.value.trim();
+
+  if(!team1Name || !team2Name){
+    status.textContent = "اكتب اسم الفريقين قبل بدء الجولة";
+    (!team1Name ? t1 : t2).focus();
+    return;
+  }
+
+  if(team1Name.localeCompare(team2Name, "ar", {sensitivity:"base"}) === 0){
+    status.textContent = "اسم الفريقين لازم يكون مختلف";
+    t2.focus();
+    t2.select();
+    return;
+  }
+
+  const ft = Math.max(1, Number(firstTimer.value || 5));
+  const st = Math.max(1, Number(secondTimer.value || 10));
+
+  status.textContent = "جاري تجهيز الاتصال…";
+
+  // Session جديد لكل بداية لعبة، يمنع الاتصال القديم من تفعيل الانتقال.
+  const sessionId =
+    (crypto?.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`);
+
+  gameSessionId=sessionId;
+  const sessionPath=`mn_ana_sessions/${sessionId}`;
+  gameRef=ref(db,sessionPath);
+
+  const hostUrlObj = new URL("host.html", rootUrl);
+  hostUrlObj.searchParams.set("session", sessionId);
+  const hostUrl = hostUrlObj.href;
+
+  const buzzerUrlObj = new URL("buzzer.html", rootUrl);
+  buzzerUrlObj.searchParams.set("session", sessionId);
+  const buzzerUrl = buzzerUrlObj.href;
+
+  const gameUrlObj = new URL("game.html", rootUrl);
+  gameUrlObj.searchParams.set("session", sessionId);
+  const gameUrl = gameUrlObj.href;
+
+  makeQr(document.getElementById("hostQr"), hostUrl);
+  document.getElementById("hostUrlHint").textContent = hostUrl;
+  makeQr(document.getElementById("buzzerQr"), buzzerUrl);
+  document.getElementById("buzzerUrlHint").textContent = buzzerUrl;
+
+  await set(gameRef, {
+    teams: {
+      1: { name: team1Name, score: 0, x2Used: false, x2Active: false, delete2Used: false },
+      2: { name: team2Name, score: 0, x2Used: false, x2Active: false, delete2Used: false }
+    },
+    settings: {
+      firstTimer: ft,
+      secondTimer: st,
+      questionsPerRound
+    },
+    session: {
+      id: sessionId,
+      startedAt: Date.now()
+    },
+    round: 1,
+    qIndex: -1,
+    completedSections: 0,
+    sectionGate: {
+      active: false,
+      nextRound: 0
+    },
+    gameFinished: false,
+    gameStarted: false,
+    startGate: {
+      ready: false,
+      started: false
+    },
+    question: {
+      text: "بانتظار المقدم لبدء السؤال.",
+      answer: "",
+      choices: [],
+      points: 0,
+      revealed: false,
+      answeredBy: null,
+      answeredByName: "",
+      answeredTeam: null,
+      awardedPoints: 0,
+      historyKey: "",
+      x2Team: null,
+      x2Teams: {},
+      x2Consumed: false,
+      hiddenChoices: []
+    },
+    buzzer: {
+      open: true,
+      winner: null,
+      pressedAt: null,
+      countdownUntil: 0,
+      countdownSeconds: 0
+    },
+    players: {},
+    history: {}});
+
+  // صفّر حالة اتصال المقدم لهذا الـ Session في مسار منفصل عن بيانات اللعبة.
+  await set(ref(db, `${sessionPath}/display`), {
+    key: "",
+    round: 0,
+    qIndex: -1,
+    historyKey: "",
+    shownAt: 0
+  });
+
+  await set(ref(db, `${sessionPath}/presence/host`), {
+    connected: false,
+    lastSeen: 0,
+    page: "host",
+    session: ""
+  });
+
+  if(stopGameStartedWatch) stopGameStartedWatch();
+  if(stopStartSignalWatch) stopStartSignalWatch();
+  if(gameStartedFallback){ clearInterval(gameStartedFallback); gameStartedFallback=null; }
+
+  let enteringGame=false;
+  const enterGame=()=>{
+    if(enteringGame) return;
+    enteringGame=true;
+    if(gameStartedFallback){ clearInterval(gameStartedFallback); gameStartedFallback=null; }
+    if(stopGameStartedWatch){ stopGameStartedWatch(); stopGameStartedWatch=null; }
+    if(stopStartSignalWatch){ stopStartSignalWatch(); stopStartSignalWatch=null; }
+    window.location.href=gameUrl;
+  };
+
+  // الإشارة الأساسية.
+  stopGameStartedWatch=onValue(ref(db,`${sessionPath}/gameStarted`),snap=>{
+    if(snap.val()===true) enterGame();
+  });
+
+  // إشارة مستقلة احتياطية يكتبها الهوست عند الضغط على "بدء اللعبة".
+  stopStartSignalWatch=onValue(ref(db,`${sessionPath}/startSignal`),snap=>{
+    const signal=snap.val();
+    if(signal?.started===true && signal?.session===sessionId) enterGame();
+  });
+
+  // فحص احتياطي للجلسة كاملة، وليس gameStarted فقط.
+  gameStartedFallback=setInterval(async()=>{
+    try{
+      const sessionSnap=await get(gameRef);
+      const current=sessionSnap.val();
+      if(current?.gameStarted===true || current?.startSignal?.started===true){
+        enterGame();
+      }
+    }catch(e){
+      console.error("Game start fallback error",e);
+    }
+  },700);
+
+  hostStep.classList.remove("hidden");
+  buzzerStep.classList.remove("hidden");
+  overlay.classList.remove("hidden");
+
+  if(stopHostWatch) stopHostWatch();
+
+  let transitionedToBuzzer = false;
+  let fallbackPoll = null;
+
+  const goToBuzzerStep = () => {
+    if(transitionedToBuzzer) return;
+    transitionedToBuzzer = true;
+
+    // الباركودان يبقيان ظاهرين معًا؛ نوقف المراقبة فقط بعد اتصال المقدم.
+    if(stopHostWatch){ stopHostWatch(); stopHostWatch = null; }
+    if(fallbackPoll){ clearInterval(fallbackPoll); fallbackPoll = null; }
+  };
+
+  const hostMatchesThisSession = (h) => {
+    if(!h) return false;
+    const lastSeen = Number(h.lastSeen || 0);
+    const fresh = lastSeen > 0 && (Date.now() - lastSeen) < 10000;
+    return h.connected === true && fresh && h.session === sessionId;
+  };
+
+  stopHostWatch = onValue(
+    ref(db, `${sessionPath}/presence/host`),
+    snap => {
+      if(hostMatchesThisSession(snap.val())) goToBuzzerStep();
+    },
+    err => console.error("Host watcher error", err)
+  );
+
+  // فحص احتياطي، لكن فقط لنفس Session.
+  fallbackPoll = setInterval(async () => {
+    try{
+      const snap = await get(ref(db, `${sessionPath}/presence/host`));
+      if(hostMatchesThisSession(snap.val())) goToBuzzerStep();
+    }catch(e){
+      console.error("Host polling error", e);
+    }
+  }, 1000);
+});
+
+
+</script>
+</body>
+</html>

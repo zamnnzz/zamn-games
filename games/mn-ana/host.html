@@ -1,0 +1,1791 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>من أنا؟ — المقدم</title>
+<style>
+:root{
+  --ink:#18384c; --bg:#f1f7e3; --dot:#dbe9c8; --panel:#e9f8cf;
+  --team1:#bfd5b9; --team2:#cfedda; --green:#57cd78; --blue:#6ed3ef;
+  --orange:#ff7d31; --red:#ef6c62; --shadow:#b7c6a8;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Tahoma,"Segoe UI",Arial,sans-serif;color:var(--ink)}
+body{background-color:var(--bg);background-image:radial-gradient(circle,var(--dot) 2px,transparent 2.2px);background-size:16px 16px}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:940px;margin:auto;padding:22px 16px 50px}
+.logo{text-align:center;font-size:54px;font-weight:1000;line-height:.9;margin:8px 0 26px}
+.small{font-size:13px}.muted{color:#627a68}
+.scorebar{display:grid;grid-template-columns:1fr 100px 1fr;border:4px solid var(--ink);border-radius:17px;overflow:hidden;margin-bottom:18px}
+.teamBox{padding:14px;text-align:center;font-weight:900}.teamBox.t1{background:var(--team1)}.teamBox.t2{background:var(--team2)}
+.teamName{font-size:18px}.score{font-size:44px;line-height:1}.centerBox{display:grid;place-items:center;background:#edf7cf;border-left:2px solid #9ab59a;border-right:2px solid #9ab59a;font-weight:1000}
+.card{background:rgba(234,249,208,.96);border:4px solid var(--ink);border-radius:17px;box-shadow:0 7px 0 var(--shadow);padding:20px;margin-bottom:18px}
+.hostHeader{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+.badge{display:inline-block;background:var(--ink);color:#fff;border-radius:999px;padding:7px 12px;font-weight:900}
+.roundTabs{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}.roundBtn.active{background:var(--blue)}
+.btn{border:3px solid var(--ink);border-radius:13px;padding:12px 15px;font-weight:900;background:#fff;color:var(--ink);box-shadow:0 4px 0 #9fac9e}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 #9fac9e}.btn.green{background:var(--green)}.btn.blue{background:var(--blue)}.btn.orange{background:var(--orange)}.btn.red{background:#f2a29b}
+.question{border:4px solid var(--ink);border-radius:17px;background:#f7f8e8;padding:20px;text-align:center;font-size:23px;line-height:1.6;font-weight:900;box-shadow:0 5px 0 #9faa9b}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.answer{background:#fff;border:3px solid var(--ink);border-radius:11px;padding:11px;font-weight:900}
+.answerBox{margin-top:14px;background:#fff4cf;border:3px solid var(--ink);border-radius:14px;padding:14px;text-align:center;font-weight:1000;font-size:21px}
+.controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.status{border:3px solid var(--ink);border-radius:14px;background:#fff;padding:14px;text-align:center;font-weight:900}.winner{font-size:25px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px} select.btn{appearance:auto}
+.x2note{font-size:12px;color:#6e765c;margin-top:7px}
+@media(max-width:700px){.roundTabs,.grid2,.answers{grid-template-columns:1fr}.scorebar{grid-template-columns:1fr 76px 1fr}.teamName{font-size:13px}.score{font-size:36px}.logo{font-size:42px}}
+
+.team-award-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.team-award{
+  border:4px solid var(--ink);border-radius:16px;padding:18px 14px;
+  color:var(--ink);font-weight:1000;cursor:pointer;
+  box-shadow:0 5px 0 #9fac9e;transition:.15s transform,.15s outline;
+}
+.team-award.team-one{background:var(--team1)}
+.team-award.team-two{background:var(--team2)}
+.team-award.selected{outline:5px solid #ffbf3f;transform:translateY(-2px)}
+.team-award-name{font-size:18px}
+.team-award-score{font-size:34px;line-height:1;margin-top:4px}
+@media(max-width:700px){.team-award-grid{grid-template-columns:1fr 1fr}.team-award-name{font-size:14px}.team-award-score{font-size:28px}}
+
+
+.question-meta{display:flex;gap:8px;align-items:center}
+.question-meta span{
+  background:#fff;border:3px solid var(--ink);border-radius:999px;
+  padding:7px 11px;font-weight:900
+}
+.question-x2{
+  margin-top:12px;background:#ffe277;border:3px solid var(--ink);
+  border-radius:13px;padding:10px 14px;text-align:center;font-weight:1000
+}
+
+.host-overlay{
+  position:fixed;inset:0;z-index:120;
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  background:
+    radial-gradient(circle at 18% 20%,rgba(255,222,145,.44),transparent 34%),
+    radial-gradient(circle at 82% 24%,rgba(110,211,239,.18),transparent 30%),
+    rgba(241,247,227,.975);
+  overflow:hidden;
+}
+.host-overlay.hidden{display:none!important}
+.host-overlay-card{
+  position:relative;z-index:2;
+  width:min(610px,94vw);
+  background:rgba(234,249,208,.98);
+  border:4px solid var(--ink);
+  border-radius:24px;
+  box-shadow:0 10px 0 var(--shadow);
+  padding:34px 28px;
+  text-align:center;
+  animation:hostOverlayIn .55s cubic-bezier(.18,.82,.22,1) both;
+}
+.host-overlay-kicker{
+  font-size:16px;font-weight:900;color:#667d68;margin-bottom:10px
+}
+.host-overlay-title{
+  font-size:clamp(42px,6vw,72px);
+  font-weight:1000;line-height:1;color:#179aa5;
+  letter-spacing:-2px
+}
+.host-overlay-subtitle{
+  margin:13px 0 20px;font-size:18px;font-weight:900;color:#526b59
+}
+.host-overlay-action{
+  width:min(330px,100%);font-size:19px
+}
+.results-card{padding-top:28px}
+.results-crown{
+  width:66px;height:66px;margin:0 auto 10px;
+  border-radius:50%;display:grid;place-items:center;
+  background:#ffe277;border:4px solid var(--ink);
+  font-size:34px;font-weight:1000;
+  animation:crownBounce 1.6s ease-in-out infinite
+}
+.winner-name{
+  margin:10px 0 22px;
+  font-size:clamp(30px,4vw,48px);
+  font-weight:1000;color:var(--ink)
+}
+.final-score-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px
+}
+.final-team{
+  border:4px solid var(--ink);border-radius:17px;
+  padding:17px 12px;box-shadow:0 5px 0 #9fac9e
+}
+.final-team-one{background:var(--team1)}
+.final-team-two{background:var(--team2)}
+.final-team-name{font-weight:900;font-size:17px}
+.final-team-score{font-size:45px;line-height:1;font-weight:1000;margin-top:5px}
+.score-difference{
+  margin-top:18px;display:inline-block;
+  background:#fff;border:3px solid var(--ink);
+  border-radius:999px;padding:9px 16px;font-weight:1000
+}
+.confetti-layer{
+  position:absolute;inset:0;overflow:hidden;pointer-events:none
+}
+.confetti-piece{
+  position:absolute;top:-12vh;
+  width:10px;height:18px;border-radius:3px;
+  background:var(--c);
+  left:var(--x);
+  animation:confettiFall var(--d) linear infinite;
+  animation-delay:var(--delay);
+  transform:rotate(var(--r))
+}
+@keyframes hostOverlayIn{
+  from{opacity:0;transform:translateY(24px) scale(.96)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes crownBounce{
+  0%,100%{transform:translateY(0) rotate(-3deg)}
+  50%{transform:translateY(-7px) rotate(3deg)}
+}
+@keyframes confettiFall{
+  0%{transform:translateY(-10vh) rotate(0deg)}
+  100%{transform:translateY(120vh) rotate(720deg)}
+}
+@media(max-width:650px){
+  .final-score-grid{grid-template-columns:1fr 1fr}
+  .host-overlay-card{padding:28px 18px}
+  .final-team-score{font-size:36px}
+}
+
+
+.start-game-overlay{
+  position:fixed;inset:0;z-index:130;
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  background:
+    radial-gradient(circle at 18% 22%,rgba(255,222,145,.40),transparent 34%),
+    radial-gradient(circle at 82% 25%,rgba(110,211,239,.16),transparent 30%),
+    rgba(241,247,227,.98);
+}
+.start-game-overlay.hidden{display:none!important}
+.start-game-box{
+  width:min(520px,92vw);
+  text-align:center;
+  animation:startBoxIn .48s cubic-bezier(.18,.82,.22,1) both
+}
+.start-game-btn{
+  width:100%;
+  min-height:112px;
+  border:5px solid var(--ink);
+  border-radius:25px;
+  background:var(--green);
+  color:var(--ink);
+  font:inherit;
+  font-size:clamp(30px,4vw,48px);
+  font-weight:1000;
+  cursor:pointer;
+  box-shadow:0 11px 0 #2f8550;
+  transition:transform .15s ease,box-shadow .15s ease,filter .15s ease;
+}
+.start-game-btn:hover{filter:brightness(1.03);transform:translateY(-2px)}
+.start-game-btn:active{transform:translateY(5px);box-shadow:0 6px 0 #2f8550}
+@keyframes startBoxIn{
+  from{opacity:0;transform:translateY(20px) scale(.96)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+
+.question-nav{
+  display:grid;
+  grid-template-columns:minmax(120px,1fr) auto minmax(120px,1fr);
+  gap:22px;
+  align-items:center;
+  margin-top:18px;
+  direction:ltr;
+}
+.question-nav-btn{
+  min-height:64px;
+  border:4px solid var(--ink);
+  border-radius:18px;
+  font:inherit;
+  font-size:22px;
+  font-weight:1000;
+  color:var(--ink);
+  cursor:pointer;
+  box-shadow:0 7px 0 var(--shadow);
+  transition:transform .14s ease,box-shadow .14s ease,filter .14s ease;
+}
+.question-nav-btn.prev{background:#eef8d9}
+.question-nav-btn.next{background:var(--green)}
+.question-nav-btn:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.02)}
+.question-nav-btn:active:not(:disabled){transform:translateY(4px);box-shadow:0 3px 0 var(--shadow)}
+.question-nav-btn:disabled{opacity:.38;cursor:not-allowed;box-shadow:0 4px 0 var(--shadow)}
+.question-nav-badge{
+  min-width:112px;
+  padding:12px 18px;
+  border:4px solid var(--ink);
+  border-radius:999px;
+  background:#70d3ef;
+  color:var(--ink);
+  font-size:18px;
+  font-weight:1000;
+  text-align:center;
+  box-shadow:0 4px 0 rgba(24,56,76,.18);
+}
+.answer-controls{margin-top:18px}
+
+.who-answered-overlay{
+  position:fixed;inset:0;z-index:145;
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  background:rgba(243,248,229,.96);
+  backdrop-filter:blur(4px);
+}
+.who-answered-overlay.hidden{display:none!important}
+.who-answered-card{
+  width:min(610px,94vw);
+  background:#eef8d9;
+  border:4px solid var(--ink);
+  border-radius:25px;
+  box-shadow:0 10px 0 var(--shadow);
+  padding:30px;
+  text-align:center;
+  animation:whoAnswerIn .34s cubic-bezier(.18,.82,.22,1) both;
+}
+.who-answered-kicker{font-size:16px;font-weight:900;color:#617665;margin-bottom:5px}
+.who-answered-title{font-size:32px;font-weight:1000;color:var(--ink);margin-bottom:22px}
+.who-answer-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.who-team,.who-nobody,.who-cancel{
+  min-height:70px;border:4px solid var(--ink);border-radius:18px;
+  font:inherit;font-size:20px;font-weight:1000;color:var(--ink);
+  cursor:pointer;box-shadow:0 6px 0 var(--shadow);
+  transition:transform .13s ease,box-shadow .13s ease;
+}
+.who-team:active,.who-nobody:active,.who-cancel:active{
+  transform:translateY(4px);box-shadow:0 2px 0 var(--shadow)
+}
+.who-team-one{background:var(--team1)}
+.who-team-two{background:var(--team2)}
+.who-nobody{width:100%;margin-top:14px;background:#fff}
+.who-cancel{
+  min-height:48px;margin-top:13px;padding:8px 24px;
+  background:transparent;box-shadow:none;border-width:3px;font-size:16px
+}
+@keyframes whoAnswerIn{
+  from{opacity:0;transform:translateY(18px) scale(.97)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@media(max-width:620px){
+  .question-nav{grid-template-columns:1fr auto 1fr;gap:9px}
+  .question-nav-btn{min-height:55px;font-size:18px}
+  .question-nav-badge{min-width:88px;padding:10px 12px;font-size:15px}
+  .who-answer-grid{grid-template-columns:1fr}
+}
+
+
+/* ترتيب شريط التنقل فقط */
+#nextBtn{grid-column:1;grid-row:1}
+#navQuestionBadge{grid-column:2;grid-row:1}
+#prevBtn{grid-column:3;grid-row:1}
+
+
+.inapp-toast{
+  position:fixed;
+  left:50%;
+  bottom:24px;
+  transform:translateX(-50%) translateY(20px);
+  z-index:9999;
+  max-width:min(520px,90vw);
+  background:#18384c;
+  color:#fff;
+  border:3px solid #18384c;
+  border-radius:14px;
+  padding:12px 18px;
+  font-weight:900;
+  text-align:center;
+  opacity:0;
+  pointer-events:none;
+  transition:.2s ease;
+  box-shadow:0 6px 0 rgba(24,56,76,.18);
+}
+.inapp-toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+
+/* compact host layout */
+html,body{min-height:100%;overflow-x:hidden}
+body{min-height:100dvh}
+.wrap{width:min(980px,100%);max-width:980px;padding:12px 14px 18px}
+.logo{font-size:clamp(36px,5vh,48px);line-height:.95;margin:2px 0 12px}
+.scorebar{grid-template-columns:1fr 84px 1fr;margin-bottom:10px;border-width:3px}
+.teamBox{padding:8px 12px}.teamName{font-size:clamp(14px,1.5vh,17px)}.score{font-size:clamp(32px,4.8vh,42px)}
+.centerBox{font-size:22px}#connection{margin:-6px 0 9px!important}
+.card{border-width:3px;padding:12px 14px;margin-bottom:10px;box-shadow:0 4px 0 var(--shadow)}
+.hostHeader{margin-bottom:8px}.badge{padding:5px 10px;font-size:13px}
+.question-meta span{padding:5px 9px;font-size:13px}
+.question{padding:12px 16px;min-height:74px;font-size:clamp(17px,2.1vh,21px);line-height:1.45;border-width:3px;box-shadow:0 3px 0 #9faa9b}
+.answers{gap:7px;margin-top:8px}.answer{padding:7px 9px;border-width:2px;font-size:14px}
+.answerBox{margin-top:8px;padding:9px 12px;font-size:17px;border-width:3px}
+.question-x2{margin-top:8px;padding:7px 10px}.controls{gap:7px;margin-top:9px}
+.btn{padding:9px 12px;border-width:3px;box-shadow:0 3px 0 #9fac9e;font-size:14px}
+.status{padding:9px;border-width:3px}.winner{font-size:19px}
+.question-nav{margin-top:10px!important;gap:8px!important}
+.question-nav-btn,.question-nav-badge{min-height:38px!important;padding:7px 10px!important;font-size:14px!important}
+.answer-controls{margin-top:9px!important}
+@media (min-width:701px) and (max-height:760px){
+  .wrap{padding-top:7px;padding-bottom:8px}.logo{font-size:32px;margin:0 0 7px}.scorebar{margin-bottom:7px}
+  .teamBox{padding:5px 10px}.score{font-size:30px}#connection{margin:-4px 0 6px!important;font-size:11px}
+  .card{padding:9px 11px;margin-bottom:7px}.question{min-height:58px;padding:8px 12px;font-size:16px}
+  .answerBox{margin-top:6px;padding:6px 9px;font-size:15px}.controls{margin-top:6px}
+  .btn{padding:7px 9px;font-size:12px}.status{padding:6px}.winner{font-size:16px}.question-nav{margin-top:7px!important}
+}
+@media(max-width:700px){
+  .wrap{padding:10px 10px 14px}.logo{font-size:34px;margin:2px 0 10px}.scorebar{grid-template-columns:1fr 62px 1fr}
+  .teamBox{padding:7px 6px}.teamName{font-size:12px}.score{font-size:30px}.card{padding:11px 10px}
+  .question{font-size:16px;min-height:66px;padding:10px}.roundTabs,.grid2{grid-template-columns:1fr}
+  .answers{grid-template-columns:1fr 1fr}.btn{font-size:12px;padding:8px 9px}
+}
+
+
+/* ترتيب واجهة الهوست: مساحة أكبر + الجرس عمودي يمين على الكمبيوتر */
+.wrap{
+  width:min(1180px,100%);
+  max-width:1180px;
+}
+.host-main-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 280px;
+  gap:14px;
+  align-items:start;
+  direction:ltr;
+}
+.host-question-column,
+.host-buzzer-column{
+  direction:rtl;
+  min-width:0;
+}
+.host-question-column>.card{
+  margin-bottom:0;
+}
+.host-buzzer-column{
+  position:sticky;
+  top:12px;
+}
+.buzzer-card{
+  margin-bottom:0;
+  min-height:100%;
+}
+.buzzer-card .hostHeader{
+  flex-direction:column;
+  align-items:stretch;
+  text-align:center;
+  gap:7px;
+}
+.buzzer-card #buzzerState{
+  text-align:center;
+  font-size:13px;
+}
+.buzzer-card .winner{
+  min-height:82px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.buzzer-card .controls{
+  flex-direction:column;
+  align-items:stretch;
+}
+.buzzer-card .controls .btn{
+  width:100%;
+  min-height:44px;
+}
+.answer-controls{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+.answer-controls .btn{
+  width:100%;
+  min-height:43px;
+}
+.question{
+  font-size:clamp(18px,2.15vh,23px);
+  min-height:82px;
+}
+.card{
+  padding:14px 16px;
+}
+@media(min-width:1000px){
+  .wrap{padding-left:18px;padding-right:18px}
+  .scorebar{margin-bottom:12px}
+  .question{padding:15px 18px}
+  .answerBox{padding:11px 14px}
+}
+@media(max-width:900px){
+  .host-main-layout{
+    display:block;
+  }
+  .host-buzzer-column{
+    position:static;
+  }
+  .host-question-column>.card,
+  .buzzer-card{
+    margin-bottom:10px;
+  }
+  .buzzer-card .hostHeader{
+    flex-direction:row;
+    align-items:center;
+    text-align:initial;
+  }
+  .buzzer-card .controls{
+    flex-direction:row;
+    flex-wrap:wrap;
+  }
+  .buzzer-card .controls .btn{
+    width:auto;
+    flex:1 1 130px;
+  }
+}
+@media(max-width:520px){
+  .answer-controls{
+    grid-template-columns:1fr;
+  }
+}
+
+
+/* تمدد واجهة الهوست مع الشاشة */
+html,body{
+  width:100%;
+  min-height:100%;
+}
+body{
+  min-height:100dvh;
+}
+.wrap{
+  width:100%;
+  max-width:none;
+  min-height:100dvh;
+  margin:0;
+  padding:14px 18px 18px;
+  display:flex;
+  flex-direction:column;
+}
+.scorebar{
+  width:100%;
+}
+.host-main-layout{
+  width:100%;
+  flex:1 1 auto;
+  grid-template-columns:minmax(0,1fr) minmax(260px,22vw);
+}
+.host-question-column{
+  display:flex;
+  min-height:0;
+}
+.host-question-column>.card{
+  width:100%;
+  min-height:100%;
+  display:flex;
+  flex-direction:column;
+}
+.host-buzzer-column{
+  min-height:100%;
+}
+.buzzer-card{
+  min-height:100%;
+  display:flex;
+  flex-direction:column;
+}
+.buzzer-card .controls{
+  margin-top:auto;
+}
+.question{
+  flex:0 0 auto;
+}
+.answerBox{
+  flex:0 0 auto;
+}
+@media(min-width:1200px){
+  .wrap{
+    padding:16px 24px 20px;
+  }
+  .host-main-layout{
+    gap:18px;
+    grid-template-columns:minmax(0,1fr) minmax(300px,21vw);
+  }
+}
+@media(max-width:900px){
+  .wrap{
+    min-height:auto;
+    padding:10px 10px 14px;
+  }
+  .host-main-layout{
+    flex:0 0 auto;
+  }
+  .host-question-column{
+    display:block;
+  }
+  .host-question-column>.card,
+  .host-buzzer-column,
+  .buzzer-card{
+    min-height:auto;
+  }
+}
+
+
+.question-answered-status{
+  margin-top:8px;
+  padding:10px 12px;
+  border:3px solid var(--ink);
+  border-radius:12px;
+  background:#dff3d6;
+  font-weight:1000;
+  text-align:center;
+  font-size:15px;
+}
+
+
+/* إخفاء حقيقي لعناصر تحكم السؤال */
+.answer-controls .hidden{
+  display:none!important;
+}
+.question-answered-status.hidden{
+  display:none!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  min-height:0!important;
+}
+
+
+/* حالة القدرات عند الهوست */
+.team-powers{
+  display:flex;
+  justify-content:center;
+  gap:5px;
+  flex-wrap:wrap;
+  margin:5px 0 2px;
+}
+.team-power-chip{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:24px;
+  padding:3px 7px;
+  border:2px solid var(--ink);
+  border-radius:999px;
+  background:rgba(255,255,255,.66);
+  font-size:10px;
+  font-weight:1000;
+  line-height:1;
+  transition:.2s ease;
+}
+.team-power-chip.active{
+  background:#ffe277;
+}
+.team-power-chip.used{
+  opacity:.26;
+  filter:grayscale(1);
+  text-decoration:line-through;
+}
+
+/* ترتيب بصري لقسم الجرس داخل الهوست */
+.buzzer-card{
+  gap:13px;
+  background:linear-gradient(180deg,rgba(234,249,208,.98),rgba(245,250,235,.98));
+}
+.buzzer-panel-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding-bottom:11px;
+  border-bottom:2px dashed rgba(24,56,76,.28);
+}
+.buzzer-panel-kicker{
+  font-size:11px;
+  font-weight:900;
+  opacity:.62;
+  margin-bottom:2px;
+}
+.buzzer-panel-title{
+  font-size:25px;
+  font-weight:1000;
+  line-height:1;
+}
+.buzzer-state-pill{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:72px;
+  min-height:34px;
+  padding:6px 10px;
+  border:3px solid var(--ink);
+  border-radius:999px;
+  background:#fff;
+  font-size:12px;
+  font-weight:1000;
+}
+.buzzer-winner-box{
+  min-height:108px!important;
+  border:3px solid var(--ink);
+  border-radius:16px;
+  font-size:15px;
+  font-weight:1000;
+  text-align:center;
+  padding:14px 10px;
+}
+.buzzer-control-stack{
+  margin-top:auto;
+  display:grid;
+  gap:9px;
+}
+.buzzer-control-btn{
+  width:100%;
+  min-height:48px;
+  font-size:14px;
+}
+.buzzer-control-btn.secondary{
+  background:#fff;
+}
+@media(max-width:900px){
+  .buzzer-control-stack{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    margin-top:0;
+  }
+  .buzzer-winner-box{
+    min-height:72px!important;
+  }
+}
+@media(max-width:560px){
+  .team-power-chip{font-size:9px;padding:3px 5px}
+  .buzzer-control-stack{grid-template-columns:1fr}
+}
+
+
+.buzzer-state-pill.is-open{background:#bcebb4}
+.buzzer-state-pill.is-closed{background:#eef0ea;opacity:.72}
+
+
+
+
+
+/* نفس خط اللعبة حرفيًا في الجولة الأولى */
+body[data-round="1"] #hostAnswer{
+  font-family:Tahoma,"Segoe UI",Arial,sans-serif!important;
+  color:var(--ink)!important;
+  -webkit-text-fill-color:var(--ink)!important;
+  font-weight:900!important;
+  opacity:1!important;
+  filter:none!important;
+  text-shadow:none!important;
+}
+
+
+
+/* خط الجولة الأولى في الهوست - نفس خط اللعبة */
+#questionText.round1-handwriting{
+  font-family:"ShekariRound1",serif!important;
+  color:#000!important;
+  -webkit-text-fill-color:#000!important;
+  opacity:1!important;
+  filter:none!important;
+  text-shadow:none!important;
+  font-weight:600!important;
+  font-size:clamp(29px,2.55vw,43px)!important;
+  line-height:2.05!important;
+  letter-spacing:0!important;
+}
+
+
+/* الجولة الثانية: لوحة من أنا للمقدم فقط */
+.round2-who-panel{
+  margin-top:14px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.round2-who-panel.hidden{display:none!important}
+.round2-person-name{
+  text-align:center;
+  color:#20bce4;
+  font-size:clamp(25px,2.2vw,36px);
+  font-weight:1000;
+  line-height:1.25;
+  padding:6px 10px 10px;
+}
+.round2-clues{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+}
+.round2-clue{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 38px;
+  align-items:center;
+  gap:10px;
+  min-height:52px;
+  background:#fff;
+  border:3px solid var(--ink);
+  border-radius:11px;
+  padding:8px 9px 8px 13px;
+  box-shadow:0 3px 0 rgba(24,56,76,.13);
+  font-size:clamp(15px,1.15vw,19px);
+  font-weight:900;
+  line-height:1.55;
+}
+.round2-clue-num{
+  width:32px;
+  height:32px;
+  border:2px solid var(--ink);
+  border-radius:8px;
+  background:#ff7e31;
+  display:grid;
+  place-items:center;
+  font-size:14px;
+  font-weight:1000;
+}
+
+
+/* الجولة الثانية فقط: لا يظهر المربع الكبير ولا مربع الإجابة السفلي */
+#questionText.round2-hidden,
+#hostAnswerBox.round2-hidden{
+  display:none!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  min-height:0!important;
+  box-shadow:none!important;
+}
+
+
+@font-face{
+  font-family:"ShekariRound1";
+  src:url("shekari (1).ttf") format("truetype");
+  font-style:normal;
+  font-weight:400 900;
+  font-display:swap;
+}
+
+
+#questionText.round1-handwriting{
+  font-family:"ShekariRound1",serif!important;
+}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo">من أنا؟</div>
+
+  <div class="scorebar">
+    <div class="teamBox t2">
+      <div id="team2Name" class="teamName">الفريق الثاني</div>
+      <div class="team-powers">
+        <span id="hostT2X2" class="team-power-chip">x2</span>
+        <span id="hostT2Delete2" class="team-power-chip">حذف 2</span>
+      </div>
+      <div id="team2Score" class="score">0</div>
+    </div>
+    <div class="centerBox">★</div>
+    <div class="teamBox t1">
+      <div id="team1Name" class="teamName">الفريق الأول</div>
+      <div class="team-powers">
+        <span id="hostT1X2" class="team-power-chip">x2</span>
+        <span id="hostT1Delete2" class="team-power-chip">حذف 2</span>
+      </div>
+      <div id="team1Score" class="score">0</div>
+    </div>
+  </div>
+
+  <div id="connection" class="small muted" style="text-align:center;margin:-14px 0 16px">جاري الاتصال…</div>
+
+  <div class="host-main-layout">
+    <div class="host-question-column">
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+      <div id="roundTitle" class="badge">الجولة الأولى</div>
+      <div class="question-meta">
+        
+        <span>النقاط <strong id="hostQpoints">0</strong></span>
+      </div>
+    </div>
+    <div id="questionText" class="question" style="margin-top:14px">اضغط "السؤال التالي" لبدء الجولة.</div>
+
+    <div id="round2WhoPanel" class="round2-who-panel hidden">
+      <div id="round2PersonName" class="round2-person-name">الشخصية</div>
+      <div id="round2Clues" class="round2-clues"></div>
+    </div>
+
+    <div id="answers" class="answers"></div>
+
+    <div id="questionX2" class="question-x2" style="display:none"></div>
+    <div id="questionAnsweredStatus" class="question-answered-status hidden"></div>
+    <div id="hostAnswerBox" class="answerBox">
+      <div class="small muted" style="margin-bottom:5px">الإجابة عند المقدم</div>
+      <div id="hostAnswer">—</div>
+    </div>
+
+    <div class="question-nav">
+      <button id="prevBtn" class="question-nav-btn prev" onclick="previousQuestion()">السابق</button>
+      <div id="navQuestionBadge" class="question-nav-badge">السؤال 1</div>
+      <button id="nextBtn" class="question-nav-btn next" onclick="requestNextQuestion()">التالي</button>
+    </div>
+
+    <div class="controls answer-controls">
+      <button id="answerToggleBtn" class="btn green" onclick="toggleAnswerOnGame()">إظهار الإجابة</button>
+      <button id="choicesToggleBtn" class="btn blue hidden" onclick="toggleChoicesOnGame()">إظهار الخيارات</button>
+    </div>
+  </div>
+
+    </div>
+    <aside class="host-buzzer-column">
+  <div class="card buzzer-card">
+    <div class="buzzer-panel-head">
+      <div>
+        <div class="buzzer-panel-kicker">تحكم مباشر</div>
+        <div class="buzzer-panel-title">الجرس</div>
+      </div>
+      <span id="buzzerState" class="buzzer-state-pill">مغلق</span>
+    </div>
+    <div id="winnerBox" class="status winner buzzer-winner-box">لا يوجد ضغط بعد</div>
+    <div class="buzzer-control-stack">
+      <button class="btn green buzzer-control-btn" onclick="openBuzzer()">فتح الجرس</button>
+      <button class="btn orange buzzer-control-btn" onclick="closeBuzzer()">إغلاق الجرس</button>
+      <button class="btn buzzer-control-btn secondary" onclick="resetBuzzer()">إعادة ضبط الجرس</button>
+    </div>
+  </div>
+    </aside>
+  </div>
+
+</div>
+
+
+
+
+<div id="whoAnsweredOverlay" class="who-answered-overlay hidden">
+  <div class="who-answered-card">
+    <div class="who-answered-kicker">من جاوب؟</div>
+    <div class="who-answered-title">اختر نتيجة السؤال</div>
+
+    <div class="who-answer-grid">
+      <button id="whoTeam1" class="who-team who-team-one" onclick="resolveQuestionAndNext(1)">
+        <span id="whoTeam1Name">الفريق الأول</span>
+      </button>
+      <button id="whoTeam2" class="who-team who-team-two" onclick="resolveQuestionAndNext(2)">
+        <span id="whoTeam2Name">الفريق الثاني</span>
+      </button>
+    </div>
+
+    <button id="whoNobody" class="who-nobody" onclick="resolveQuestionAndNext(0)">محد جاوب</button>
+    <button class="who-cancel" onclick="closeWhoAnswered()">إلغاء</button>
+  </div>
+</div>
+
+<div id="startGameOverlay" class="start-game-overlay hidden">
+  <div class="start-game-box">
+    <button id="startGameBtn" class="start-game-btn" onclick="startGameNow()">
+      بدء اللعبة
+    </button>
+  </div>
+</div>
+
+<div id="sectionGateOverlay" class="host-overlay hidden">
+  <div class="host-overlay-card section-card">
+    <div class="host-overlay-kicker">اكتملت الفقرة</div>
+    <div id="nextSectionTitle" class="host-overlay-title">من أنا؟</div>
+    <div id="nextSectionSubtitle" class="host-overlay-subtitle">الفقرة الثانية جاهزة</div>
+    <button id="startNextSectionBtn" class="btn green host-overlay-action" onclick="startNextSection()">ابدأ الفقرة التالية</button>
+  </div>
+</div>
+
+<div id="finalResultsOverlay" class="host-overlay hidden">
+  <div id="hostConfetti" class="confetti-layer"></div>
+  <div class="host-overlay-card results-card">
+    <div class="results-crown">★</div>
+    <div class="host-overlay-kicker">النتيجة النهائية</div>
+    <div id="hostWinnerTitle" class="host-overlay-title">الفائز</div>
+    <div id="hostWinnerName" class="winner-name">—</div>
+    <div class="final-score-grid">
+      <div class="final-team final-team-one">
+        <div id="hostFinalTeam1Name" class="final-team-name">الفريق الأول</div>
+        <div id="hostFinalTeam1Score" class="final-team-score">0</div>
+      </div>
+      <div class="final-team final-team-two">
+        <div id="hostFinalTeam2Name" class="final-team-name">الفريق الثاني</div>
+        <div id="hostFinalTeam2Score" class="final-team-score">0</div>
+      </div>
+    </div>
+    <div id="hostScoreDifference" class="score-difference">الفارق: 0 نقطة</div>
+  </div>
+</div>
+
+<div id="inappToast" class="inapp-toast"></div>
+
+<script src="./firebase-config.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getDatabase, ref, set, update, onValue, onDisconnect, runTransaction } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+const app=initializeApp(window.firebaseConfig);
+let inappToastTimer=null;
+function showInappNotice(message){
+  const box=document.getElementById("inappToast");
+  if(!box) return;
+  box.textContent=message;
+  box.classList.add("show");
+  if(inappToastTimer) clearTimeout(inappToastTimer);
+  inappToastTimer=setTimeout(()=>box.classList.remove("show"),2600);
+}
+const db=getDatabase(app);
+const hostSession = new URLSearchParams(location.search).get("session") || "";
+const sessionPath=hostSession?`mn_ana_sessions/${hostSession}`:"";
+const gameRef=ref(db,sessionPath||"mn_ana_invalid_session");
+const hostConnectionRef=ref(db,sessionPath?`${sessionPath}/presence/host`:"mn_ana_invalid_session/presence/host");
+
+let heartbeat=null;
+async function markHostOnline(){
+  const beat=async()=>{
+    try{
+      await set(hostConnectionRef,{
+        connected:true,
+        lastSeen:Date.now(),
+        page:"host",
+        session:hostSession
+      });
+    }catch(e){console.error("Host heartbeat",e)}
+  };
+
+  try{
+    await onDisconnect(hostConnectionRef).set({
+      connected:false,
+      lastSeen:Date.now(),
+      page:"host",
+      session:hostSession
+    });
+  }catch(e){}
+
+  await beat();
+
+  if(heartbeat) clearInterval(heartbeat);
+  heartbeat=setInterval(beat,1500);
+
+  window.addEventListener("focus",beat);
+  document.addEventListener("visibilitychange",()=>{
+    if(document.visibilityState==="visible") beat();
+  });
+}
+if(hostSession){
+  markHostOnline();
+}else{
+  document.body.innerHTML='<div style="font-family:system-ui;text-align:center;padding:50px"><h2>رابط الجلسة غير صالح</h2></div>';
+}
+
+const rounds={
+  1:[
+    {q:"من عرف قدر نفسه، عرف متى يتقدم ومتى يتراجع.",a:"من عرف قدر نفسه، عرف متى يتقدم ومتى يتراجع.",points:1},
+    {q:"من أكثر الكلام، كثرت زلاته وإن ظن أنه يحسن الحديث.",a:"من أكثر الكلام، كثرت زلاته وإن ظن أنه يحسن الحديث.",points:2},
+    {q:"قد يخسر الإنسان الكثير حين يصر على كسب جدال لا يستحق.",a:"قد يخسر الإنسان الكثير حين يصر على كسب جدال لا يستحق.",points:3},
+    {q:"من اعتاد الراحة طويلًا، ثقل عليه كل طريق يحتاج إلى صبر.",a:"من اعتاد الراحة طويلًا، ثقل عليه كل طريق يحتاج إلى صبر.",points:4},
+    {q:"ليس كل تأخير خسارة، فقد يكون بعض الانتظار بداية للنجاة.",a:"ليس كل تأخير خسارة، فقد يكون بعض الانتظار بداية للنجاة.",points:5},
+    {q:"من جعل غضبه يقوده، ندم حين يعود إليه عقله.",a:"من جعل غضبه يقوده، ندم حين يعود إليه عقله.",points:6},
+    {q:"قد يكون أقرب الناس إليك أقلهم معرفة بما يدور في داخلك.",a:"قد يكون أقرب الناس إليك أقلهم معرفة بما يدور في داخلك.",points:7},
+    {q:"من طلب احترام الناس قبل أن يحترم نفسه، أتعبه انتظارهم.",a:"من طلب احترام الناس قبل أن يحترم نفسه، أتعبه انتظارهم.",points:8},
+    {q:"ليس كل صمت ضعفًا، فبعض الصمت أبلغ من كثير من الردود.",a:"ليس كل صمت ضعفًا، فبعض الصمت أبلغ من كثير من الردود.",points:9},
+    {q:"من خاف الخطأ في كل خطوة، بقي مكانه وهو يظن أنه حذر",a:"من خاف الخطأ في كل خطوة، بقي مكانه وهو يظن أنه حذر",points:10}
+  ],
+  2:[
+    {q:"من أنا؟",a:"النهر",person:"النهر",clues:["أبدأ من مكان، وغالبًا أنتهي في مكان مختلف تمامًا.", "كثير من المدن والحضارات قامت حولي.", "أحيانًا أكون هادئ، وأحيانًا أسبب فيضانات قوية.", "أجري لمسافات طويلة، وغالبًا تكون نهايتي في بحر أو محيط."],points:4},
+    {q:"من أنا؟",a:"الذهب",person:"الذهب",clues:["الناس عرفوا قيمتي من آلاف السنين.", "دخلت في التجارة والهدايا وحتى خزائن الملوك.", "ما أصدأ بسهولة مثل كثير من المعادن.", "لوني معروف، وغالبًا تشوفني في المجوهرات."],points:4},
+    {q:"من أنا؟",a:"الرياح",person:"الرياح",clues:["ما تقدر تشوفني، لكن تقدر تعرف إني موجود.", "أقدر أحرك أشياء أكبر مني بكثير.", "أحيانًا أكون خفيف ولطيف، وأحيانًا أتحول لشيء مخيف.", "أكثر شيء يفضح وجودي هو حركة الأشجار."],points:4},
+    {q:"من أنا؟",a:"بصمة الإصبع",person:"بصمة الإصبع",clues:["أقدر أكشف هوية شخص حتى لو ما قال اسمه.", "ما أحتاج إلا لمسة عشان أترك أثر.", "أختلف من شخص لشخص بشكل كبير.", "تستخدم كثير في التحقيقات والتعرف على الأشخاص."],points:4},
+    {q:"من أنا؟",a:"النار",person:"النار",clues:["عرفني الإنسان من زمان جدًا.", "كنت وسيلة للدفء والطبخ والحماية.", "لو خرجت عن السيطرة أقدر أسبب كارثة.", "أحتاج وقود، وأعطي حرارة وضوء."],points:4},
+    {q:"من أنا؟",a:"المرآة",person:"المرآة",clues:["ما عندي ذاكرة، ومع ذلك أعرض لك اللي أمامي فورًا.", "أتعامل مع الضوء أكثر مما أتعامل مع الأشياء نفسها.", "أظهر لك صورة مألوفة، لكن ترتيبها الجانبي مو مثل الواقع.", "وجودي يعتمد على سطح يعكس الضوء بشكل منتظم."],points:4},
+    {q:"من أنا؟",a:"البوصلة",person:"البوصلة",clues:["كنت من أهم الأدوات للمسافرين والبحارة.", "ما أقول لك وين أنت بالضبط، لكن أساعدك تعرف الاتجاه.", "شغلي مرتبط بالمغناطيسية.", "أشهر شيء فيني إن إبرتي تدلك على الشمال."],points:4},
+    {q:"من أنا؟",a:"الجاذبية",person:"الجاذبية",clues:["ما لها شكل، لكن تأثيرها يحدد حركة أشياء ضخمة جدًا.", "كل ما زادت الكتلة، زاد تأثيري.", "أنا سبب في بقاء أجرام كثيرة ضمن مداراتها.", "على سطح الأرض، أنا السبب في اتجاه سقوط الأجسام للأسفل."],points:4},
+    {q:"من أنا؟",a:"الساعة",person:"الساعة",clues:["مهمتي مرتبطة بقياس شيء يستمر حتى لو توقفت أنا.", "كنت قديمًا أعتمد على الشمس قبل ما أصير ميكانيكية وإلكترونية.", "بعض أنواعي تقيس أكثر من مجرد الساعات والدقائق.", "أقسم اليوم إلى وحدات يعرفها الجميع تقريبًا."],points:4},
+    {q:"من أنا؟",a:"الذاكرة",person:"الذاكرة",clues:["أحتفظ بأشياء صارت لك بدون ورق ولا صور.", "أحيانًا أكون دقيقة، وأحيانًا أغيّر بعض التفاصيل.", "ريحة أو أغنية ممكن ترجعني لك فجأة.", "بدونّي ما تعرف تتذكر أسماء الناس أو مواقف حياتك"],points:4}
+  ],
+  3:[
+    {q:"«لا إله إلا أنت سبحانك إني كنت من الظالمين»",a:"يونس عليه السلام",choices:["موسى عليه السلام", "يونس عليه السلام", "أيوب عليه السلام", "نوح عليه السلام"],points:8},
+    {q:"«الخيل والليل والبيداء تعرفني\nوالسيف والرمح والقرطاس والقلم»",a:"المتنبي",choices:["عنترة بن شداد", "أبو تمام", "المتنبي", "أبو فراس الحمداني"],points:8},
+    {q:"«أنا الذي نظر الأعمى إلى أدبي\nوأسمعت كلماتي من به صمم»",a:"المتنبي",choices:["أبو تمام", "المتنبي", "عنترة بن شداد", "أبو فراس الحمداني"],points:8},
+    {q:"«إذا كنت قد رأيت أبعد من غيري، فذلك لأني وقفت على أكتاف العمالقة»",a:"إسحاق نيوتن",choices:["غاليليو", "إسحاق نيوتن", "ألبرت أينشتاين", "يوهانس كبلر"],points:8},
+    {q:"«الذكاء الاصطناعي سيكون إما أفضل شيء أو أسوأ شيء يحدث للبشرية»",a:"ستيفن هوكينغ",choices:["إيلون ماسك", "ستيف جوبز", "ستيفن هوكينغ", "بيل غيتس"],points:8},
+    {q:"«الحياة مثل ركوب الدراجة، لكي تحافظ على توازنك يجب أن تظل متحركًا»",a:"ألبرت أينشتاين",choices:["إسحاق نيوتن", "ألبرت أينشتاين", "نيكولا تسلا", "ستيفن هوكينغ"],points:8},
+    {q:"«نحن لا نستسلم، ننتصر أو نموت»",a:"عمر المختار",choices:["صلاح الدين الأيوبي", "عمر المختار", "عبدالقادر الجزائري", "يوسف بن تاشفين"],points:8},
+    {q:"«يا بُنَيَّ اركب معنا ولا تكن مع الكافرين»",a:"نوح عليه السلام",choices:["إبراهيم عليه السلام", "نوح عليه السلام", "يعقوب عليه السلام", "موسى عليه السلام"],points:8},
+    {q:"«وما في بدني موضع شبر إلا وفيه ضربة بسيف، أو رمية بسهم، أو طعنة برمح، وها أنا ذا أموت على فراشي حتف أنفي…»",a:"خالد بن الوليد",choices:["عمرو بن العاص", "خالد بن الوليد", "سعد بن أبي وقاص", "الزبير بن العوام"],points:8},
+    {q:"«ومن لم يذق مُرَّ التعلُّم ساعةً\nتجرّع ذُلَّ الجهل طول حياته»",a:"الإمام الشافعي",choices:["الإمام الشافعي", "المتنبي", "أبو تمام", "الإمام أحمد بن حنبل"],points:8}
+  ]
+};
+
+let state=null;
+let displaySync=null;
+let lastHostChoicesKey="";
+let hostResultsShown=false;
+const el=id=>document.getElementById(id);
+
+function buildHostConfetti(){
+  const layer=el("hostConfetti");
+  if(!layer || layer.childElementCount) return;
+  const colors=["#57cd78","#6ed3ef","#ff7d31","#ffe277","#18384c"];
+  for(let i=0;i<54;i++){
+    const piece=document.createElement("i");
+    piece.className="confetti-piece";
+    piece.style.setProperty("--x",`${Math.random()*100}%`);
+    piece.style.setProperty("--d",`${3.2+Math.random()*3.2}s`);
+    piece.style.setProperty("--delay",`${-Math.random()*5}s`);
+    piece.style.setProperty("--r",`${Math.random()*180}deg`);
+    piece.style.setProperty("--c",colors[i%colors.length]);
+    layer.appendChild(piece);
+  }
+}
+
+onValue(gameRef,snap=>{
+  el("connection").textContent="متصل";
+  if(!snap.exists()) return;
+  state=snap.val();
+  try{
+    render();
+  }catch(e){
+    console.error("Host render error",e);
+    el("connection").textContent="متصل — خطأ عرض";
+  }
+},err=>{el("connection").textContent="تعذر الاتصال";console.error(err)});
+onValue(ref(db,`${sessionPath}/display`),snap=>{
+  displaySync=snap.val()||null;
+  try{render();}catch(e){console.error("Host display sync render error",e);}
+});
+
+function teamData(n){return state?.teams?.[n]||state?.teams?.[String(n)]||{}}
+function roundQuestionLimit(r){
+  const requested=Number(state?.settings?.questionsPerRound||10);
+  return Math.max(1,Math.min(requested,rounds[r]?.length||requested));
+}
+
+
+function toDotlessArabic(text=""){
+  const map={
+    "ب":"ٮ","ت":"ٮ","ث":"ٮ","ن":"ٮ","ي":"ى","ى":"ى","ئ":"ى",
+    "ج":"ح","خ":"ح","ذ":"د","ز":"ر","ش":"س","ض":"ص","ظ":"ط","غ":"ع",
+    "ف":"ڡ","ق":"ٯ","ة":"ه","پ":"ٮ","چ":"ح","ژ":"ر","گ":"ك"
+  };
+  return String(text).replace(/[بتثنيىئجخذزشضظغفقةپچژگ]/g,ch=>map[ch]||ch);
+}
+
+
+function render(){
+  const t1=teamData(1),t2=teamData(2);
+  el("team1Name").textContent=t1.name||"الفريق الأول";
+  el("team2Name").textContent=t2.name||"الفريق الثاني";
+  el("team1Score").textContent=Number(t1.score||0);
+  el("team2Score").textContent=Number(t2.score||0);
+
+  const legacyHostX2=Number(state?.question?.x2Team||0);
+  const hostX2Teams={
+    ...(state?.question?.x2Teams||{}),
+    ...(legacyHostX2?{[legacyHostX2]:true}:{})
+  };
+  const setHostPowerState=(id,{used=false,active=false}={})=>{
+    const node=el(id);
+    node.classList.toggle("used",!!used);
+    node.classList.toggle("active",!!active && !used);
+    node.title=used?"تم استخدامها":active?"مفعّلة الآن":"متاحة";
+  };
+  setHostPowerState("hostT1X2",{
+    used:!!t1.x2Used,
+    active:!!t1.x2Active || !!hostX2Teams[1] || !!hostX2Teams["1"]
+  });
+  setHostPowerState("hostT1Delete2",{used:!!t1.delete2Used});
+  setHostPowerState("hostT2X2",{
+    used:!!t2.x2Used,
+    active:!!t2.x2Active || !!hostX2Teams[2] || !!hostX2Teams["2"]
+  });
+  setHostPowerState("hostT2Delete2",{used:!!t2.delete2Used});
+
+  const r=Number(state?.round||1);
+  el("roundTitle").textContent=r===1?"الجولة الأولى — بدون نقاط":r===2?"الجولة الثانية — من أنا؟":"الجولة الثالثة — من القائل؟";
+  el("questionText").classList.toggle("round1-handwriting",r===1);
+
+  const currentQuestionText=state?.question?.text||"";
+  const round2Panel=el("round2WhoPanel");
+  const round2CluesEl=el("round2Clues");
+  const questionBox=el("questionText");
+  const hostAnswerBox=el("hostAnswerBox");
+
+  questionBox.classList.toggle("round2-hidden",r===2);
+  hostAnswerBox.classList.toggle("round2-hidden",r===2);
+
+  if(r===1){
+    round2Panel.classList.add("hidden");
+    questionBox.textContent=toDotlessArabic(currentQuestionText);
+    el("hostAnswer").textContent=currentQuestionText||"—";
+  }else if(r===2){
+    round2Panel.classList.remove("hidden");
+
+    const personName=state?.question?.person || state?.question?.answer || "—";
+    const clues=Array.isArray(state?.question?.clues) ? state.question.clues : [];
+
+    el("round2PersonName").textContent=personName;
+    round2CluesEl.innerHTML=clues.slice(0,4).map((clue,i)=>`
+      <div class="round2-clue">
+        <div>${clue}</div>
+        <div class="round2-clue-num">${i+1}</div>
+      </div>
+    `).join("");
+
+    el("hostAnswer").textContent=personName;
+  }else{
+    round2Panel.classList.add("hidden");
+    questionBox.textContent=currentQuestionText;
+    el("hostAnswer").textContent=state?.question?.answer||"—";
+  }
+  el("hostQpoints").textContent=Number(state?.question?.points||0);
+
+  const currentQuestionKey=`${Number(state?.round||1)}:${Number(state?.qIndex??-1)}:${state?.question?.historyKey||""}`;
+  const isInitialQuestion=Number(state?.round||1)===1 && Number(state?.qIndex??-1)===0;
+  const displayOnSameQuestion=
+    !!state?.gameStarted &&
+    (
+      (isInitialQuestion && (!displaySync || !displaySync.key)) ||
+      (!!displaySync && displaySync.key===currentQuestionKey)
+    );
+
+  const qx2=state?.question?.x2Team;
+  const qx2El=el("questionX2");
+  if(qx2){
+    const xt=teamData(Number(qx2));
+    qx2El.style.display="block";
+    qx2El.textContent=`x2 مفعّل على هذا السؤال بواسطة ${xt.name||("الفريق "+qx2)}`;
+  }else{
+    qx2El.style.display="none";
+    qx2El.textContent="";
+  }
+
+  const answeredStatus=el("questionAnsweredStatus");
+  const answeredTeam=Number(state?.question?.answeredTeam||0);
+  const answeredNoOne=!!state?.question?.answeredNoOne;
+
+  if(answeredTeam===1 || answeredTeam===2){
+    const answeredTeamData=teamData(answeredTeam);
+    const answeredPlayer=state?.question?.answeredByName||"";
+    answeredStatus.textContent=`تمت الإجابة — جاوب: ${answeredPlayer || answeredTeamData.name || ("الفريق "+answeredTeam)}`;
+    if(answeredPlayer && answeredTeamData.name){
+      answeredStatus.textContent+=` من فريق ${answeredTeamData.name}`;
+    }
+    answeredStatus.classList.remove("hidden");
+  }else if(answeredNoOne){
+    answeredStatus.textContent="تمت الإجابة — محد جاوب";
+    answeredStatus.classList.remove("hidden");
+  }else{
+    answeredStatus.textContent="";
+    answeredStatus.classList.add("hidden");
+  }
+
+  const choices=state?.question?.choices||[];
+  const hostChoicesKey=JSON.stringify([state?.round||1,state?.qIndex??-1,choices]);
+  if(hostChoicesKey!==lastHostChoicesKey){
+    el("answers").innerHTML=r===2 ? "" : choices.map(x=>`<div class="answer">${x}</div>`).join("");
+    lastHostChoicesKey=hostChoicesKey;
+  }
+  const answerToggleBtn=el("answerToggleBtn");
+  answerToggleBtn.textContent=state?.question?.revealed?"إخفاء الإجابة":"إظهار الإجابة";
+  answerToggleBtn.classList.toggle("orange",!!state?.question?.revealed);
+  answerToggleBtn.classList.toggle("green",!state?.question?.revealed);
+
+  const choicesToggleBtn=el("choicesToggleBtn");
+  const isWhoSaidWithChoices=
+    Number(state?.round||1)===3 &&
+    Array.isArray(state?.question?.choices) &&
+    state.question.choices.length>0;
+
+  if(isWhoSaidWithChoices){
+    choicesToggleBtn.classList.remove("hidden");
+    choicesToggleBtn.textContent=state?.question?.choicesVisible?"إخفاء الخيارات":"إظهار الخيارات";
+    choicesToggleBtn.classList.toggle("orange",!!state?.question?.choicesVisible);
+    choicesToggleBtn.classList.toggle("blue",!state?.question?.choicesVisible);
+  }else{
+    choicesToggleBtn.classList.add("hidden");
+  }
+
+  const bz=state?.buzzer||{};
+  const buzzerStateEl=el("buzzerState");
+  buzzerStateEl.textContent=bz.open?"مفتوح":"مغلق";
+  buzzerStateEl.classList.toggle("is-open",!!bz.open);
+  buzzerStateEl.classList.toggle("is-closed",!bz.open);
+  const ownerTeam=Number(bz.allowedTeam||0);
+  const ownerActive=(bz.phase==="second" || bz.phase==="second_answer") && (ownerTeam===1 || ownerTeam===2);
+
+  if(ownerActive){
+    const owner=teamData(ownerTeam);
+    el("winnerBox").textContent=`الجرس عند ${owner.name||("الفريق "+ownerTeam)}`;
+    el("winnerBox").style.background="#ffe277";
+  }else if(bz.winner){
+    const wt=teamData(Number(bz.winner));
+    const winnerPlayer=bz.winnerPlayerName||bz.firstPlayerName||"";
+    el("winnerBox").textContent=winnerPlayer
+      ? `الأسرع: ${winnerPlayer} من ${wt.name||("فريق "+bz.winner)}`
+      : "الأسرع: "+(wt.name||("فريق "+bz.winner));
+    el("winnerBox").style.background="#bcebb4";
+  }else{
+    el("winnerBox").textContent=bz.open?"الجرس مفتوح — بانتظار أول ضغطة":"لا يوجد ضغط بعد";
+    el("winnerBox").style.background="#fff";
+  }
+
+
+  const nextBtn=el("nextBtn");
+  const prevBtn=el("prevBtn");
+  const currentRound=Number(state?.round||1);
+  const currentIndex=Number(state?.qIndex??-1);
+
+  el("navQuestionBadge").textContent=`السؤال ${Math.max(1,currentIndex+1)}`;
+  el("whoTeam1Name").textContent=t1.name||"الفريق الأول";
+  el("whoTeam2Name").textContent=t2.name||"الفريق الثاني";
+
+  if(nextBtn && state?.gameStarted) nextBtn.disabled=!displayOnSameQuestion;
+  if(prevBtn){
+    const atVeryFirst=currentRound===1 && currentIndex<=0;
+    prevBtn.disabled=!state?.gameStarted || atVeryFirst;
+  }
+
+  // بعد تخطي باركود الجرس يظهر زر بدء اللعبة وحده في شاشة الهوست.
+  const startGate=state?.startGate||{};
+  const startOverlay=el("startGameOverlay");
+  // بمجرد فتح الهوست واتصاله بالجلسة يظهر زر بدء اللعبة مباشرة.
+  if(!state?.gameStarted && !state?.gameFinished){
+    startOverlay.classList.remove("hidden");
+  }else{
+    startOverlay.classList.add("hidden");
+  }
+
+  // بوابة انتقال الفقرة التالية تظهر في الهوست فقط بعد إنهاء أسئلة الفقرة.
+  const gate=state?.sectionGate||{};
+  const gateOverlay=el("sectionGateOverlay");
+  if(gate.active && !state?.gameFinished){
+    const nextRound=Number(gate.nextRound||0);
+    const names={2:["من أنا؟","الفقرة الثانية جاهزة"],3:["من القائل؟","الفقرة الثالثة جاهزة"]};
+    const info=names[nextRound]||["الفقرة التالية","جاهزة"];
+    el("nextSectionTitle").textContent=info[0];
+    el("nextSectionSubtitle").textContent=info[1];
+    gateOverlay.classList.remove("hidden");
+  }else{
+    gateOverlay.classList.add("hidden");
+  }
+
+  // النتيجة النهائية بعد إنهاء الفقرة الثالثة.
+  const resultsOverlay=el("finalResultsOverlay");
+  if(state?.gameFinished){
+    const s1=Number(t1.score||0),s2=Number(t2.score||0);
+    const diff=Math.abs(s1-s2);
+    el("hostFinalTeam1Name").textContent=t1.name||"الفريق الأول";
+    el("hostFinalTeam2Name").textContent=t2.name||"الفريق الثاني";
+    el("hostFinalTeam1Score").textContent=s1;
+    el("hostFinalTeam2Score").textContent=s2;
+    if(s1===s2){
+      el("hostWinnerTitle").textContent="تعادل!";
+      el("hostWinnerName").textContent="الفريقان متساويان";
+      el("hostScoreDifference").textContent="الفارق: 0 نقطة";
+    }else{
+      const winner=s1>s2?t1:t2;
+      el("hostWinnerTitle").textContent="الفائز";
+      el("hostWinnerName").textContent=winner.name||(s1>s2?"الفريق الأول":"الفريق الثاني");
+      el("hostScoreDifference").textContent=`الفارق: ${diff} ${diff===1?"نقطة":"نقاط"}`;
+    }
+    resultsOverlay.classList.remove("hidden");
+    if(!hostResultsShown){
+      buildHostConfetti();
+      hostResultsShown=true;
+    }
+  }else{
+    resultsOverlay.classList.add("hidden");
+    hostResultsShown=false;
+  }
+}
+
+
+
+let startingGameNow=false;
+window.startGameNow=async()=>{
+  if(startingGameNow || state?.gameStarted) return;
+  startingGameNow=true;
+
+  const item=rounds[1][0];
+  const historyKey="r1_q0";
+  const historical=state?.history?.[historyKey]||null;
+
+  try{
+    // إشارة البدء تُكتب أولًا بشكل مستقل حتى تنتقل شاشة العرض فورًا.
+    await set(ref(db,`${sessionPath}/gameStarted`),true);
+    await set(ref(db,`${sessionPath}/startSignal`),{
+      started:true,
+      at:Date.now(),
+      session:hostSession
+    });
+
+    await update(gameRef,{
+    startGate:{
+      ready:true,
+      started:true
+    },
+    round:1,
+    qIndex:0,
+    question:{
+      text:item.q,
+      answer:item.a,
+      person:item.person||item.a,
+      clues:item.clues||[],
+      choices:item.choices||[],
+      points:Number(item.points||1),
+      revealed:false,
+      answeredBy:historical?.answeredBy||null,
+      answeredByName:historical?.answeredByName||"",
+      answeredTeam:historical?.answeredTeam||null,
+      answeredNoOne:!!historical?.answeredNoOne,
+      awardedPoints:Number(historical?.awardedPoints||0),
+      historyKey,
+      x2Team:historical?.x2Team||null,
+      x2Teams:historical?.x2Teams||(historical?.x2Team?{[historical.x2Team]:true}:{}),
+      x2Consumed:historical?.x2Consumed||false,
+      hiddenChoices:historical?.hiddenChoices||[],
+      choicesVisible:historical?.choicesVisible??false
+    },
+    "buzzer/open":true,
+    "buzzer/phase":"open",
+    "buzzer/allowedTeam":0,
+    "buzzer/winner":null,
+    "buzzer/winnerPlayerId":"",
+    "buzzer/winnerPlayerName":"",
+    "buzzer/firstTeam":0,
+    "buzzer/firstPlayerId":"",
+    "buzzer/firstPlayerName":"",
+    "buzzer/pressedAt":null,
+    "buzzer/countdownUntil":0,
+    "buzzer/countdownSeconds":0
+  });
+  }catch(e){
+    console.error("Start game failed",e);
+    showInappNotice("تعذر بدء اللعبة. حاول مرة ثانية.");
+    try{ await set(ref(db,`${sessionPath}/gameStarted`),false); }catch(_){}
+  }finally{
+    startingGameNow=false;
+  }
+};
+
+window.nextQuestion=async()=>{
+  const currentQuestionKey=`${Number(state?.round||1)}:${Number(state?.qIndex??-1)}:${state?.question?.historyKey||""}`;
+  const isInitialQuestion=Number(state?.round||1)===1 && Number(state?.qIndex??-1)===0;
+  if(state?.gameStarted && !isInitialQuestion && (!displaySync || displaySync.key!==currentQuestionKey)) return;
+  selectedAwardTeam=0;
+
+  const r=Number(state?.round||1);
+  const limit=roundQuestionLimit(r);
+  const currentIndex=Math.max(-1,Math.min(Number(state?.qIndex??-1),limit-1));
+  const idx=currentIndex+1;
+
+  // عند انتهاء الفقرة لا ننتقل مباشرة: نظهر بوابة انتقال في الهوست.
+  if(idx>=limit){
+    if(r<3){
+      await update(gameRef,{
+        completedSections:r,
+        sectionGate:{
+          active:true,
+          nextRound:r+1
+        },
+        "buzzer/open":false,
+        "buzzer/winner":null,
+        "buzzer/pressedAt":null
+      });
+      return;
+    }
+
+    // نهاية الفقرة الثالثة = النتائج النهائية.
+    await update(gameRef,{
+      completedSections:3,
+      sectionGate:{
+        active:false,
+        nextRound:0
+      },
+      gameFinished:true,
+      "buzzer/open":false,
+      "buzzer/winner":null,
+      "buzzer/pressedAt":null
+    });
+    return;
+  }
+
+  const item=rounds[r][idx];
+  const historyKey=`r${r}_q${idx}`;
+  const historical=state?.history?.[historyKey]||null;
+
+  await update(gameRef,{
+    qIndex:idx,
+    question:{
+      text:item.q,
+      answer:item.a,
+      person:item.person||item.a,
+      clues:item.clues||[],
+      choices:item.choices||[],
+      points:Number(item.points||1),
+      revealed:false,
+      answeredBy:historical?.answeredBy||null,
+      answeredByName:historical?.answeredByName||"",
+      answeredTeam:historical?.answeredTeam||null,
+      answeredNoOne:!!historical?.answeredNoOne,
+      awardedPoints:Number(historical?.awardedPoints||0),
+      historyKey,
+      x2Team:historical?.x2Team||null,
+      x2Teams:historical?.x2Teams||(historical?.x2Team?{[historical.x2Team]:true}:{}),
+      x2Consumed:historical?.x2Consumed||false,
+      hiddenChoices:historical?.hiddenChoices||[],
+      choicesVisible:historical?.choicesVisible??false
+    },
+    "buzzer/open":true,
+    "buzzer/phase":"open",
+    "buzzer/allowedTeam":0,
+    "buzzer/winner":null,
+    "buzzer/winnerPlayerId":"",
+    "buzzer/winnerPlayerName":"",
+    "buzzer/firstTeam":0,
+    "buzzer/firstPlayerId":"",
+    "buzzer/firstPlayerName":"",
+    "buzzer/pressedAt":null,
+    "buzzer/countdownUntil":0,
+    "buzzer/countdownSeconds":0
+  });
+};
+
+window.startNextSection=async()=>{
+  const gate=state?.sectionGate||{};
+  const nextRound=Number(gate.nextRound||0);
+  if(!gate.active || nextRound<2 || nextRound>3) return;
+
+  const item=rounds[nextRound][0];
+  const historyKey=`r${nextRound}_q0`;
+  const historical=state?.history?.[historyKey]||null;
+
+  await update(gameRef,{
+    round:nextRound,
+    qIndex:0,
+    sectionGate:{
+      active:false,
+      nextRound:0
+    },
+    question:{
+      text:item.q,
+      answer:item.a,
+      person:item.person||item.a,
+      clues:item.clues||[],
+      choices:item.choices||[],
+      points:Number(item.points||1),
+      revealed:false,
+      answeredBy:historical?.answeredBy||null,
+      answeredByName:historical?.answeredByName||"",
+      answeredTeam:historical?.answeredTeam||null,
+      answeredNoOne:!!historical?.answeredNoOne,
+      awardedPoints:Number(historical?.awardedPoints||0),
+      historyKey,
+      x2Team:historical?.x2Team||null,
+      x2Teams:historical?.x2Teams||(historical?.x2Team?{[historical.x2Team]:true}:{}),
+      x2Consumed:historical?.x2Consumed||false,
+      hiddenChoices:historical?.hiddenChoices||[],
+      choicesVisible:historical?.choicesVisible??false
+    },
+    "buzzer/open":true,
+    "buzzer/phase":"open",
+    "buzzer/allowedTeam":0,
+    "buzzer/winner":null,
+    "buzzer/winnerPlayerId":"",
+    "buzzer/winnerPlayerName":"",
+    "buzzer/firstTeam":0,
+    "buzzer/firstPlayerId":"",
+    "buzzer/firstPlayerName":"",
+    "buzzer/pressedAt":null,
+    "buzzer/countdownUntil":0,
+    "buzzer/countdownSeconds":0
+  });
+};
+
+window.showAnswerOnGame=()=>update(ref(db,`${sessionPath}/question`),{revealed:true});
+window.hideAnswerOnGame=()=>update(ref(db,`${sessionPath}/question`),{revealed:false});
+window.toggleAnswerOnGame=()=>update(ref(db,`${sessionPath}/question`),{
+  revealed:!state?.question?.revealed
+});
+
+window.showChoicesOnGame=()=>update(ref(db,`${sessionPath}/question`),{choicesVisible:true});
+window.hideChoicesOnGame=()=>update(ref(db,`${sessionPath}/question`),{choicesVisible:false});
+window.toggleChoicesOnGame=()=>update(ref(db,`${sessionPath}/question`),{
+  choicesVisible:!state?.question?.choicesVisible
+});
+
+window.openBuzzer=()=>set(ref(db,`${sessionPath}/buzzer`),{
+  open:true,
+  phase:"open",
+  allowedTeam:0,
+  winner:null,
+  winnerPlayerId:"",
+  winnerPlayerName:"",
+  firstTeam:0,
+  firstPlayerId:"",
+  firstPlayerName:"",
+  pressedAt:null,
+  countdownUntil:0,
+  countdownSeconds:0
+});
+
+window.closeBuzzer=()=>update(ref(db,`${sessionPath}/buzzer`),{
+  open:false,
+  phase:"closed",
+  allowedTeam:0,
+  countdownUntil:0,
+  countdownSeconds:0
+});
+
+window.resetBuzzer=()=>window.openBuzzer();
+
+let whoAnsweredBusy=false;
+
+window.closeWhoAnswered=()=>{
+  if(whoAnsweredBusy) return;
+  el("whoAnsweredOverlay").classList.add("hidden");
+};
+
+window.requestNextQuestion=async()=>{
+  if(!state?.gameStarted || state?.gameFinished) return;
+
+  const currentQuestionKey=`${Number(state?.round||1)}:${Number(state?.qIndex??-1)}:${state?.question?.historyKey||""}`;
+  const isInitialQuestion=Number(state?.round||1)===1 && Number(state?.qIndex??-1)===0;
+  if(!isInitialQuestion && (!displaySync || displaySync.key!==currentQuestionKey)) return;
+
+  if(!state?.question?.historyKey){
+    return advanceQuestion();
+  }
+
+  // إذا كان السؤال محسوبًا سابقًا (عند الرجوع للمراجعة)، لا نحتسبه مرة ثانية.
+  const existing=state?.history?.[state.question.historyKey];
+  if(existing && (existing.answeredTeam || existing.answeredNoOne)){
+    return advanceQuestion();
+  }
+
+  el("whoTeam1Name").textContent=teamData(1).name||"الفريق الأول";
+  el("whoTeam2Name").textContent=teamData(2).name||"الفريق الثاني";
+  el("whoAnsweredOverlay").classList.remove("hidden");
+};
+
+window.resolveQuestionAndNext=async(answeringTeam)=>{
+  if(whoAnsweredBusy) return;
+  whoAnsweredBusy=true;
+
+  try{
+    const currentQuestionKey=`${Number(state?.round||1)}:${Number(state?.qIndex??-1)}:${state?.question?.historyKey||""}`;
+    const isInitialQuestion=Number(state?.round||1)===1 && Number(state?.qIndex??-1)===0;
+    if(!isInitialQuestion && (!displaySync || displaySync.key!==currentQuestionKey)) return;
+
+    if(!state?.question?.historyKey) return;
+
+    const historyKey=state.question.historyKey;
+    const existing=state?.history?.[historyKey];
+    if(existing && (existing.answeredTeam || existing.answeredNoOne)){
+      el("whoAnsweredOverlay").classList.add("hidden");
+      await advanceQuestion();
+      return;
+    }
+
+    answeringTeam=Number(answeringTeam||0);
+    const basePoints=Number(state.question.points||1);
+    const legacyX2Team=Number(state.question.x2Team||0);
+    const x2Teams={
+      ...(state.question.x2Teams||{}),
+      ...(legacyX2Team?{[legacyX2Team]:true}:{})
+    };
+    const activeX2Teams=[1,2].filter(n=>x2Teams[n]||x2Teams[String(n)]);
+    const winnerPlayerId=state?.buzzer?.winnerPlayerId||null;
+    const winnerPlayerName=state?.buzzer?.winnerPlayerName||"";
+
+    let awarded=0;
+
+    if(answeringTeam===1 || answeringTeam===2){
+      awarded=(x2Teams[answeringTeam]||x2Teams[String(answeringTeam)])?basePoints*2:basePoints;
+
+      await runTransaction(ref(db,`${sessionPath}/teams/${answeringTeam}`),current=>{
+        if(!current) return current;
+        current.score=Number(current.score||0)+awarded;
+        return current;
+      });
+    }
+
+    // أي فريق فعّل x2 في هذا السؤال تُستهلك عليه عند انتهاء السؤال.
+    for(const x2Team of activeX2Teams){
+      await update(ref(db,`${sessionPath}/teams/${x2Team}`),{
+        x2Active:false,
+        x2Used:true
+      });
+    }
+
+    const record={
+      answeredBy:(answeringTeam===1 || answeringTeam===2)?winnerPlayerId:null,
+      answeredByName:(answeringTeam===1 || answeringTeam===2)?winnerPlayerName:"",
+      answeredTeam:(answeringTeam===1 || answeringTeam===2)?answeringTeam:null,
+      answeredNoOne:answeringTeam===0,
+      awardedPoints:awarded,
+      basePoints,
+      answeredAt:Date.now(),
+      x2Team:activeX2Teams.length===1?activeX2Teams[0]:null,
+      x2Teams:Object.fromEntries(activeX2Teams.map(n=>[n,true])),
+      x2Consumed:activeX2Teams.length>0,
+      hiddenChoices:Array.isArray(state.question.hiddenChoices)?state.question.hiddenChoices:[],
+      choicesVisible:!!state.question.choicesVisible
+    };
+
+    await update(gameRef,{
+      [`history/${historyKey}`]:record,
+      "question/answeredBy":record.answeredBy,
+      "question/answeredByName":record.answeredByName,
+      "question/answeredTeam":record.answeredTeam,
+      "question/answeredNoOne":record.answeredNoOne,
+      "question/awardedPoints":awarded,
+      "question/x2Teams":record.x2Teams,
+      "question/x2Consumed":record.x2Consumed,
+      "buzzer/open":false
+    });
+
+    el("whoAnsweredOverlay").classList.add("hidden");
+    await advanceQuestion();
+  }finally{
+    whoAnsweredBusy=false;
+  }
+};
+
+window.previousQuestion=async()=>{
+  if(!state?.gameStarted || state?.gameFinished) return;
+
+  let r=Number(state?.round||1);
+  let idx=Number(state?.qIndex??-1)-1;
+
+  if(idx<0){
+    if(r<=1) return;
+    r-=1;
+    idx=roundQuestionLimit(r)-1;
+  }
+
+  const item=rounds[r][idx];
+  const historyKey=`r${r}_q${idx}`;
+  const historical=state?.history?.[historyKey]||null;
+
+  await update(gameRef,{
+    round:r,
+    qIndex:idx,
+    sectionGate:{active:false,nextRound:0},
+    question:{
+      text:item.q,
+      answer:item.a,
+      person:item.person||item.a,
+      clues:item.clues||[],
+      choices:item.choices||[],
+      points:Number(item.points||1),
+      revealed:false,
+      answeredBy:historical?.answeredBy||null,
+      answeredByName:historical?.answeredByName||"",
+      answeredTeam:historical?.answeredTeam||null,
+      answeredNoOne:!!historical?.answeredNoOne,
+      awardedPoints:Number(historical?.awardedPoints||0),
+      historyKey,
+      x2Team:historical?.x2Team||null,
+      x2Teams:historical?.x2Teams||(historical?.x2Team?{[historical.x2Team]:true}:{}),
+      x2Consumed:historical?.x2Consumed||false,
+      hiddenChoices:historical?.hiddenChoices||[],
+      choicesVisible:historical?.choicesVisible??false
+    },
+    "buzzer/open":true,
+    "buzzer/phase":"open",
+    "buzzer/allowedTeam":0,
+    "buzzer/winner":null,
+    "buzzer/winnerPlayerId":"",
+    "buzzer/winnerPlayerName":"",
+    "buzzer/firstTeam":0,
+    "buzzer/firstPlayerId":"",
+    "buzzer/firstPlayerName":"",
+    "buzzer/pressedAt":null,
+    "buzzer/countdownUntil":0,
+    "buzzer/countdownSeconds":0
+  });
+};
+
+// دالة الانتقال الأصلية بعد أن يتم حسم السؤال من نافذة "من جاوب؟".
+window.advanceQuestion=async()=>{
+  const currentQuestionKey=`${Number(state?.round||1)}:${Number(state?.qIndex??-1)}:${state?.question?.historyKey||""}`;
+  const isInitialQuestion=Number(state?.round||1)===1 && Number(state?.qIndex??-1)===0;
+  if(state?.gameStarted && !isInitialQuestion && (!displaySync || displaySync.key!==currentQuestionKey)) return;
+
+  const r=Number(state?.round||1);
+  const limit=roundQuestionLimit(r);
+  const currentIndex=Math.max(-1,Math.min(Number(state?.qIndex??-1),limit-1));
+  const idx=currentIndex+1;
+
+  if(idx>=limit){
+    if(r<3){
+      await update(gameRef,{
+        completedSections:r,
+        sectionGate:{active:true,nextRound:r+1},
+        "buzzer/open":false,
+        "buzzer/winner":null,
+        "buzzer/pressedAt":null
+      });
+      return;
+    }
+
+    await update(gameRef,{
+      completedSections:3,
+      sectionGate:{active:false,nextRound:0},
+      gameFinished:true,
+      "buzzer/open":false,
+      "buzzer/winner":null,
+      "buzzer/pressedAt":null
+    });
+    return;
+  }
+
+  const item=rounds[r][idx];
+  const historyKey=`r${r}_q${idx}`;
+  const historical=state?.history?.[historyKey]||null;
+
+  await update(gameRef,{
+    qIndex:idx,
+    question:{
+      text:item.q,
+      answer:item.a,
+      person:item.person||item.a,
+      clues:item.clues||[],
+      choices:item.choices||[],
+      points:Number(item.points||1),
+      revealed:false,
+      answeredBy:historical?.answeredBy||null,
+      answeredByName:historical?.answeredByName||"",
+      answeredTeam:historical?.answeredTeam||null,
+      answeredNoOne:!!historical?.answeredNoOne,
+      awardedPoints:Number(historical?.awardedPoints||0),
+      historyKey,
+      x2Team:historical?.x2Team||null,
+      x2Teams:historical?.x2Teams||(historical?.x2Team?{[historical.x2Team]:true}:{}),
+      x2Consumed:historical?.x2Consumed||false,
+      hiddenChoices:historical?.hiddenChoices||[],
+      choicesVisible:historical?.choicesVisible??false
+    },
+    "buzzer/open":true,
+    "buzzer/phase":"open",
+    "buzzer/allowedTeam":0,
+    "buzzer/winner":null,
+    "buzzer/winnerPlayerId":"",
+    "buzzer/winnerPlayerName":"",
+    "buzzer/firstTeam":0,
+    "buzzer/firstPlayerId":"",
+    "buzzer/firstPlayerName":"",
+    "buzzer/pressedAt":null,
+    "buzzer/countdownUntil":0,
+    "buzzer/countdownSeconds":0
+  });
+};
+
+// إبقاء الاسم القديم داخليًا لأي استدعاء قديم، بدون واجهة توزيع نقاط.
+window.nextQuestion=window.advanceQuestion;
+</script>
+</body>
+</html>
