@@ -1,0 +1,985 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>لوحة تحكم الهوست</title>
+<style>
+*{box-sizing:border-box}
+:root{
+  --cream:#fff4c8;
+  --blue:#78cdf4;
+  --dark:#6f685c;
+  --black:#111;
+}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Tahoma,Arial,sans-serif;
+  color:#111;
+  background:
+    radial-gradient(circle,rgba(226,188,85,.15) 2px,transparent 2.4px) 0 0/20px 20px,
+    #fff8dc;
+}
+.host-page{
+  width:min(92%,700px);
+  margin:0 auto;
+  padding:10px 10px 14px;
+}
+.score-row{
+  display:grid;
+  align-items:center;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  width:min(100%,480px);
+  margin:0 auto 18px;
+}
+.score-card{
+  min-height:72px;
+  border:3px solid var(--black);
+  border-radius:20px;
+  background:var(--cream);
+  box-shadow:0 5px 0 var(--black);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:12px;
+}
+.score-card .team-name{
+  font-weight:800;
+  font-size:18px;
+}
+.score-card .score{
+  margin-top:4px;
+  font-size:36px;
+  line-height:1;
+  font-weight:800;
+}
+.question-card{
+  width:min(100%,480px);
+  margin:0 auto;
+  min-height:215px;
+  border:3px solid var(--black);
+  border-radius:24px;
+  background:#fff;
+  box-shadow:0 8px 0 var(--black);
+  padding:0 10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.question-inner{
+  width:100%;
+  display:block;
+}
+.host-synced-visual{
+  width:100%;
+  min-height:190px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+.host-synced-visual .visual-question{
+  width:100%;
+  display:grid;
+  grid-template-columns:1fr 62px 1fr;
+  gap:12px;
+  align-items:center;
+  direction:ltr;
+}
+.host-synced-visual .picture-card{
+  width:100%;
+  min-height:165px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#fff;
+  border-radius:14px;
+}
+.host-synced-visual .plus-sign{
+  font-size:58px;
+  font-weight:900;
+  text-align:center;
+}
+.host-synced-visual .answer-image-visual{
+  width:100%;
+  min-height:190px;
+}
+.host-synced-visual svg{
+  width:100%;
+  height:100%;
+  max-height:190px;
+  display:block;
+}
+.question-placeholder{
+  min-height:180px;
+  border-radius:16px;
+  background:#f6f6f6;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  font-size:64px;
+  font-weight:800;
+}
+.question-placeholder img{
+  max-width:100%;
+  max-height:180px;
+  object-fit:contain;
+}
+.question-placeholder svg,
+#hostFullAnswer svg{
+  width:100%;
+  height:100%;
+  max-height:190px;
+  display:block;
+}
+.question-placeholder svg{
+  width:100%;
+  height:100%;
+  max-height:180px;
+  display:block;
+}
+.plus{
+  font-size:70px;
+  font-weight:800;
+  text-align:center;
+}
+.info-row{
+  width:min(100%,520px);
+  margin:18px auto 0; display:block;
+  display:grid;
+  align-items:center;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+.info-card{
+  min-height:68px;
+  border:3px solid var(--black);
+  border-radius:18px;
+  background:var(--cream);
+  box-shadow:0 5px 0 var(--black);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:12px;
+  text-align:center;
+}
+.info-card strong{
+  font-size:19px;
+}
+.info-card span{
+  margin-top:6px;
+  font-size:24px;
+  font-weight:800;
+}
+.hint-btn{
+  width:min(100%,280px);
+  min-height:58px;
+  margin:18px auto 0; display:block;
+  border:3px solid var(--black);
+  border-radius:18px;
+  background:var(--blue);
+  color:#fff;
+  box-shadow:0 8px 0 #2d8fbd;
+  font-size:22px;
+  font-weight:800;
+  cursor:pointer;
+}
+.who-title{
+  margin:28px 0 12px;
+  text-align:center;
+  font-size:26px;
+  font-weight:800;
+}
+.team-select{
+  width:min(100%,480px);
+  margin:0 auto;
+  padding:14px;
+  border:3px solid var(--black);
+  border-radius:20px;
+  background:var(--cream);
+  display:grid;
+  align-items:center;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+.team-answer-btn{
+  min-height:76px;
+  border:3px solid var(--black);
+  border-radius:16px;
+  background:#fff;
+  font-size:22px;
+  font-weight:800;
+  cursor:pointer;
+}
+.team-answer-btn.selected-winner{
+  background:#c9f7d4 !important;
+  border-color:#238a45 !important;
+  box-shadow:0 5px 0 #238a45 !important;
+}
+.bottom-controls{
+  width:min(100%,480px);
+  margin:18px auto 0; display:block;
+  display:grid;
+  align-items:center;
+  grid-template-columns:140px 140px;justify-content:center;
+  gap:16px;
+}
+.nav-btn{
+  min-height:58px;
+  border:3px solid var(--black);
+  border-radius:16px;
+  background:var(--dark);
+  color:#fff;
+  box-shadow:0 5px 0 var(--black);
+  font-size:20px;
+  font-weight:800;
+  cursor:pointer;
+}
+.settings-btn{
+  font-size:22px;
+}
+.answer-panel{
+  width:min(100%,480px);
+  margin:16px auto 0;
+  padding:0 10px;
+  border:3px solid var(--black);
+  border-radius:18px;
+  background:#fff;
+  display:none;
+  text-align:center;
+  font-size:24px;
+  font-weight:800;
+}
+.answer-panel.show{display:block}
+@media(max-width:650px){
+  .host-page{padding-top:18px}
+  .score-row{gap:10px}
+  .question-card{min-height:280px;padding:16px}
+  .question-inner{grid-template-columns:1fr 60px 1fr;gap:10px}
+  .question-placeholder{min-height:150px}
+  .plus{font-size:52px}
+  .who-title{margin-top:56px;font-size:24px}
+  .bottom-controls{grid-template-columns:66px 1fr 66px;gap:10px}
+}
+
+.bottom-controls{
+  width:min(100%,480px) !important;
+  margin:18px auto 0 !important;
+  display:grid !important;
+  grid-template-columns:1fr 1fr !important;
+  gap:14px !important;
+  align-items:stretch !important;
+}
+
+.bottom-controls .nav-btn{
+  width:100% !important;
+  min-width:0 !important;
+  height:60px !important;
+  min-height:60px !important;
+  padding:0 14px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  white-space:nowrap !important;
+  font-size:20px !important;
+}
+
+
+.nav-btn:disabled{
+  opacity:.42 !important;
+  cursor:not-allowed !important;
+  transform:none !important;
+  box-shadow:0 3px 0 #111 !important;
+}
+
+/* v75 — Host responsive */
+:root{
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-right:env(safe-area-inset-right,0px);
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+  --safe-left:env(safe-area-inset-left,0px);
+}
+
+html,body{
+  width:100%;
+  min-height:100%;
+  overflow-x:hidden;
+  -webkit-text-size-adjust:100%;
+}
+
+.host-page{
+  width:100% !important;
+  max-width:100% !important;
+  min-height:100svh !important;
+  padding:
+    calc(18px + var(--safe-top))
+    max(12px,var(--safe-right))
+    calc(28px + var(--safe-bottom))
+    max(12px,var(--safe-left)) !important;
+}
+
+.score-row,
+.question-card,
+.info-row,
+.team-select,
+.bottom-controls,
+#hostBuzzerCard,
+#showAnswerImageBtn{
+  width:min(100%,560px) !important;
+}
+
+.question-card{
+  min-height:0 !important;
+}
+
+.host-synced-visual{
+  min-height:190px !important;
+}
+
+.host-synced-visual .visual-question{
+  min-width:0 !important;
+}
+
+.host-synced-visual .picture-card{
+  min-width:0 !important;
+}
+
+.host-synced-visual img,
+.host-synced-visual svg{
+  width:100% !important;
+  max-width:100% !important;
+  height:100% !important;
+  object-fit:contain !important;
+}
+
+.bottom-controls{
+  grid-template-columns:1fr 1fr !important;
+}
+
+.nav-btn,
+.team-answer-btn,
+#showAnswerImageBtn{
+  touch-action:manipulation;
+}
+
+@media(max-width:700px){
+  .host-page{
+    padding-top:calc(12px + var(--safe-top)) !important;
+  }
+
+  .score-row{
+    gap:9px !important;
+  }
+
+  .score-card{
+    min-width:0 !important;
+    padding:10px 6px !important;
+    border-radius:15px !important;
+  }
+
+  .score-card .team-name{
+    font-size:15px !important;
+    white-space:normal !important;
+    line-height:1.2 !important;
+  }
+
+  .score-card .score{
+    font-size:38px !important;
+  }
+
+  .question-card{
+    padding:10px !important;
+    border-radius:18px !important;
+    box-shadow:0 6px 0 var(--black) !important;
+  }
+
+  .host-synced-visual{
+    min-height:150px !important;
+  }
+
+  .host-synced-visual .visual-question{
+    grid-template-columns:minmax(0,1fr) 40px minmax(0,1fr) !important;
+    gap:7px !important;
+  }
+
+  .host-synced-visual .picture-card{
+    min-height:120px !important;
+  }
+
+  .host-synced-visual .plus-sign{
+    font-size:40px !important;
+  }
+
+  .info-row{
+    grid-template-columns:1fr 1fr !important;
+    gap:9px !important;
+    margin-top:12px !important;
+  }
+
+  .info-card{
+    min-width:0 !important;
+    min-height:62px !important;
+    padding:8px !important;
+  }
+
+  .info-card strong{
+    font-size:15px !important;
+  }
+
+  .info-card span{
+    font-size:18px !important;
+    overflow-wrap:anywhere;
+  }
+
+  .team-select{
+    gap:9px !important;
+    padding:9px !important;
+  }
+
+  .team-answer-btn{
+    min-height:60px !important;
+    font-size:17px !important;
+    padding:8px !important;
+  }
+
+  .bottom-controls{
+    gap:10px !important;
+    margin-top:12px !important;
+  }
+
+  .bottom-controls .nav-btn{
+    height:54px !important;
+    min-height:54px !important;
+    font-size:17px !important;
+  }
+
+  .who-title{
+    margin:18px 0 9px !important;
+    font-size:20px !important;
+  }
+}
+
+@media(max-width:420px){
+  .host-page{
+    padding-left:max(8px,var(--safe-left)) !important;
+    padding-right:max(8px,var(--safe-right)) !important;
+  }
+
+  .score-card .team-name{
+    font-size:13px !important;
+  }
+
+  .score-card .score{
+    font-size:32px !important;
+  }
+
+  .host-synced-visual .visual-question{
+    grid-template-columns:minmax(0,1fr) 28px minmax(0,1fr) !important;
+    gap:4px !important;
+  }
+
+  .host-synced-visual .picture-card{
+    min-height:100px !important;
+  }
+
+  .host-synced-visual .picture-card > div{
+    font-size:56px !important;
+  }
+
+  .host-synced-visual .plus-sign{
+    font-size:30px !important;
+  }
+
+  .info-row{
+    grid-template-columns:1fr !important;
+  }
+
+  .team-select{
+    grid-template-columns:1fr !important;
+  }
+
+  .bottom-controls{
+    grid-template-columns:1fr 1fr !important;
+  }
+}
+
+@media(max-height:560px) and (orientation:landscape){
+  .host-page{
+    padding-top:8px !important;
+  }
+
+  .score-row{
+    margin-bottom:8px !important;
+  }
+
+  .question-card{
+    min-height:130px !important;
+  }
+
+  .host-synced-visual{
+    min-height:120px !important;
+  }
+
+  .info-row{
+    margin-top:8px !important;
+  }
+
+  .who-title{
+    margin-top:10px !important;
+  }
+
+  .team-answer-btn{
+    min-height:48px !important;
+  }
+
+  .bottom-controls .nav-btn{
+    height:48px !important;
+    min-height:48px !important;
+  }
+}
+
+</style>
+
+</head>
+<body>
+<div class="host-page">
+  <div class="score-row">
+    <div class="score-card">
+      <div id="team1" class="team-name">الفريق الأول</div>
+      <div id="score1" class="score">0</div>
+    </div>
+    <div class="score-card">
+      <div id="team2" class="team-name">الفريق الثاني</div>
+      <div id="score2" class="score">0</div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-inner">
+      <div id="hostSyncedVisual" class="host-synced-visual">
+        <div class="question-placeholder">بانتظار السؤال</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="hostBuzzerCard" class="info-card" style="width:min(100%,480px);margin:12px auto;background:#fff2a8">
+      <strong>الجرس</strong>
+      <span id="hostBuzzerText">بانتظار الضغط</span>
+    </div>
+
+  <div class="info-row">
+    <div class="info-card">
+      <strong>الإجابة:</strong>
+      <span id="answerText">بانتظار الإجابة</span>
+    </div>
+    <div class="info-card">
+      <strong>عدد الصور:</strong>
+      <span id="questionCounter">1 / 10</span>
+    </div>
+  </div>
+
+  
+
+  <button id="showAnswerImageBtn" class="team-answer-btn"
+          style="display:block;width:min(100%,480px);margin:14px auto 0;background:#ffe08f"
+          type="button" onclick="toggleAnswerImage()">إظهار الإجابة</button>
+
+  <h2 class="who-title">من أجاب الإجابة الصحيحة؟</h2>
+
+  <div class="team-select">
+    <button id="team1Answer" class="team-answer-btn" type="button" onclick="selectWinnerTeam(1)">الفريق الأول</button>
+    <button id="team2Answer" class="team-answer-btn" type="button" onclick="selectWinnerTeam(2)">الفريق الثاني</button>
+  </div>
+
+  <div class="bottom-controls">
+    <button id="previousQuestionButton" class="nav-btn" type="button" onclick="previousQuestion()">السابق</button>
+    
+    <button id="nextQuestionButton" class="nav-btn" type="button" onclick="nextQuestion()">التالي</button>
+  </div>
+
+  </div>
+
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+import {
+  getDatabase, ref, get, update, onValue, goOnline, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
+
+const firebaseConfig = {"apiKey": "AIzaSyACS3IRZjIEkBk38y5C3uXOTa8N2ju8jwA", "authDomain": "picture-game-8946e.firebaseapp.com", "databaseURL": "https://picture-game-8946e-default-rtdb.europe-west1.firebasedatabase.app", "projectId": "picture-game-8946e", "storageBucket": "picture-game-8946e.firebasestorage.app", "messagingSenderId": "246477951240", "appId": "1:246477951240:web:e0e2666fddb83f4ada5cbd", "measurementId": "G-00NCKBL9Q8"};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
+
+const hash = new URLSearchParams(location.hash.replace(/^#/, ""));
+const sessionId = hash.get("session");
+
+if(!sessionId) {
+  document.body.innerHTML = '<div style="padding:30px;text-align:center;font-family:Tahoma">رابط الجلسة غير صالح</div>';
+  throw new Error("Missing session id");
+}
+
+await signInAnonymously(auth);
+const sessionRef = ref(db, "sessions/" + sessionId);
+const existing = await get(sessionRef);
+
+if(!existing.exists()) {
+  document.body.innerHTML = '<div style="padding:30px;text-align:center;font-family:Tahoma">الجلسة غير موجودة أو انتهت</div>';
+  throw new Error("Session not found");
+}
+
+await update(sessionRef, {
+  hostConnected: true,
+  status: "active",
+  hostConnectedAt: serverTimestamp(),
+  lastHostHeartbeat: Date.now()
+});
+
+
+let sessionCompleted = false;
+
+async function sendHostHeartbeat(){
+  if(sessionCompleted) return;
+
+  try{
+    await ensureHostConnection();
+  }catch(error){}
+}
+
+sendHostHeartbeat();
+setInterval(sendHostHeartbeat, 4000);
+
+window.addEventListener("online", sendHostHeartbeat);
+window.addEventListener("focus", sendHostHeartbeat);
+document.addEventListener("visibilitychange", () => {
+  if(document.visibilityState === "visible"){
+    sendHostHeartbeat();
+  }
+});
+
+// لا نضع الهوست غير متصل عند pagehide لأن الهاتف قد يجمّد الصفحة مؤقتًا.
+// حساس النبض في شاشة اللعبة هو الذي يحدد الانقطاع الحقيقي.
+
+
+let scores = {1:0, 2:0};
+let currentQuestion = 1;
+let totalQuestions = 10;
+let commandCounter = 0;
+let selectedWinnerTeam = null;
+let lastRenderedVisualKey = "";
+
+async function ensureHostConnection(){
+  goOnline(db);
+
+  if(!auth.currentUser){
+    await signInAnonymously(auth);
+  }
+
+  await update(sessionRef, {
+    hostConnected: true,
+    status: "active",
+    lastHostHeartbeat: Date.now()
+  });
+}
+
+async function sendCommand(action, payload = {}) {
+  commandCounter += 1;
+
+  const command = {
+    id: Date.now() + "-" + commandCounter,
+    action,
+    ...payload,
+    at: Date.now()
+  };
+
+  for(let attempt = 0; attempt < 3; attempt++){
+    try{
+      await ensureHostConnection();
+
+      await update(ref(db, "sessions/" + sessionId), {
+        command
+      });
+
+      return true;
+    }catch(error){
+      await new Promise(resolve => setTimeout(resolve, 250 * (attempt + 1)));
+    }
+  }
+
+  return false;
+}
+
+function selectWinnerTeam(team){
+  selectedWinnerTeam = selectedWinnerTeam === team ? null : team;
+
+  const teamOneButton = document.getElementById("team1Answer");
+  const teamTwoButton = document.getElementById("team2Answer");
+
+  teamOneButton?.classList.toggle("selected-winner", selectedWinnerTeam === 1);
+  teamTwoButton?.classList.toggle("selected-winner", selectedWinnerTeam === 2);
+}
+
+
+function updateNavigationButtons(){
+  const previousButton = document.getElementById("previousQuestionButton");
+  const nextButton = document.getElementById("nextQuestionButton");
+
+  const questionCount = Math.max(1, Number(totalQuestions) || 1);
+  const questionNumber = Math.min(
+    questionCount,
+    Math.max(1, Number(currentQuestion) || 1)
+  );
+
+  if(previousButton){
+    previousButton.disabled =
+      questionCount <= 1 || questionNumber <= 1;
+  }
+
+  if(nextButton){
+    nextButton.disabled = false;
+    nextButton.textContent =
+      questionNumber >= questionCount
+        ? "عرض النتائج"
+        : "التالي";
+  }
+}
+
+function clearWinnerSelection(){
+  selectedWinnerTeam = null;
+  document.getElementById("team1Answer")?.classList.remove("selected-winner");
+  document.getElementById("team2Answer")?.classList.remove("selected-winner");
+}
+
+async function awardSelectedTeamOnce(){
+  if(selectedWinnerTeam !== 1 && selectedWinnerTeam !== 2){
+    return null;
+  }
+
+  const team = selectedWinnerTeam;
+  const key = team === 1 ? "one" : "two";
+  const newScore = Math.max(0, Number(scores[team] || 0) + 1);
+
+  await update(ref(db, "sessions/" + sessionId + "/teams/" + key), {
+    score: newScore
+  });
+
+  scores[team] = newScore;
+  return team;
+}
+
+let navigationBusy = false;
+
+async function nextQuestion(){
+  if(navigationBusy) return;
+
+  const questionCount = Math.max(1, Number(totalQuestions) || 1);
+  const finishGame = currentQuestion >= questionCount;
+
+  navigationBusy = true;
+
+  try{
+    const awardedTeam = await awardSelectedTeamOnce();
+
+    await sendCommand("next-question", {
+      awardedTeam,
+      finishGame
+    });
+
+    clearWinnerSelection();
+  }finally{
+    setTimeout(() => {
+      navigationBusy = false;
+    }, 350);
+  }
+}
+
+async function previousQuestion(){
+  if(navigationBusy) return;
+
+  const questionCount = Math.max(1, Number(totalQuestions) || 1);
+  if(questionCount <= 1 || currentQuestion <= 1){
+    updateNavigationButtons();
+    return;
+  }
+
+  navigationBusy = true;
+
+  try{
+    await sendCommand("previous-question");
+    clearWinnerSelection();
+  }finally{
+    setTimeout(() => {
+      navigationBusy = false;
+    }, 350);
+  }
+}
+
+async function toggleAnswer(){ return toggleAnswerImage(); }
+
+
+
+let latestGameState = {};
+let hostShowingAnswer = false;
+
+function renderQuestionFromState(state){
+  latestGameState = state || {};
+
+  const target = document.getElementById("hostSyncedVisual");
+  const button = document.getElementById("showAnswerImageBtn");
+  const answerText = document.getElementById("answerText");
+
+  if(!target) return;
+
+  const showAnswer = state?.answerVisible === true;
+  hostShowingAnswer = showAnswer;
+
+  const visualHtml = showAnswer
+    ? state?.answerVisualHtml
+    : state?.visualHtml;
+
+  // لا نعيد بناء الصورة إلا إذا تغير محتواها فعليًا.
+  const visualKey =
+    String(state?.question || "") + "|" +
+    String(showAnswer) + "|" +
+    String(visualHtml || "");
+
+  if(visualKey !== lastRenderedVisualKey){
+    target.innerHTML =
+      visualHtml || '<div class="question-placeholder">لا توجد صورة</div>';
+    lastRenderedVisualKey = visualKey;
+  }
+
+  if(button){
+    button.textContent = showAnswer
+      ? "إخفاء الإجابة من شاشة اللعب"
+      : "إظهار الإجابة في شاشة اللعب";
+  }
+
+  if(answerText){
+    answerText.textContent = state?.answer || "غير محددة";
+  }
+}
+
+async function toggleAnswerImage(){
+  await sendCommand("toggle-answer");
+}
+
+async function resetBuzzer(){
+  await update(ref(db, "sessions/" + sessionId + "/buzzer"), {
+    locked:false,
+    playerName:"",
+    teamKey:"",
+    teamName:"",
+    pressedAt:null,
+    lockedUntil:0
+  });
+}
+
+window.selectWinnerTeam = selectWinnerTeam;
+window.nextQuestion = nextQuestion;
+window.previousQuestion = previousQuestion;
+window.toggleAnswer = toggleAnswer;
+window.toggleAnswerImage = toggleAnswerImage;
+window.send = sendCommand;
+
+onValue(sessionRef, snapshot => {
+  const data = snapshot.val();
+  if(!data) return;
+
+  scores[1] = data.teams?.one?.score ?? 0;
+  scores[2] = data.teams?.two?.score ?? 0;
+  const incomingQuestion = data.state?.question ?? 1;
+  if(incomingQuestion !== currentQuestion){
+    hostShowingAnswer = false;
+    clearWinnerSelection();
+    lastRenderedVisualKey = "";
+  }
+  currentQuestion = incomingQuestion;
+  totalQuestions = Math.max(
+    1,
+    Number(data.state?.totalQuestions) || totalQuestions
+  );
+  hostShowingAnswer = data.state?.answerVisible === true;
+
+  const team1 = document.getElementById("team1");
+  const team2 = document.getElementById("team2");
+  const team1Answer = document.getElementById("team1Answer");
+  const team2Answer = document.getElementById("team2Answer");
+  const score1 = document.getElementById("score1");
+  const score2 = document.getElementById("score2");
+  const counter = document.getElementById("questionCounter");
+
+  if(team1) team1.textContent = data.teams?.one?.name || "الفريق الأول";
+  if(team2) team2.textContent = data.teams?.two?.name || "الفريق الثاني";
+  if(team1Answer) team1Answer.textContent = data.teams?.one?.name || "الفريق الأول";
+  if(team2Answer) team2Answer.textContent = data.teams?.two?.name || "الفريق الثاني";
+  if(score1) score1.textContent = scores[1];
+  if(score2) score2.textContent = scores[2];
+  if(counter) counter.textContent = currentQuestion + " / " + totalQuestions;
+
+  updateNavigationButtons();
+
+  if(data.state?.completed === true){
+    sessionCompleted = true;
+
+    const nextButton = document.getElementById("nextQuestionButton");
+    const previousButton = document.getElementById("previousQuestionButton");
+    if(nextButton){
+      nextButton.disabled = true;
+      nextButton.textContent = "تم عرض النتائج";
+    }
+    if(previousButton) previousButton.disabled = true;
+  }
+
+  renderQuestionFromState(data.state || {});
+
+  const buzzerCard = document.getElementById("hostBuzzerCard");
+  if(buzzerCard){
+    buzzerCard.style.display =
+      data.state?.buzzerEnabled === false ? "none" : "flex";
+  }
+
+  const buzzerText = document.getElementById("hostBuzzerText");
+  if(buzzerText){
+    const activeLock =
+      data.buzzer?.locked === true &&
+      Number(data.buzzer?.lockedUntil || 0) > Date.now();
+
+    buzzerText.textContent =
+      activeLock && data.buzzer?.playerName
+        ? "🔔 " + data.buzzer.playerName + " — " + data.buzzer.teamName
+        : "بانتظار الضغط";
+
+    clearTimeout(window.__hostBuzzerTimer);
+    if(activeLock){
+      window.__hostBuzzerTimer = setTimeout(() => {
+        buzzerText.textContent = "بانتظار الضغط";
+      }, Math.max(0, Number(data.buzzer.lockedUntil) - Date.now()));
+    }
+  }
+});
+
+function syncHostQuestionTotal(){
+  const progressCandidates = [
+    document.getElementById("hostQuestionProgress"),
+    document.getElementById("questionProgress"),
+    document.getElementById("hostQuestionNumber")
+  ].filter(Boolean);
+
+  progressCandidates.forEach(element => {
+    const questionNumber = Math.max(1, Number(currentQuestion) || 1);
+    element.textContent = "السؤال " + questionNumber + " / " + totalQuestions;
+  });
+}
+
+</script>
+
+</body>
+</html>

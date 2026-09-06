@@ -1,0 +1,6899 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>لعبة المراحل</title>
+  <style>
+    :root{
+      --bg:#f3f2f5;
+      --yellow:#f2bc08;
+      --green:#18c957;
+      --orange:#d87800;
+      --orange-dark:#a64f00;
+      --level:#d9dced;
+      --level-border:#aeb4cc;
+      --level-text:#8c94b3;
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    html,body{
+      width:90%;
+      margin-left:auto;
+      margin-right:auto;
+      min-height:100%;
+    }
+
+    body{
+      background:
+        radial-gradient(circle at 50% 35%, #fff 0%, #f7f6f8 46%, #ecebed 100%);
+      font-family:Tahoma,Arial,sans-serif;
+      color:#37423c;
+      overflow-x:hidden;
+    }
+
+    button{
+      font:inherit;
+    }
+
+    .page{
+      min-height:100vh;
+      display:none;
+    }
+
+    .page.active{
+      display:flex;
+    }
+
+    /* الصفحة الرئيسية */
+    #homePage{
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+    }
+
+    .home-content{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      transform:translateY(-10px);
+    }
+
+    .logo-wrap{
+      width:142px;
+      height:142px;
+      display:grid;
+      place-items:center;
+      margin-bottom:24px;
+      filter:drop-shadow(0 4px 2px rgba(0,0,0,.08));
+    }
+
+    .logo{
+      width:142px;
+      height:142px;
+      display:block;
+    }
+
+    .actions{
+      display:flex;
+      direction:ltr;
+      gap:12px;
+    }
+
+    .mode-btn{
+      width:132px;
+      height:58px;
+      border:0;
+      border-radius:12px;
+      color:#fff;
+      font-size:19px;
+      font-weight:700;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:9px;
+      cursor:pointer;
+      box-shadow:
+        0 4px 0 rgba(0,0,0,.18),
+        0 0 0 2px rgba(60,60,60,.4);
+      transition:.12s ease;
+      text-shadow:0 1px 2px rgba(0,0,0,.18);
+    }
+
+    .mode-btn:hover{
+      transform:translateY(-2px);
+      filter:brightness(1.04);
+    }
+
+    .mode-btn:active{
+      transform:translateY(2px);
+    }
+
+    .single{
+      background:linear-gradient(#f8c90f,var(--yellow));
+    }
+
+    .group{
+      background:linear-gradient(#1edb62,var(--green));
+    }
+
+    .icon{
+      width:22px;
+      height:22px;
+      fill:#fff;
+    }
+
+    /* صفحة المراحل */
+    #levelsPage{
+      flex-direction:column;
+      align-items:center;
+      padding:18px 14px 34px;
+    }
+
+    .levels-header{
+      width:min(100%,520px);
+      position:sticky;
+      top:0;
+      z-index:3;
+      text-align:center;
+      padding:0 0 13px;
+      margin-bottom:15px;
+      background:rgba(243,242,245,.94);
+      backdrop-filter:blur(8px);
+      border-bottom:2px solid rgba(50,60,55,.4);
+    }
+
+    .levels-header h1{
+      font-size:28px;
+      font-weight:800;
+      color:#364138;
+      line-height:1.2;
+    }
+
+    .back-btn{
+      position:absolute;
+      right:0;
+      top:0;
+      width:42px;
+      height:42px;
+      border:0;
+      border-radius:11px;
+      background:#fff;
+      color:#4a554e;
+      font-size:25px;
+      cursor:pointer;
+      box-shadow:0 2px 7px rgba(0,0,0,.16);
+    }
+
+    .levels-grid{
+      width:min(100%,430px);
+      display:grid;
+      grid-template-columns:repeat(6,1fr);
+      gap:12px 10px;
+      direction:ltr;
+      justify-items:center;
+    }
+
+    .level-btn{
+      width:54px;
+      aspect-ratio:1;
+      border:2px solid var(--level-border);
+      border-radius:14px;
+      background:linear-gradient(#e3e5f1,#d3d7e8);
+      color:var(--level-text);
+      font-size:19px;
+      font-weight:800;
+      cursor:pointer;
+      box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.8),
+        0 2px 3px rgba(0,0,0,.08);
+      transition:.12s ease;
+    }
+
+    .level-btn:hover{
+      transform:translateY(-2px);
+      filter:brightness(1.03);
+    }
+
+    .level-btn.current{
+      color:#fff;
+      background:linear-gradient(#e88a06,var(--orange));
+      border-color:var(--orange-dark);
+      box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.35),
+        0 4px 0 var(--orange-dark),
+        0 5px 8px rgba(0,0,0,.18);
+    }
+
+    @media(max-width:480px){
+      #levelsPage{
+        padding-inline:8px;
+      }
+
+      .levels-grid{
+        gap:10px 6px;
+      }
+
+      .level-btn{
+        width:48px;
+        border-radius:12px;
+        font-size:17px;
+      }
+
+      .levels-header h1{
+        font-size:25px;
+      }
+    }
+
+    @media(max-width:360px){
+      .level-btn{
+        width:43px;
+      }
+
+      .levels-grid{
+        gap:9px 4px;
+      }
+    }
+  
+    /* إعداد اللعب الجماعي */
+    #groupPage{
+      flex-direction:column;
+      align-items:center;
+      padding:18px 14px 40px;
+    }
+
+    .group-header{
+      width:min(100%,620px);
+      position:relative;
+      text-align:center;
+      padding:18px 0 22px;
+      border-bottom:2px solid rgba(50,60,55,.45);
+      margin-bottom:42px;
+    }
+
+    .group-header h1{
+      font-size:32px;
+      font-weight:800;
+      color:#31483a;
+    }
+
+    .group-form{
+      width:min(100%,420px);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+    }
+
+    .team-block{
+      width:100%;
+      text-align:center;
+      margin-bottom:28px;
+    }
+
+    .team-block label{
+      display:block;
+      margin-bottom:18px;
+      font-size:24px;
+      font-weight:800;
+      color:#43544b;
+    }
+
+    .team-input{
+      width:100%;
+      height:108px;
+      border:4px solid #66706b;
+      border-radius:18px;
+      background:#fff;
+      padding:0 24px;
+      text-align:center;
+      font-size:22px;
+      font-weight:700;
+      color:#4b514e;
+      outline:none;
+      box-shadow:0 10px 0 rgba(26,170,72,.75);
+      transition:.15s ease;
+    }
+
+    .team-input:focus{
+      border-color:#25b85a;
+      box-shadow:0 10px 0 rgba(18,156,62,.8), 0 0 0 4px rgba(31,201,87,.13);
+    }
+
+    .create-room-btn{
+      width:100%;
+      min-height:116px;
+      border:4px solid #39784d;
+      border-radius:20px;
+      background:linear-gradient(#15dc54,#06c83f);
+      color:#fff;
+      font-size:25px;
+      font-weight:900;
+      cursor:pointer;
+      box-shadow:0 10px 0 #079b35, 0 12px 10px rgba(0,0,0,.12);
+      text-shadow:0 2px 2px rgba(0,0,0,.2);
+      transition:.12s ease;
+    }
+
+    .create-room-btn:hover{
+      filter:brightness(1.04);
+      transform:translateY(-2px);
+    }
+
+    .create-room-btn:active{
+      transform:translateY(6px);
+      box-shadow:0 4px 0 #079b35;
+    }
+
+    .group-message{
+      min-height:28px;
+      margin-top:22px;
+      font-size:18px;
+      font-weight:700;
+      color:#b33b2e;
+      text-align:center;
+    }
+
+    @media(max-width:480px){
+      .group-header h1{
+        font-size:27px;
+      }
+
+      .group-form{
+        width:min(100%,360px);
+      }
+
+      .team-block label{
+        font-size:21px;
+      }
+
+      .team-input{
+        height:88px;
+        font-size:19px;
+      }
+
+      .create-room-btn{
+        min-height:96px;
+        font-size:22px;
+      }
+    }
+
+  
+    /* شاشة السؤال */
+    #gamePage{
+      position:relative;
+      min-height:100vh;
+      align-items:center;
+      justify-content:center;
+      padding:34px 28px 90px;
+      background:
+        radial-gradient(circle, rgba(226,188,85,.15) 2px, transparent 2.4px) 0 0/20px 20px,
+        #fff8dc;
+    }
+
+    .game-layout{
+      width:min(100%,1420px);
+      display:grid;
+      grid-template-columns:190px minmax(560px,1fr) 190px;
+      gap:30px;
+      align-items:center;
+      direction:ltr;
+    }
+
+    .team-score-card{
+      min-height:140px;
+      border:3px solid #191919;
+      border-radius:18px;
+      background:#fff8d8;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      box-shadow:0 5px 0 rgba(0,0,0,.12);
+      padding:18px 10px;
+      text-align:center;
+    }
+
+    .team-score-card .team-name{
+      max-width:100%;
+      font-size:20px;
+      font-weight:900;
+      color:#17151b;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      direction:rtl;
+    }
+
+    .team-score-card .score{
+      margin-top:10px;
+      font-size:54px;
+      line-height:1;
+      font-weight:900;
+      color:#131117;
+    }
+
+    .question-board{
+      min-height:540px;
+      border:3px solid #111;
+      border-radius:30px;
+      background:#fff;
+      box-shadow:0 10px 0 #111;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:60px 55px;
+      overflow:hidden;
+    }
+
+    .visual-question{
+      width:100%;
+      display:grid;
+      grid-template-columns:1fr 110px 1fr;
+      gap:34px;
+      align-items:center;
+      direction:ltr;
+    }
+
+    .picture-card{
+      width:100%;
+      aspect-ratio:1.5/1;
+      overflow:hidden;
+      background:#052c63;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .picture-card svg{
+      width:100%;
+      height:100%;
+      display:block;
+    }
+
+    .plus-sign{
+      font-size:110px;
+      line-height:1;
+      font-weight:900;
+      color:#343434;
+      text-align:center;
+    }
+
+    .question-progress{
+      position:absolute;
+      left:50%;
+      bottom:26px;
+      transform:translateX(-50%);
+      min-width:118px;
+      padding:13px 22px;
+      border-radius:14px;
+      background:#17141c;
+      color:#fff;
+      text-align:center;
+      font-size:23px;
+      font-weight:900;
+      box-shadow:0 4px 0 rgba(0,0,0,.25);
+      direction:ltr;
+    }
+
+    .game-back-btn{
+      position:absolute;
+      top:20px;
+      right:22px;
+      width:48px;
+      height:48px;
+      border:0;
+      border-radius:13px;
+      background:#fff;
+      color:#29262d;
+      font-size:27px;
+      font-weight:900;
+      cursor:pointer;
+      box-shadow:0 3px 0 rgba(0,0,0,.22);
+      z-index:4;
+    }
+
+    .individual-game .game-layout{
+      grid-template-columns:minmax(560px,1000px);
+      justify-content:center;
+    }
+
+    .individual-game .team-score-card{
+      display:none;
+    }
+
+    .individual-game .question-board{
+      width:100%;
+    }
+
+    @media(max-width:900px){
+      #gamePage{
+        padding:82px 14px 86px;
+      }
+
+      .game-layout{
+        grid-template-columns:1fr 1fr;
+        gap:14px;
+      }
+
+      .question-board{
+        grid-column:1/-1;
+        grid-row:1;
+        min-height:390px;
+        padding:35px 25px;
+      }
+
+      .team-score-card{
+        min-height:110px;
+      }
+
+      .visual-question{
+        grid-template-columns:1fr 70px 1fr;
+        gap:16px;
+      }
+
+      .plus-sign{
+        font-size:72px;
+      }
+
+      .individual-game .game-layout{
+        display:block;
+      }
+    }
+
+    @media(max-width:560px){
+      .question-board{
+        min-height:470px;
+        padding:25px 20px;
+      }
+
+      .visual-question{
+        grid-template-columns:1fr;
+      }
+
+      .picture-card{
+        max-height:180px;
+      }
+
+      .plus-sign{
+        font-size:60px;
+        transform:rotate(0deg);
+      }
+
+      .team-score-card .score{
+        font-size:42px;
+      }
+
+      .team-score-card .team-name{
+        font-size:17px;
+      }
+    }
+
+  
+    /* زر ونافذة الإعدادات */
+    .settings-btn{
+      position:absolute;
+      top:20px;
+      left:22px;
+      width:48px;
+      height:48px;
+      border:3px solid #17151b;
+      border-radius:13px;
+      background:#fff8d8;
+      color:#17151b;
+      font-size:25px;
+      font-weight:900;
+      cursor:pointer;
+      box-shadow:0 4px 0 #17151b;
+      z-index:5;
+    }
+
+    .settings-overlay{
+      position:fixed;
+      inset:0;
+      z-index:20;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      background:rgba(18,16,22,.58);
+      backdrop-filter:blur(4px);
+    }
+
+    .settings-overlay.open{
+      display:flex;
+    }
+
+    .settings-panel{
+      width:min(100%,460px);
+      border:3px solid #17151b;
+      border-radius:24px;
+      background:#fff9df;
+      box-shadow:0 9px 0 #17151b;
+      padding:26px;
+      direction:rtl;
+    }
+
+    .settings-title-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding-bottom:16px;
+      margin-bottom:22px;
+      border-bottom:2px solid rgba(23,21,27,.25);
+    }
+
+    .settings-title-row h2{
+      font-size:27px;
+      color:#2d3f34;
+    }
+
+    .close-settings{
+      width:40px;
+      height:40px;
+      border:2px solid #17151b;
+      border-radius:10px;
+      background:#fff;
+      color:#17151b;
+      font-size:23px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .setting-field{
+      display:block;
+      margin-bottom:18px;
+      font-size:17px;
+      font-weight:800;
+      color:#3f4d45;
+    }
+
+    .setting-input{
+      width:100%;
+      height:55px;
+      margin-top:9px;
+      border:3px solid #5e6862;
+      border-radius:13px;
+      background:#fff;
+      padding:0 15px;
+      font-size:18px;
+      font-weight:700;
+      text-align:center;
+      outline:none;
+    }
+
+    .setting-input:focus{
+      border-color:#13b84c;
+      box-shadow:0 0 0 4px rgba(19,184,76,.14);
+    }
+
+    .settings-actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-top:24px;
+    }
+
+    .settings-action-btn{
+      min-height:52px;
+      border:3px solid #17151b;
+      border-radius:13px;
+      font-size:17px;
+      font-weight:900;
+      cursor:pointer;
+      box-shadow:0 4px 0 #17151b;
+    }
+
+    .save-settings{
+      background:#16cc50;
+      color:#fff;
+    }
+
+    .reset-settings{
+      background:#fff;
+      color:#17151b;
+    }
+
+    .settings-note{
+      min-height:24px;
+      margin-top:17px;
+      text-align:center;
+      font-size:15px;
+      font-weight:800;
+      color:#16833b;
+    }
+
+    .individual-game #teamSettingsFields{
+      display:none;
+    }
+
+    @media(max-width:560px){
+      .settings-btn,
+      .game-back-btn{
+        top:14px;
+      }
+
+      .settings-btn{
+        left:14px;
+      }
+
+      .game-back-btn{
+        right:14px;
+      }
+
+      .settings-panel{
+        padding:20px;
+      }
+
+      .settings-actions{
+        grid-template-columns:1fr;
+      }
+    }
+
+  
+    /* توحيد هوية جميع صفحات اللعبة */
+    body,
+    #homePage,
+    #levelsPage,
+    #groupPage{
+      background:
+        radial-gradient(circle, rgba(226,188,85,.16) 2px, transparent 2.4px) 0 0/20px 20px,
+        #fff8dc !important;
+    }
+
+    #homePage{
+      position:relative;
+    }
+
+    .home-content{
+      width:min(92%,580px);
+      padding:56px 34px 48px;
+      border:3px solid #17151b;
+      border-radius:30px;
+      background:#fff;
+      box-shadow:0 10px 0 #17151b;
+    }
+
+    .logo-wrap{
+      margin-bottom:34px;
+    }
+
+    .mode-btn{
+      border:3px solid #17151b;
+      box-shadow:0 6px 0 #17151b;
+    }
+
+    .mode-btn:active{
+      transform:translateY(5px);
+      box-shadow:0 1px 0 #17151b;
+    }
+
+    .single{
+      background:linear-gradient(#ffd24b,#f0b900);
+    }
+
+    .group{
+      background:linear-gradient(#1ddd61,#08be42);
+    }
+
+    #levelsPage,
+    #groupPage{
+      min-height:100vh;
+    }
+
+    .levels-header,
+    .group-header{
+      width:min(94%,620px);
+      position:relative;
+      top:auto;
+      background:#fff;
+      border:3px solid #17151b;
+      border-radius:22px;
+      box-shadow:0 6px 0 #17151b;
+      padding:18px 58px;
+      margin-bottom:34px;
+      backdrop-filter:none;
+    }
+
+    .levels-header h1,
+    .group-header h1{
+      color:#304438;
+    }
+
+    .back-btn{
+      top:50%;
+      right:12px;
+      transform:translateY(-50%);
+      border:2px solid #17151b;
+      background:#fff8d8;
+      box-shadow:0 3px 0 #17151b;
+    }
+
+    .levels-grid{
+      width:min(94%,500px);
+      padding:30px;
+      border:3px solid #17151b;
+      border-radius:28px;
+      background:#fff;
+      box-shadow:0 9px 0 #17151b;
+    }
+
+    .level-btn{
+      border:2px solid #17151b;
+      background:#fff8d8;
+      color:#6a6558;
+      box-shadow:0 3px 0 #17151b;
+    }
+
+    .level-btn.current{
+      color:#fff;
+      background:linear-gradient(#eb910d,#d66c00);
+      border-color:#17151b;
+      box-shadow:0 4px 0 #17151b;
+    }
+
+    .group-form{
+      width:min(94%,460px);
+      padding:34px;
+      border:3px solid #17151b;
+      border-radius:28px;
+      background:#fff;
+      box-shadow:0 9px 0 #17151b;
+    }
+
+    .team-input{
+      height:82px;
+      border:3px solid #17151b;
+      border-radius:15px;
+      background:#fff8f0;
+      box-shadow:0 6px 0 #17a34a;
+    }
+
+    .create-room-btn{
+      min-height:88px;
+      border:3px solid #17151b;
+      box-shadow:0 7px 0 #17151b;
+    }
+
+    .settings-panel{
+      background:#fff8dc;
+    }
+
+    @media(max-width:560px){
+      .home-content{
+        width:92%;
+        padding:44px 18px 38px;
+      }
+
+      .levels-grid,
+      .group-form{
+        padding:22px 14px;
+      }
+
+      .levels-header,
+      .group-header{
+        padding-inline:54px 16px;
+      }
+    }
+
+  
+    /* قفل مراحل الفردي */
+    .level-btn.locked{
+      opacity:.58;
+      cursor:not-allowed;
+      background:#ddd8c8;
+      color:#999181;
+      border-color:#4f4a43;
+      box-shadow:0 3px 0 #4f4a43;
+      filter:grayscale(.45);
+    }
+
+    .level-btn.locked::after{
+      content:"🔒";
+      display:block;
+      font-size:12px;
+      line-height:1;
+      margin-top:1px;
+    }
+
+    /* خانات إجابة الفردي */
+    .answer-area{
+      display:none;
+      width:100%;
+      margin-top:34px;
+      text-align:center;
+    }
+
+    .individual-game .answer-area{
+      display:block;
+    }
+
+    .answer-title{
+      margin-bottom:14px;
+      font-size:21px;
+      font-weight:900;
+      color:#2e2b31;
+    }
+
+    .answer-boxes{
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      direction:ltr;
+      flex-wrap:wrap;
+    }
+
+    .answer-letter{
+      width:86px;
+      height:78px;
+      border:3px solid #111;
+      border-radius:15px;
+      background:#fff4c9;
+      color:#111;
+      text-align:center;
+      font-size:34px;
+      font-weight:900;
+      outline:none;
+      box-shadow:0 6px 0 #111;
+      caret-color:#159444;
+    }
+
+    .answer-letter:focus{
+      border-color:#149f46;
+      box-shadow:0 6px 0 #111, 0 0 0 4px rgba(20,159,70,.15);
+    }
+
+    .answer-actions{
+      margin-top:20px;
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .answer-btn{
+      min-width:135px;
+      min-height:52px;
+      border:3px solid #111;
+      border-radius:13px;
+      font-size:18px;
+      font-weight:900;
+      cursor:pointer;
+      box-shadow:0 5px 0 #111;
+    }
+
+    .check-answer{
+      background:#18ca50;
+      color:#fff;
+    }
+
+    .clear-answer{
+      background:#fff8d8;
+      color:#111;
+    }
+
+    .answer-feedback{
+      min-height:28px;
+      margin-top:18px;
+      font-size:18px;
+      font-weight:900;
+    }
+
+    .question-board{
+      flex-direction:column;
+    }
+
+    @media(max-width:560px){
+      .answer-letter{
+        width:58px;
+        height:64px;
+        font-size:28px;
+      }
+    }
+
+  
+    /* واجهة الفردي الجديدة */
+    .individual-game{
+      padding-top:24px !important;
+    }
+
+    .individual-game .game-layout{
+      display:block;
+      width:min(94%,980px);
+      margin:auto;
+    }
+
+    .individual-game .question-board{
+      width:100%;
+      min-height:580px;
+      padding:46px 42px 36px;
+      border:3px solid #111;
+      border-radius:28px;
+      background:#fff;
+      box-shadow:0 10px 0 #111;
+    }
+
+    .individual-game .visual-question{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:0;
+    }
+
+    .individual-game .picture-card{
+      width:min(100%,860px);
+      min-height:0;
+      aspect-ratio:1.65/1;
+      overflow:hidden;
+      background:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:18px;
+    }
+
+    .individual-game .plus-sign{
+      font-size:126px;
+      color:#000;
+    }
+
+    .individual-game .answer-area{
+      margin-top:26px;
+    }
+
+    .individual-game .answer-title{
+      display:none;
+    }
+
+    .individual-game .answer-boxes{
+      gap:7px;
+      direction:rtl;
+    }
+
+    .individual-game .answer-letter{
+      width:50px;
+      height:58px;
+      border-radius:11px;
+      font-size:25px;
+      background:#fff3c8;
+      box-shadow:0 4px 0 #111;
+    }
+
+    .individual-game .answer-actions{
+      display:none;
+    }
+
+    .individual-game .answer-feedback{
+      margin-top:12px;
+    }
+
+    .hint-btn{
+      display:none;
+      position:absolute;
+      left:50%;
+      bottom:24px;
+      transform:translateX(-50%);
+      width:58px;
+      height:58px;
+      border:3px solid #111;
+      border-radius:14px;
+      background:#ffe7a3;
+      color:#111;
+      font-size:27px;
+      cursor:pointer;
+      box-shadow:0 5px 0 #111;
+      z-index:5;
+    }
+
+    .individual-game .hint-btn{
+      display:block;
+    }
+
+    .individual-game .question-progress{
+      display:none;
+    }
+
+    .individual-game .settings-btn{
+      display:none !important;
+    }
+
+    @media(max-width:700px){
+      .individual-game .question-board{
+        min-height:500px;
+        padding:30px 22px;
+      }
+
+      .individual-game .visual-question{
+        grid-template-columns:1fr 70px 1fr;
+        gap:12px;
+      }
+
+      .individual-game .picture-card{
+        min-height:230px;
+      }
+
+      .individual-game .picture-card:last-child::before{
+        font-size:170px;
+      }
+
+      .individual-game .plus-sign{
+        font-size:78px;
+      }
+    }
+
+    @media(max-width:480px){
+      .individual-game .visual-question{
+        grid-template-columns:1fr;
+      }
+
+      .individual-game .plus-sign{
+        font-size:58px;
+      }
+
+      .individual-game .picture-card:last-child::before{
+        font-size:130px;
+      }
+
+      .individual-game .picture-card{
+        min-height:150px;
+      }
+    }
+
+  
+    .answer-letter.wrong-answer{
+      border-color:#c52d24 !important;
+      background:#ffd8d3 !important;
+      animation:answerShake .28s linear 2;
+    }
+
+    .answer-letter.correct-answer{
+      border-color:#168f3d !important;
+      background:#d8f7df !important;
+    }
+
+    @keyframes answerShake{
+      0%,100%{transform:translateX(0)}
+      35%{transform:translateX(-5px)}
+      70%{transform:translateX(5px)}
+    }
+
+  
+    .audio-settings{
+      margin-top:18px;
+      padding-top:18px;
+      border-top:2px solid rgba(23,21,27,.2);
+    }
+
+    .audio-row{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:12px;
+      align-items:center;
+      margin-top:10px;
+    }
+
+    .volume-wrap{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .volume-slider{
+      width:100%;
+      accent-color:#18ca50;
+      cursor:pointer;
+    }
+
+    .volume-value{
+      min-width:48px;
+      text-align:center;
+      font-weight:900;
+      color:#2f3b34;
+    }
+
+    .mute-btn{
+      min-width:110px;
+      min-height:48px;
+      border:3px solid #17151b;
+      border-radius:12px;
+      background:#fff8d8;
+      color:#17151b;
+      font-weight:900;
+      cursor:pointer;
+      box-shadow:0 4px 0 #17151b;
+    }
+
+    .mute-btn.muted{
+      background:#e7d9d9;
+      color:#9d2b2b;
+    }
+
+  
+    .hint-menu-overlay{position:fixed;inset:0;z-index:30;display:none;align-items:flex-end;justify-content:center;padding:24px;background:rgba(20,18,22,.38);backdrop-filter:blur(3px)}
+    .hint-menu-overlay.open{display:flex}
+    .hint-menu{width:min(94%,580px);border:3px solid #111;border-radius:24px;overflow:hidden;background:#fff8d8;box-shadow:0 8px 0 #111;direction:rtl;margin-bottom:78px}
+    .hint-option{width:100%;min-height:96px;border:0;border-bottom:3px solid #111;background:#fff8d8;display:grid;grid-template-columns:58px 1fr 72px;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;text-align:right;color:#111}
+    .hint-option:last-child{border-bottom:0}.hint-option:hover:not(:disabled){background:#fff1ba}.hint-option:disabled{cursor:not-allowed;opacity:.68;background:#e9e0c6}
+    .hint-option-icon{font-size:30px;text-align:center}.hint-option-title{font-size:22px;font-weight:900}.hint-option-subtitle{display:block;margin-top:4px;font-size:14px;font-weight:700;color:#6d675c}
+    .hint-option-count{font-size:25px;font-weight:900;text-align:center;color:#777064}
+    .hint-close-row{display:flex;gap:10px;margin-top:12px;width:min(94%,580px);margin-inline:auto;direction:rtl}
+    .hint-close-btn{width:64px;height:58px;border:3px solid #111;border-radius:14px;background:#ffd99b;font-size:26px;font-weight:900;cursor:pointer;box-shadow:0 5px 0 #111}
+    .hint-result-bar{flex:1;min-height:58px;border:3px solid #111;border-radius:14px;background:#fff8d8;display:flex;align-items:center;justify-content:center;padding:8px 16px;font-size:18px;font-weight:900;text-align:center}
+    .hint-cooldown{color:#a13b2d}
+
+
+    .hint-option.used{
+      background:#e4f4df;
+    }
+    .hint-option.used .hint-option-count{
+      color:#16833b;
+    }
+    .active-hint-banner{
+      position:absolute;
+      left:50%;
+      bottom:96px;
+      transform:translateX(-50%) translateY(16px);
+      width:min(90%,620px);
+      min-height:64px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      padding:10px 18px;
+      border:3px solid #111;
+      border-radius:16px;
+      background:#fff4c8;
+      color:#17151b;
+      box-shadow:0 5px 0 #111;
+      opacity:0;
+      visibility:hidden;
+      transition:.18s ease;
+      z-index:6;
+      text-align:center;
+      direction:rtl;
+    }
+    .active-hint-banner.show{
+      opacity:1;
+      visibility:visible;
+      transform:translateX(-50%) translateY(0);
+    }
+    .active-hint-banner strong{
+      display:block;
+      font-size:18px;
+    }
+    .active-hint-banner small{
+      display:block;
+      margin-top:2px;
+      font-size:16px;
+      font-weight:800;
+    }
+
+
+    .individual-game.hint-active .active-hint-banner{
+      left:50%;
+      bottom:24px;
+      width:min(72%,560px);
+      min-height:58px;
+      transform:translateX(-50%) translateY(16px);
+    }
+
+    .individual-game.hint-active .active-hint-banner.show{
+      transform:translateX(-50%) translateY(0);
+    }
+
+    .individual-game.hint-active .hint-btn{
+      left:calc(50% + min(38vw, 320px));
+      right:auto;
+      bottom:24px;
+      transform:translateX(-50%);
+    }
+
+    @media(max-width:560px){
+      .individual-game.hint-active .active-hint-banner{
+        left:14px;
+        bottom:18px;
+        width:calc(100% - 92px);
+        transform:translateY(16px);
+      }
+
+      .individual-game.hint-active .active-hint-banner.show{
+        transform:translateY(0);
+      }
+
+      .individual-game.hint-active .hint-btn{
+        left:auto;
+        right:14px;
+        bottom:18px;
+        transform:none;
+      }
+    }
+
+
+    /* شريط التلميح تحت اللوحة البيضاء مباشرة */
+    .individual-game .game-layout{
+      position:relative;
+      padding-bottom:92px;
+    }
+
+    .individual-game.hint-active .active-hint-banner{
+      position:absolute;
+      left:50%;
+      bottom:14px;
+      width:min(72%,560px);
+      min-height:58px;
+      transform:translateX(-50%) translateY(16px);
+    }
+
+    .individual-game.hint-active .active-hint-banner.show{
+      transform:translateX(-50%) translateY(0);
+    }
+
+    .individual-game.hint-active .hint-btn{
+      position:absolute;
+      left:calc(50% + min(38vw,320px));
+      right:auto;
+      bottom:14px;
+      transform:translateX(-50%);
+    }
+
+    @media(max-width:560px){
+      .individual-game .game-layout{
+        padding-bottom:90px;
+      }
+
+      .individual-game.hint-active .active-hint-banner{
+        left:14px;
+        bottom:12px;
+        width:calc(100% - 92px);
+        transform:translateY(16px);
+      }
+
+      .individual-game.hint-active .active-hint-banner.show{
+        transform:translateY(0);
+      }
+
+      .individual-game.hint-active .hint-btn{
+        left:auto;
+        right:14px;
+        bottom: 24px;
+        transform:none;
+      }
+    }
+
+    /* مؤقت النفاد */
+    .hint-option.cooldown{
+      background:#ffe0dc !important;
+      color:#a9231b;
+    }
+
+    .hint-option.cooldown .hint-option-subtitle,
+    .hint-option.cooldown .hint-option-count{
+      color:#c1261d !important;
+      font-weight:900;
+    }
+
+
+    /* التلميح واللمبة في خط واحد تحت اللوحة البيضاء */
+    .individual-game .game-layout{
+      position:relative;
+      padding-bottom:86px;
+      margin-inline:auto;
+    }
+
+    .individual-game.hint-active .active-hint-banner{
+      position:absolute !important;
+      left:calc(50% - 36px) !important;
+      bottom:12px !important;
+      width:min(72%,560px) !important;
+      min-height:58px !important;
+      transform:translateX(-50%) translateY(16px) !important;
+      margin:0 !important;
+    }
+
+    .individual-game.hint-active .active-hint-banner.show{
+      transform:translateX(-50%) translateY(0) !important;
+    }
+
+    .individual-game.hint-active .hint-btn{
+      position:absolute !important;
+      left:calc(50% + min(39vw,326px)) !important;
+      right:auto !important;
+      bottom: 24px !important;
+      width:58px !important;
+      height:58px !important;
+      transform:translateX(-50%) !important;
+      margin:0 !important;
+    }
+
+    @media(max-width:560px){
+      .individual-game .game-layout{
+        padding-bottom:84px;
+      }
+
+      .individual-game.hint-active .active-hint-banner{
+        left:14px !important;
+        bottom:10px !important;
+        width:calc(100% - 88px) !important;
+        transform:translateY(16px) !important;
+      }
+
+      .individual-game.hint-active .active-hint-banner.show{
+        transform:translateY(0) !important;
+      }
+
+      .individual-game.hint-active .hint-btn{
+        left:auto !important;
+        right:14px !important;
+        bottom:10px !important;
+        transform:none !important;
+      }
+    }
+
+
+    .back-btn{
+      left:32px !important;
+    }
+    
+
+    /* قائمة التلميحات — مطابقة للشكل المرجعي */
+    .hint-menu-overlay{
+      position:fixed;
+      inset:0;
+      z-index:30;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      background:rgba(20,18,22,.38);
+      backdrop-filter:blur(3px);
+    }
+
+    .hint-menu-overlay.open{
+      display:flex;
+    }
+
+    .hint-menu-shell{
+      width:min(92%,580px);
+      direction:rtl;
+    }
+
+    .hint-menu{
+      width:100%;
+      border:4px solid #111;
+      border-radius:28px;
+      overflow:hidden;
+      background:#fff8d8;
+      box-shadow:0 8px 0 #111;
+    }
+
+    .hint-option{
+      width:100%;
+      min-height:100px;
+      border:0;
+      border-bottom:4px solid #111;
+      background:#fff8d8;
+      display:grid;
+      grid-template-columns:72px 1fr 72px;
+      align-items:center;
+      gap:12px;
+      padding:14px 20px;
+      cursor:pointer;
+      color:#111;
+    }
+
+    .hint-option:last-child{
+      border-bottom:0;
+    }
+
+    .hint-option:hover:not(:disabled){
+      background:#fff1ba;
+    }
+
+    .hint-option:disabled{
+      cursor:not-allowed;
+      opacity:.72;
+    }
+
+    .hint-option-count{
+      grid-column:1;
+      font-size:28px;
+      font-weight:900;
+      text-align:left;
+      color:#858176;
+      direction:ltr;
+    }
+
+    .hint-option-title{
+      grid-column:2;
+      font-size:27px;
+      font-weight:900;
+      text-align:center;
+      white-space:nowrap;
+    }
+
+    .hint-option-icon{
+      grid-column:3;
+      font-size:34px;
+      text-align:right;
+    }
+
+    .hint-option.used{
+      background:#eef8e8;
+    }
+
+    .hint-option.used .hint-option-count{
+      color:#16833b;
+    }
+
+    .hint-option.cooldown{
+      background:#ffe0dc !important;
+    }
+
+    .hint-option.cooldown .hint-option-count{
+      color:#c1261d !important;
+      font-size:23px;
+    }
+
+    .hint-close-btn{
+      display:block;
+      margin-top:18px;
+      margin-right:0;
+      margin-left:auto;
+      width:88px;
+      height:88px;
+      border:4px solid #111;
+      border-radius:24px;
+      background:#ffd99b;
+      color:#363636;
+      font-size:42px;
+      font-weight:500;
+      cursor:pointer;
+      box-shadow:0 7px 0 #111;
+    }
+
+    @media(max-width:560px){
+      .hint-menu-shell{
+        width:96%;
+      }
+
+      .hint-option{
+        min-height:86px;
+        grid-template-columns:58px 1fr 58px;
+        padding:12px 14px;
+      }
+
+      .hint-option-title{
+        font-size:21px;
+      }
+
+      .hint-option-count{
+        font-size:23px;
+      }
+
+      .hint-option-icon{
+        font-size:29px;
+      }
+
+      .hint-close-btn{
+        width:72px;
+        height:72px;
+        border-radius:20px;
+        font-size:34px;
+      }
+    }
+
+
+/* قائمة التلميحات صغيرة أسفل الشاشة */
+.hint-menu-overlay{
+  align-items:flex-end !important;
+  justify-content:center !important;
+  padding:0 0 24px 0 !important;
+}
+
+.hint-menu-shell{
+  width:min(92%,460px) !important;
+  transform:scale(.82);
+  transform-origin:bottom center;
+}
+
+@media(max-width:560px){
+  .hint-menu-shell{
+    width:95% !important;
+    transform:scale(.9);
+  }
+}
+
+
+/* تصغير إضافي لقائمة التلميحات */
+.hint-menu-shell{
+  width: min(88%, 360px) !important;
+  transform: scale(.65) !important;
+  transform-origin: bottom center !important;
+}
+
+@media(max-width:560px){
+  .hint-menu-shell{
+    width: 88% !important;
+    transform: scale(.72) !important;
+  }
+}
+
+
+/* تعديل موضع وحجم قائمة التلميحات */
+.hint-menu-shell{
+  width:min(82%,330px) !important;
+}
+
+.hint-menu-overlay{
+  justify-content:flex-start !important;
+  padding-left:26px !important;
+  padding-bottom:14px !important;
+}
+
+
+/* ضبط موضع القائمة وعرضها */
+.hint-menu-overlay{
+  justify-content:center !important;
+  padding-left:0 !important;
+  padding-right:40px !important; /* تحريك بسيط نحو اليسار */
+  padding-bottom:10px !important;
+}
+
+.hint-menu-shell{
+  width:min(92%,430px) !important;
+}
+
+
+/* موضع قائمة التلميحات مثل المرجع */
+.hint-menu-overlay{
+  align-items:flex-end !important;
+  justify-content:center !important;
+  padding-left:0 !important;
+  padding-right:180px !important;
+  padding-bottom:90px !important;
+}
+
+.hint-menu-shell{
+  width:min(92%,430px) !important;
+  transform:scale(.72) !important;
+  transform-origin:bottom center !important;
+}
+
+@media(max-width:900px){
+  .hint-menu-overlay{
+    padding-right:70px !important;
+    padding-bottom:70px !important;
+  }
+}
+
+@media(max-width:560px){
+  .hint-menu-overlay{
+    padding-right:20px !important;
+    padding-bottom:52px !important;
+  }
+
+  .hint-menu-shell{
+    width:94% !important;
+    transform:scale(.82) !important;
+  }
+}
+
+
+/* v17: lower hint menu */
+.hint-menu-overlay{
+  align-items:flex-end !important;
+  justify-content:center !important;
+  padding-bottom:18px !important;
+  padding-right:80px !important;
+}
+.hint-menu-shell{
+  transform:scale(.72) !important;
+}
+@media(max-width:900px){
+ .hint-menu-overlay{padding-bottom:16px !important;padding-right:40px !important;}
+}
+@media(max-width:560px){
+ .hint-menu-overlay{padding-bottom:10px !important;padding-right:12px !important;}
+}
+
+
+    .hint-reward-toast{
+      position:fixed;
+      top:24px;
+      left:50%;
+      z-index:60;
+      transform:translateX(-50%) translateY(-18px);
+      width:min(92%,460px);
+      padding:15px 20px;
+      border:3px solid #111;
+      border-radius:16px;
+      background:#e4f7d8;
+      color:#174c28;
+      box-shadow:0 6px 0 #111;
+      text-align:center;
+      font-size:18px;
+      font-weight:900;
+      opacity:0;
+      visibility:hidden;
+      transition:.2s ease;
+      direction:rtl;
+    }
+
+    .hint-reward-toast.show{
+      opacity:1;
+      visibility:visible;
+      transform:translateX(-50%) translateY(0);
+    }
+
+
+    .hint-reward-toast{
+      position:fixed;
+      top:24px;
+      left:50%;
+      z-index:60;
+      transform:translateX(-50%) translateY(-22px) scale(.96);
+      width:min(92%,500px);
+      min-height:78px;
+      padding:14px 18px;
+      border:3px solid #111;
+      border-radius:20px;
+      background:linear-gradient(180deg,#f7ffe9,#dff7bf);
+      color:#174c28;
+      box-shadow:0 7px 0 #111, 0 12px 24px rgba(0,0,0,.18);
+      opacity:0;
+      visibility:hidden;
+      transition:.22s ease;
+      direction:rtl;
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+
+    .hint-reward-toast.show{
+      opacity:1;
+      visibility:visible;
+      transform:translateX(-50%) translateY(0) scale(1);
+    }
+
+    .hint-reward-icon{
+      width:52px;
+      height:52px;
+      flex:0 0 52px;
+      border:3px solid #111;
+      border-radius:14px;
+      background:#fff6b8;
+      display:grid;
+      place-items:center;
+      font-size:28px;
+      box-shadow:0 4px 0 #111;
+    }
+
+    .hint-reward-content{
+      flex:1;
+      text-align:right;
+    }
+
+    .hint-reward-title{
+      display:block;
+      font-size:20px;
+      font-weight:900;
+      color:#173d23;
+    }
+
+    .hint-reward-subtitle{
+      display:block;
+      margin-top:3px;
+      font-size:15px;
+      font-weight:800;
+      color:#3f6c49;
+    }
+
+    @media(max-width:560px){
+      .hint-reward-toast{
+        top:14px;
+        width:calc(100% - 24px);
+        min-height:70px;
+        padding:12px;
+      }
+
+      .hint-reward-icon{
+        width:46px;
+        height:46px;
+        flex-basis:46px;
+        font-size:24px;
+      }
+
+      .hint-reward-title{
+        font-size:17px;
+      }
+
+      .hint-reward-subtitle{
+        font-size:13px;
+      }
+    }
+
+
+    .answer-letter::placeholder{
+      color:#111;
+      opacity:1;
+      font-size:30px;
+      font-weight:900;
+      transform:translateY(-2px);
+    }
+
+    .answer-letter:focus::placeholder{
+      opacity:.35;
+    }
+
+
+    /* تكبير عرض السبورة البيضاء في الوضع الجماعي فقط */
+    #gamePage:not(.individual-game) .game-layout{
+      width:min(98%,1580px) !important;
+      grid-template-columns:180px minmax(700px,1fr) 180px !important;
+    }
+
+    #gamePage:not(.individual-game) .question-board{
+      width:100% !important;
+      min-height:540px !important;
+      padding-top:60px !important;
+      padding-bottom:60px !important;
+    }
+
+    @media(max-width:1100px){
+      #gamePage:not(.individual-game) .game-layout{
+        width:100% !important;
+        grid-template-columns:150px minmax(560px,1fr) 150px !important;
+        gap:18px !important;
+      }
+    }
+
+    @media(max-width:900px){
+      #gamePage:not(.individual-game) .game-layout{
+        grid-template-columns:1fr 1fr !important;
+      }
+
+      #gamePage:not(.individual-game) .question-board{
+        grid-column:1 / -1 !important;
+      }
+    }
+
+
+/* توسيط السبورة البيضاء في الجماعي */
+#gamePage:not(.individual-game) .game-layout{
+  margin-left:auto !important;
+  margin-right:auto !important;
+  justify-content:center !important;
+}
+
+#gamePage:not(.individual-game) .question-board{
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+
+
+/* إنزال مربعات الإجابة أسفل السبورة في الفردي */
+#gamePage.individual-game .answer-container{
+  margin-top:32px !important;
+  position:relative !important;
+}
+
+#gamePage.individual-game .game-layout{
+  row-gap:28px !important;
+}
+
+
+/* v30: تصغير السبورة الفردية وإنزال مربعات الإجابة */
+#gamePage.individual-game .question-board{
+  width:90% !important;
+  max-width:760px !important;
+  margin:0 auto !important;
+}
+
+#gamePage.individual-game .answer-container{
+  display:flex !important;
+  justify-content:center !important;
+  margin-top:56px !important;
+  position:relative !important;
+  top:24px !important;
+}
+
+#gamePage.individual-game .game-layout{
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  gap:0 !important;
+}
+
+
+/* v31: السبورة الفردية أقصر ومربعات الإجابة خارجها تحتها */
+#gamePage.individual-game{
+  align-items:flex-start !important;
+}
+
+#gamePage.individual-game .game-layout{
+  display:block !important;
+  width:min(94%,980px) !important;
+  margin:0 auto !important;
+  padding-bottom:0 !important;
+}
+
+#gamePage.individual-game .question-board{
+  width:90% !important;
+  max-width:900px !important;
+  min-height:430px !important;
+  height:430px !important;
+  margin:0 auto !important;
+  padding:28px 38px !important;
+}
+
+#gamePage.individual-game .visual-question{
+  height:100% !important;
+}
+
+#gamePage.individual-game .picture-card{
+  min-height:250px !important;
+  max-height:300px !important;
+}
+
+#gamePage.individual-game .answer-area{
+  display:block !important;
+  width:100% !important;
+  margin:34px auto 0 !important;
+  position:static !important;
+  top:auto !important;
+  text-align:center !important;
+}
+
+#gamePage.individual-game .answer-boxes{
+  justify-content:center !important;
+}
+
+@media(max-width:700px){
+  #gamePage.individual-game .question-board{
+    width:94% !important;
+    min-height:360px !important;
+    height:360px !important;
+    padding:22px 20px !important;
+  }
+
+  #gamePage.individual-game .picture-card{
+    min-height:190px !important;
+    max-height:220px !important;
+  }
+}
+
+
+/* v32: إصلاح تخطيط الفردي */
+#gamePage.individual-game{
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  padding-top:42px !important;
+}
+
+#gamePage.individual-game .game-layout{
+  display:block !important;
+  width:100% !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+
+#gamePage.individual-game .question-board{
+  width:min(90vw,1100px) !important;
+  max-width:none !important;
+  height:500px !important;
+  min-height:500px !important;
+  margin:0 auto !important;
+  padding:30px 46px !important;
+}
+
+#gamePage.individual-game .visual-question{
+  width:100% !important;
+  height:100% !important;
+}
+
+#gamePage.individual-game .picture-card{
+  min-height:300px !important;
+  max-height:none !important;
+}
+
+#gamePage.individual-game .picture-card:first-child svg{
+  max-width:330px !important;
+}
+
+#gamePage.individual-game .answer-area{
+  display:block !important;
+  width:100% !important;
+  margin:28px 0 0 !important;
+  position:static !important;
+  top:auto !important;
+  text-align:center !important;
+}
+
+#gamePage.individual-game .answer-boxes{
+  display:flex !important;
+  justify-content:center !important;
+  margin:0 auto !important;
+}
+
+@media(max-width:700px){
+  #gamePage.individual-game{
+    padding-top:70px !important;
+  }
+
+  #gamePage.individual-game .question-board{
+    width:94vw !important;
+    height:390px !important;
+    min-height:390px !important;
+    padding:22px !important;
+  }
+
+  #gamePage.individual-game .picture-card{
+    min-height:210px !important;
+  }
+
+  #gamePage.individual-game .answer-area{
+    margin-top:22px !important;
+  }
+}
+
+
+/* v33: توسيط السبورة الفردية وتصغير عرضها قليلًا فقط */
+#gamePage.individual-game .game-layout{
+  width:100% !important;
+  margin:0 auto !important;
+}
+
+#gamePage.individual-game .question-board{
+  width:min(86vw,1040px) !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+
+#gamePage.individual-game .answer-area{
+  width:min(86vw,1040px) !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+
+@media(max-width:700px){
+  #gamePage.individual-game .question-board,
+  #gamePage.individual-game .answer-area{
+    width:92vw !important;
+  }
+}
+
+
+/* v34: توسيط عناصر الوضع الفردي داخل الشاشة */
+#gamePage.individual-game{
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding-top:20px !important;
+  padding-bottom:90px !important;
+}
+
+#gamePage.individual-game .game-layout{
+  width:100% !important;
+  margin:0 auto !important;
+}
+
+#gamePage.individual-game .question-board,
+#gamePage.individual-game .answer-area{
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+
+#gamePage.individual-game .answer-area{
+  margin-top:26px !important;
+}
+
+@media(max-width:700px){
+  #gamePage.individual-game{
+    justify-content:flex-start !important;
+    padding-top:72px !important;
+  }
+}
+
+
+/* v35: توسيط السبورة نفسها */
+#gamePage.individual-game .game-layout{
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+
+#gamePage.individual-game .question-board{
+  align-self:center !important;
+  margin:0 auto !important;
+  position:relative !important;
+  left:0 !important;
+  right:0 !important;
+  transform:none !important;
+}
+
+
+/* v37: تصحيح الانزياح بدون تخريب التخطيط */
+#gamePage.individual-game .game-layout{
+  width:100% !important;
+  max-width:none !important;
+  margin:0 auto !important;
+  padding:0 !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+}
+
+#gamePage.individual-game .question-board,
+#gamePage.individual-game .answer-area{
+  position:relative !important;
+  left:-24px !important;
+  right:auto !important;
+  transform:none !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+
+@media(max-width:700px){
+  #gamePage.individual-game .question-board,
+  #gamePage.individual-game .answer-area{
+    left:0 !important;
+  }
+}
+
+
+/* v38: توسيط مربعات جواب الفردي فقط */
+#gamePage.individual-game .answer-area{
+  width:100% !important;
+  left:0 !important;
+  right:auto !important;
+  transform:none !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  text-align:center !important;
+}
+
+#gamePage.individual-game .answer-boxes{
+  width:100% !important;
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+
+
+/* v39: منع ظهور السبورة خلف قائمة المراحل */
+#gamePage.page{
+  display:none !important;
+}
+
+#gamePage.page.active{
+  display:flex !important;
+}
+
+/* تثبيت توسيط السبورة ومربعات الإجابة في الفردي */
+#gamePage.individual-game .game-layout{
+  width:100% !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+
+#gamePage.individual-game .question-board{
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+
+#gamePage.individual-game .answer-area{
+  width:100% !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  text-align:center !important;
+}
+
+#gamePage.individual-game .answer-boxes{
+  width:100% !important;
+  justify-content:center !important;
+}
+
+
+/* ===== صفحة ربط جهاز التحكم والهوست ===== */
+#hostPairPage,
+#hostControlPage{
+  display:none;
+  min-height:100vh;
+  background:
+    radial-gradient(circle, rgba(226,188,85,.15) 2px, transparent 2.4px) 0 0/20px 20px,
+    #fff8dc;
+  direction:rtl;
+}
+
+#hostPairPage.active,
+#hostControlPage.active{
+  display:flex;
+}
+
+#hostPairPage{
+  align-items:center;
+  justify-content:center;
+  padding:32px 18px;
+}
+
+.host-pair-card{
+  width:min(92%,560px);
+  padding:28px;
+  border:3px solid #111;
+  border-radius:26px;
+  background:#fff8d8;
+  box-shadow:0 9px 0 #111;
+  text-align:center;
+}
+
+.host-pair-title{
+  margin:0;
+  font-size:34px;
+  font-weight:900;
+  color:#17151b;
+}
+
+.host-pair-text{
+  margin:12px auto 20px;
+  max-width:440px;
+  font-size:17px;
+  line-height:1.7;
+  font-weight:800;
+  color:#4c463d;
+}
+
+.host-qr{
+  width:280px;
+  height:280px;
+  margin:0 auto 14px;
+  border:3px solid #111;
+  border-radius:18px;
+  background:#fff;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+}
+
+.host-qr-grid{
+  width:238px;
+  height:238px;
+  display:grid;
+  grid-template-columns:repeat(21,1fr);
+  grid-template-rows:repeat(21,1fr);
+  gap:0;
+  background:#fff;
+}
+
+.host-qr-cell{
+  background:#000;
+}
+
+.host-link{
+  margin:10px 0 18px;
+  font-size:15px;
+  font-weight:800;
+  color:#6a6256;
+  direction:ltr;
+  word-break:break-all;
+}
+
+.host-pair-actions{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+.host-primary-btn,
+.host-secondary-btn{
+  min-height:56px;
+  border:3px solid #111;
+  border-radius:14px;
+  padding:0 24px;
+  font-size:18px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 5px 0 #111;
+}
+
+.host-primary-btn{
+  background:#79cff4;
+  color:#111;
+}
+
+.host-secondary-btn{
+  background:#fff4c8;
+  color:#111;
+}
+
+/* ===== لوحة تحكم الهوست ===== */
+#hostControlPage{
+  flex-direction:column;
+  padding:24px;
+}
+
+.host-topbar{
+  width:min(100%,1400px);
+  margin:0 auto 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.host-topbar h2{
+  margin:0;
+  font-size:30px;
+  font-weight:900;
+}
+
+.host-session-badge{
+  border:3px solid #111;
+  border-radius:999px;
+  background:#fff8d8;
+  padding:10px 18px;
+  font-weight:900;
+  box-shadow:0 4px 0 #111;
+}
+
+.host-dashboard{
+  width:min(100%,1400px);
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:minmax(0,1.45fr) minmax(330px,.75fr);
+  gap:22px;
+  align-items:start;
+}
+
+.host-preview-card,
+.host-panel{
+  border:3px solid #111;
+  border-radius:24px;
+  background:#fff;
+  box-shadow:0 8px 0 #111;
+}
+
+.host-preview-card{
+  padding:22px;
+}
+
+.host-question-meta{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:14px;
+  font-weight:900;
+}
+
+.host-preview-board{
+  min-height:420px;
+  border:3px solid #111;
+  border-radius:20px;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+}
+
+.host-preview-board .visual-question{
+  width:100%;
+}
+
+.host-answer-reveal{
+  margin-top:16px;
+  min-height:64px;
+  border:3px solid #111;
+  border-radius:16px;
+  background:#fff4c8;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:12px 18px;
+  font-size:26px;
+  font-weight:900;
+}
+
+.host-answer-reveal.show{
+  display:flex;
+}
+
+.host-panel{
+  padding:18px;
+  background:#fff8d8;
+}
+
+.host-control-group + .host-control-group{
+  margin-top:18px;
+  padding-top:18px;
+  border-top:3px solid #111;
+}
+
+.host-control-title{
+  margin:0 0 12px;
+  font-size:20px;
+  font-weight:900;
+}
+
+.host-control-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.host-action{
+  min-height:54px;
+  border:3px solid #111;
+  border-radius:13px;
+  font-size:16px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 4px 0 #111;
+}
+
+.host-action.reveal{background:#ffe08f}
+.host-action.next{background:#84d8ff}
+.host-action.correct{background:#8be4a6}
+.host-action.wrong{background:#ffaaa2}
+.host-action.end{background:#efdddd}
+
+.host-teams{
+  display:grid;
+  gap:12px;
+}
+
+.host-team-card{
+  border:3px solid #111;
+  border-radius:16px;
+  background:#fff;
+  padding:14px;
+}
+
+.host-team-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+  font-size:18px;
+  font-weight:900;
+}
+
+.host-score{
+  font-size:28px;
+}
+
+.host-score-actions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.host-score-btn{
+  min-height:44px;
+  border:2px solid #111;
+  border-radius:10px;
+  background:#fff4c8;
+  font-size:15px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.host-log{
+  max-height:220px;
+  overflow:auto;
+  padding-left:4px;
+}
+
+.host-log-item{
+  padding:9px 10px;
+  border:2px solid #111;
+  border-radius:10px;
+  background:#fff;
+  font-size:14px;
+  font-weight:800;
+}
+
+.host-log-item + .host-log-item{
+  margin-top:8px;
+}
+
+@media(max-width:980px){
+  .host-dashboard{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:560px){
+  #hostControlPage{padding:14px}
+  .host-control-buttons{grid-template-columns:1fr}
+  .host-pair-card{padding:20px}
+  .host-qr{width:230px;height:230px}
+  .host-qr-grid{width:196px;height:196px}
+}
+
+
+#hostPairPage .host-qr{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  background:#fff !important;
+  min-width:280px !important;
+  min-height:280px !important;
+  opacity:1 !important;
+  visibility:visible !important;
+}
+
+#hostQrSvg{
+  display:block !important;
+  width:238px !important;
+  height:238px !important;
+  opacity:1 !important;
+  visibility:visible !important;
+}
+
+
+#hostPairPage.active{
+  display:flex !important;
+  position:fixed !important;
+  inset:0 !important;
+  z-index:9999 !important;
+  opacity:1 !important;
+  visibility:visible !important;
+}
+
+
+#hostPairPage.active{
+  display:flex !important;
+  position:fixed !important;
+  inset:0 !important;
+  z-index:9999 !important;
+}
+
+#hostPairPage.active + #hostControlPage{
+  pointer-events:none;
+}
+
+
+#hostPairPage .host-qr{
+  overflow:visible !important;
+}
+
+#hostQrSvg{
+  background:#fff !important;
+  color:#000 !important;
+}
+
+#hostQrSvg path{
+  fill:#000 !important;
+  stroke:none !important;
+}
+
+
+#hostPairPage.active{
+  display:flex !important;
+  position:fixed !important;
+  inset:0 !important;
+  z-index:99999 !important;
+}
+
+/* v48: صفحة باركود مستقلة وغير معلّقة */
+#hostPairPage{
+  display:none !important;
+  min-height:100vh !important;
+  width:100% !important;
+  position:relative !important;
+  inset:auto !important;
+  z-index:auto !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:28px 16px !important;
+  background:
+    radial-gradient(circle, rgba(226,188,85,.14) 2px, transparent 2.4px) 0 0/20px 20px,
+    #fff8dc !important;
+}
+
+#hostPairPage.active{
+  display:flex !important;
+  opacity:1 !important;
+  visibility:visible !important;
+}
+
+#hostPairPage .host-pair-card{
+  width:min(92%,540px) !important;
+  padding:28px 26px 24px !important;
+  border:3px solid #111 !important;
+  border-radius:24px !important;
+  background:#fff8d8 !important;
+  box-shadow:0 9px 0 #111 !important;
+  text-align:center !important;
+}
+
+#hostPairPage .host-pair-title{
+  margin:0 !important;
+  font-size:32px !important;
+  font-weight:900 !important;
+}
+
+#hostPairPage .host-pair-text{
+  margin:12px auto 20px !important;
+  max-width:430px !important;
+  font-size:16px !important;
+  line-height:1.7 !important;
+  font-weight:800 !important;
+}
+
+#hostPairPage .host-qr{
+  width:300px !important;
+  height:300px !important;
+  margin:0 auto 14px !important;
+  border:3px solid #111 !important;
+  border-radius:18px !important;
+  background:#fff !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  overflow:hidden !important;
+}
+
+.host-qr-fallback{
+  width:252px !important;
+  height:252px !important;
+  display:grid !important;
+  grid-template-columns:repeat(25,1fr) !important;
+  grid-template-rows:repeat(25,1fr) !important;
+  background:#fff !important;
+}
+
+.host-qr-fallback span{
+  display:block !important;
+}
+
+.host-qr-fallback span.on{
+  background:#000 !important;
+}
+
+#hostPairPage .host-link{
+  margin:10px 0 18px !important;
+  font-size:14px !important;
+  font-weight:800 !important;
+  color:#6c655c !important;
+  direction:ltr !important;
+  word-break:break-all !important;
+}
+
+.host-copy-wide,
+.host-continue-wide{
+  width:100% !important;
+  min-height:56px !important;
+}
+
+.host-continue-wide{
+  margin-top:12px !important;
+  background:#fff4c8 !important;
+}
+
+@media(max-width:560px){
+  #hostPairPage .host-pair-card{
+    padding:22px 18px 20px !important;
+  }
+
+  #hostPairPage .host-qr{
+    width:245px !important;
+    height:245px !important;
+  }
+
+  .host-qr-fallback{
+    width:205px !important;
+    height:205px !important;
+  }
+}
+
+
+/* v66: الإعدادات بشكل عرضي */
+.settings-panel{
+  width:min(96vw,980px) !important;
+  max-height:90vh !important;
+  overflow:auto !important;
+  padding:22px !important;
+}
+
+.settings-title-row{
+  margin-bottom:16px !important;
+  padding-bottom:12px !important;
+}
+
+.settings-horizontal-grid{
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:16px !important;
+  align-items:start !important;
+}
+
+.settings-column{
+  min-width:0 !important;
+  border:2px solid rgba(23,21,27,.22) !important;
+  border-radius:16px !important;
+  background:rgba(255,255,255,.45) !important;
+  padding:14px !important;
+}
+
+.settings-column-title{
+  margin:0 0 12px !important;
+  font-size:18px !important;
+  font-weight:900 !important;
+  color:#2d3f34 !important;
+  text-align:center !important;
+}
+
+.settings-panel .setting-field{
+  margin-bottom:12px !important;
+}
+
+.settings-panel .audio-settings{
+  margin:0 !important;
+}
+
+.settings-panel .settings-actions{
+  margin-top:16px !important;
+  display:flex !important;
+  justify-content:center !important;
+  gap:12px !important;
+  flex-wrap:wrap !important;
+}
+
+.settings-panel #backupHostLinkWrap,
+.settings-panel #buzzerPlayerLinkWrap{
+  margin-top:10px !important;
+}
+
+.settings-panel #backupHostQr,
+.settings-panel #buzzerPlayerQr{
+  width:150px !important;
+  height:150px !important;
+}
+
+@media(max-width:820px){
+  .settings-horizontal-grid{
+    grid-template-columns:1fr 1fr !important;
+  }
+}
+
+@media(max-width:590px){
+  .settings-panel{
+    width:min(96vw,520px) !important;
+  }
+
+  .settings-horizontal-grid{
+    grid-template-columns:1fr !important;
+  }
+}
+
+
+#resultsPage{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:2147483000;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  padding:24px;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(255,215,0,.28),transparent 28%),
+    radial-gradient(circle at 80% 30%,rgba(255,80,80,.24),transparent 30%),
+    radial-gradient(circle at 50% 85%,rgba(80,190,255,.24),transparent 30%),
+    #fff6cc;
+}
+#resultsPage.show{display:flex}
+.results-card{
+  position:relative;
+  z-index:3;
+  width:min(94%,720px);
+  border:4px solid #111;
+  border-radius:30px;
+  background:#fffaf0;
+  box-shadow:0 12px 0 #111;
+  padding:32px;
+  text-align:center;
+}
+.results-title{
+  margin:0;
+  font-size:42px;
+  font-weight:900;
+}
+.results-winner{
+  margin:16px 0 22px;
+  font-size:34px;
+  font-weight:900;
+  color:#a62818;
+}
+.results-teams{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+.result-team{
+  border:3px solid #111;
+  border-radius:20px;
+  padding:18px;
+  background:#fff4c8;
+}
+.result-team.winner{
+  background:#c9f7d4;
+  box-shadow:0 6px 0 #238a45;
+}
+.result-team-name{
+  font-size:22px;
+  font-weight:900;
+}
+.result-score{
+  margin-top:8px;
+  font-size:54px;
+  line-height:1;
+  font-weight:900;
+}
+.result-correct{
+  margin-top:8px;
+  font-size:17px;
+  font-weight:800;
+}
+.results-summary{
+  margin-top:22px;
+  font-size:19px;
+  font-weight:900;
+}
+.results-close{
+  min-width:190px;
+  min-height:56px;
+  margin-top:22px;
+  border:3px solid #111;
+  border-radius:14px;
+  background:#17151b;
+  color:#fff;
+  font-size:19px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 5px 0 #555;
+}
+.celebration-piece{
+  position:absolute;
+  z-index:1;
+  width:14px;
+  height:14px;
+  border-radius:3px;
+  animation:celebrationFall 2.6s linear infinite;
+}
+.burst{
+  position:absolute;
+  z-index:2;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  border:5px solid currentColor;
+  animation:burstExpand 1.35s ease-out infinite;
+}
+@keyframes celebrationFall{
+  0%{transform:translateY(-15vh) rotate(0deg);opacity:1}
+  100%{transform:translateY(115vh) rotate(720deg);opacity:.15}
+}
+@keyframes burstExpand{
+  0%{transform:scale(.15);opacity:1}
+  100%{transform:scale(8);opacity:0}
+}
+@media(max-width:600px){
+  .results-card{padding:22px 16px}
+  .results-title{font-size:32px}
+  .results-winner{font-size:26px}
+  .results-teams{grid-template-columns:1fr}
+}
+
+
+/* v75 — Responsive layout */
+:root{
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-right:env(safe-area-inset-right,0px);
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+  --safe-left:env(safe-area-inset-left,0px);
+}
+
+html{
+  width:100%;
+  min-height:100%;
+  overflow-x:hidden;
+  -webkit-text-size-adjust:100%;
+}
+
+body{
+  width:100%;
+  min-height:100%;
+  overflow-x:hidden;
+}
+
+button,input,select{
+  touch-action:manipulation;
+}
+
+.page{
+  width:100%;
+  max-width:100%;
+}
+
+/* شاشة اللعب */
+#gamePage{
+  min-height:100svh !important;
+  padding:
+    calc(72px + var(--safe-top))
+    max(14px,var(--safe-right))
+    calc(82px + var(--safe-bottom))
+    max(14px,var(--safe-left)) !important;
+}
+
+.game-layout{
+  width:min(100%,1420px) !important;
+  margin-inline:auto !important;
+}
+
+.question-board{
+  width:100% !important;
+  min-width:0 !important;
+}
+
+.visual-question{
+  min-width:0 !important;
+}
+
+.picture-card{
+  min-width:0 !important;
+}
+
+.picture-card > div{
+  max-width:100%;
+  overflow:hidden;
+}
+
+.picture-card img,
+.picture-card svg{
+  width:100% !important;
+  max-width:100% !important;
+  height:100% !important;
+  max-height:100% !important;
+  object-fit:contain !important;
+}
+
+.team-score-card{
+  min-width:0 !important;
+}
+
+.game-back-btn,
+.settings-btn{
+  top:calc(14px + var(--safe-top)) !important;
+}
+
+.game-back-btn{
+  right:max(14px,var(--safe-right)) !important;
+}
+
+.settings-btn{
+  left:max(14px,var(--safe-left)) !important;
+}
+
+/* النوافذ */
+.settings-overlay{
+  padding:
+    calc(12px + var(--safe-top))
+    max(12px,var(--safe-right))
+    calc(12px + var(--safe-bottom))
+    max(12px,var(--safe-left)) !important;
+}
+
+.settings-panel{
+  width:min(96vw,980px) !important;
+  max-height:calc(100svh - 24px - var(--safe-top) - var(--safe-bottom)) !important;
+  overflow:auto !important;
+  overscroll-behavior:contain;
+}
+
+#hostPairPage,
+#hostControlPage{
+  padding-left:max(12px,var(--safe-left)) !important;
+  padding-right:max(12px,var(--safe-right)) !important;
+}
+
+/* صفحات النتائج */
+#resultsPage{
+  min-height:100svh;
+  padding:
+    calc(18px + var(--safe-top))
+    max(14px,var(--safe-right))
+    calc(18px + var(--safe-bottom))
+    max(14px,var(--safe-left)) !important;
+}
+
+.results-card{
+  max-height:calc(100svh - 36px - var(--safe-top) - var(--safe-bottom));
+  overflow:auto;
+}
+
+/* تابلت */
+@media(max-width:1100px){
+  #gamePage{
+    align-items:flex-start !important;
+  }
+
+  .game-layout{
+    grid-template-columns:minmax(130px,170px) minmax(0,1fr) minmax(130px,170px) !important;
+    gap:18px !important;
+    align-items:center !important;
+  }
+
+  .question-board{
+    min-height:440px !important;
+    padding:42px 28px !important;
+  }
+
+  .visual-question{
+    grid-template-columns:minmax(0,1fr) 72px minmax(0,1fr) !important;
+    gap:18px !important;
+  }
+
+  .plus-sign{
+    font-size:72px !important;
+  }
+
+  .team-score-card{
+    min-height:120px !important;
+    padding:14px 8px !important;
+  }
+
+  .team-score-card .team-name{
+    font-size:17px !important;
+  }
+
+  .team-score-card .score{
+    font-size:44px !important;
+  }
+}
+
+/* جوال أفقي وتابلت صغير */
+@media(max-width:820px){
+  #gamePage{
+    padding-top:calc(68px + var(--safe-top)) !important;
+  }
+
+  .game-layout{
+    grid-template-columns:1fr 1fr !important;
+    gap:12px !important;
+    align-items:stretch !important;
+  }
+
+  .question-board{
+    grid-column:1/-1 !important;
+    grid-row:1 !important;
+    min-height:0 !important;
+    padding:24px 18px !important;
+    border-radius:22px !important;
+    box-shadow:0 7px 0 #111 !important;
+  }
+
+  #teamOneCard{
+    grid-column:1 !important;
+    grid-row:2 !important;
+  }
+
+  #teamTwoCard{
+    grid-column:2 !important;
+    grid-row:2 !important;
+  }
+
+  .team-score-card{
+    min-height:92px !important;
+    border-radius:15px !important;
+  }
+
+  .team-score-card .team-name{
+    white-space:normal !important;
+    line-height:1.25 !important;
+  }
+
+  .team-score-card .score{
+    margin-top:6px !important;
+    font-size:38px !important;
+  }
+
+  .visual-question{
+    grid-template-columns:minmax(0,1fr) 52px minmax(0,1fr) !important;
+    gap:10px !important;
+  }
+
+  .picture-card{
+    aspect-ratio:1.15/1 !important;
+    border-radius:12px;
+  }
+
+  .plus-sign{
+    font-size:52px !important;
+  }
+
+  .question-progress{
+    bottom:calc(16px + var(--safe-bottom)) !important;
+    min-width:92px !important;
+    padding:10px 16px !important;
+    font-size:18px !important;
+  }
+
+  .settings-horizontal-grid{
+    grid-template-columns:1fr 1fr !important;
+  }
+
+  .host-qr-layout,
+  .host-dashboard{
+    grid-template-columns:1fr !important;
+  }
+
+  .results-title{
+    font-size:34px !important;
+  }
+
+  .results-winner{
+    font-size:27px !important;
+  }
+}
+
+/* جوال طولي */
+@media(max-width:560px){
+  #gamePage{
+    padding:
+      calc(64px + var(--safe-top))
+      max(10px,var(--safe-right))
+      calc(74px + var(--safe-bottom))
+      max(10px,var(--safe-left)) !important;
+  }
+
+  .game-back-btn,
+  .settings-btn{
+    width:43px !important;
+    height:43px !important;
+    font-size:23px !important;
+    border-radius:11px !important;
+  }
+
+  .game-layout{
+    gap:9px !important;
+  }
+
+  .question-board{
+    padding:18px 10px !important;
+    border-width:2px !important;
+    border-radius:18px !important;
+    box-shadow:0 5px 0 #111 !important;
+  }
+
+  .visual-question{
+    grid-template-columns:minmax(0,1fr) 34px minmax(0,1fr) !important;
+    gap:5px !important;
+  }
+
+  .picture-card{
+    aspect-ratio:1/1 !important;
+  }
+
+  .picture-card > div{
+    font-size:clamp(54px,20vw,92px) !important;
+  }
+
+  .plus-sign{
+    font-size:36px !important;
+  }
+
+  .team-score-card{
+    min-height:78px !important;
+    padding:8px 5px !important;
+    border-width:2px !important;
+  }
+
+  .team-score-card .team-name{
+    font-size:14px !important;
+  }
+
+  .team-score-card .score{
+    font-size:31px !important;
+  }
+
+  .question-progress{
+    font-size:16px !important;
+    padding:8px 13px !important;
+  }
+
+  .settings-panel{
+    width:100% !important;
+    border-radius:18px !important;
+    padding:14px !important;
+  }
+
+  .settings-title-row h2{
+    font-size:22px !important;
+  }
+
+  .settings-horizontal-grid{
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+  }
+
+  .settings-column{
+    padding:11px !important;
+  }
+
+  .setting-input{
+    height:48px !important;
+    font-size:16px !important;
+  }
+
+  .settings-actions{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+  }
+
+  #backupHostQr,
+  #buzzerPlayerQr{
+    width:142px !important;
+    height:142px !important;
+  }
+
+  .host-pair-card{
+    width:100% !important;
+    padding:16px !important;
+  }
+
+  #hostPairPage .host-qr{
+    min-width:0 !important;
+    min-height:0 !important;
+    width:min(74vw,250px) !important;
+    height:min(74vw,250px) !important;
+  }
+
+  #hostQrSvg{
+    width:min(62vw,210px) !important;
+    height:min(62vw,210px) !important;
+  }
+
+  .results-card{
+    padding:20px 12px !important;
+    border-radius:22px !important;
+  }
+
+  .results-title{
+    font-size:29px !important;
+  }
+
+  .results-winner{
+    margin:12px 0 16px !important;
+    font-size:23px !important;
+  }
+
+  .results-teams{
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+  }
+
+  .result-team{
+    padding:12px !important;
+  }
+
+  .result-score{
+    font-size:42px !important;
+  }
+
+  #buzzerWinnerBanner{
+    top:calc(12px + var(--safe-top)) !important;
+    width:calc(100% - 20px) !important;
+    padding:13px 12px !important;
+    font-size:20px !important;
+    border-width:3px !important;
+    border-radius:16px !important;
+    box-shadow:0 6px 0 #111 !important;
+  }
+}
+
+/* أجهزة صغيرة جدًا */
+@media(max-width:360px){
+  .visual-question{
+    grid-template-columns:minmax(0,1fr) 26px minmax(0,1fr) !important;
+    gap:3px !important;
+  }
+
+  .plus-sign{
+    font-size:29px !important;
+  }
+
+  .picture-card > div{
+    font-size:clamp(46px,18vw,70px) !important;
+  }
+
+  .team-score-card .team-name{
+    font-size:12px !important;
+  }
+
+  .team-score-card .score{
+    font-size:27px !important;
+  }
+}
+
+/* جوال أفقي قصير */
+@media(max-height:540px) and (orientation:landscape){
+  #gamePage{
+    padding:
+      calc(54px + var(--safe-top))
+      max(10px,var(--safe-right))
+      calc(52px + var(--safe-bottom))
+      max(10px,var(--safe-left)) !important;
+  }
+
+  .game-layout{
+    grid-template-columns:110px minmax(0,1fr) 110px !important;
+    gap:10px !important;
+  }
+
+  .question-board{
+    grid-column:auto !important;
+    grid-row:auto !important;
+    padding:12px !important;
+  }
+
+  #teamOneCard,
+  #teamTwoCard{
+    grid-column:auto !important;
+    grid-row:auto !important;
+    min-height:74px !important;
+  }
+
+  .picture-card{
+    aspect-ratio:1.45/1 !important;
+  }
+
+  .question-progress{
+    bottom:calc(8px + var(--safe-bottom)) !important;
+  }
+}
+
+
+.single-question-image{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:100% !important;
+}
+
+.single-question-image .picture-card{
+  width:min(100%,860px) !important;
+  aspect-ratio:1.65/1 !important;
+}
+
+.single-question-image img{
+  width:100% !important;
+  height:100% !important;
+  object-fit:contain !important;
+}
+
+@media(max-width:560px){
+  .single-question-image .picture-card{
+    aspect-ratio:1.25/1 !important;
+  }
+}
+
+
+.individual-game .plus-sign{display:none !important;}
+.individual-game .single-question-image{display:flex !important;justify-content:center !important;}
+.individual-game .single-question-image .picture-card{width:min(100%,860px) !important;}
+.individual-game .single-question-image img{width:100% !important;height:100% !important;object-fit:contain !important;}
+@media(max-width:560px){
+  .individual-game .picture-card{aspect-ratio:1.25/1;}
+}
+
+
+/* v84 — حساب المستخدم داخل عنوان المراحل */
+.levels-account-header{
+  width:min(92%,620px);
+  margin:10px auto 20px;
+  padding:12px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  border:3px solid #111;
+  border-radius:18px;
+  background:#fff8d8;
+  box-shadow:0 5px 0 #111;
+  cursor:pointer;
+  user-select:none;
+}
+.levels-account-header img{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid #111;
+  display:none;
+}
+.levels-account-copy{
+  min-width:0;
+  text-align:center;
+}
+.levels-account-copy strong{
+  display:block;
+  font-size:21px;
+  font-weight:900;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.levels-account-copy small{
+  display:block;
+  margin-top:3px;
+  font-size:14px;
+  font-weight:800;
+  opacity:.72;
+}
+.levels-account-header.signed-in{
+  background:#d8f7df;
+}
+.levels-account-header.signed-in img{
+  display:block;
+}
+.levels-account-logout{
+  display:none;
+  min-height:38px;
+  padding:0 12px;
+  border:2px solid #111;
+  border-radius:10px;
+  background:#ffd9d9;
+  font-weight:900;
+  cursor:pointer;
+}
+.levels-account-header.signed-in .levels-account-logout{
+  display:block;
+}
+.google-login-message{
+  width:min(92%,620px);
+  min-height:24px;
+  margin:-10px auto 12px;
+  text-align:center;
+  font-weight:900;
+  color:#b42318;
+}
+@media(max-width:560px){
+  .levels-account-header{
+    padding:10px 11px;
+    gap:9px;
+  }
+  .levels-account-copy strong{font-size:18px}
+  .levels-account-copy small{font-size:12px}
+  .levels-account-header img{width:42px;height:42px}
+}
+
+
+/* v86 — التلميح بجانب اللمبة تحت الإجابة */
+.individual-hint-stack{
+  display:none;
+}
+
+.individual-game .individual-hint-stack{
+  direction:rtl;
+  width:min(92%,620px);
+  margin:-2px auto 18px;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  position:relative;
+  z-index:7;
+}
+
+.individual-game .individual-hint-stack .hint-btn{
+  order:1;
+  display:flex !important;
+  position:static !important;
+  inset:auto !important;
+  left:auto !important;
+  right:auto !important;
+  bottom:auto !important;
+  top:auto !important;
+  transform:none !important;
+  margin:0 !important;
+  width:58px !important;
+  height:58px !important;
+  min-width:58px !important;
+  flex:0 0 58px;
+  align-items:center;
+  justify-content:center;
+}
+
+.individual-game .individual-hint-stack .active-hint-banner{
+  order:2;
+  position:static !important;
+  inset:auto !important;
+  left:auto !important;
+  right:auto !important;
+  top:auto !important;
+  bottom:auto !important;
+  transform:translateX(6px) !important;
+  width:min(100%,500px) !important;
+  min-height:58px !important;
+  margin:0 !important;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  flex:1 1 auto;
+}
+
+.individual-game .individual-hint-stack .active-hint-banner.show{
+  opacity:1 !important;
+  visibility:visible !important;
+  transform:translateX(0) !important;
+  pointer-events:auto;
+}
+
+.individual-game.hint-active .individual-hint-stack .hint-btn,
+.individual-game.hint-active .individual-hint-stack .active-hint-banner{
+  position:static !important;
+  left:auto !important;
+  right:auto !important;
+  top:auto !important;
+  bottom:auto !important;
+}
+
+.individual-game .game-layout{
+  padding-bottom:0 !important;
+}
+
+@media(max-width:560px){
+  .individual-game .individual-hint-stack{
+    width:calc(100% - 20px);
+    margin-top:-4px;
+    margin-bottom:14px;
+    gap:8px;
+  }
+
+  .individual-game .individual-hint-stack .hint-btn{
+    width:52px !important;
+    height:52px !important;
+    min-width:52px !important;
+    flex-basis:52px;
+  }
+
+  .individual-game .individual-hint-stack .active-hint-banner{
+    min-width:0;
+    min-height:52px !important;
+    padding:8px 10px !important;
+  }
+
+  .individual-game .individual-hint-stack .active-hint-banner strong{
+    font-size:15px;
+  }
+
+  .individual-game .individual-hint-stack .active-hint-banner small{
+    font-size:13px;
+  }
+}
+
+@media(max-width:360px){
+  .individual-game .individual-hint-stack{
+    gap:6px;
+  }
+
+  .individual-game .individual-hint-stack .hint-btn{
+    width:48px !important;
+    height:48px !important;
+    min-width:48px !important;
+    flex-basis:48px;
+  }
+}
+
+/* v88 — ضمان ظهور مربعات الإجابة في الفردي */
+#gamePage.individual-game #answerArea{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+}
+
+#gamePage.individual-game #answerBoxes{
+  display:flex !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  min-height:62px;
+}
+
+</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+  <section id="homePage" class="page active">
+    <div class="home-content">
+      <div class="logo-wrap" aria-label="شعار اللعبة">
+        <svg class="logo" viewBox="0 0 160 160" role="img" aria-label="رجل ملتحٍ يرتدي قبعة">
+          <defs>
+            <linearGradient id="capGreen" x1="0" x2="1">
+              <stop offset="0" stop-color="#5ea58f"/>
+              <stop offset="1" stop-color="#84b9a6"/>
+            </linearGradient>
+            <linearGradient id="beardGreen" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#476d62"/>
+              <stop offset="1" stop-color="#31534d"/>
+            </linearGradient>
+            <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+              <feDropShadow dx="0" dy="4" stdDeviation="2.2" flood-color="#000" flood-opacity=".18"/>
+            </filter>
+          </defs>
+
+          <circle cx="80" cy="91" r="55" fill="#9d9aaa" opacity=".8"/>
+          <g filter="url(#softShadow)" stroke="#2e5853" stroke-width="3" stroke-linejoin="round">
+            <path d="M42 62c2-25 19-38 42-40 20-2 34 6 41 18 7 12 3 25-6 31-11 7-62 5-77-9z" fill="url(#capGreen)"/>
+            <path d="M70 23c16-1 34 4 45 16l-2 15-41-5z" fill="#d8dcdf"/>
+            <path d="M73 24l-4 25M91 23l7 29M110 34l-13 17" fill="none" stroke="#8b9195" stroke-width="2" stroke-dasharray="4 3"/>
+            <path d="M38 56c19-9 51-11 80-3 12 3 17 8 14 14-3 7-12 7-22 5-31-7-50-4-69 2z" fill="#73aa97"/>
+            <path d="M53 68c4-15 17-23 30-23 17 0 31 11 33 28l-4 28-28 18-29-17z" fill="#f1e7de"/>
+            <path d="M52 79c-7 1-9 10-5 16 3 4 8 5 12 1M115 79c7 1 9 10 5 16-3 4-8 5-12 1" fill="#f1e7de"/>
+            <path d="M61 75c7-5 14-5 21-1M91 74c7-4 14-3 20 1" fill="none" stroke="#355e56" stroke-width="5" stroke-linecap="round"/>
+            <path d="M62 84c5 4 11 4 17 0M93 84c5 4 11 4 16 0" fill="none" stroke="#355e56" stroke-width="3" stroke-linecap="round"/>
+            <path d="M84 77l-3 15 8 1" fill="none" stroke="#9c7468" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M61 96c10-10 19-8 25-1 7-7 17-9 27 1-7 8-17 10-27 6-10 4-18 2-25-6z" fill="#3e625a"/>
+            <path d="M53 92c-4 16 1 41 15 52 4-4 8-6 12-6 5 8 11 12 16 12 6-1 9-6 11-12 6 1 10 3 14 7 10-13 13-35 6-51-7 15-17 22-30 19-8 3-19-2-27-17-6 3-11 2-17-4z" fill="url(#beardGreen)"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="actions">
+        <button class="mode-btn single" type="button" disabled aria-disabled="true" style="position:relative;cursor:not-allowed;opacity:.78;">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="7" r="4"/>
+            <path d="M4 21v-2c0-4.4 3.6-8 8-8s8 3.6 8 8v2z"/>
+          </svg>
+          <span>فردي</span>
+          <span style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#111;color:#fff;border:2px solid #fff;border-radius:999px;padding:3px 10px;font-size:11px;font-weight:900;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.28);">قريبًا</span>
+        </button>
+
+        <button class="mode-btn group" type="button" onclick="openGroupSetup()">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 7l4 3 5-6 5 6 4-3-2 11H5L3 7z"/>
+            <rect x="5" y="19" width="14" height="2" rx="1"/>
+          </svg>
+          <span>جماعي</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section id="levelsPage" class="page">
+    <header class="levels-header">
+      <button class="back-btn" type="button" onclick="goHome()" aria-label="رجوع">↩</button>
+      <h1>المراحل</h1>
+    </header>
+    <div id="levelsAccountHeader"
+         class="levels-account-header"
+         role="button"
+         tabindex="0"
+         onclick="handleLevelsAccountClick(event)"
+         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();handleLevelsAccountClick(event)}">
+      <img id="levelsAccountPhoto" alt="صورة المستخدم">
+      <div class="levels-account-copy">
+        <strong id="levelsAccountName">سجّل لحفظ تقدمك</strong>
+        <small id="levelsAccountSubtitle">اضغط لتسجيل الدخول بحساب Google</small>
+      </div>
+      <button id="levelsLogoutButton"
+              class="levels-account-logout"
+              type="button"
+              onclick="event.stopPropagation();logoutLevelsGoogle()">
+        خروج
+      </button>
+    </div>
+    <div id="googleLoginMessage" class="google-login-message" aria-live="polite"></div>
+
+
+    <div id="levelsGrid" class="levels-grid" aria-label="قائمة المراحل"></div>
+  </section>
+
+
+  <section id="groupPage" class="page">
+    <header class="group-header">
+      <button class="back-btn" type="button" onclick="goHome()" aria-label="رجوع">↩</button>
+      <h1>طور العرض</h1>
+    </header>
+
+    <form class="group-form" onsubmit="createRoom(event)">
+      <div class="team-block">
+        <label for="teamOne">الفريق الأول</label>
+        <input
+          id="teamOne"
+          class="team-input"
+          type="text"
+          placeholder="اسم الفريق الأول"
+          maxlength="24"
+          autocomplete="off"
+        />
+      </div>
+
+      <div class="team-block">
+        <label for="teamTwo">الفريق الثاني</label>
+        <input
+          id="teamTwo"
+          class="team-input"
+          type="text"
+          placeholder="اسم الفريق الثاني"
+          maxlength="24"
+          autocomplete="off"
+        />
+      </div>
+
+      <button class="create-room-btn" type="submit">إنشاء غرفة جديدة</button>
+      <button id="returnSessionButton"
+              class="create-room-btn"
+              type="button"
+              onclick="returnToSavedSession()"
+              style="display:none;margin-top:12px;background:#fff4c8">
+        العودة للجلسة
+      </button>
+
+      <p id="groupMessage" class="group-message" aria-live="polite"></p>
+    </form>
+  </section>
+
+
+  <section id="gamePage" class="page">
+    <button class="game-back-btn" type="button" onclick="backFromGame()" aria-label="رجوع">↩</button>
+    <button class="settings-btn" type="button" onclick="openSettings()" aria-label="الإعدادات">⚙</button>
+
+    <div class="game-layout">
+      <aside id="teamOneCard" class="team-score-card">
+        <div id="gameTeamOne" class="team-name">الفريق الأول</div>
+        <div id="scoreOne" class="score">0</div>
+      </aside>
+
+      <main class="question-board">
+        <div class="visual-question" aria-label="سؤال صور">
+          <div class="picture-card">
+            <svg viewBox="0 0 360 420" role="img" aria-label="زجاجة سم">
+              <defs>
+                <linearGradient id="bottleGlass" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#ffbf22"/>
+                  <stop offset=".45" stop-color="#b96900"/>
+                  <stop offset="1" stop-color="#6b2500"/>
+                </linearGradient>
+                <linearGradient id="neckGlass" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#8d1b13"/>
+                  <stop offset="1" stop-color="#3b0504"/>
+                </linearGradient>
+                <linearGradient id="labelGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#fff48f"/>
+                  <stop offset="1" stop-color="#e6bf37"/>
+                </linearGradient>
+                <filter id="bottleShadow" x="-30%" y="-30%" width="160%" height="160%">
+                  <feDropShadow dx="0" dy="14" stdDeviation="10" flood-color="#000" flood-opacity=".18"/>
+                </filter>
+              </defs>
+
+              <ellipse cx="180" cy="374" rx="120" ry="22" fill="#000" opacity=".10"/>
+
+              <g filter="url(#bottleShadow)">
+                <rect x="145" y="45" width="70" height="95" rx="18" fill="url(#neckGlass)" stroke="#3d0a08" stroke-width="6"/>
+                <ellipse cx="180" cy="42" rx="48" ry="14" fill="#2b0705"/>
+                <ellipse cx="180" cy="36" rx="40" ry="9" fill="#5a160e"/>
+                <rect x="135" y="25" width="90" height="18" rx="9" fill="#3c0c08"/>
+                <ellipse cx="180" cy="26" rx="43" ry="8" fill="#7c2a13"/>
+
+                <path d="M112 130
+                         Q94 147 88 184
+                         L76 322
+                         Q74 360 112 372
+                         Q180 394 248 372
+                         Q286 360 284 322
+                         L272 184
+                         Q266 147 248 130
+                         Q222 112 180 112
+                         Q138 112 112 130Z"
+                      fill="url(#bottleGlass)" stroke="#4b1a00" stroke-width="7"/>
+
+                <path d="M105 154 Q180 182 255 154" fill="none" stroke="#6f2d00" stroke-width="6"/>
+                <path d="M110 142 Q180 162 250 142" fill="none" stroke="#ffda55" stroke-width="4" opacity=".6"/>
+
+                <rect x="112" y="206" width="136" height="118" rx="10"
+                      fill="url(#labelGrad)" stroke="#3f2c05" stroke-width="5"/>
+
+                <g transform="translate(180 250)" fill="#25252d">
+                  <circle cy="-6" r="30"/>
+                  <rect x="-15" y="13" width="30" height="18" rx="6"/>
+                  <circle cx="-10" cy="-10" r="6" fill="#f3d94e"/>
+                  <circle cx="10" cy="-10" r="6" fill="#f3d94e"/>
+                  <path d="M-7 3 L0 11 L7 3Z" fill="#f3d94e"/>
+                </g>
+
+                <g transform="translate(180 301)" stroke="#25252d" stroke-width="9" stroke-linecap="round">
+                  <path d="M-39 -17 L39 17"/>
+                  <path d="M39 -17 L-39 17"/>
+                </g>
+
+                <path d="M128 165 Q116 220 124 278" fill="none" stroke="#fff" stroke-width="15" opacity=".35" stroke-linecap="round"/>
+              </g>
+            </svg>
+          </div>
+
+          <div class="plus-sign">+</div>
+
+          <div class="picture-card">
+            <svg viewBox="0 0 500 330" role="img" aria-label="نجوم في السماء">
+              <defs>
+                <linearGradient id="skyB" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#031332"/>
+                  <stop offset=".65" stop-color="#07548b"/>
+                  <stop offset="1" stop-color="#0f99ce"/>
+                </linearGradient>
+                <radialGradient id="glow">
+                  <stop offset="0" stop-color="#fff"/>
+                  <stop offset=".18" stop-color="#fff6a4"/>
+                  <stop offset=".48" stop-color="#ffc82f" stop-opacity=".9"/>
+                  <stop offset="1" stop-color="#ffc82f" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <rect width="500" height="330" fill="url(#skyB)"/>
+              <g fill="#fff" opacity=".8">
+                <circle cx="62" cy="49" r="1.5"/><circle cx="112" cy="90" r="1.8"/>
+                <circle cx="233" cy="58" r="1.5"/><circle cx="365" cy="75" r="1.8"/>
+                <circle cx="430" cy="48" r="1.4"/><circle cx="275" cy="124" r="1.5"/>
+              </g>
+              <g>
+                <g transform="translate(105 82)">
+                  <circle r="42" fill="url(#glow)"/>
+                  <path d="M0-34 L4-5 L34 0 L4 5 L0 34 L-4 5 L-34 0 L-4-5Z" fill="#fff7b4"/>
+                </g>
+                <g transform="translate(105 142)">
+                  <circle r="38" fill="url(#glow)"/>
+                  <path d="M0-31 L4-5 L31 0 L4 5 L0 31 L-4 5 L-31 0 L-4-5Z" fill="#fff7b4"/>
+                </g>
+                <g transform="translate(105 202)">
+                  <circle r="34" fill="url(#glow)"/>
+                  <path d="M0-28 L4-4 L28 0 L4 4 L0 28 L-4 4 L-28 0 L-4-4Z" fill="#fff7b4"/>
+                </g>
+                <g transform="translate(105 260)">
+                  <circle r="30" fill="url(#glow)"/>
+                  <path d="M0-24 L3-4 L24 0 L3 4 L0 24 L-3 4 L-24 0 L-3-4Z" fill="#fff7b4"/>
+                </g>
+                <g transform="translate(205 192)">
+                  <circle r="34" fill="url(#glow)"/>
+                  <path d="M0-28 L4-4 L28 0 L4 4 L0 28 L-4 4 L-28 0 L-4-4Z" fill="#fff7b4"/>
+                </g>
+                <g transform="translate(315 202)">
+                  <circle r="32" fill="url(#glow)"/>
+                  <path d="M0-26 L4-4 L26 0 L4 4 L0 26 L-4 4 L-26 0 L-4-4Z" fill="#fff7b4"/>
+                </g>
+                <g transform="translate(420 210)">
+                  <circle r="30" fill="url(#glow)"/>
+                  <path d="M0-24 L3-4 L24 0 L3 4 L0 24 L-3 4 L-24 0 L-3-4Z" fill="#fff7b4"/>
+                </g>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+      </main>
+
+      <aside id="teamTwoCard" class="team-score-card">
+        <div id="gameTeamTwo" class="team-name">الفريق الثاني</div>
+        <div id="scoreTwo" class="score">0</div>
+      </aside>
+    </div>
+
+    <div id="answerArea" class="answer-area">
+      <div class="answer-title">اكتب الإجابة</div>
+      <div id="answerBoxes" class="answer-boxes"></div>
+
+      <div class="answer-actions">
+        <button class="answer-btn check-answer" type="button" onclick="checkIndividualAnswer()">تحقق</button>
+        <button class="answer-btn clear-answer" type="button" onclick="clearIndividualAnswer()">مسح</button>
+      </div>
+
+      <p id="answerFeedback" class="answer-feedback" aria-live="polite"></p>
+    </div>
+
+    <div id="questionProgress" class="question-progress">1/10</div>
+
+    <div class="individual-hint-stack">
+      <button class="hint-btn" type="button" onclick="openHintMenu()" aria-label="تلميح">💡</button>
+
+      <div id="activeHintBanner" class="active-hint-banner" aria-live="polite">
+        <span id="activeHintIcon">💡</span>
+        <span>
+          <strong id="activeHintTitle">التلميح</strong>
+          <small id="activeHintText"></small>
+        </span>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+  <div id="hintRewardToast" class="hint-reward-toast" aria-live="polite">
+    <div class="hint-reward-icon">🎁</div>
+    <div class="hint-reward-content">
+      <strong id="hintRewardTitle" class="hint-reward-title">تمت إضافة تلميح</strong>
+      <span id="hintRewardSubtitle" class="hint-reward-subtitle">بسبب إجاباتك السريعة</span>
+    </div>
+  </div>
+
+  <div id="hintMenuOverlay" class="hint-menu-overlay" role="dialog" aria-modal="true" aria-label="قائمة التلميحات">
+    <div class="hint-menu-shell">
+      <div class="hint-menu">
+        <button id="hintLanguageBtn" class="hint-option" type="button" onclick="useHintType('language')">
+          <span id="hintLanguageCount" class="hint-option-count">5</span>
+          <span class="hint-option-title">لغة الإجابة</span>
+          <span class="hint-option-icon">🌐</span>
+        </button>
+
+        <button id="hintTextBtn" class="hint-option" type="button" onclick="useHintType('text')">
+          <span id="hintTextCount" class="hint-option-count">5</span>
+          <span class="hint-option-title">تلميح للإجابة</span>
+          <span class="hint-option-icon">💡</span>
+        </button>
+
+        <button id="hintLetterBtn" class="hint-option" type="button" onclick="useHintType('letter')">
+          <span id="hintLetterCount" class="hint-option-count">12</span>
+          <span class="hint-option-title">كشف حرف عشوائي</span>
+          <span class="hint-option-icon">✏️</span>
+        </button>
+      </div>
+
+      <button class="hint-close-btn" type="button" onclick="closeHintMenu()" aria-label="إغلاق">×</button>
+    </div>
+  </div>
+
+  <div id="settingsOverlay" class="settings-overlay" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div class="settings-panel">
+<div class="settings-title-row">
+        <h2 id="settingsTitle">الإعدادات</h2>
+        <button class="close-settings" type="button" onclick="closeSettings()" aria-label="إغلاق">×</button>
+      </div>
+
+<div class="settings-horizontal-grid">
+  <section class="settings-column">
+    <h3 class="settings-column-title">إعدادات الجلسة</h3>
+    <label class="setting-field" for="settingsTeamOne">
+          اسم الفريق الأول
+          <input id="settingsTeamOne" class="setting-input" type="text" maxlength="24" />
+        </label><label class="setting-field" for="settingsTeamTwo">
+          اسم الفريق الثاني
+          <input id="settingsTeamTwo" class="setting-input" type="text" maxlength="24" />
+        </label><label class="setting-field" for="questionCountInput">
+        عدد الأسئلة
+        <input id="questionCountInput" class="setting-input" type="number" min="10" max="50" value="10" />
+      </label>
+  </section>
+
+  <section class="settings-column">
+    <h3 class="settings-column-title">الجرس والربط</h3>
+    <div class="audio-settings" id="buzzerSettingsBox">
+        <label class="setting-field" style="margin-bottom:10px">
+          إعدادات الجرس
+        </label>
+
+        <label style="display:flex;align-items:center;justify-content:space-between;gap:14px;
+                      min-height:54px;border:3px solid #5e6862;border-radius:13px;
+                      background:#fff;padding:0 14px;font-weight:900">
+          <span>تفعيل جرس اللاعبين</span>
+          <input id="buzzerEnabledInput" type="checkbox" checked
+                 style="width:24px;height:24px;accent-color:#16a34a">
+        </label>
+
+        <label class="setting-field" style="margin-top:14px">
+          مدة إغلاق الجرس بعد الضغط
+          <select id="buzzerLockSecondsInput" class="setting-input" style="height:52px">
+            <option value="1">1 ثانية</option>
+            <option value="2">2 ثانية</option>
+            <option value="3" selected>3 ثوانٍ</option>
+            <option value="4">4 ثوانٍ</option>
+            <option value="5">5 ثوانٍ</option>
+            <option value="6">6 ثوانٍ</option>
+            <option value="7">7 ثوانٍ</option>
+            <option value="8">8 ثوانٍ</option>
+            <option value="9">9 ثوانٍ</option>
+            <option value="10">10 ثوانٍ</option>
+          </select>
+        </label>
+
+
+        <div id="backupHostLinkWrap" style="margin-top:14px;display:none">
+          <div style="font-size:15px;font-weight:900;margin-bottom:8px">
+            باركود احتياطي للهوست
+          </div>
+          <div id="backupHostQr" style="width:190px;height:190px;margin:0 auto 10px;
+                    display:flex;align-items:center;justify-content:center;background:#fff;
+                    border:2px solid #5e6862;border-radius:12px;padding:6px"></div>
+          <div id="backupHostLink" style="direction:ltr;word-break:break-all;
+                    border:2px solid #5e6862;border-radius:10px;background:#fff;
+                    padding:10px;font-size:13px"></div>
+        </div>
+
+        <div id="buzzerPlayerLinkWrap" style="margin-top:12px;display:none">
+          <div style="font-size:14px;font-weight:900;margin-bottom:7px">دخول اللاعبين إلى الجرس:</div>
+          <div id="buzzerPlayerQr" style="width:190px;height:190px;margin:0 auto 10px;
+                    display:flex;align-items:center;justify-content:center;background:#fff;
+                    border:2px solid #5e6862;border-radius:12px;padding:6px"></div>
+          <div id="buzzerPlayerLink" style="direction:ltr;word-break:break-all;
+                    border:2px solid #5e6862;border-radius:10px;background:#fff;
+                    padding:10px;font-size:13px"></div>
+        </div>
+      </div>
+
+      
+  </section>
+
+  <section class="settings-column">
+    <h3 class="settings-column-title">الصوت</h3>
+    <div class="audio-settings">
+        <label class="setting-field" for="volumeSlider">مستوى الصوت</label>
+
+        <div class="audio-row">
+          <div class="volume-wrap">
+            <input id="volumeSlider" class="volume-slider" type="range" min="0" max="100" step="5" value="70" />
+            <span id="volumeValue" class="volume-value">70%</span>
+          </div>
+
+          <button id="muteButton" class="mute-btn" type="button" onclick="toggleMute()">🔊 تشغيل</button>
+        </div>
+      </div>
+
+      
+  </section>
+</div>
+
+<div class="settings-actions">
+        <button class="settings-action-btn save-settings" type="button" onclick="saveSettings()">حفظ التغييرات</button>
+        <button class="settings-action-btn reset-settings" type="button" onclick="resetGameScores()">تصفير النقاط</button>
+      </div>
+
+      <p id="settingsNote" class="settings-note" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <script>
+    const homePage = document.getElementById("homePage");
+    const levelsPage = document.getElementById("levelsPage");
+    const groupPage = document.getElementById("groupPage");
+    const gamePage = document.getElementById("gamePage");
+    let currentGameMode = "single";
+    let currentQuestion = 1;
+    let currentLevel = 1;
+    let unlockedLevel = Number(localStorage.getItem("unlockedLevel")) || 1;
+    let questionHintUsage = {language:false, text:false};
+    let hintBalances = JSON.parse(localStorage.getItem("hintBalances") || "null") || {
+      language: 5,
+      text: 5,
+      letter: 12
+    };
+
+    const hintMaxBalances = {language:5, text:5, letter:12};
+    let hintCooldowns = JSON.parse(localStorage.getItem("hintCooldowns") || "null") || {
+      language:{duration:10, readyAt:0},
+      text:{duration:10, readyAt:0},
+      letter:{duration:10, readyAt:0}
+    };
+    let hintCooldownTimer = null;
+    let fastAnswerProgress = Number(localStorage.getItem("fastAnswerProgress")) || 0;
+    let fastAnswerTarget = Number(localStorage.getItem("fastAnswerTarget")) || (3 + Math.floor(Math.random() * 3));
+
+
+    /*
+      هذا البنك موحد للفردي والجماعي.
+      السؤال رقم 1 يظهر في الوضعين، وكذلك بقية الأسئلة.
+
+      لإضافة سؤال جديد انسخ هذا القالب داخل questionBank:
+
+      {
+        imageUrl: "رابط الصورة",
+        answer: "الإجابة",
+        hint: "التلميح",
+        language: "عربي"
+      }
+
+      language يمكن أن تكون مثل:
+      "عربي" أو "إنجليزي" أو "فرنسي"
+    */
+
+    function makeEmojiImage(emoji, background = "#fff4c8"){
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520">
+          <rect width="900" height="520" rx="36" fill="${background}"/>
+          <text x="450" y="335" text-anchor="middle"
+                font-family="Arial,sans-serif" font-size="250">${emoji}</text>
+        </svg>`;
+
+      return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+    }
+
+    
+    const questionBank = [
+  { imageUrl: "img/1.png", answer: "فل قايز", hint: "لعبة جماعية مشهورة", language: "عربي" },
+  { imageUrl: "img/2.png", answer: "روكي", hint: "اسم شخصية مشهورة", language: "عربي" },
+  { imageUrl: "img/3.png", answer: "سكسوكة", hint: "طبق شعبي", language: "عربي" },
+  { imageUrl: "img/4.png", answer: "بول سكولز", hint: "لاعب كرة قدم", language: "عربي" },
+  { imageUrl: "img/5.png", answer: "شجرة", hint: "من النباتات", language: "عربي" },
+  { imageUrl: "img/6.png", answer: "كرسيدا", hint: "سيارة معروفة", language: "عربي" },
+  { imageUrl: "img/7.png", answer: "طعمية", hint: "أكلة شعبية", language: "عربي" },
+  { imageUrl: "img/8.png", answer: "سبايسي", hint: "تعني حار", language: "عربي" },
+  { imageUrl: "img/9.png", answer: "قصدير", hint: "نوع من المعادن", language: "عربي" },
+  { imageUrl: "img/10.png", answer: "لبن", hint: "مشروب أبيض", language: "عربي" },
+  { imageUrl: "img/11.png", answer: "حلقات بصل", hint: "وجبة جانبية", language: "عربي" },
+  { imageUrl: "img/12.png", answer: "حراسة مشددة", hint: "تعبير يدل على التأمين", language: "عربي" },
+  { imageUrl: "img/13.png", answer: "رصيف", hint: "بجانب الطريق", language: "عربي" },
+  { imageUrl: "img/14.png", answer: "كأس العالم", hint: "أشهر بطولة كرة قدم", language: "عربي" },
+  { imageUrl: "img/15.png", answer: "لمبرجيني", hint: "سيارة رياضية", language: "عربي" },
+  { imageUrl: "img/16.png", answer: "مالكوم", hint: "لاعب كرة قدم", language: "عربي" },
+  { imageUrl: "img/17.png", answer: "دمشق", hint: "عاصمة عربية", language: "عربي" },
+  { imageUrl: "img/18.png", answer: "كودو", hint: "مطعم وجبات سريعة", language: "عربي" },
+  { imageUrl: "img/19.png", answer: "لاند كروزر", hint: "سيارة دفع رباعي", language: "عربي" },
+  { imageUrl: "img/20.png", answer: "عريكة", hint: "أكلة جنوبية", language: "عربي" },
+  { imageUrl: "img/21.png", answer: "بربري", hint: "نوع من الخبز", language: "عربي" },
+  { imageUrl: "img/22.png", answer: "وانيت", hint: "مركبة لنقل البضائع", language: "عربي" },
+  { imageUrl: "img/23.png", answer: "حست", hint: "كلمة عامية", language: "عربي" },
+  { imageUrl: "img/24.png", answer: "قشطة", hint: "منتج ألبان", language: "عربي" },
+  { imageUrl: "img/25.png", answer: "ستيف هارفي", hint: "مقدم برامج أمريكي", language: "عربي" },
+  { imageUrl: "img/26.png", answer: "ببروني", hint: "إضافة مشهورة للبيتزا", language: "عربي" },
+  { imageUrl: "img/27.png", answer: "عبادي الجوهر", hint: "فنان سعودي", language: "عربي" },
+  { imageUrl: "img/28.png", answer: "سالمون", hint: "نوع من الأسماك", language: "عربي" },
+  { imageUrl: "img/29.png", answer: "عالم موازي", hint: "مصطلح خيالي", language: "عربي" },
+  { imageUrl: "img/30.png", answer: "تحية", hint: "تقال عند اللقاء", language: "عربي" },
+  { imageUrl: "img/31.png", answer: "راموس", hint: "مدافع مشهور", language: "عربي" },
+  { imageUrl: "img/32.png", answer: "مضارع", hint: "زمن في اللغة العربية", language: "عربي" },
+  { imageUrl: "img/33.png", answer: "الجزائر", hint: "دولة عربية", language: "عربي" },
+  { imageUrl: "img/34.png", answer: "وادي الدواسر", hint: "محافظة سعودية", language: "عربي" },
+  { imageUrl: "img/35.png", answer: "أمطار", hint: "تنزل من السماء", language: "عربي" },
+  { imageUrl: "img/36.png", answer: "بيبسي", hint: "مشروب غازي", language: "عربي" },
+  { imageUrl: "img/37.png", answer: "بريدة", hint: "مدينة سعودية", language: "عربي" },
+  { imageUrl: "img/38.png", answer: "منار", hint: "اسم علم", language: "عربي" },
+  { imageUrl: "img/39.png", answer: "ماهر", hint: "اسم علم", language: "عربي" },
+  { imageUrl: "img/40.png", answer: "تويكس", hint: "نوع شوكولاتة", language: "عربي" },
+  { imageUrl: "img/41.png", answer: "بايرن", hint: "نادٍ ألماني", language: "عربي" },
+  { imageUrl: "img/42.png", answer: "فلفل", hint: "نوع من الخضار", language: "عربي" },
+  { imageUrl: "img/43.png", answer: "شباب البومب", hint: "مسلسل سعودي", language: "عربي" },
+  { imageUrl: "img/44.png", answer: "شكن فيليه", hint: "وجبة دجاج", language: "عربي" },
+  { imageUrl: "img/45.png", answer: "شاشة", hint: "جهاز عرض", language: "عربي" },
+  { imageUrl: "img/46.png", answer: "أبها", hint: "مدينة سعودية", language: "عربي" },
+  { imageUrl: "img/47.png", answer: "مكسيكي", hint: "ينسب إلى دولة", language: "عربي" },
+  { imageUrl: "img/48.png", answer: "عصام", hint: "اسم علم", language: "عربي" },
+  { imageUrl: "img/49.png", answer: "رشيد", hint: "اسم علم", language: "عربي" },
+  { imageUrl: "img/50.png", answer: "تجيك التهايم وأنت نايم", hint: "عبارة مشهورة", language: "عربي" }  ,
+  { imageUrl: "img/51.png", answer: "فاتن", hint: "اسم علم", language: "عربي" },
+  { imageUrl: "img/52.png", answer: "مدريد", hint: "عاصمة أوروبية", language: "عربي" },
+
+
+
+
+
+
+
+{ imageUrl: "img/53.png", answer: "اوسكار", hint: "جائزة سينمائية", language: "عربي" },
+{ imageUrl: "img/54.png", answer: "اكسنت", hint: "سيارة مشهورة", language: "عربي" },
+{ imageUrl: "img/55.png", answer: "حارس", hint: "يحمي المكان", language: "عربي" },
+{ imageUrl: "img/56.png", answer: "ADBLICK", hint: "اسم علامة", language: "عربي" },
+{ imageUrl: "img/57.png", answer: "جوز الهند", hint: "فاكهة استوائية", language: "عربي" },
+{ imageUrl: "img/58.png", answer: "برج بيزا المائل", hint: "معلم سياحي إيطالي", language: "عربي" },
+{ imageUrl: "img/59.png", answer: "الحوطة", hint: "محافظة سعودية", language: "عربي" },
+{ imageUrl: "img/60.png", answer: "صداع نصفي", hint: "نوع من الصداع", language: "عربي" },
+{ imageUrl: "img/61.png", answer: "امفن", hint: "اسم مشهور", language: "عربي" },
+{ imageUrl: "img/62.png", answer: "الربع الخالي", hint: "أكبر صحراء رملية", language: "عربي" },
+{ imageUrl: "img/63.png", answer: "رصيف", hint: "بجانب الطريق", language: "عربي" },
+{ imageUrl: "img/64.png", answer: "اوبلز", hint: "اسم علامة", language: "عربي" },
+{ imageUrl: "img/65.png", answer: "المدينة المنورة", hint: "مدينة مقدسة", language: "عربي" },
+{ imageUrl: "img/66.png", answer: "سيزر سالاد", hint: "طبق سلطة", language: "عربي" },
+{ imageUrl: "img/67.png", answer: "اندونيسيا", hint: "دولة آسيوية", language: "عربي" },
+{ imageUrl: "img/68.png", answer: "ارتيتا", hint: "مدرب كرة قدم", language: "عربي" },
+{ imageUrl: "img/69.png", answer: "ايلون ماسك", hint: "رجل أعمال", language: "عربي" },
+{ imageUrl: "img/70.png", answer: "برايم كت", hint: "مطعم", language: "عربي" },
+{ imageUrl: "img/71.png", answer: "الصياح على قدر الألم", hint: "مثل مشهور", language: "عربي" },
+{ imageUrl: "img/72.png", answer: "ابن بطوطة", hint: "رحالة عربي", language: "عربي" },
+{ imageUrl: "img/73.png", answer: "بالمر", hint: "لاعب كرة قدم", language: "عربي" },
+{ imageUrl: "img/74.png", answer: "AIR GORDON", hint: "اسم مشهور", language: "عربي" },
+{ imageUrl: "img/75.png", answer: "DOSE", hint: "علامة تجارية", language: "عربي" },
+{ imageUrl: "img/76.png", answer: "سفن اب", hint: "مشروب غازي", language: "عربي" },
+{ imageUrl: "img/77.png", answer: "كلب حراسة", hint: "يحرس المكان", language: "عربي" },
+{ imageUrl: "img/78.png", answer: "الرومانسية", hint: "مطعم مشهور", language: "عربي" },
+{ imageUrl: "img/79.png", answer: "سيمبا", hint: "شخصية كرتونية", language: "عربي" },
+{ imageUrl: "img/80.png", answer: "السيسي", hint: "رئيس دولة", language: "عربي" },
+{ imageUrl: "img/81.png", answer: "بيكمون", hint: "شخصية ألعاب", language: "عربي" },
+{ imageUrl: "img/82.png", answer: "ستارلينك", hint: "خدمة إنترنت", language: "عربي" },
+{ imageUrl: "img/83.png", answer: "موزمبيق", hint: "دولة أفريقية", language: "عربي" },
+{ imageUrl: "img/84.png", answer: "سكاكا", hint: "مدينة سعودية", language: "عربي" },
+{ imageUrl: "img/85.png", answer: "بطاط جيزاني", hint: "أكلة مشهورة", language: "عربي" },
+{ imageUrl: "img/86.png", answer: "بطانية", hint: "تستخدم للتدفئة", language: "عربي" },
+{ imageUrl: "img/87.png", answer: "شبت", hint: "نبات عطري", language: "عربي" },
+{ imageUrl: "img/88.png", answer: "ضحية أم بطل", hint: "عنوان مشهور", language: "عربي" },
+{ imageUrl: "img/89.png", answer: "ايكيا", hint: "متجر أثاث", language: "عربي" },
+{ imageUrl: "img/90.png", answer: "مساعد الدوسري", hint: "لاعب ألعاب إلكترونية", language: "عربي" },
+{ imageUrl: "img/91.png", answer: "فيران توريس", hint: "لاعب كرة قدم", language: "عربي" },
+{ imageUrl: "img/92.png", answer: "سكورسيزي", hint: "مخرج سينمائي", language: "عربي" },
+{ imageUrl: "img/93.png", answer: "استبيان", hint: "نموذج أسئلة", language: "عربي" },
+{ imageUrl: "img/94.png", answer: "فيتنام", hint: "دولة آسيوية", language: "عربي" },
+{ imageUrl: "img/95.png", answer: "ديكلان رايس", hint: "لاعب كرة قدم", language: "عربي" },
+{ imageUrl: "img/96.png", answer: "كوليسترول", hint: "مادة في الجسم", language: "عربي" },
+{ imageUrl: "img/97.png", answer: "استنفار", hint: "حالة تأهب", language: "عربي" },
+{ imageUrl: "img/98.png", answer: "اكسر الشر", hint: "عبارة مشهورة", language: "عربي" },
+{ imageUrl: "img/99.png", answer: "فيروز", hint: "مطربة لبنانية", language: "عربي" },
+{ imageUrl: "img/100.png", answer: "مد رجولك على قد لحافك", hint: "مثل شعبي", language: "عربي" },
+{ imageUrl: "img/101.png", answer: "طاح الشر", hint: "عبارة مشهورة", language: "عربي" },
+{ imageUrl: "img/102.png", answer: "سمول كابتشينو", hint: "نوع من القهوة", language: "عربي" },
+
+
+
+
+
+ { imageUrl: "img/103.png", answer: "ماك بوك", hint: "حاسوب محمول من آبل", language: "عربي" },
+{ imageUrl: "img/104.png", answer: "لقيمات", hint: "حلوى شعبية", language: "عربي" },
+{ imageUrl: "img/105.png", answer: "لبنان", hint: "دولة عربية", language: "عربي" },
+{ imageUrl: "img/106.png", answer: "سيفورا", hint: "متجر مستحضرات تجميل", language: "عربي" },
+{ imageUrl: "img/107.png", answer: "حليب أبو قوس", hint: "مشروب مشهور", language: "عربي" },
+{ imageUrl: "img/108.png", answer: "اتحاد", hint: "نادٍ سعودي", language: "عربي" },
+{ imageUrl: "img/109.png", answer: "سوبر مان", hint: "بطل خارق", language: "عربي" },
+{ imageUrl: "img/110.png", answer: "بلاك بورد", hint: "منصة تعليمية", language: "عربي" },
+{ imageUrl: "img/111.png", answer: "جامعة أم القرى", hint: "جامعة سعودية", language: "عربي" },
+{ imageUrl: "img/112.png", answer: "بلوت", hint: "لعبة ورق", language: "عربي" },
+{ imageUrl: "img/113.png", answer: "هواوي", hint: "شركة تقنية", language: "عربي" },
+{ imageUrl: "img/114.png", answer: "زهراني", hint: "اسم قبيلة", language: "عربي" },
+{ imageUrl: "img/115.png", answer: "باربكيو", hint: "طريقة شوي", language: "عربي" },
+{ imageUrl: "img/116.png", answer: "قراند تشكن", hint: "وجبة من مطعم", language: "عربي" },
+{ imageUrl: "img/117.png", answer: "هليكوبتر", hint: "طائرة عمودية", language: "عربي" },
+{ imageUrl: "img/118.png", answer: "باب الحارة", hint: "مسلسل سوري", language: "عربي" },
+{ imageUrl: "img/119.png", answer: "جان برقر", hint: "مطعم برغر", language: "عربي" },
+{ imageUrl: "img/120.png", answer: "بنده", hint: "سلسلة متاجر", language: "عربي" },
+{ imageUrl: "img/121.png", answer: "ريد بول", hint: "مشروب طاقة", language: "عربي" },
+{ imageUrl: "img/122.png", answer: "فلسطين", hint: "دولة عربية", language: "عربي" },
+{ imageUrl: "img/123.png", answer: "فورت نايت", hint: "لعبة إلكترونية", language: "عربي" },
+{ imageUrl: "img/124.png", answer: "Pharmacy", hint: "صيدلية", language: "عربي" },
+{ imageUrl: "img/125.png", answer: "سروال", hint: "قطعة ملابس", language: "عربي" },
+{ imageUrl: "img/126.png", answer: "شامبو", hint: "منتج للعناية بالشعر", language: "عربي" },
+{ imageUrl: "img/127.png", answer: "بنطلون", hint: "قطعة ملابس", language: "عربي" },
+{ imageUrl: "img/128.png", answer: "دورايمون", hint: "شخصية كرتونية", language: "عربي" },
+{ imageUrl: "img/129.png", answer: "دايموند", hint: "تعني الألماس", language: "عربي" },
+{ imageUrl: "img/130.png", answer: "ون بيس", hint: "أنمي مشهور", language: "عربي" },
+{ imageUrl: "img/131.png", answer: "سنتوب", hint: "مشروب عصير", language: "عربي" },
+{ imageUrl: "img/132.png", answer: "سيت أب", hint: "تمرين رياضي", language: "عربي" },
+{ imageUrl: "img/133.png", answer: "بيت شعر", hint: "خيمة عربية", language: "عربي" },
+{ imageUrl: "img/134.png", answer: "Grandmother", hint: "الجدة", language: "عربي" },
+{ imageUrl: "img/135.png", answer: "سناب شات", hint: "تطبيق تواصل", language: "عربي" },
+{ imageUrl: "img/136.png", answer: "بندريتا", hint: "يوتيوبر سعودي", language: "عربي" },
+{ imageUrl: "img/137.png", answer: "قطار", hint: "وسيلة نقل", language: "عربي" },
+{ imageUrl: "img/138.png", answer: "رأس المال", hint: "مصطلح اقتصادي", language: "عربي" },
+{ imageUrl: "img/139.png", answer: "تو يو", hint: "عبارة إنجليزية", language: "عربي" },
+{ imageUrl: "img/140.png", answer: "ريال مدريد", hint: "نادٍ إسباني", language: "عربي" },
+{ imageUrl: "img/141.png", answer: "بنده", hint: "سلسلة متاجر", language: "عربي" },
+];
+    unlockedLevel = Math.min(
+      Math.max(1, questionBank.length),
+      Math.max(1, unlockedLevel)
+    );
+
+
+    
+    function getConfiguredGroupQuestionCount(){
+      const maximum = Math.max(1, questionBank.length);
+      const minimum = Math.min(10, maximum);
+      const stored = Number(localStorage.getItem("groupQuestionCount")) || minimum;
+
+      return Math.min(
+        maximum,
+        Math.max(minimum, stored)
+      );
+    }
+
+    function saveConfiguredGroupQuestionCount(value){
+      const maximum = Math.max(1, questionBank.length);
+      const minimum = Math.min(10, maximum);
+      const safeValue = Math.min(
+        maximum,
+        Math.max(minimum, Number(value) || minimum)
+      );
+
+      localStorage.setItem("groupQuestionCount", String(safeValue));
+      return safeValue;
+    }
+
+
+
+    function escapeHtml(value){
+      return String(value ?? "").replace(/[&<>"']/g, character => ({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#39;"
+      })[character]);
+    }
+
+    function buildQuestionVisual(question){
+      const imageUrl = escapeHtml(question?.imageUrl || "");
+      const answer = escapeHtml(question?.answer || "صورة السؤال");
+
+      return `
+        <div class="visual-question single-question-image"
+             aria-label="سؤال صورة"
+             style="display:flex;align-items:center;justify-content:center;width:100%">
+          <div class="picture-card"
+               style="width:min(100%,860px);aspect-ratio:1.65/1;background:#fff">
+            ${
+              imageUrl
+                ? `<img src="${imageUrl}" alt="${answer}"
+                        style="width:100%;height:100%;object-fit:contain;display:block"
+                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+                : ""
+            }
+            <div style="${imageUrl ? "display:none;" : "display:flex;"}
+                        width:100%;height:100%;align-items:center;justify-content:center;
+                        padding:24px;text-align:center;font-size:24px;font-weight:900">
+              رابط الصورة غير صالح
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function getQuestionByNumber(number){
+      const questionCount = Math.max(1, questionBank.length);
+      const index = Math.min(
+        questionCount - 1,
+        Math.max(0, (Number(number) || 1) - 1)
+      );
+
+      return questionBank[index] || {
+        imageUrl: "",
+        answer: "غير محددة",
+        hint: "لا يوجد تلميح",
+        language: "عربي"
+      };
+    }
+
+    function getActiveQuestion(){
+      return currentGameMode === "single"
+        ? getQuestionByNumber(currentLevel)
+        : getQuestionByNumber(currentQuestion);
+    }
+
+    function getGroupQuestion(){
+      return getQuestionByNumber(currentQuestion);
+    }
+
+    function renderCurrentQuestion(){
+      const board = document.querySelector("#gamePage .question-board");
+      const oldVisual = board?.querySelector(".visual-question, .answer-image-visual");
+
+      if(!board || !oldVisual) return;
+
+      const wrapper = document.createElement("div");
+      wrapper.innerHTML = buildQuestionVisual(getActiveQuestion()).trim();
+      oldVisual.replaceWith(wrapper.firstElementChild);
+    }
+
+    function renderGroupQuestion(){
+      renderCurrentQuestion();
+    }
+
+    function renderGameAnswerImage(show){
+      if(currentGameMode !== "group") return;
+
+      const board = document.querySelector("#gamePage .question-board");
+      const currentVisual = board?.querySelector(".visual-question, .answer-image-visual");
+
+      if(!board || !currentVisual) return;
+
+      const wrapper = document.createElement("div");
+      wrapper.innerHTML = show
+        ? createAnswerVisualHtml(getActiveQuestion().answer).trim()
+        : buildQuestionVisual(getGroupQuestion()).trim();
+
+      currentVisual.replaceWith(wrapper.firstElementChild);
+    }
+
+    let totalQuestions = Math.max(1, questionBank.length);
+    let audioContext = null;
+    let masterVolume = Number(localStorage.getItem("gameVolume") ?? 70) / 100;
+    let isMuted = localStorage.getItem("gameMuted") === "true";
+    const levelsGrid = document.getElementById("levelsGrid");
+
+
+    function ensureAudio(){
+      if(!audioContext){
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if(!AudioCtx) return null;
+        audioContext = new AudioCtx();
+      }
+
+      if(audioContext.state === "suspended"){
+        audioContext.resume();
+      }
+
+      return audioContext;
+    }
+
+    function playTone(frequency, duration, type = "square", volume = 0.22, delay = 0){
+      if(isMuted || masterVolume <= 0) return;
+
+      const ctx = ensureAudio();
+      if(!ctx) return;
+
+      const start = ctx.currentTime + delay;
+      const oscillator = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      oscillator.type = type;
+      oscillator.frequency.setValueAtTime(frequency, start);
+
+      const actualVolume = Math.max(0.0001, volume * masterVolume);
+      gain.gain.setValueAtTime(0.0001, start);
+      gain.gain.exponentialRampToValueAtTime(actualVolume, start + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+
+      oscillator.connect(gain);
+      gain.connect(ctx.destination);
+      oscillator.start(start);
+      oscillator.stop(start + duration + 0.03);
+    }
+
+    function playClickSound(){
+      playTone(420, 0.055, "square", 0.12);
+      playTone(610, 0.045, "square", 0.09, 0.045);
+    }
+
+    function playMoveSound(){
+      playTone(520, 0.035, "square", 0.06);
+    }
+
+    function playCorrectSound(){
+      playTone(523.25, 0.11, "square", 0.18);
+      playTone(659.25, 0.11, "square", 0.18, 0.11);
+      playTone(783.99, 0.18, "square", 0.2, 0.22);
+      playTone(1046.5, 0.24, "triangle", 0.16, 0.38);
+    }
+
+    function playWrongSound(){
+      playTone(220, 0.14, "sawtooth", 0.14);
+      playTone(174.61, 0.18, "sawtooth", 0.13, 0.12);
+      playTone(130.81, 0.24, "square", 0.11, 0.27);
+    }
+
+    function playUnlockSound(){
+      playTone(392, 0.08, "square", 0.12);
+      playTone(523.25, 0.08, "square", 0.14, 0.08);
+      playTone(659.25, 0.12, "square", 0.16, 0.16);
+      playTone(783.99, 0.2, "triangle", 0.16, 0.28);
+    }
+
+    function playHintSound(){
+      playTone(880, 0.07, "sine", 0.1);
+      playTone(1174.66, 0.12, "sine", 0.09, 0.08);
+    }
+
+    function syncAudioControls(){
+      const slider = document.getElementById("volumeSlider");
+      const value = document.getElementById("volumeValue");
+      const muteButton = document.getElementById("muteButton");
+
+      if(slider){
+        slider.value = Math.round(masterVolume * 100);
+      }
+
+      if(value){
+        value.textContent = Math.round(masterVolume * 100) + "%";
+      }
+
+      if(muteButton){
+        muteButton.textContent = isMuted ? "🔇 مكتوم" : "🔊 تشغيل";
+        muteButton.classList.toggle("muted", isMuted);
+      }
+    }
+
+    function toggleMute(){
+      isMuted = !isMuted;
+      localStorage.setItem("gameMuted", String(isMuted));
+      syncAudioControls();
+
+      if(!isMuted){
+        playClickSound();
+      }
+    }
+
+    document.addEventListener("pointerdown", event => {
+      const button = event.target.closest("button");
+      if(button && !button.classList.contains("mute-btn")){
+        playClickSound();
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const slider = document.getElementById("volumeSlider");
+
+      if(slider){
+        slider.addEventListener("input", event => {
+          masterVolume = Number(event.target.value) / 100;
+          localStorage.setItem("gameVolume", String(event.target.value));
+          document.getElementById("volumeValue").textContent = event.target.value + "%";
+        });
+
+        slider.addEventListener("change", () => {
+          if(!isMuted) playClickSound();
+        });
+      }
+
+      syncAudioControls();
+    });
+
+
+    function buildLevels(){
+      levelsGrid.innerHTML = "";
+
+      const totalLevels = Math.max(1, questionBank.length);
+      const columns = 6;
+      const rows = Math.ceil(totalLevels / columns);
+
+      for(let row = 0; row < rows; row++){
+        const start = row * columns + 1;
+        const end = Math.min(start + columns - 1, totalLevels);
+        const rowNumbers = [];
+
+        for(let number = start; number <= end; number++){
+          rowNumbers.push(number);
+        }
+
+        rowNumbers.reverse();
+
+        rowNumbers.forEach(number => {
+          const button = document.createElement("button");
+          button.type = "button";
+
+          const isUnlocked = number <= unlockedLevel;
+          const isCurrent = number === unlockedLevel;
+
+          button.className =
+            "level-btn" +
+            (isCurrent ? " current" : "") +
+            (!isUnlocked ? " locked" : "");
+
+          button.textContent = number;
+
+          if(isUnlocked){
+            button.addEventListener("click", () => selectLevel(number));
+          }else{
+            button.disabled = true;
+            button.setAttribute("aria-label", "المرحلة " + number + " مقفلة");
+          }
+
+          levelsGrid.appendChild(button);
+        });
+      }
+    }
+
+
+    window.handleLevelsAccountClick = async function handleLevelsAccountClick(event){
+      if(event?.target?.closest?.("#levelsLogoutButton")) return;
+
+      const authBridge = window.levelsGoogleAuth;
+      if(!authBridge) return;
+
+      if(authBridge.currentUser) return;
+
+      try{
+        await authBridge.login();
+      }catch(error){}
+    };
+
+    window.logoutLevelsGoogle = async function logoutLevelsGoogle(){
+      try{
+        await window.levelsGoogleAuth?.logout?.();
+      }catch(error){}
+    };
+
+    function openLevels(){
+      gamePage.classList.remove("active");
+      gamePage.classList.remove("individual-game");
+      gamePage.style.display = "none";
+      homePage.classList.remove("active");
+      groupPage.classList.remove("active");
+      const hb2=document.getElementById("activeHintBanner"); if(hb2) hb2.classList.remove("show");
+      gamePage.classList.remove("hint-active");
+      closeHintMenu();
+      levelsPage.classList.add("active");
+      window.scrollTo({top:0, behavior:"instant"});
+    }
+
+    function openGroupSetup(){
+      homePage.classList.remove("active");
+      levelsPage.classList.remove("active");
+      const hb3=document.getElementById("activeHintBanner"); if(hb3) hb3.classList.remove("show");
+      gamePage.classList.remove("hint-active");
+      closeHintMenu();
+      groupPage.classList.add("active");
+      document.getElementById("groupMessage").textContent = "";
+      window.scrollTo({top:0, behavior:"instant"});
+      setTimeout(() => document.getElementById("teamOne").focus(), 100);
+    }
+
+    function goHome(){
+      awaitingHostConnection = false;
+      levelsPage.classList.remove("active");
+      groupPage.classList.remove("active");
+      gamePage.classList.remove("active");
+      gamePage.classList.remove("hint-active");
+      gamePage.classList.remove("individual-game");
+      gamePage.style.display = "none";
+      resetActiveHintDisplay();
+      const hb=document.getElementById("activeHintBanner"); if(hb) hb.classList.remove("show");
+      closeHintMenu();
+      homePage.classList.add("active");
+      window.scrollTo({top:0, behavior:"instant"});
+    }
+
+
+    window.updateReturnSessionButton = function updateReturnSessionButton(){
+      const button = document.getElementById("returnSessionButton");
+      if(!button) return;
+
+      const hasSavedSession =
+        Boolean(localStorage.getItem("activeFirebaseSessionId"));
+
+      button.style.display = hasSavedSession ? "block" : "none";
+    }
+
+    async function returnToSavedSession(){
+      const savedId = localStorage.getItem("activeFirebaseSessionId");
+      const message = document.getElementById("groupMessage");
+
+      if(!savedId || !window.firebaseGame){
+        if(message){
+          message.style.color = "#b42318";
+          message.textContent = "لا توجد جلسة محفوظة";
+        }
+        updateReturnSessionButton();
+        return;
+      }
+
+      try{
+        await window.firebaseGame.restoreSession(savedId);
+
+        awaitingHostConnection = false;
+        hostConnectionHandled = false;
+        hostPairPage?.classList.remove("active");
+        groupPage.classList.remove("active");
+
+        openGame("group");
+
+        if(message){
+          message.style.color = window.firebaseGame.hostOnline
+            ? "#16833b"
+            : "#8a4c22";
+
+          message.textContent = window.firebaseGame.hostOnline
+            ? "تمت العودة للجلسة — الهوست متصل"
+            : "تمت العودة للجلسة — الهوست غير متصل";
+        }
+      }catch(error){
+        localStorage.removeItem("activeFirebaseSessionId");
+        updateReturnSessionButton();
+
+        if(message){
+          message.style.color = "#b42318";
+          message.textContent = "الجلسة المحفوظة غير موجودة";
+        }
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", updateReturnSessionButton);
+
+    async function createRoom(event){
+      event.preventDefault();
+
+      const teamOne = document.getElementById("teamOne").value.trim();
+      const teamTwo = document.getElementById("teamTwo").value.trim();
+      const message = document.getElementById("groupMessage");
+
+      if(!teamOne || !teamTwo){
+        message.textContent = "اكتب اسم الفريقين أولاً";
+        return;
+      }
+
+      if(teamOne === teamTwo){
+        message.textContent = "لازم يكون اسم كل فريق مختلف";
+        return;
+      }
+
+      localStorage.setItem("teamOne", teamOne);
+      localStorage.setItem("teamTwo", teamTwo);
+
+      let restoredExistingSession = false;
+
+      if(window.firebaseGame){
+        try{
+          const sessionResult =
+            await window.firebaseGame.createSession(teamOne, teamTwo, true);
+
+          restoredExistingSession = false;
+        }catch(error){
+          message.style.color = "#b42318";
+          message.textContent = "تعذر إنشاء جلسة Firebase: " + error.message;
+          return;
+        }
+      }
+      // الجلسة محفوظة للعودة إليها لاحقًا.
+
+      message.style.color = "#16833b";
+      message.textContent = "تم إنشاء الغرفة: " + teamOne + " ضد " + teamTwo;
+
+      setTimeout(() => {
+        if(restoredExistingSession){
+          // عند العودة للجلسة المحفوظة لا نفرض ظهور الباركود.
+          hostPairPage?.classList.remove("active");
+
+          if(window.firebaseGame?.hostOnline === true){
+            handleHostConnected();
+          }else{
+            groupPage.classList.add("active");
+            message.style.color = "#8a4c22";
+            message.textContent = "الجلسة محفوظة — الهوست غير متصل";
+          }
+
+          window.scrollTo({top:0, behavior:"instant"});
+          return;
+        }
+
+        if(!resolveHostPages()){
+          message.style.color = "#b42318";
+          message.textContent = "تعذر فتح صفحة الباركود";
+          return;
+        }
+
+        homePage.classList.remove("active");
+        levelsPage.classList.remove("active");
+        groupPage.classList.remove("active");
+        gamePage.classList.remove("active");
+        hostControlPage.classList.remove("active");
+
+        document.body.style.overflow = "";
+        hostConnectionHandled = false;
+        awaitingHostConnection = true;
+        hostPairPage.classList.add("active");
+
+        document.getElementById("hostControlLink").textContent = getHostLink();
+        const playerLink = document.getElementById("playerControlLink");
+        if(playerLink) playerLink.textContent = getPlayerLink();
+        buildFakeQr();
+
+        window.scrollTo({top:0, behavior:"instant"});
+      }, 120);
+    }
+
+    function selectLevel(number){
+      if(number > unlockedLevel) return;
+      currentLevel = number;
+      openGame("single", number);
+    }
+
+
+    function resetActiveHintDisplay(){
+      const banner = document.getElementById("activeHintBanner");
+
+      if(banner){
+        banner.classList.remove("show");
+      }
+
+      gamePage.classList.remove("hint-active");
+
+      const title = document.getElementById("activeHintTitle");
+      const text = document.getElementById("activeHintText");
+      const icon = document.getElementById("activeHintIcon");
+
+      if(title) title.textContent = "التلميح";
+      if(text) text.textContent = "";
+      if(icon) icon.textContent = "💡";
+
+      closeHintMenu();
+    }
+
+    function openGame(mode, level = 1){
+      resetActiveHintDisplay();
+      gamePage.style.display = "";
+      currentGameMode = mode;
+      currentLevel = level;
+
+      homePage.classList.remove("active");
+      levelsPage.classList.remove("active");
+      groupPage.classList.remove("active");
+      gamePage.classList.add("active");
+
+      gamePage.classList.remove("individual-game");
+      if(mode === "single"){
+        gamePage.classList.add("individual-game");
+      }
+
+      if(mode === "group"){
+        document.getElementById("gameTeamOne").textContent =
+          localStorage.getItem("teamOne") || "الفريق الأول";
+        document.getElementById("gameTeamTwo").textContent =
+          localStorage.getItem("teamTwo") || "الفريق الثاني";
+      }
+
+      document.getElementById("scoreOne").textContent = "0";
+      document.getElementById("scoreTwo").textContent = "0";
+
+      if(mode === "single"){
+        questionHintUsage = {language:false, text:false};
+        document.getElementById("activeHintBanner").classList.remove("show");
+        gamePage.classList.remove("hint-active");
+
+        currentQuestion = Math.min(
+          Math.max(1, questionBank.length),
+          Math.max(1, currentLevel)
+        );
+        totalQuestions = Math.max(1, questionBank.length);
+
+        renderCurrentQuestion();
+        buildAnswerBoxes(getCurrentAnswer());
+      }else{
+        document.getElementById("answerBoxes").innerHTML = "";
+        document.getElementById("answerFeedback").textContent = "";
+      }
+      if(mode === "group"){
+        const savedQuestion = Number(localStorage.getItem("activeGroupQuestion")) || 1;
+        totalQuestions = getConfiguredGroupQuestionCount();
+        currentQuestion = Math.min(
+          totalQuestions,
+          Math.max(1, savedQuestion)
+        );
+        renderGroupQuestion();
+      }else{
+        currentQuestion = Math.min(
+          Math.max(1, questionBank.length),
+          Math.max(1, currentLevel)
+        );
+        totalQuestions = Math.max(1, questionBank.length);
+      }
+
+      document.getElementById("questionProgress").textContent = currentQuestion + "/" + totalQuestions;
+
+      if(mode === "group"){
+        setTimeout(() => syncCurrentQuestionToFirebase().catch(() => {}), 0);
+      }
+
+      window.scrollTo({top:0, behavior:"instant"});
+    }
+
+    function backFromGame(){
+      awaitingHostConnection = false;
+      gamePage.classList.remove("active");
+      gamePage.classList.remove("individual-game");
+      gamePage.style.display = "none";
+      gamePage.classList.remove("hint-active");
+
+      const hintBanner = document.getElementById("activeHintBanner");
+      if(hintBanner){
+        hintBanner.classList.remove("show");
+      }
+
+      closeHintMenu();
+
+      if(currentGameMode === "group"){
+        localStorage.setItem("activeGroupQuestion", String(currentQuestion));
+        groupPage.classList.add("active");
+        const message = document.getElementById("groupMessage");
+        if(message){
+          const hostOnline = window.firebaseGame?.hostOnline === true;
+          message.style.color = hostOnline ? "#16833b" : "#8a4c22";
+          message.textContent = hostOnline
+            ? "الجلسة محفوظة — الهوست متصل"
+            : "الجلسة محفوظة — الهوست غير متصل";
+        }
+      }else{
+        levelsPage.classList.add("active");
+      }
+
+      window.scrollTo({top:0, behavior:"instant"});
+    }
+
+
+
+
+    function createAnswerVisualHtml(answer){
+      const safeAnswer = String(answer || "").replace(/[&<>"']/g, char => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+      })[char]);
+
+      return `
+        <div class="answer-image-visual" style="width:100%;height:100%;display:flex;
+             align-items:center;justify-content:center;background:#fff">
+          <svg viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg"
+               style="width:100%;height:100%;display:block">
+            <rect x="8" y="8" width="884" height="404" rx="34"
+                  fill="#fff8dc" stroke="#111" stroke-width="8"/>
+            <text x="450" y="150" text-anchor="middle" direction="rtl"
+                  font-family="Tahoma,Arial,sans-serif" font-size="48"
+                  font-weight="900" fill="#37483d">الإجابة</text>
+            <text x="450" y="285" text-anchor="middle" direction="rtl"
+                  font-family="Tahoma,Arial,sans-serif" font-size="78"
+                  font-weight="900" fill="#111">${safeAnswer}</text>
+          </svg>
+        </div>`;
+    }
+
+
+    window.showGameBuzzerWinner = function(playerName, teamName, lockedUntil){
+      const banner = document.getElementById("buzzerWinnerBanner");
+      const text = document.getElementById("buzzerWinnerText");
+      if(!banner || !text) return;
+
+      text.textContent = String(playerName || "") + " — " + String(teamName || "");
+      banner.style.display = "block";
+      banner.style.opacity = "1";
+      banner.style.visibility = "visible";
+      banner.style.transform = "translateX(-50%) translateY(0)";
+
+      clearTimeout(window.__buzzerBannerTimer);
+      const delay = Math.max(500, Number(lockedUntil || 0) - Date.now());
+      window.__buzzerBannerTimer = setTimeout(() => {
+        banner.style.opacity = "0";
+        banner.style.visibility = "hidden";
+        banner.style.transform = "translateX(-50%) translateY(-20px)";
+      }, delay);
+    };
+
+
+    function buildCelebration(){
+      const layer = document.getElementById("celebrationLayer");
+      if(!layer) return;
+
+      layer.innerHTML = "";
+      const colors = ["#ff3b30","#ffcc00","#34c759","#007aff","#af52de","#ff9500"];
+
+      for(let i=0;i<70;i++){
+        const piece = document.createElement("span");
+        piece.className = "celebration-piece";
+        piece.style.left = Math.random()*100 + "%";
+        piece.style.top = (-20 - Math.random()*80) + "px";
+        piece.style.background = colors[i % colors.length];
+        piece.style.animationDelay = (Math.random()*2.4) + "s";
+        piece.style.animationDuration = (1.8 + Math.random()*2) + "s";
+        layer.appendChild(piece);
+      }
+
+      for(let i=0;i<10;i++){
+        const burst = document.createElement("span");
+        burst.className = "burst";
+        burst.style.left = (8 + Math.random()*84) + "%";
+        burst.style.top = (10 + Math.random()*72) + "%";
+        burst.style.color = colors[i % colors.length];
+        burst.style.animationDelay = (Math.random()*1.1) + "s";
+        layer.appendChild(burst);
+      }
+    }
+
+    window.showResultsPage = function showResultsPage(teams){
+      const page = document.getElementById("resultsPage");
+      if(!page || !teams) return;
+
+      const oneName = teams.one?.name || "الفريق الأول";
+      const twoName = teams.two?.name || "الفريق الثاني";
+      const oneScore = Number(teams.one?.score || 0);
+      const twoScore = Number(teams.two?.score || 0);
+
+      document.getElementById("resultTeamOneName").textContent = oneName;
+      document.getElementById("resultTeamTwoName").textContent = twoName;
+      document.getElementById("resultTeamOneScore").textContent = oneScore;
+      document.getElementById("resultTeamTwoScore").textContent = twoScore;
+      document.getElementById("resultTeamOneCorrect").textContent =
+        oneScore + " إجابة صحيحة";
+      document.getElementById("resultTeamTwoCorrect").textContent =
+        twoScore + " إجابة صحيحة";
+
+      const oneCard = document.getElementById("resultTeamOneCard");
+      const twoCard = document.getElementById("resultTeamTwoCard");
+      oneCard.classList.remove("winner");
+      twoCard.classList.remove("winner");
+
+      let winnerText = "تعادل بين الفريقين 🤝";
+      if(oneScore > twoScore){
+        winnerText = "الفائز: " + oneName + " 🎉";
+        oneCard.classList.add("winner");
+      }else if(twoScore > oneScore){
+        winnerText = "الفائز: " + twoName + " 🎉";
+        twoCard.classList.add("winner");
+      }
+
+      document.getElementById("resultsWinner").textContent = winnerText;
+      document.getElementById("resultsSummary").textContent =
+        "إجمالي الإجابات الصحيحة: " + (oneScore + twoScore) +
+        " من " + totalQuestions + " أسئلة";
+
+      gamePage.classList.remove("active");
+      gamePage.style.display = "none";
+      page.classList.add("show");
+
+      awaitingHostConnection = false;
+      window.firebaseGame?.disconnectSession?.();
+
+      localStorage.removeItem("activeFirebaseSessionId");
+      localStorage.removeItem("activeGroupQuestion");
+
+      if(typeof window.updateReturnSessionButton === "function"){
+        window.updateReturnSessionButton();
+      }
+
+      buildCelebration();
+      playUnlockSound();
+      setTimeout(playCorrectSound, 420);
+    };
+
+    window.closeResultsPage = function closeResultsPage(){
+      document.getElementById("resultsPage")?.classList.remove("show");
+
+      awaitingHostConnection = false;
+      window.firebaseGame?.disconnectSession?.();
+
+      localStorage.removeItem("activeFirebaseSessionId");
+      localStorage.removeItem("activeGroupQuestion");
+
+      currentQuestion = 1;
+      hostQuestionIndex = 1;
+
+      if(typeof window.updateReturnSessionButton === "function"){
+        window.updateReturnSessionButton();
+      }
+
+      goHome();
+    };
+
+    function getCurrentQuestionPayload(){
+      const question = getGroupQuestion();
+      const answerVisible =
+        Boolean(document.querySelector("#gamePage .answer-image-visual"));
+
+      return {
+        question: Number(currentQuestion) || 1,
+        totalQuestions: getConfiguredGroupQuestionCount(),
+        visualHtml: buildQuestionVisual(question),
+        answerVisualHtml: createAnswerVisualHtml(question.answer),
+        answer: question.answer,
+        answerVisible,
+        buzzerEnabled: localStorage.getItem("buzzerEnabled") !== "false",
+        buzzerLockSeconds: Math.min(
+          10,
+          Math.max(1, Number(localStorage.getItem("buzzerLockSeconds")) || 3)
+        )
+      };
+    }
+
+    window.syncCurrentQuestionToFirebase = function syncCurrentQuestionToFirebase(){
+      if(!window.firebaseGame?.sessionId) return Promise.resolve();
+      return window.firebaseGame.updateState(getCurrentQuestionPayload());
+    }
+
+    function getCurrentAnswer(){
+      return getActiveQuestion().answer || "غير محددة";
+    }
+
+    function normalizeArabic(text){
+      return text
+        .trim()
+        .replace(/[أإآ]/g, "ا")
+        .replace(/ة/g, "ه")
+        .replace(/ى/g, "ي")
+        .replace(/\s+/g, "");
+    }
+
+    function buildAnswerBoxes(answer){
+      const container = document.getElementById("answerBoxes");
+      const feedback = document.getElementById("answerFeedback");
+      const safeAnswer = String(answer || "").trim();
+      const letters = [...safeAnswer.replace(/\s+/g, "")];
+
+      container.innerHTML = "";
+      container.dir = "rtl";
+      feedback.textContent = "";
+
+      if(letters.length === 0){
+        feedback.textContent = "لم تتم كتابة إجابة لهذا السؤال داخل questionBank";
+        feedback.style.color = "#b42318";
+        return;
+      }
+
+      feedback.style.color = "";
+
+      letters.forEach((_, index) => {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.inputMode = "text";
+        input.maxLength = 1;
+        input.placeholder = "ـ";
+        input.className = "answer-letter";
+        input.autocomplete = "off";
+        input.setAttribute("aria-label", "الحرف " + (index + 1));
+
+        input.addEventListener("input", event => {
+          const value = event.target.value.replace(/\s/g, "");
+          event.target.value = value.slice(-1);
+
+          if(!event.target.value) return;
+
+          playMoveSound();
+
+          updateHintMenu();
+
+          const allBoxes = [...container.querySelectorAll(".answer-letter")];
+          const allFilled = allBoxes.every(box => box.value.trim() !== "");
+
+          // افحص الإجابة فقط عندما تمتلئ جميع الخانات، وليس عند خانة محددة.
+          if(allFilled){
+            checkIndividualAnswer();
+            return;
+          }
+
+          // انتقل إلى أول خانة فارغة باتجاه اليسار.
+          const nextEmpty = allBoxes.find((box, boxIndex) => {
+            return boxIndex > index && box.value.trim() === "";
+          });
+
+          if(nextEmpty){
+            nextEmpty.focus();
+          }
+        });
+
+        input.addEventListener("focus", event => {
+          // تحديد الحرف مباشرة لتعديله أو استبداله بضغطة واحدة.
+          if(event.target.value){
+            event.target.select();
+          }
+        });
+
+        input.addEventListener("click", event => {
+          if(event.target.value){
+            event.target.select();
+          }
+        });
+
+        input.addEventListener("keydown", event => {
+          if(event.key !== "Backspace" && event.key !== "Delete"){
+            return;
+          }
+
+          event.preventDefault();
+
+          // امسح الحرف الموجود في الخانة المحددة مباشرة.
+          if(event.target.value){
+            event.target.value = "";
+            event.target.classList.remove("wrong-answer", "correct-answer");
+            updateHintMenu();
+            return;
+          }
+
+          // إذا كانت الخانة فارغة، انتقل إلى الخانة السابقة وامسحها مباشرة.
+          if(index > 0){
+            const previousBox = container.children[index - 1];
+            previousBox.value = "";
+            previousBox.classList.remove("wrong-answer", "correct-answer");
+            previousBox.focus();
+            updateHintMenu();
+          }
+        });
+
+        container.appendChild(input);
+      });
+
+      setTimeout(() => {
+        container.firstElementChild?.focus();
+      }, 120);
+    }
+
+    function getTypedAnswer(){
+      return [...document.querySelectorAll(".answer-letter")]
+        .map(input => input.value)
+        .join("");
+    }
+
+    function clearIndividualAnswer(){
+      document.querySelectorAll(".answer-letter").forEach(input => {
+        input.value = "";
+      });
+
+      document.getElementById("answerFeedback").textContent = "";
+
+      const first = document.querySelector(".answer-letter");
+      if(first) first.focus();
+    }
+
+
+    function showHintRewardToast(type){
+      const names = {
+        language:"لغة الإجابة",
+        text:"تلميح الإجابة",
+        letter:"كشف حرف عشوائي"
+      };
+
+      const toast = document.getElementById("hintRewardToast");
+      document.getElementById("hintRewardTitle").textContent = "تمت إضافة تلميح";
+      document.getElementById("hintRewardSubtitle").textContent =
+        names[type] + " — بسبب إجاباتك السريعة";
+
+      toast.classList.add("show");
+      playUnlockSound();
+
+      clearTimeout(showHintRewardToast.timer);
+      showHintRewardToast.timer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3000);
+    }
+
+    function rewardRandomHintAfterTwoAnswers(){
+      fastAnswerProgress += 1;
+      localStorage.setItem("fastAnswerProgress", String(fastAnswerProgress));
+        window.gameCloudProgress?.saveNow?.().catch(() => {});
+      localStorage.setItem("fastAnswerTarget", String(fastAnswerTarget));
+        window.gameCloudProgress?.saveNow?.().catch(() => {});
+
+      if(fastAnswerProgress < fastAnswerTarget){
+        return;
+      }
+
+      fastAnswerProgress = 0;
+      fastAnswerTarget = 3 + Math.floor(Math.random() * 3);
+
+      localStorage.setItem("fastAnswerProgress", "0");
+      localStorage.setItem("fastAnswerTarget", String(fastAnswerTarget));
+        window.gameCloudProgress?.saveNow?.().catch(() => {});
+
+      const availableTypes = ["language","text","letter"].filter(type => {
+        return hintBalances[type] < hintMaxBalances[type];
+      });
+
+      const pool = availableTypes.length
+        ? availableTypes
+        : ["language","text","letter"];
+
+      const rewardedType = pool[Math.floor(Math.random() * pool.length)];
+
+      hintBalances[rewardedType] = Math.min(
+        hintBalances[rewardedType] + 1,
+        hintMaxBalances[rewardedType]
+      );
+
+      saveHintBalances();
+      updateHintMenu();
+      showHintRewardToast(rewardedType);
+    }
+
+    function checkIndividualAnswer(){
+      const feedback = document.getElementById("answerFeedback");
+      const typed = normalizeArabic(getTypedAnswer());
+      const correct = normalizeArabic(getCurrentAnswer());
+
+      if(typed.length < correct.length){
+        feedback.style.color = "#b33b2e";
+        feedback.textContent = "أكمل جميع الحروف";
+        return;
+      }
+
+      if(typed !== correct){
+        feedback.style.color = "#b33b2e";
+        feedback.textContent = "خطأ، حاول مرة ثانية";
+        playWrongSound();
+
+        const boxes = [...document.querySelectorAll(".answer-letter")];
+        boxes.forEach(input => input.classList.add("wrong-answer"));
+
+        setTimeout(() => {
+          boxes.forEach(input => input.classList.remove("wrong-answer"));
+
+          // لا تمسح الإجابة الخاطئة؛ اترك اللاعب يعدّل الحروف بنفسه.
+          const lastFilled = [...boxes].reverse().find(input => input.value);
+          if(lastFilled){
+            lastFilled.focus();
+            lastFilled.select();
+          }
+        }, 650);
+        return;
+      }
+
+      feedback.style.color = "#16833b";
+      feedback.textContent = "صح! تم فتح المرحلة التالية";
+      playCorrectSound();
+      rewardRandomHintAfterTwoAnswers();
+
+      // امسح تلميح السؤال الحالي قبل الانتقال للسؤال التالي.
+      resetActiveHintDisplay();
+
+      document.querySelectorAll(".answer-letter").forEach(input => {
+        input.classList.add("correct-answer");
+        input.disabled = true;
+      });
+
+      if(
+        currentLevel >= unlockedLevel &&
+        unlockedLevel < Math.max(1, questionBank.length)
+      ){
+        unlockedLevel = Math.min(
+          Math.max(1, questionBank.length),
+          currentLevel + 1
+        );
+        localStorage.setItem("unlockedLevel", String(unlockedLevel));
+        window.gameCloudProgress?.saveNow?.().catch(() => {});
+        buildLevels();
+        setTimeout(playUnlockSound, 300);
+      }
+
+      setTimeout(() => {
+        gamePage.classList.remove("active");
+        levelsPage.classList.add("active");
+        window.scrollTo({top:0, behavior:"instant"});
+      }, 900);
+    }
+
+
+
+
+
+    // ترقية إعدادات التلميحات القديمة إلى الأعداد والحدود الجديدة.
+    ["language","text","letter"].forEach(type => {
+      const max = hintMaxBalances[type];
+
+      if(typeof hintBalances[type] !== "number" || hintBalances[type] < 0){
+        hintBalances[type] = max;
+      }
+
+      // إذا كانت البيانات القديمة بكامل رصيد الإصدار السابق، ارفعها للرصيد الجديد.
+      const oldFull = {language:3, text:3, letter:10};
+      if(hintBalances[type] === oldFull[type]){
+        hintBalances[type] = max;
+      }
+
+      if(!hintCooldowns[type]){
+        hintCooldowns[type] = {duration:10, readyAt:0};
+      }
+
+      hintCooldowns[type].duration = Math.max(
+        10,
+        Math.min(Number(hintCooldowns[type].duration) || 10, 120)
+      );
+    });
+
+    localStorage.setItem("hintBalances", JSON.stringify(hintBalances));
+        window.gameCloudProgress?.saveNow?.().catch(() => {});
+    localStorage.setItem("hintCooldowns", JSON.stringify(hintCooldowns));
+        window.gameCloudProgress?.saveNow?.().catch(() => {});
+
+    function saveHintBalances(){
+      localStorage.setItem("hintBalances", JSON.stringify(hintBalances));
+        window.gameCloudProgress?.saveNow?.().catch(() => {});
+      localStorage.setItem("hintCooldowns", JSON.stringify(hintCooldowns));
+        window.gameCloudProgress?.saveNow?.().catch(() => {});
+    }
+
+    function formatHintTime(totalSeconds){
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      return String(minutes).padStart(2,"0") + ":" + String(seconds).padStart(2,"0");
+    }
+
+    function refreshExpiredCooldown(type){
+      const cooldown = hintCooldowns[type];
+
+      if(hintBalances[type] <= 0 && cooldown.readyAt > 0 && Date.now() >= cooldown.readyAt){
+        hintBalances[type] = Math.min(hintBalances[type] + 1, hintMaxBalances[type]);
+        cooldown.readyAt = 0;
+        saveHintBalances();
+      }
+    }
+
+    function startHintCooldown(type){
+      const cooldown = hintCooldowns[type];
+      const waitSeconds = Math.min(cooldown.duration, 120);
+
+      cooldown.readyAt = Date.now() + waitSeconds * 1000;
+      cooldown.duration = Math.min(waitSeconds * 2, 120);
+      saveHintBalances();
+    }
+
+    function updateHintMenu(){
+      ["language","text","letter"].forEach(refreshExpiredCooldown);
+
+      const languageBtn = document.getElementById("hintLanguageBtn");
+      const textBtn = document.getElementById("hintTextBtn");
+      const letterBtn = document.getElementById("hintLetterBtn");
+
+      const languageCount = document.getElementById("hintLanguageCount");
+      const textCount = document.getElementById("hintTextCount");
+      const letterCount = document.getElementById("hintLetterCount");
+
+      const boxes = [...document.querySelectorAll(".answer-letter")];
+      const allFilled = boxes.length > 0 && boxes.every(input => input.value);
+
+      const items = {
+        language:{
+          button:languageBtn,
+          count:languageCount,
+          used:questionHintUsage.language
+        },
+        text:{
+          button:textBtn,
+          count:textCount,
+          used:questionHintUsage.text
+        },
+        letter:{
+          button:letterBtn,
+          count:letterCount,
+          used:allFilled
+        }
+      };
+
+      Object.entries(items).forEach(([type,item]) => {
+        const cooldown = hintCooldowns[type];
+        const secondsLeft = Math.max(
+          0,
+          Math.ceil((cooldown.readyAt - Date.now()) / 1000)
+        );
+        const waiting = hintBalances[type] <= 0 && secondsLeft > 0;
+
+        item.button.classList.toggle("used", item.used);
+        item.button.classList.toggle("cooldown", waiting);
+
+        if(waiting){
+          item.button.disabled = true;
+          item.count.textContent = formatHintTime(secondsLeft);
+          return;
+        }
+
+        const canReopenUsed =
+          (type === "language" && questionHintUsage.language) ||
+          (type === "text" && questionHintUsage.text);
+
+        if(type === "letter"){
+          item.button.disabled = allFilled || hintBalances.letter <= 0;
+          item.count.textContent = allFilled ? "✓" : hintBalances.letter;
+        }else{
+          item.button.disabled = !canReopenUsed && hintBalances[type] <= 0;
+          item.count.textContent = item.used ? "✓" : hintBalances[type];
+        }
+      });
+    }
+
+    function openHintMenu(){
+      if(currentGameMode !== "single") return;
+      updateHintMenu();
+      document.getElementById("hintMenuOverlay").classList.add("open");
+      clearInterval(hintCooldownTimer);
+      hintCooldownTimer = setInterval(updateHintMenu, 500);
+    }
+
+    function closeHintMenu(){
+      document.getElementById("hintMenuOverlay").classList.remove("open");
+      clearInterval(hintCooldownTimer);
+      hintCooldownTimer = null;
+    }
+
+    function showActiveHint(title, text, icon){
+      const banner = document.getElementById("activeHintBanner");
+      document.getElementById("activeHintTitle").textContent = title;
+      document.getElementById("activeHintText").textContent = text;
+      document.getElementById("activeHintIcon").textContent = icon;
+      banner.classList.add("show");
+      gamePage.classList.add("hint-active");
+    }
+
+    function revealRandomLetter(){
+      const answer = [...getCurrentAnswer()];
+      const boxes = [...document.querySelectorAll(".answer-letter")];
+      const available = boxes
+        .map((input,index) => ({input,index}))
+        .filter(item => !item.input.value);
+
+      if(!available.length){
+        return "جميع الخانات ممتلئة";
+      }
+
+      const pick = available[Math.floor(Math.random() * available.length)];
+      pick.input.value = answer[pick.index] || "";
+      pick.input.classList.add("correct-answer");
+      playHintSound();
+
+      if(boxes.every(input => input.value)){
+        setTimeout(checkIndividualAnswer, 250);
+      }
+
+      return "تم كشف حرف واحد";
+    }
+
+    function useHintType(type){
+      let title = "";
+      let text = "";
+      let icon = "💡";
+
+      if(type === "language"){
+        if(!questionHintUsage.language){
+          if(hintBalances.language <= 0) return;
+          questionHintUsage.language = true;
+          hintBalances.language -= 1;
+          if(hintBalances.language === 0){
+            startHintCooldown("language");
+          }else{
+            saveHintBalances();
+          }
+        }
+
+        title = "لغة الإجابة";
+        text = getActiveQuestion().language || "عربي";
+        icon = "🌐";
+        playHintSound();
+      }
+
+      if(type === "text"){
+        if(!questionHintUsage.text){
+          if(hintBalances.text <= 0) return;
+          questionHintUsage.text = true;
+          hintBalances.text -= 1;
+          if(hintBalances.text === 0){
+            startHintCooldown("text");
+          }else{
+            saveHintBalances();
+          }
+        }
+
+        title = "تلميح للإجابة";
+        text = getActiveQuestion().hint || "لا يوجد تلميح";
+        icon = "💡";
+        playHintSound();
+      }
+
+      if(type === "letter"){
+        if(hintBalances.letter <= 0) return;
+
+        const revealResult = revealRandomLetter();
+
+        if(revealResult !== "جميع الخانات ممتلئة"){
+          hintBalances.letter -= 1;
+          if(hintBalances.letter === 0){
+            startHintCooldown("letter");
+          }else{
+            saveHintBalances();
+          }
+        }
+
+        title = "كشف حرف عشوائي";
+        text = revealResult;
+        icon = "✏️";
+      }
+
+      closeHintMenu();
+      showActiveHint(title, text, icon);
+      updateHintMenu();
+    }
+
+    document.getElementById("hintMenuOverlay").addEventListener("click", event => {
+      if(event.target.id === "hintMenuOverlay"){
+        closeHintMenu();
+      }
+    });
+
+    function openSettings(){
+      const overlay = document.getElementById("settingsOverlay");
+      const teamOneInput = document.getElementById("settingsTeamOne");
+      const teamTwoInput = document.getElementById("settingsTeamTwo");
+      const questionCountInput = document.getElementById("questionCountInput");
+
+      teamOneInput.value =
+        localStorage.getItem("teamOne") ||
+        document.getElementById("gameTeamOne").textContent ||
+        "الفريق الأول";
+
+      teamTwoInput.value =
+        localStorage.getItem("teamTwo") ||
+        document.getElementById("gameTeamTwo").textContent ||
+        "الفريق الثاني";
+
+      questionCountInput.min = String(Math.min(10, questionBank.length));
+      questionCountInput.max = String(questionBank.length);
+      questionCountInput.value = String(
+        currentGameMode === "group"
+          ? getConfiguredGroupQuestionCount()
+          : getConfiguredGroupQuestionCount()
+      );
+
+      const buzzerEnabledInput = document.getElementById("buzzerEnabledInput");
+      const storedBuzzerEnabled = localStorage.getItem("buzzerEnabled");
+      buzzerEnabledInput.checked = storedBuzzerEnabled !== "false";
+
+      const lockSecondsInput = document.getElementById("buzzerLockSecondsInput");
+      lockSecondsInput.value = String(
+        Math.min(10, Math.max(1, Number(localStorage.getItem("buzzerLockSeconds")) || 3))
+      );
+
+      const backupHostWrap = document.getElementById("backupHostLinkWrap");
+      const backupHostLink = document.getElementById("backupHostLink");
+      const backupHostQr = document.getElementById("backupHostQr");
+
+      const buzzerLinkWrap = document.getElementById("buzzerPlayerLinkWrap");
+      const buzzerLink = document.getElementById("buzzerPlayerLink");
+
+      if(window.firebaseGame?.sessionId){
+        backupHostWrap.style.display = "block";
+        const hostUrl = getHostLink();
+        backupHostLink.textContent = hostUrl;
+
+        if(backupHostQr){
+          backupHostQr.innerHTML = "";
+          if(window.QRCode){
+            new QRCode(backupHostQr, {
+              text: hostUrl,
+              width: 138,
+              height: 138,
+              correctLevel: QRCode.CorrectLevel.M
+            });
+          }
+        }
+      }else{
+        backupHostWrap.style.display = "none";
+      }
+
+      if(currentGameMode === "group" && window.firebaseGame?.sessionId){
+        buzzerLinkWrap.style.display = "block";
+        const playerUrl = getPlayerLink();
+        buzzerLink.textContent = playerUrl;
+
+        const qrTarget = document.getElementById("buzzerPlayerQr");
+        if(qrTarget){
+          qrTarget.innerHTML = "";
+          if(window.QRCode){
+            new QRCode(qrTarget, {
+              text: playerUrl,
+              width: 138,
+              height: 138,
+              correctLevel: QRCode.CorrectLevel.M
+            });
+          }
+        }
+      }else{
+        buzzerLinkWrap.style.display = "none";
+      }
+
+      document.getElementById("settingsNote").textContent = "";
+      syncAudioControls();
+      overlay.classList.add("open");
+    }
+
+    function closeSettings(){
+      document.getElementById("settingsOverlay").classList.remove("open");
+    }
+
+    function saveSettings(){
+      const note = document.getElementById("settingsNote");
+      const countInput = document.getElementById("questionCountInput");
+      const newCount = saveConfiguredGroupQuestionCount(
+        countInput.value
+      );
+
+      if(currentGameMode === "group"){
+        totalQuestions = newCount;
+      }
+      if(currentGameMode === "group"){
+        currentQuestion = Math.min(currentQuestion, totalQuestions);
+        document.getElementById("questionProgress").textContent =
+          currentQuestion + "/" + totalQuestions;
+      }
+
+      if(currentGameMode === "group"){
+        const teamOne = document.getElementById("settingsTeamOne").value.trim();
+        const teamTwo = document.getElementById("settingsTeamTwo").value.trim();
+
+        if(!teamOne || !teamTwo){
+          note.style.color = "#b33b2e";
+          note.textContent = "اكتب اسم الفريقين";
+          return;
+        }
+
+        if(teamOne === teamTwo){
+          note.style.color = "#b33b2e";
+          note.textContent = "أسماء الفريقين لازم تكون مختلفة";
+          return;
+        }
+
+        localStorage.setItem("teamOne", teamOne);
+        localStorage.setItem("teamTwo", teamTwo);
+
+        document.getElementById("gameTeamOne").textContent = teamOne;
+        document.getElementById("gameTeamTwo").textContent = teamTwo;
+
+        document.getElementById("teamOne").value = teamOne;
+        document.getElementById("teamTwo").value = teamTwo;
+      }
+
+      const buzzerEnabled =
+        document.getElementById("buzzerEnabledInput")?.checked !== false;
+
+      const buzzerLockSeconds = Math.min(
+        10,
+        Math.max(1, Number(document.getElementById("buzzerLockSecondsInput")?.value) || 3)
+      );
+
+      localStorage.setItem("buzzerEnabled", String(buzzerEnabled));
+      localStorage.setItem("buzzerLockSeconds", String(buzzerLockSeconds));
+
+      if(window.firebaseGame?.sessionId){
+        window.firebaseGame.updateState({
+          buzzerEnabled,
+          buzzerLockSeconds,
+          totalQuestions
+        }).catch(() => {});
+      }
+
+      note.style.color = "#16833b";
+      note.textContent =
+        currentGameMode === "group"
+          ? "تم حفظ الإعدادات — عدد الأسئلة: " + totalQuestions
+          : "تم حفظ الإعدادات";
+      setTimeout(closeSettings, 650);
+    }
+
+    function resetGameScores(){
+      document.getElementById("scoreOne").textContent = "0";
+      document.getElementById("scoreTwo").textContent = "0";
+
+      if(mode === "single"){
+        buildAnswerBoxes(getCurrentAnswer());
+      }else{
+        document.getElementById("answerBoxes").innerHTML = "";
+        document.getElementById("answerFeedback").textContent = "";
+      }
+      document.getElementById("settingsNote").style.color = "#16833b";
+      document.getElementById("settingsNote").textContent = "تم تصفير النقاط";
+    }
+
+    document.getElementById("settingsOverlay").addEventListener("click", event => {
+      if(event.target.id === "settingsOverlay"){
+        closeSettings();
+      }
+    });
+
+    document.addEventListener("keydown", event => {
+      if(event.key === "Escape"){
+        closeSettings();
+        closeHintMenu();
+      }
+    });
+
+
+    buildLevels();
+  
+    let hostPairPage = null;
+    let hostControlPage = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      hostPairPage = document.getElementById("hostPairPage");
+      hostControlPage = document.getElementById("hostControlPage");
+    });
+
+    let hostQuestionIndex = 1;
+    let hostAnswerVisible = false;
+    let hostScores = {1:0, 2:0};
+    let hostSessionCode = Math.floor(1000 + Math.random() * 9000);
+
+
+    function createAndOpenHostRoom(){
+      // توافق مع النسخ القديمة: شغّل نفس تدفق النموذج الأصلي.
+      const form = document.querySelector("#groupPage form");
+      if(form){
+        if(typeof form.requestSubmit === "function"){
+          form.requestSubmit();
+        }else{
+          form.dispatchEvent(new Event("submit", {bubbles:true, cancelable:true}));
+        }
+      }
+    }
+
+
+
+    function resolveHostPages(){
+      if(!hostPairPage){
+        hostPairPage = document.getElementById("hostPairPage");
+      }
+
+      if(!hostControlPage){
+        hostControlPage = document.getElementById("hostControlPage");
+      }
+
+      return Boolean(hostPairPage && hostControlPage);
+    }
+
+    function buildFakeQr(){
+      const target = document.getElementById("hostQrFirebase");
+      if(!target) return;
+      target.innerHTML = "";
+      const link = getHostLink();
+
+      if(window.QRCode && link){
+        new QRCode(target, {
+          text: link,
+          width: 238,
+          height: 238,
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      }else{
+        target.textContent = "تعذر إنشاء الباركود";
+      }
+    }
+
+    function getHostLink(){
+      const sessionId = window.firebaseGame?.sessionId || "";
+      const base = new URL("host.html", location.href);
+      base.hash = "session=" + encodeURIComponent(sessionId);
+      return base.href;
+    }
+
+    function getPlayerLink(){
+      const sessionId = window.firebaseGame?.sessionId || "";
+      const base = new URL("player.html", location.href);
+      base.hash = "session=" + encodeURIComponent(sessionId);
+      return base.href;
+    }
+
+    function openHostPairPage(){
+      groupPage.classList.remove("active");
+
+      // أبقِ اللعبة شغالة في الخلفية، وافتح الربط كنافذة فوقها.
+      gamePage.style.display = "";
+      gamePage.classList.add("active");
+      gamePage.classList.remove("individual-game");
+      hostControlPage.classList.remove("active");
+      hostPairPage.classList.add("active");
+
+      document.getElementById("hostControlLink").textContent = getHostLink();
+      buildFakeQr();
+      window.scrollTo({top:0,behavior:"instant"});
+    }
+
+    function continueGroupGame(){
+      if(!resolveHostPages()) return;
+      hostPairPage.classList.remove("active");
+      hostControlPage.classList.remove("active");
+      document.body.style.overflow = "";
+      openGame("group");
+    }
+
+    function copyHostLink(event){
+      const link = getHostLink();
+
+      if(navigator.clipboard){
+        navigator.clipboard.writeText(link);
+      }
+
+      const button = event.currentTarget;
+      const old = button.textContent;
+      button.textContent = "تم النسخ ✓";
+      setTimeout(()=>button.textContent=old,1200);
+    }
+
+    function syncHostTeams(){
+      const one = (document.getElementById("teamOneInput")?.value || "الفريق الأول").trim();
+      const two = (document.getElementById("teamTwoInput")?.value || "الفريق الثاني").trim();
+
+      document.getElementById("hostTeamOneName").textContent = one;
+      document.getElementById("hostTeamTwoName").textContent = two;
+      document.getElementById("hostTeamOneScore").textContent = hostScores[1];
+      document.getElementById("hostTeamTwoScore").textContent = hostScores[2];
+      document.getElementById("hostSessionBadge").textContent = "الجلسة #" + hostSessionCode;
+    }
+
+    function cloneQuestionForHost(){
+      const sourceBoard = document.querySelector("#gamePage .visual-question");
+      const target = document.getElementById("hostPreviewBoard");
+      target.innerHTML = "";
+
+      if(sourceBoard){
+        target.appendChild(sourceBoard.cloneNode(true));
+      }else{
+        target.innerHTML = "<strong>لا يوجد سؤال معروض حاليًا</strong>";
+      }
+
+      document.getElementById("hostQuestionNumber").textContent = "السؤال " + hostQuestionIndex;
+      document.getElementById("hostQuestionMode").textContent = "جماعي";
+      document.getElementById("hostAnswerReveal").textContent = getCurrentAnswer?.() || "الإجابة";
+    }
+
+    function openHostControl(){
+      hostPairPage.classList.remove("active");
+      hostControlPage.classList.add("active");
+      syncHostTeams();
+      cloneQuestionForHost();
+      addHostLog("تم فتح لوحة التحكم");
+      window.scrollTo({top:0,behavior:"instant"});
+    }
+
+    function closeHostControl(){
+      hostControlPage.classList.remove("active");
+      gamePage.style.display = "";
+      gamePage.classList.add("active");
+      gamePage.classList.remove("individual-game");
+      window.scrollTo({top:0,behavior:"instant"});
+    }
+
+    function hostToggleAnswer(){
+      hostAnswerVisible = !hostAnswerVisible;
+      document.getElementById("hostAnswerReveal").classList.toggle("show", hostAnswerVisible);
+      addHostLog(hostAnswerVisible ? "تم إظهار الإجابة" : "تم إخفاء الإجابة");
+    }
+
+    function hostNextQuestion(){
+      currentQuestion = Math.min(questionCount, currentQuestion + 1);
+      hostQuestionIndex = currentQuestion;
+      hostAnswerVisible = false;
+
+      localStorage.setItem("activeGroupQuestion", String(currentQuestion));
+      renderGameAnswerImage(false);
+
+      const reveal = document.getElementById("hostAnswerReveal");
+      if(reveal) reveal.classList.remove("show");
+
+      document.getElementById("questionProgress").textContent =
+        currentQuestion + "/" + totalQuestions;
+
+      cloneQuestionForHost();
+      syncCurrentQuestionToFirebase().catch(() => {});
+      addHostLog("تم الانتقال إلى السؤال " + currentQuestion);
+      playClickSound();
+    }
+
+    function hostAddScore(team, amount){
+      hostScores[team] = Math.max(0, hostScores[team] + amount);
+
+      document.getElementById(
+        team===1 ? "hostTeamOneScore" : "hostTeamTwoScore"
+      ).textContent = hostScores[team];
+
+      document.getElementById(
+        team===1 ? "scoreOne" : "scoreTwo"
+      ).textContent = hostScores[team];
+
+      const name = document.getElementById(
+        team===1 ? "hostTeamOneName" : "hostTeamTwoName"
+      ).textContent;
+
+      addHostLog((amount>0?"+":"") + amount + " نقطة لـ " + name);
+      playClickSound();
+    }
+
+    function hostMarkCorrect(){
+      addHostLog("تم اعتماد إجابة صحيحة");
+      playCorrectSound();
+    }
+
+    function hostMarkWrong(){
+      addHostLog("تم اعتماد إجابة خاطئة");
+      playWrongSound();
+    }
+
+    function addHostLog(text){
+      const log = document.getElementById("hostLog");
+      const item = document.createElement("div");
+      item.className = "host-log-item";
+      item.textContent = text;
+      log.prepend(item);
+    }
+
+    function endHostSession(){
+      const one = document.getElementById("hostTeamOneName").textContent;
+      const two = document.getElementById("hostTeamTwoName").textContent;
+      const result =
+        hostScores[1] === hostScores[2]
+          ? "تعادل"
+          : hostScores[1] > hostScores[2]
+            ? "الفائز: " + one
+            : "الفائز: " + two;
+
+      alert(
+        "انتهت الجلسة\n" +
+        one + ": " + hostScores[1] + "\n" +
+        two + ": " + hostScores[2] + "\n" +
+        result
+      );
+
+      hostControlPage.classList.remove("active");
+      goHome();
+    }
+
+
+    const HOST_SESSION_KEY = "picture-game-host-v50";
+    let hostConnectionHandled = false;
+    let awaitingHostConnection = false;
+
+    function handleHostConnected(){
+      const pairVisible = hostPairPage?.classList.contains("active");
+      const gameVisible = gamePage?.classList.contains("active");
+
+      // الانتقال التلقائي مسموح فقط عند انتظار مسح الباركود.
+      if(!awaitingHostConnection || !pairVisible){
+        return;
+      }
+
+      if(hostConnectionHandled && gameVisible){
+        return;
+      }
+
+      hostConnectionHandled = true;
+      awaitingHostConnection = false;
+
+      hostPairPage?.classList.remove("active");
+      hostControlPage?.classList.remove("active");
+      document.body.style.overflow = "";
+
+      if(currentGameMode !== "group" || !gameVisible){
+        openGame("group");
+      }
+    }
+
+    window.addEventListener("storage", event => {
+      if(
+        event.key === "pictureGameHostConnected" &&
+        event.newValue === HOST_SESSION_KEY
+      ){
+        handleHostConnected();
+      }
+    });
+
+    // BroadcastChannel أسرع عند فتح الملفين من نفس المتصفح/الأصل.
+    let hostChannel = null;
+    try{
+      hostChannel = new BroadcastChannel("picture-game-host");
+      hostChannel.addEventListener("message", event => {
+        if(event.data?.type === "host-connected" &&
+           event.data?.session === HOST_SESSION_KEY){
+          handleHostConnected();
+        }
+      });
+    }catch(error){}
+
+    // فحص احتياطي كل نصف ثانية.
+    setInterval(() => {
+      if(
+        hostPairPage?.classList.contains("active") &&
+        localStorage.getItem("pictureGameHostConnected") === HOST_SESSION_KEY
+      ){
+        handleHostConnected();
+      }
+    }, 500);
+
+
+    function handleHostCommand(data){
+      if(!data || data.session !== HOST_SESSION_KEY) return;
+
+      if(data.type === "command"){
+        if(data.action === "toggle-answer") hostToggleAnswer();
+        if(data.action === "next-question") hostNextQuestion();
+        if(data.action === "correct") hostMarkCorrect();
+        if(data.action === "wrong") hostMarkWrong();
+      }
+
+      if(data.type === "score"){
+        const scoreElement = document.getElementById(
+          data.team === 1 ? "scoreOne" : "scoreTwo"
+        );
+        if(scoreElement) scoreElement.textContent = data.score;
+      }
+    }
+
+    hostChannel?.addEventListener("message", event => {
+      handleHostCommand(event.data);
+    });
+
+    window.addEventListener("storage", event => {
+      if(event.key === "pictureGameHostCommand" && event.newValue){
+        try{ handleHostCommand(JSON.parse(event.newValue)); }catch(error){}
+      }
+    });
+
+
+    /*
+      جسر حفظ التقدم:
+      progress.js يستخدم هذه الواجهة فقط ولا يغيّر منطق اللعب أو الجماعي.
+    */
+    window.gameProgressBridge = {
+      getState(){
+        return {
+          unlockedLevel: Math.max(1, Number(unlockedLevel) || 1),
+          hintBalances: JSON.parse(JSON.stringify(hintBalances || {})),
+          hintCooldowns: JSON.parse(JSON.stringify(hintCooldowns || {})),
+          fastAnswerProgress: Math.max(0, Number(fastAnswerProgress) || 0),
+          fastAnswerTarget: Math.max(1, Number(fastAnswerTarget) || 3)
+        };
+      },
+
+      applyState(progress){
+        if(!progress || typeof progress !== "object") return false;
+
+        const maxLevel = Math.max(1, questionBank.length);
+
+        unlockedLevel = Math.min(
+          maxLevel,
+          Math.max(1, Number(progress.unlockedLevel) || 1)
+        );
+
+        if(progress.hintBalances && typeof progress.hintBalances === "object"){
+          hintBalances = {
+            ...hintBalances,
+            ...progress.hintBalances
+          };
+        }
+
+        if(progress.hintCooldowns && typeof progress.hintCooldowns === "object"){
+          hintCooldowns = {
+            ...hintCooldowns,
+            ...progress.hintCooldowns
+          };
+        }
+
+        fastAnswerProgress = Math.max(
+          0,
+          Number(progress.fastAnswerProgress) || 0
+        );
+
+        fastAnswerTarget = Math.max(
+          1,
+          Number(progress.fastAnswerTarget) || 3
+        );
+
+        localStorage.setItem("unlockedLevel", String(unlockedLevel));
+        window.gameCloudProgress?.saveNow?.().catch(() => {});
+        localStorage.setItem("hintBalances", JSON.stringify(hintBalances));
+        window.gameCloudProgress?.saveNow?.().catch(() => {});
+        localStorage.setItem("hintCooldowns", JSON.stringify(hintCooldowns));
+        window.gameCloudProgress?.saveNow?.().catch(() => {});
+        localStorage.setItem("fastAnswerProgress", String(fastAnswerProgress));
+        window.gameCloudProgress?.saveNow?.().catch(() => {});
+        localStorage.setItem("fastAnswerTarget", String(fastAnswerTarget));
+        window.gameCloudProgress?.saveNow?.().catch(() => {});
+
+        try{ buildLevels(); }catch(error){}
+        try{ updateHintMenu(); }catch(error){}
+
+        return true;
+      }
+    };
+
+</script>
+
+  
+  <section id="hostPairPage" class="page">
+    <div class="host-pair-card">
+      <h2 class="host-pair-title">ربط جهاز التحكم</h2>
+      <p class="host-pair-text">
+        امسح الكود من جهاز التحكم للدخول إلى صفحة الإدارة.
+        عند فتح الرابط من جهاز الهوست ستنتقل الشاشة إلى اللعبة تلقائيًا.
+      </p>
+
+      <div class="host-qr" aria-label="رمز QR لربط جهاز التحكم">
+        <div id="hostQrFirebase" style="width:252px;height:252px;display:flex;align-items:center;justify-content:center;background:#fff"></div>
+      </div>
+
+      <div id="hostControlLink" class="host-link"></div>
+      <div style="margin-top:14px;font-weight:900">رابط جرس اللاعبين</div>
+      <div id="playerControlLink" class="host-link"></div>
+
+      <button class="host-primary-btn host-copy-wide" type="button" onclick="copyHostLink(event)">
+        نسخ رابط التحكم 📋
+      </button>
+    </div>
+  </section>
+
+<section id="hostControlPage" class="page">
+    <div class="host-topbar">
+      <button class="host-secondary-btn" type="button" onclick="closeHostControl()">رجوع للجلسة</button>
+      <h2>لوحة تحكم الهوست</h2>
+      <div id="hostSessionBadge" class="host-session-badge">الجلسة #0000</div>
+    </div>
+
+    <div class="host-dashboard">
+      <div class="host-preview-card">
+        <div class="host-question-meta">
+          <span id="hostQuestionNumber">السؤال 1</span>
+          <span id="hostQuestionMode">جماعي</span>
+        </div>
+
+        <div id="hostPreviewBoard" class="host-preview-board"></div>
+        <div id="hostAnswerReveal" class="host-answer-reveal"></div>
+      </div>
+
+      <aside class="host-panel">
+        <div class="host-control-group">
+          <h3 class="host-control-title">التحكم بالسؤال</h3>
+          <div class="host-control-buttons">
+            <button class="host-action reveal" type="button" onclick="hostToggleAnswer()">إظهار / إخفاء الإجابة</button>
+            <button class="host-action next" type="button" onclick="hostNextQuestion()">السؤال التالي</button>
+            <button class="host-action correct" type="button" onclick="hostMarkCorrect()">إجابة صحيحة</button>
+            <button class="host-action wrong" type="button" onclick="hostMarkWrong()">إجابة خاطئة</button>
+          </div>
+        </div>
+
+        <div class="host-control-group">
+          <h3 class="host-control-title">النقاط</h3>
+          <div class="host-teams">
+            <div class="host-team-card">
+              <div class="host-team-header">
+                <span id="hostTeamOneName">الفريق الأول</span>
+                <span id="hostTeamOneScore" class="host-score">0</span>
+              </div>
+              <div class="host-score-actions">
+                <button class="host-score-btn" type="button" onclick="hostAddScore(1,1)">+1</button>
+                <button class="host-score-btn" type="button" onclick="hostAddScore(1,2)">+2</button>
+                <button class="host-score-btn" type="button" onclick="hostAddScore(1,-1)">-1</button>
+              </div>
+            </div>
+
+            <div class="host-team-card">
+              <div class="host-team-header">
+                <span id="hostTeamTwoName">الفريق الثاني</span>
+                <span id="hostTeamTwoScore" class="host-score">0</span>
+              </div>
+              <div class="host-score-actions">
+                <button class="host-score-btn" type="button" onclick="hostAddScore(2,1)">+1</button>
+                <button class="host-score-btn" type="button" onclick="hostAddScore(2,2)">+2</button>
+                <button class="host-score-btn" type="button" onclick="hostAddScore(2,-1)">-1</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="host-control-group">
+          <h3 class="host-control-title">سجل الجلسة</h3>
+          <div id="hostLog" class="host-log"></div>
+        </div>
+
+        <div class="host-control-group">
+          <button class="host-action end" type="button" onclick="endHostSession()">إنهاء الجلسة</button>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+import { getAuth, signInAnonymously, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+import {
+  getDatabase, ref, set, update, onValue, get, goOnline, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
+
+const firebaseConfig = {"apiKey": "AIzaSyACS3IRZjIEkBk38y5C3uXOTa8N2ju8jwA", "authDomain": "picture-game-8946e.firebaseapp.com", "databaseURL": "https://picture-game-8946e-default-rtdb.europe-west1.firebasedatabase.app", "projectId": "picture-game-8946e", "storageBucket": "picture-game-8946e.firebasestorage.app", "messagingSenderId": "246477951240", "appId": "1:246477951240:web:e0e2666fddb83f4ada5cbd", "measurementId": "G-00NCKBL9Q8"};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
+
+/*
+  انتظر استعادة جلسة Google المحفوظة قبل أي دخول مجهول.
+  هذا يمنع استبدال حساب Google بحساب Anonymous عند فتح الصفحة أو استعادة الاتصال.
+*/
+const initialAuthReady = new Promise(resolve => {
+  const stopInitialAuthObserver = onAuthStateChanged(auth, user => {
+    stopInitialAuthObserver();
+    resolve(user || null);
+  });
+});
+
+function randomSessionId() {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let result = "";
+  for(let i=0; i<6; i++) result += chars[Math.floor(Math.random()*chars.length)];
+  return result;
+}
+
+let sessionId = "";
+let unsubscribers = [];
+let latestSessionTeams = null;
+let lastCommandId = "";
+let hostOnline = false;
+let hostOfflineTimer = null;
+
+function heartbeatIsRecent(value){
+  const heartbeat = Number(value || 0);
+  return heartbeat > 0 && (Date.now() - heartbeat) <= 12000;
+}
+
+function setHostOnlineState(online){
+  hostOnline = Boolean(online);
+
+  if(window.firebaseGame){
+    window.firebaseGame.hostOnline = hostOnline;
+  }
+
+  clearTimeout(hostOfflineTimer);
+
+  if(hostOnline){
+    hostOfflineTimer = setTimeout(async () => {
+      if(!sessionId) return;
+
+      try{
+        const heartbeatSnapshot = await get(
+          ref(db, "sessions/" + sessionId + "/lastHostHeartbeat")
+        );
+        setHostOnlineState(heartbeatIsRecent(heartbeatSnapshot.val()));
+      }catch(error){
+        setHostOnlineState(false);
+      }
+    }, 13000);
+  }
+}
+
+async function ensureAuth() {
+  const restoredUser = await initialAuthReady;
+
+  if(auth.currentUser){
+    return auth.currentUser;
+  }
+
+  if(restoredUser){
+    return restoredUser;
+  }
+
+  const credential = await signInAnonymously(auth);
+  return credential.user;
+}
+
+async function reconnectDisplay(){
+  try{
+    goOnline(db);
+    await ensureAuth();
+
+    const savedId =
+      sessionId || localStorage.getItem("activeFirebaseSessionId");
+
+    if(!savedId) return false;
+
+    const snapshot = await get(ref(db, "sessions/" + savedId));
+    if(!snapshot.exists()) return false;
+
+    attachSessionListeners(savedId);
+    return true;
+  }catch(error){
+    return false;
+  }
+}
+
+let reconnectInProgress = false;
+
+async function ensureDisplayConnection(){
+  if(reconnectInProgress) return;
+  reconnectInProgress = true;
+
+  try{
+    await reconnectDisplay();
+  }finally{
+    reconnectInProgress = false;
+  }
+}
+
+window.addEventListener("online", ensureDisplayConnection);
+window.addEventListener("focus", ensureDisplayConnection);
+document.addEventListener("visibilitychange", () => {
+  if(document.visibilityState === "visible"){
+    ensureDisplayConnection();
+  }
+});
+
+// فحص احتياطي حتى بعد خمول المتصفح.
+setInterval(ensureDisplayConnection, 15000);
+
+
+function cleanupListeners() {
+  for(const stop of unsubscribers) {
+    try { stop(); } catch(error) {}
+  }
+  unsubscribers = [];
+}
+
+async function applyCommand(command) {
+  if(!command || command.id === lastCommandId) return;
+  lastCommandId = command.id || "";
+
+  if(command.action === "next-question"){
+    const questionCount = Math.max(1, Number(totalQuestions) || 1);
+
+    if(command.awardedTeam === 1 || command.awardedTeam === 2){
+      if(typeof window.playCorrectSound === "function"){
+        window.playCorrectSound();
+      }
+    }
+
+    if(command.finishGame === true || currentQuestion >= questionCount){
+      setTimeout(() => {
+        if(typeof window.showResultsPage === "function"){
+          window.showResultsPage(latestSessionTeams || {
+            one:{name:localStorage.getItem("teamOne") || "الفريق الأول",score:0},
+            two:{name:localStorage.getItem("teamTwo") || "الفريق الثاني",score:0}
+          });
+        }
+      }, 220);
+
+      await window.firebaseGame?.updateState({
+        completed: true,
+        answerVisible: false
+      });
+
+      await window.firebaseGame?.completeSession?.();
+      return;
+    }
+
+    currentQuestion = Math.min(totalQuestions, currentQuestion + 1);
+    hostQuestionIndex = currentQuestion;
+    localStorage.setItem("activeGroupQuestion", String(currentQuestion));
+
+    renderGameAnswerImage(false);
+
+    const progress = document.getElementById("questionProgress");
+    if(progress) progress.textContent = currentQuestion + "/" + totalQuestions;
+
+    await syncCurrentQuestionToFirebase();
+    return;
+  }
+
+  if(command.action === "previous-question"){
+    const questionCount = Math.max(1, Number(totalQuestions) || 1);
+    if(questionCount <= 1 || currentQuestion <= 1){
+      return;
+    }
+
+    currentQuestion = Math.max(1, currentQuestion - 1);
+    hostQuestionIndex = currentQuestion;
+    localStorage.setItem("activeGroupQuestion", String(currentQuestion));
+
+    renderGameAnswerImage(false);
+
+    const progress = document.getElementById("questionProgress");
+    if(progress) progress.textContent = currentQuestion + "/" + totalQuestions;
+
+    await syncCurrentQuestionToFirebase();
+    return;
+  }
+
+  if(command.action === "toggle-answer"){
+    const answerIsVisible =
+      Boolean(document.querySelector("#gamePage .answer-image-visual"));
+
+    renderGameAnswerImage(!answerIsVisible);
+    await syncCurrentQuestionToFirebase();
+    return;
+  }
+
+  if(command.action === "correct" || command.action === "point-awarded"){
+    if(typeof window.playCorrectSound === "function"){
+      window.playCorrectSound();
+    }
+    return;
+  }
+
+  if(command.action === "wrong"){
+    if(typeof window.playWrongSound === "function"){
+      window.playWrongSound();
+    }
+  }
+}
+
+function attachSessionListeners(activeId){
+  cleanupListeners();
+  sessionId = activeId;
+  window.firebaseGame.sessionId = activeId;
+  window.firebaseGame.hostOnline = false;
+  localStorage.setItem("activeFirebaseSessionId", activeId);
+
+  setHostOnlineState(false);
+
+  unsubscribers.push(onValue(
+    ref(db, "sessions/" + activeId + "/lastHostHeartbeat"),
+    snapshot => {
+      const online = heartbeatIsRecent(snapshot.val());
+      setHostOnlineState(online);
+
+      if(
+        online &&
+        awaitingHostConnection === true &&
+        hostPairPage?.classList.contains("active") &&
+        typeof window.handleHostConnected === "function"
+      ){
+        window.handleHostConnected();
+      }
+    }
+  ));
+
+  unsubscribers.push(onValue(ref(db, "sessions/" + activeId + "/command"), snapshot => {
+    Promise.resolve(applyCommand(snapshot.val())).catch(() => {});
+  }));
+
+  unsubscribers.push(onValue(ref(db, "sessions/" + activeId + "/teams"), snapshot => {
+    const teams = snapshot.val();
+    if(!teams) return;
+    latestSessionTeams = teams;
+    const scoreOne = document.getElementById("scoreOne");
+    const scoreTwo = document.getElementById("scoreTwo");
+    if(scoreOne) scoreOne.textContent = teams.one?.score ?? 0;
+    if(scoreTwo) scoreTwo.textContent = teams.two?.score ?? 0;
+  }));
+
+  unsubscribers.push(onValue(ref(db, "sessions/" + activeId + "/state"), snapshot => {
+    const state = snapshot.val();
+    if(!state) return;
+
+    totalQuestions = Math.min(
+      questionBank.length,
+      Math.max(
+        Math.min(10, questionBank.length),
+        Number(state.totalQuestions) || getConfiguredGroupQuestionCount()
+      )
+    );
+
+    const incomingQuestion = Math.min(
+      totalQuestions,
+      Math.max(1, Number(state.question) || 1)
+    );
+
+    currentQuestion = incomingQuestion;
+    hostQuestionIndex = incomingQuestion;
+    localStorage.setItem("activeGroupQuestion", String(incomingQuestion));
+
+    const progress = document.getElementById("questionProgress");
+    if(progress) progress.textContent = currentQuestion + "/" + totalQuestions;
+
+    if(state.completed === true && latestSessionTeams){
+      setTimeout(() => {
+        window.showResultsPage?.(latestSessionTeams);
+      }, 0);
+      return;
+    }
+
+    if(currentGameMode === "group"){
+      const board = document.querySelector("#gamePage .question-board");
+      const currentVisual = board?.querySelector(".visual-question, .answer-image-visual");
+      const firebaseVisual = state.answerVisible === true
+        ? state.answerVisualHtml
+        : state.visualHtml;
+
+      if(board && currentVisual && firebaseVisual){
+        const holder = document.createElement("div");
+        holder.innerHTML = firebaseVisual.trim();
+        const nextVisual = holder.firstElementChild;
+
+        if(nextVisual){
+          currentVisual.replaceWith(nextVisual);
+        }
+      }else{
+        renderGameAnswerImage(state.answerVisible === true);
+      }
+    }
+  }));
+
+  unsubscribers.push(onValue(ref(db, "sessions/" + activeId + "/buzzer"), snapshot => {
+    const buzzer = snapshot.val();
+    const activeLock =
+      buzzer?.locked === true &&
+      Number(buzzer?.lockedUntil || 0) > Date.now();
+
+    if(activeLock && buzzer?.playerName && typeof window.showGameBuzzerWinner === "function"){
+      window.showGameBuzzerWinner(
+        buzzer.playerName,
+        buzzer.teamName,
+        buzzer.lockedUntil
+      );
+    }
+  }));
+}
+
+async function createSession(teamOne, teamTwo, forceNew = false) {
+  await ensureAuth();
+
+  const savedId = localStorage.getItem("activeFirebaseSessionId");
+  if(savedId && !forceNew){
+    const savedSnapshot = await get(ref(db, "sessions/" + savedId));
+    if(savedSnapshot.exists()){
+      const savedData = savedSnapshot.val() || {};
+      const savedState = savedData.state || {};
+
+      if(savedState.completed === true || savedData.status === "completed"){
+        localStorage.removeItem("activeFirebaseSessionId");
+        localStorage.removeItem("activeGroupQuestion");
+      }else{
+        hostConnectionHandled = false;
+        attachSessionListeners(savedId);
+
+      totalQuestions = Math.min(
+        questionBank.length,
+        Math.max(
+          Math.min(10, questionBank.length),
+          Number(savedState.totalQuestions) || getConfiguredGroupQuestionCount()
+        )
+      );
+
+      currentQuestion = Math.min(
+        totalQuestions,
+        Math.max(1, Number(savedState.question) || 1)
+      );
+      localStorage.setItem("activeGroupQuestion", String(currentQuestion));
+
+      // النبضة الحديثة فقط تعني أن صفحة الهوست مفتوحة.
+      const onlineNow = heartbeatIsRecent(savedData.lastHostHeartbeat);
+      setHostOnlineState(onlineNow);
+
+      // العودة للجلسة تتم فقط من زر العودة، بلا انتقال تلقائي.
+
+        return {
+          sessionId: savedId,
+          restored: true
+        };
+      }
+    }
+  }
+
+  hostConnectionHandled = false;
+  sessionId = randomSessionId();
+  const sessionRef = ref(db, "sessions/" + sessionId);
+
+  await set(sessionRef, {
+    createdAt: serverTimestamp(),
+    status: "waiting",
+    hostConnected: false,
+    lastHostHeartbeat: 0,
+    teams: {
+      one: { name: teamOne, score: 0 },
+      two: { name: teamTwo, score: 0 }
+    },
+    state: {
+      question: 1,
+      totalQuestions: Math.max(1, questionBank.length),
+      answerVisible: false,
+      completed: false,
+      buzzerEnabled: localStorage.getItem("buzzerEnabled") !== "false",
+      buzzerLockSeconds: Math.min(
+        10,
+        Math.max(1, Number(localStorage.getItem("buzzerLockSeconds")) || 3)
+      ),
+      visualHtml: buildQuestionVisual(questionBank[0]),
+      answerVisualHtml: createAnswerVisualHtml(questionBank[0].answer),
+      answer: questionBank[0].answer
+    },
+    command: null,
+    buzzer: {
+      locked: false,
+      playerName: "",
+      teamKey: "",
+      teamName: "",
+      pressedAt: null,
+      lockedUntil: 0
+    }
+  });
+
+  attachSessionListeners(sessionId);
+
+  setTimeout(() => {
+    if(typeof window.updateReturnSessionButton === "function"){
+      window.updateReturnSessionButton();
+    }
+  }, 0);
+
+  return {
+    sessionId,
+    restored: false
+  };
+}
+
+
+async function restoreSession(savedId){
+  await ensureAuth();
+
+  const snapshot = await get(ref(db, "sessions/" + savedId));
+  if(!snapshot.exists()){
+    throw new Error("Session not found");
+  }
+
+  const restoredData = snapshot.val() || {};
+  if(restoredData.state?.completed === true || restoredData.status === "completed"){
+    localStorage.removeItem("activeFirebaseSessionId");
+    localStorage.removeItem("activeGroupQuestion");
+    throw new Error("Session completed");
+  }
+
+  hostConnectionHandled = false;
+  attachSessionListeners(savedId);
+
+  const data = snapshot.val() || {};
+  const state = data.state || {};
+
+  currentQuestion = Math.min(Math.max(1, Number(state.totalQuestions) || questionBank.length), Math.max(1, Number(state.question) || 1));
+  localStorage.setItem("activeGroupQuestion", String(currentQuestion));
+
+  const onlineNow = heartbeatIsRecent(data.lastHostHeartbeat);
+  setHostOnlineState(onlineNow);
+
+  return {
+    sessionId: savedId,
+    hostOnline: onlineNow
+  };
+}
+
+
+const levelsGoogleProvider = new GoogleAuthProvider();
+levelsGoogleProvider.setCustomParameters({prompt:"select_account"});
+
+function updateLevelsAccountHeader(user){
+  const header = document.getElementById("levelsAccountHeader");
+  const name = document.getElementById("levelsAccountName");
+  const subtitle = document.getElementById("levelsAccountSubtitle");
+  const photo = document.getElementById("levelsAccountPhoto");
+
+  if(!header || !name || !subtitle || !photo) return;
+
+  const googleUser = user && !user.isAnonymous ? user : null;
+
+  if(googleUser){
+    header.classList.add("signed-in");
+    name.textContent = googleUser.displayName || "مستخدم Google";
+    subtitle.textContent = "تم تسجيل الدخول — تقدمك محفوظ";
+    if(googleUser.photoURL){
+      photo.src = googleUser.photoURL;
+      photo.style.display = "block";
+    }else{
+      photo.removeAttribute("src");
+      photo.style.display = "none";
+    }
+  }else{
+    header.classList.remove("signed-in");
+    name.textContent = "سجّل لحفظ تقدمك";
+    subtitle.textContent = "اضغط لتسجيل الدخول بحساب Google";
+    photo.removeAttribute("src");
+    photo.style.display = "none";
+  }
+}
+
+window.levelsGoogleAuth = {
+  currentUser: null,
+
+  async login(){
+    const message = document.getElementById("googleLoginMessage");
+    if(message) message.textContent = "";
+
+    try{
+      const result = await signInWithPopup(auth, levelsGoogleProvider);
+      this.currentUser = result.user;
+      updateLevelsAccountHeader(result.user);
+      return result.user;
+    }catch(error){
+      console.error("Google login error:", error);
+      const code = String(error?.code || "");
+      let text = "تعذر تسجيل الدخول بحساب Google.";
+
+      if(code === "auth/popup-blocked"){
+        text = "المتصفح منع نافذة Google. اسمح بالنوافذ المنبثقة.";
+      }else if(code === "auth/popup-closed-by-user"){
+        text = "أُغلقت نافذة Google قبل اكتمال التسجيل.";
+      }else if(code === "auth/unauthorized-domain"){
+        text = "نطاق الموقع غير مصرح في Firebase.";
+      }else if(code === "auth/operation-not-allowed"){
+        text = "تسجيل Google غير مفعّل في Firebase.";
+      }else if(code === "auth/network-request-failed"){
+        text = "تعذر الاتصال. تحقق من الإنترنت.";
+      }
+
+      if(message) message.textContent = text;
+      throw error;
+    }
+  },
+
+  async logout(){
+    try{
+      await signOut(auth);
+    }finally{
+      this.currentUser = null;
+      updateLevelsAccountHeader(null);
+    }
+  }
+};
+
+onAuthStateChanged(auth, user => {
+  const googleUser = user && !user.isAnonymous ? user : null;
+  window.levelsGoogleAuth.currentUser = googleUser;
+  updateLevelsAccountHeader(googleUser);
+});
+
+window.firebaseGame = {
+  sessionId,
+  hostOnline,
+  createSession,
+  restoreSession,
+  async updateState(values) {
+    if(!sessionId) return;
+    await update(ref(db, "sessions/" + sessionId + "/state"), values);
+  },
+  async completeSession() {
+    if(!sessionId) return;
+
+    await update(ref(db, "sessions/" + sessionId), {
+      status: "completed",
+      hostConnected: false,
+      lastHostHeartbeat: 0
+    });
+
+    cleanupListeners();
+    clearTimeout(hostOfflineTimer);
+    hostOnline = false;
+    sessionId = "";
+    this.sessionId = "";
+    this.hostOnline = false;
+
+    localStorage.removeItem("activeFirebaseSessionId");
+    localStorage.removeItem("activeGroupQuestion");
+  },
+  disconnectSession() {
+    cleanupListeners();
+    clearTimeout(hostOfflineTimer);
+    hostOnline = false;
+    sessionId = "";
+    this.sessionId = "";
+    this.hostOnline = false;
+  }
+};
+</script>
+<script type="module" src="progress.js"></script>
+
+
+
+  <div id="buzzerWinnerBanner" style="
+    position:fixed;top:24px;left:50%;transform:translateX(-50%) translateY(-20px);
+    z-index:2147483647;width:min(92%,560px);padding:20px 24px;border:4px solid #111;
+    border-radius:22px;background:#ffe36d;box-shadow:0 10px 0 #111;text-align:center;
+    font-weight:900;font-size:26px;opacity:0;visibility:hidden;pointer-events:none;
+    transition:opacity .18s,transform .18s">
+    <div style="font-size:34px;line-height:1">🔔</div>
+    <div style="margin-top:5px">أول من ضغط</div>
+    <div id="buzzerWinnerText" style="margin-top:5px;color:#8a1c13"></div>
+  </div>
+
+
+  <section id="resultsPage" aria-live="polite">
+    <div id="celebrationLayer"></div>
+
+    <div class="results-card">
+      <h2 class="results-title">النتائج النهائية 🏆</h2>
+      <div id="resultsWinner" class="results-winner"></div>
+
+      <div class="results-teams">
+        <div id="resultTeamOneCard" class="result-team">
+          <div id="resultTeamOneName" class="result-team-name">الفريق الأول</div>
+          <div id="resultTeamOneScore" class="result-score">0</div>
+          <div id="resultTeamOneCorrect" class="result-correct">0 إجابة صحيحة</div>
+        </div>
+
+        <div id="resultTeamTwoCard" class="result-team">
+          <div id="resultTeamTwoName" class="result-team-name">الفريق الثاني</div>
+          <div id="resultTeamTwoScore" class="result-score">0</div>
+          <div id="resultTeamTwoCorrect" class="result-correct">0 إجابة صحيحة</div>
+        </div>
+      </div>
+
+      <div id="resultsSummary" class="results-summary"></div>
+
+      <button class="results-close" type="button" onclick="closeResultsPage()">
+        العودة للرئيسية
+      </button>
+    </div>
+  </section>
+
+</body>
+</html>
