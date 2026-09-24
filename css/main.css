@@ -3767,7 +3767,7 @@ main{
 ===================================================== */
 @media (orientation: portrait) and (max-width: 700px){
   body{
-    padding-top:0;
+    padding-top:10px;
     padding-bottom:10px;
     box-sizing:border-box;
   }
@@ -3775,7 +3775,7 @@ main{
   #app,
   .app-shell,
   main{
-    min-height:calc(100dvh - 10px);
+    min-height:calc(100dvh - 20px);
   }
 }
 
@@ -4448,5 +4448,3 @@ body.game-mode .game-seo-faq{
 
 /* Visible SEO feature list for game detail pages */
 .game-seo-features{margin:12px 0 24px;padding:0;list-style:none;display:grid;gap:10px}.game-seo-features li{position:relative;padding:12px 42px 12px 14px;border:1px solid rgba(109,40,217,.18);border-radius:14px;background:rgba(255,255,255,.7);line-height:1.8}.game-seo-features li::before{content:"✓";position:absolute;right:14px;top:11px;font-weight:900;color:#6d28d9}@media(max-width:640px){.game-seo-features li{padding-right:38px}}
-
-#aljawabSpaInfo[hidden]{display:none!important}
