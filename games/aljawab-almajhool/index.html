@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>الجواب المجهول</title>
+<link rel="stylesheet" href="style.css?v=36" />
+</head>
+<body>
+<div class="grain"></div>
+<main class="shell">
+  <header class="topbar"><button id="leaveBtn" class="iconBtn hidden">خروج</button></header>
+
+  <section id="home" class="screen card hero">
+    <div class="homeLogoSlot"><img class="homeGameLogo" src="assets/game-logo.png" alt="شعار الجواب المجهول" /></div>
+    <div class="stack homeMenu">
+      <button class="homeMenuBtn homeMenuBtnPrimary" id="createBtn">إنشاء غرفة</button>
+      <button class="homeMenuBtn" id="joinOpenBtn">دخول غرفة</button>
+      <button class="homeMenuBtn" id="howToBtn">طريقة اللعب</button>
+      <button class="homeMenuBtn homeMenuBtnDanger" id="homeExitBtn">خروج</button>
+    </div>
+  </section>
+
+
+
+  <section id="howToScreen" class="screen card howToScreen hidden">
+    <div class="howToHeader">
+      <div>
+        <span class="howToEyebrow">شرح سريع</span>
+        <h2>طريقة اللعب</h2>
+      </div>
+      <button id="howToBackBtn" class="secondary small">رجوع</button>
+    </div>
+    <div class="howToProgress" aria-hidden="true">
+      <span class="howDot active"></span><span class="howDot"></span><span class="howDot"></span><span class="howDot"></span>
+    </div>
+    <div class="howToViewport">
+      <article class="howCard active" data-step="0">
+        <div class="howIcon">1</div>
+        <h3>ادخلوا الجلسة</h3>
+        <p>المضيف ينشئ غرفة، والبقية يدخلون بالكود أو الرابط ويختار كل لاعب اسمه وشخصيته.</p>
+      </article>
+      <article class="howCard" data-step="1">
+        <div class="howIcon">2</div>
+        <h3>اكتب فخ مقنع</h3>
+        <p>يظهر سؤال للجميع. اكتب إجابة خاطئة تبدو صحيحة. إذا كتبت الإجابة الصحيحة فلن تظهر كفخ ولن تحصل على نقطة منها، وستشارك في التصويت مثل الجميع.</p>
+      </article>
+      <article class="howCard" data-step="2">
+        <div class="howIcon">3</div>
+        <h3>اختَر الصحيح</h3>
+        <p>تظهر الإجابة الصحيحة مع فخاخ اللاعبين. اختر الإجابة التي تعتقد أنها الصحيحة، ولا يمكنك اختيار الفخ الذي كتبته بنفسك.</p>
+      </article>
+      <article class="howCard" data-step="3">
+        <div class="howIcon">4</div>
+        <h3>اجمع النقاط</h3>
+        <p>نقطة إذا عرفت الإجابة الصحيحة، ونقطة عن كل لاعب وقع في فخك. بعد كل جولة تظهر النتيجة ومن خدع من.</p>
+      </article>
+    </div>
+    <div class="howToFooter">
+      <button id="howPrevBtn" class="homeMenuBtn howNavBtn hidden">السابق</button>
+      <button id="howNextBtn" class="homeMenuBtn homeMenuBtnPrimary howNavBtn">التالي</button>
+      <button id="howPlayBtn" class="homeMenuBtn homeMenuBtnPrimary howNavBtn hidden">العب الآن</button>
+    </div>
+  </section>
+
+  <section id="nameScreen" class="screen card hidden">
+    <h2 id="nameTitle">اكتب اسمك</h2>
+    <input id="nameInput" maxlength="20" placeholder="اسم اللاعب" autocomplete="off" />
+    <input id="codeInput" maxlength="5" placeholder="كود الغرفة" autocomplete="off" />
+    <div class="emojiPickerWrap">
+      <div class="emojiPickerTitle">اختر شخصيتك</div>
+      <div id="emojiPicker" class="emojiPicker" aria-label="اختيار شخصية اللاعب"></div>
+      <div id="emojiHint" class="emojiHint">اختر شخصية واحدة</div>
+    </div>
+    <button class="primary" id="confirmJoinBtn">دخول</button>
+    <div class="nameActions singleAction">
+      <button class="secondary" id="nameBackBtn">رجوع</button>
+    </div>
+  </section>
+
+  <section id="lobby" class="screen hidden">
+    <div class="card roomHead">
+      <div><span class="muted">كود الغرفة</span><strong id="roomCode">-----</strong></div>
+      <button id="copyBtn" class="secondary small hostOnlyInvite">مشاركة الجلسة</button>
+    </div>
+    <div class="grid2">
+      <div id="qrCard" class="card qrCard hostOnlyInvite"><div id="qrImg" class="qrBox"></div><p>امسح الرمز من الجوال</p></div>
+      <div class="card"><h3>اللاعبون <span id="countBadge" class="badge">0</span></h3><div id="players" class="players"></div><p class="muted">الحد الأدنى 3 لاعبين</p></div>
+    </div>
+    <div id="doorCard" class="card questionCountCard hostOnlyInvite">
+      <h3>اختر باب التحدي</h3>
+      <p class="doorIntro">كل باب يحتوي على ١٥ سؤالًا مختلفًا. اختر بابًا مختلفًا في كل لعبة حتى لا تتكرر عليكم الأسئلة.</p>
+      <div id="doorOptions" class="questionCountOptions" aria-label="اختيار باب التحدي">
+        <button type="button" class="questionCountBtn doorBtn selected" data-door="1"><b>الباب ١</b><small>١٥ سؤال</small></button>
+        <button type="button" class="questionCountBtn doorBtn" data-door="2"><b>الباب ٢</b><small>١٥ سؤال</small></button>
+        <button type="button" class="questionCountBtn doorBtn" data-door="3"><b>الباب ٣</b><small>١٥ سؤال</small></button>
+        <button type="button" class="questionCountBtn doorBtn" data-door="4"><b>الباب ٤</b><small>١٥ سؤال</small></button>
+        <button type="button" class="questionCountBtn doorBtn" data-door="5"><b>الباب ٥</b><small>١٥ سؤال</small></button>
+        <button type="button" class="questionCountBtn doorBtn" data-door="6"><b>الباب ٦</b><small>١٥ سؤال</small></button>
+        <button type="button" class="questionCountBtn doorBtn" data-door="7"><b>الباب ٧</b><small>١٥ سؤال</small></button>
+      </div>
+      <p class="questionCountNote">كل باب ثابت ومستقل عن الأبواب الأخرى — لا يوجد تكرار للأسئلة بين الأبواب.</p>
+    </div>
+    <button id="startBtn" class="primary hidden">ابدأ اللعبة</button>
+  </section>
+
+  <section id="game" class="screen hidden">
+    <div class="scoreStrip" id="scoreStrip"></div>
+    <div class="card gameCard">
+      <div class="phaseRow"><div class="phase" id="phaseLabel">السؤال</div><div id="timer" class="timer hidden"><div class="timerTrack"><div id="timerFill" class="timerFill"></div></div><b id="timerNum">15</b></div></div>
+      <div id="questionMedia" class="questionMedia hidden"></div>
+      <h2 id="questionText"></h2>
+      <div id="answerArea" class="stack">
+        <input id="answerInput" maxlength="60" placeholder="اكتب إجابة تخدع البقية" autocomplete="off" />
+        <button id="submitAnswerBtn" class="primary">ثبت الإجابة</button>
+      </div>
+      <div id="voteArea" class="hidden"><div id="options" class="options"></div><button id="confirmVoteBtn" class="primary voteConfirm" disabled>تأكيد الاختيار</button></div>
+      <div id="waiting" class="waiting hidden">تم الإرسال… ننتظر البقية</div>
+      <div id="resultsArea" class="hidden"></div>
+    </div>
+    <button id="nextBtn" class="primary hidden">السؤال التالي</button>
+  </section>
+
+
+  <section id="finalScreen" class="screen finalScreen hidden">
+    <div id="confettiLayer" class="confettiLayer" aria-hidden="true"></div>
+    <div class="finalHero card">
+      <div class="finalEyebrow">النتيجة النهائية</div>
+      <div class="trophyStage">
+        <div class="trophyGlow"></div>
+        <div class="trophyCup" aria-label="كأس البطولة">🏆</div>
+      </div>
+      <h2 class="finalTitle">بطل لعبة الجواب المجهول</h2>
+      <div id="championAvatar" class="championAvatar"></div>
+      <div id="championName" class="championName">الفائز</div>
+      <div id="championScore" class="championScore">0 نقطة</div>
+    </div>
+    <div id="podium" class="podium"></div>
+    <div class="card finalScoresCard">
+      <h3>الترتيب النهائي</h3>
+      <div id="finalAllScores" class="finalAllScores"></div>
+    </div>
+  </section>
+
+  <div id="toast" class="toast hidden"></div>
+</main>
+
+<div id="sessionModal" class="modalOverlay hidden" role="dialog" aria-modal="true" aria-labelledby="sessionModalTitle">
+  <div class="sessionModal card">
+    <div class="sessionIcon">↩</div>
+    <h2 id="sessionModalTitle">عندك جلسة سابقة</h2>
+    <p id="sessionModalText">تبغى ترجع لها؟</p>
+    <div class="sessionModalActions">
+      <button id="resumeSessionBtn" class="primary">الرجوع للجلسة</button>
+      <button id="discardSessionBtn" class="secondary">لا، ابدأ من جديد</button>
+    </div>
+  </div>
+</div>
+
+<div id="homeExitModal" class="modalOverlay hidden" role="dialog" aria-modal="true" aria-labelledby="homeExitModalTitle">
+  <div class="sessionModal card exitConfirmModal">
+    <div class="exitGameLogo">؟</div>
+    <h2 id="homeExitModalTitle">تبي تطلع من اللعبة؟</h2>
+    <p>بنرجعك لصفحة الألعاب.</p>
+    <div class="sessionModalActions">
+      <button id="confirmHomeExitBtn" class="dangerAction">نعم، خروج</button>
+      <button id="cancelHomeExitBtn" class="secondary">إلغاء</button>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script type="module" src="app.js?v=36"></script>
+</body>
+</html>
