@@ -1905,6 +1905,19 @@ body.player-open{overflow:hidden}
 .player-account-card{display:flex;align-items:center;gap:14px;margin-bottom:22px}
 .player-account-avatar{width:62px;height:62px;display:grid;place-items:center;border-radius:12px;background:#ede9fe;font-size:32px;border:3px solid #ddd6fe}
 .player-account-info{display:grid;gap:4px}.player-account-name{color:#3b0764;font-size:20px}.player-account-phone{color:#77717d;direction:ltr;text-align:right}
+.player-activation-card{
+  margin:0 0 24px;padding:20px;background:linear-gradient(135deg,#faf7ff,#fff);
+  border:3px solid #ddd6fe;border-radius:18px;box-shadow:5px 5px 0 #d8d2e2;
+}
+.player-activation-icon{font-size:30px;margin-bottom:8px}
+.player-activation-copy h3{margin:0 0 6px;color:#3b0764;font-size:22px;font-weight:900}
+.player-activation-copy p{margin:0 0 14px;color:#77717d;line-height:1.7;font-size:13px;font-weight:800}
+.player-activation-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center}
+.player-activation-button{
+  height:58px;padding:0 22px;border:3px solid #4c1d95;border-radius:11px;
+  background:#7c3aed;color:#fff;font:inherit;font-size:15px;font-weight:900;
+  box-shadow:4px 4px 0 #4c1d95;white-space:nowrap;
+}
 .player-library-heading{margin:18px 0 14px;display:flex;align-items:center;justify-content:space-between}
 .player-library-heading h3{margin:0;color:#3b0764;font-size:24px;font-weight:900}.player-library-heading p{margin:4px 0 0;color:#7d7682;font-size:13px;font-weight:800}
 .player-games-list{display:flex;flex-direction:column;gap:14px}
@@ -1926,6 +1939,9 @@ body.player-open{overflow:hidden}
   .player-login-back{right:12px}.player-login-logout{left:12px}
   .player-login-content{padding:15px 12px 25px}.player-login-card{padding:17px 14px}
   .player-phone-row{gap:7px}.player-country-wrap{flex-basis:104px}.player-country-button,.player-login-input{height:55px;font-size:13px;padding-inline:8px}
+  .player-activation-card{padding:17px 14px}
+  .player-activation-row{grid-template-columns:1fr}
+  .player-activation-button{width:100%;height:54px}
 }
 
 /* =====================================================

@@ -122,6 +122,10 @@
   }
 
   function normalizeCode(v){ return normalizeDigits(v); }
+  function gameFromCode(value){
+    const code=normalizeCode(value);
+    return GAMES.find(game=>normalizeCode(game.code)===code)||null;
+  }
   const LEGACY_PHOTO_CODES = ["1850","17007"];
   const NEW_PHOTO_CODE = "116677";
 
@@ -239,6 +243,42 @@
       $("accountName").textContent=playerName||"لاعب";
       $("accountPhone").textContent="+"+phone;
       renderLibrary();
+      prepareAccountActivation(pendingGame);
+    }
+  }
+
+  function updateHomeLoginLabel(){
+    const button=$("homeLogin");
+    if(button) button.innerHTML=(phone?"العابي":"تسجيل الدخول")+' <span aria-hidden="true">🎮</span>';
+  }
+
+  function ensureAccountActivationCard(){
+    if($("accountActivationCard")) return;
+    const stage=$("accountStage");
+    if(!stage) return;
+    const card=document.createElement("div");
+    card.className="player-activation-card";
+    card.id="accountActivationCard";
+    card.innerHTML=`
+      <div class="player-activation-icon" aria-hidden="true">🔐</div>
+      <div class="player-activation-copy">
+        <h3>أدخل كود اللعبة</h3>
+        <p id="accountActivationHint">أدخل الكود الذي استلمته بعد الشراء، وستُحفظ اللعبة في حسابك.</p>
+      </div>
+      <div class="player-activation-row">
+        <input autocomplete="one-time-code" class="player-login-input" id="accountGameCodeInput" inputmode="numeric" placeholder="كود اللعبة">
+        <button class="player-activation-button" id="activateAccountCodeBtn" type="button">تفعيل اللعبة</button>
+      </div>`;
+    const libraryHeading=stage.querySelector(".player-library-heading");
+    stage.insertBefore(card,libraryHeading||null);
+  }
+
+  function prepareAccountActivation(game=null){
+    const hint=$("accountActivationHint");
+    if(hint){
+      hint.textContent=game
+        ? `أدخل كود ${game.name} الذي استلمته بعد الشراء، وستُحفظ اللعبة في حسابك.`
+        : "أدخل الكود الذي استلمته بعد الشراء، وستُحفظ اللعبة في حسابك.";
     }
   }
 
@@ -255,7 +295,7 @@
         localStorage.setItem("playerPhone",phone);
         await db.ref("customers/"+phone+"/lastLogin").set(Date.now());
         await loadOwnedGames(phone); await updatePresence();
-        showLogin(); message("تم تسجيل الدخول ✅");
+        updateHomeLoginLabel(); showLogin(); message("تم تسجيل الدخول ✅");
       }else{
         pendingPhone=full;
         $("loginStage").hidden=true; $("nameStage").hidden=false; $("accountStage").hidden=true;
@@ -276,7 +316,7 @@
       phone=pendingPhone; playerName=name; pendingPhone="";
       localStorage.setItem("playerPhone",phone);
       await loadOwnedGames(phone); await updatePresence();
-      showLogin(); message("تم إنشاء الحساب ✅");
+      updateHomeLoginLabel(); showLogin(); message("تم إنشاء الحساب ✅");
     }catch(e){ message(e.message||"تعذر الحفظ","error"); }
   }
 
@@ -289,6 +329,7 @@
       if(snap.exists() && String(snap.val()).trim()){
         phone=saved; playerName=String(snap.val()).trim();
         await loadOwnedGames(phone); await updatePresence();
+        updateHomeLoginLabel();
       }else localStorage.removeItem("playerPhone");
     }catch(e){ console.warn(e); }
   }
@@ -297,6 +338,7 @@
     try{ await updatePresence(); }catch{}
     localStorage.removeItem("playerPhone");
     phone="";playerName="";ownedCodes=[];
+    pendingGame=null; updateHomeLoginLabel();
     modal("accountModal",false); renderLibrary(); message("تم تسجيل الخروج");
   }
 
@@ -340,8 +382,34 @@
     }
     if(!ownedCodes.length) await loadOwnedGames(phone);
     if(isOwned(game)){ openPlayer(game,"owned"); return; }
-    pendingGame=game; $("codeGameName").textContent=game.name; $("gameCodeInput").value="";
-    modal("codeModal",true);
+    pendingGame=game;
+    showLogin();
+    prepareAccountActivation(game);
+    $("accountGameCodeInput")?.focus();
+    message("أدخل كود اللعبة لإضافتها إلى حسابك");
+  }
+
+  async function activateAccountCode(){
+    if(!phone){ showLogin(); return; }
+    const input=$("accountGameCodeInput");
+    const entered=normalizeCode(input?.value);
+    if(!entered){ message("أدخل كود اللعبة","error"); return; }
+    const game=gameFromCode(entered);
+    if(!game){ message("الكود غير صحيح ❌","error"); return; }
+    if(isOwned(game)){
+      pendingGame=null; prepareAccountActivation();
+      if(input) input.value="";
+      message(`${game.name} محفوظة في حسابك مسبقًا ✅`);
+      return;
+    }
+    try{
+      await ensureFirebase();
+      await db.ref("customers/"+phone+"/games/"+String(game.code)).set(true);
+      await loadOwnedGames(phone);
+      pendingGame=null; prepareAccountActivation();
+      if(input) input.value="";
+      message(`تم حفظ ${game.name} في حسابك ✅`);
+    }catch(e){ message(e.message||"تعذر حفظ الكود","error"); }
   }
 
   async function verifyCode(){
@@ -417,6 +485,7 @@
   }
 
   function init(){
+    ensureAccountActivationCard();
     wireVisitorActivity();
     const select=$("countrySelect");
     countries.forEach((c,i)=>{
@@ -435,9 +504,16 @@
     $("gameCodeInput")?.addEventListener("input",(e)=>{
       e.target.value=e.target.value.replace(/[^0-9٠-٩۰-۹]/g,"");
     });
+    $("accountGameCodeInput")?.addEventListener("input",(e)=>{
+      e.target.value=e.target.value.replace(/[^0-9٠-٩۰-۹]/g,"");
+    });
+    $("accountGameCodeInput")?.addEventListener("keydown",(e)=>{
+      if(e.key==="Enter") activateAccountCode();
+    });
         $("loginBtn")?.addEventListener("click",login);
     $("saveNameBtn")?.addEventListener("click",saveName);
     $("logoutBtn")?.addEventListener("click",logout);
+    $("activateAccountCodeBtn")?.addEventListener("click",activateAccountCode);
     $("openLibraryBtn")?.addEventListener("click",()=>{
       renderLibrary();
       const list=$("ownedGamesInline");

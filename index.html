@@ -62,7 +62,7 @@
 <button class="home-screen-tip-done" id="homeScreenTipDone" type="button">فهمت</button>
 </div>
 </div>
-<button class="login-float" id="homeLogin" type="button">العابي <span aria-hidden="true">🎮</span></button>
+<button class="login-float" id="homeLogin" type="button">تسجيل الدخول <span aria-hidden="true">🎮</span></button>
 <header class="hero" id="homeHero">
 <div class="hero-inner">
 <div class="hero-copy">
@@ -579,6 +579,17 @@
 <div class="player-account-info">
 <strong class="player-account-name" id="accountName"></strong>
 <span class="player-account-phone" id="accountPhone"></span>
+</div>
+</div>
+<div class="player-activation-card" id="accountActivationCard">
+<div class="player-activation-icon" aria-hidden="true">🔐</div>
+<div class="player-activation-copy">
+<h3>أدخل كود اللعبة</h3>
+<p id="accountActivationHint">أدخل الكود الذي استلمته بعد الشراء، وستُحفظ اللعبة في حسابك.</p>
+</div>
+<div class="player-activation-row">
+<input autocomplete="one-time-code" class="player-login-input" id="accountGameCodeInput" inputmode="numeric" placeholder="كود اللعبة"/>
+<button class="player-activation-button" id="activateAccountCodeBtn" type="button">تفعيل اللعبة</button>
 </div>
 </div>
 <div class="player-library-heading">
