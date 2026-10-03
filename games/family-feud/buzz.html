@@ -1,0 +1,298 @@
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الجرس</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body {
+  font-family: 'Tajawal', sans-serif;
+  background: radial-gradient(circle at center, #003399 0%, #000 100%);
+}
+
+* { box-sizing:border-box; }
+body { margin:0; padding:12px; height:auto !important; min-height:100vh; min-height:100dvh; }
+#root { width:100%; max-width:384px; margin:auto; }
+#root > div { width:100%; max-width:100%; }
+#root .flex-1 { min-width:0; overflow-wrap:anywhere; }
+#root .w-52 { width:min(208px,55vw,42dvh); height:auto; aspect-ratio:1; }
+#root .text-2xl { overflow-wrap:anywhere; }
+
+body { background:radial-gradient(ellipse at 50% 0,#15396d,#06132d 55%,#020713); color:#edf4ff; font-family:Arial,sans-serif; }
+body::before { content:""; position:fixed; inset:0; pointer-events:none; z-index:0; background:linear-gradient(112deg,transparent 18%,#98c7ff12 23%,transparent 33%),linear-gradient(248deg,transparent 18%,#ffe3a114 23%,transparent 33%); }
+body::after { content:""; position:fixed; top:0; left:10%; right:10%; height:3px; background:linear-gradient(90deg,transparent,#7da2d1,#eed38a,#7da2d1,transparent); box-shadow:0 3px 25px #a4c8ff55; pointer-events:none; }
+button:focus-visible, input:focus-visible { outline:2px solid #ffda6b; outline-offset:3px; }
+
+body { padding:20px 14px; }
+#root { position:relative; z-index:1; }
+.player-entry,.player-panel { background:linear-gradient(145deg,#102b54,#040e23) !important; border:1px solid #d1ad58 !important; border-radius:24px !important; box-shadow:0 22px 60px #0008,inset 0 1px 0 #ffffff1a !important; padding:24px !important; }
+.player-entry::before,.player-panel::before { content:"فاميلي فيود · زامن"; display:block; color:#a8bddc; font-size:11px; margin-bottom:16px; font-weight:bold; }
+.player-entry h2 { color:#ffe091 !important; font-size:23px; }
+.player-entry input { background:#030c1e; color:#fff !important; border:1px solid #425d87 !important; font-size:16px; }
+.team-choice { background:linear-gradient(150deg,#193a69,#10233e) !important; border:1px solid #49658f; border-radius:12px; transform:none !important; color:#bdcce4 !important; }
+.team-choice.scale-105 { border-color:#e9c46b; background:linear-gradient(150deg,#3d3825,#17263f) !important; color:#ffe4a0 !important; box-shadow:0 0 15px #ffcf4115; }
+.player-entry button { background:linear-gradient(#ffdf7c,#edbc48) !important; color:#15223c !important; padding:13px; margin-top:4px; }
+.player-team { background:linear-gradient(#15335c,#08172d) !important; border:1px solid #536d97 !important; padding:12px 8px !important; border-radius:12px !important; }
+.player-team .text-gray-600 { color:#acc0de !important; }
+.player-team .text-xl { color:#ffe4a0 !important; }
+.buzzer-button { border:3px solid #ffe29a !important; background:radial-gradient(circle at 40% 28%,#4a7bbb,#19477c 55%,#0b244b) !important; box-shadow:0 8px 0 #04112a,0 10px 0 #ad8c46,0 18px 35px #0007,inset 0 3px 4px #ffffff45 !important; margin-top:20px; margin-bottom:22px; user-select:none; -webkit-tap-highlight-color:transparent; }
+.buzzer-button.bg-gray-400 { background:radial-gradient(circle at 40% 28%,#43516b,#1c293f) !important; border-color:#667790 !important; color:#adbbd0 !important; box-shadow:0 6px 0 #020a19,0 8px 0 #3c4d65,0 14px 25px #0006 !important; }
+.buzzer-button.active\:scale-95:active { transform:translateY(5px) scale(.98); }
+@media(max-height:550px) { body { padding:12px; } .player-entry,.player-panel { padding:18px !important; } }
+
+.entry-error { color:#ffb5c1; font-size:13px; line-height:1.5; margin:12px 0; }
+.player-entry button:disabled { opacity:.6; cursor:wait; }
+</style>
+</head>
+
+<body class="flex items-center justify-center h-screen">
+
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<script type="text/babel">
+
+const firebaseConfig = {
+  apiKey: "AIzaSy...",
+  authDomain: "horof-game-9934e.firebaseapp.com",
+  databaseURL: "https://horof-game-9934e-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "horof-game-9934e",
+  appId: "1:44896634225:web:62a672d8c94be6e0d762d0"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+const params = new URLSearchParams(window.location.search);
+const session = params.get("session");
+const playerStorageKey = 'feud-player:' + session;
+const playerId = params.get('player') || sessionStorage.getItem(playerStorageKey) || Math.random().toString(36).slice(2,12);
+sessionStorage.setItem(playerStorageKey, playerId);
+const normalizePlayerName = value => value.normalize('NFKC').trim().replace(/\s+/g, ' ').toLocaleLowerCase('ar');
+
+function Player() {
+
+  const [name, setName] = React.useState("");
+  const [team, setTeam] = React.useState("c1");
+  const [entered, setEntered] = React.useState(false);
+  const [joining, setJoining] = React.useState(false);
+  const [entryError, setEntryError] = React.useState('');
+  const joinPending = React.useRef(false);
+
+  const registerPlayer = async () => {
+    if (joinPending.current) return;
+    const cleanName = name.trim().replace(/\s+/g, ' ');
+    if (!cleanName) { setEntryError('اكتب اسمك قبل الدخول'); return; }
+    if (!session) { setEntryError('افتح رابط الجرس من اللعبة'); return; }
+    joinPending.current = true;
+    setJoining(true);
+    setEntryError('');
+    const selectedTeam = team;
+    try {
+      const result = await db.ref('games/' + session + '/players/' + selectedTeam).transaction(players => {
+        const roster = players || {};
+        const duplicate = Object.entries(roster).some(([id,player]) =>
+          id !== playerId && normalizePlayerName(player.name || '') === normalizePlayerName(cleanName));
+        if (duplicate) return;
+        roster[playerId] = {name:cleanName,team:selectedTeam};
+        return roster;
+      }, undefined, false);
+      if (!result.committed) {
+        setEntryError('الاسم مستخدم في فريقك، اختر اسم ثاني');
+        return;
+      }
+      const otherTeam = selectedTeam === 'c1' ? 'c2' : 'c1';
+      await db.ref('games/' + session + '/players/' + otherTeam + '/' + playerId).remove();
+      setName(cleanName);
+      setEntered(true);
+    } catch (e) {
+      setEntryError('تعذر الدخول، حاول مرة ثانية');
+    } finally {
+      joinPending.current = false;
+      setJoining(false);
+    }
+  };
+
+  const [locked, setLocked] = React.useState(false);
+  const [status, setStatus] = React.useState("⏳ انتظر");
+
+  const [scores, setScores] = React.useState({ c1:0, c2:0 });
+  const [teamNames, setTeamNames] = React.useState({
+    c1: "الفريق الأول",
+    c2: "الفريق الثاني"
+  });
+
+ const buzz = () => {
+
+  if (!name) return alert("اكتب اسمك");
+  if (locked) return; // 🔥 أهم سطر
+
+  db.ref("games/" + session + "/buzzers/" + playerId).set({
+    name,
+    team,
+    time: Date.now()
+  });
+
+  setStatus("✅ تم الإرسال");
+  setLocked(true);
+};
+
+  React.useEffect(() => {
+    db.ref("games/" + session + "/status").on("value", snap => {
+
+      db.ref("games/" + session + "/settings").on("value", snap => {
+        const data = snap.val();
+        if (data?.teamNames) {
+          setTeamNames(data.teamNames);
+        }
+      });
+
+      const data = snap.val();
+
+      if (!data || data.locked === false) {
+        setLocked(false);
+        setStatus("🚀 جاهز");
+      } else {
+        setLocked(true);
+        setStatus("⏳ مقفل");
+      }
+    });
+  }, []);
+
+  React.useEffect(() => {
+
+    db.ref("games/" + session + "/scores").on("value", snap => {
+      const data = snap.val();
+      if (data) setScores(data);
+    });
+
+    db.ref("games/" + session + "/settings").on("value", snap => {
+      const data = snap.val();
+      if (data?.teamNames) setTeamNames(data.teamNames);
+    });
+
+  }, []);
+
+  if (!entered) {
+    return (
+      <div className="player-entry bg-[#001a4d] text-white p-6 rounded-3xl shadow-xl text-center w-80 border-4 border-[#ffcc00]">
+
+        <h2 className="text-2xl font-black mb-4 text-[#ffcc00]">ادخل بياناتك</h2>
+
+        <input
+          placeholder="اسمك"
+          aria-label="اسم اللاعب"
+          value={name}
+          required
+          maxLength={40}
+          disabled={joining}
+          className="w-full border-2 border-[#ffcc00] p-3 rounded-xl mb-3 text-center font-bold text-black"
+          onChange={(e)=>{setName(e.target.value);setEntryError('')}}
+        />
+
+        <div
+          onClick={()=>{if(!joining){setTeam("c1");setEntryError('')}}}
+          className={`team-choice p-3 rounded-xl mb-2 cursor-pointer text-white font-bold ${
+            team==="c1" ? "bg-orange-400 scale-105" : "bg-orange-300"
+          }`}
+        >
+{teamNames.c1}
+</div>
+
+        <div
+          onClick={()=>{if(!joining){setTeam("c2");setEntryError('')}}}
+          className={`team-choice p-3 rounded-xl mb-4 cursor-pointer text-white font-bold ${
+            team==="c2" ? "bg-purple-500 scale-105" : "bg-purple-300"
+          }`}
+        >
+{teamNames.c2}
+</div>
+
+        {entryError && <p className="entry-error" role="alert">{entryError}</p>}
+        <button
+          disabled={joining}
+          onClick={registerPlayer}
+          className="w-full bg-[#005cff] text-white py-3 rounded-xl font-black"
+        >
+          {joining ? 'جار الدخول…' : 'دخول'}
+        </button>
+
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full max-w-sm mx-auto">
+
+      <div className="player-panel bg-[#001a4d] border-4 border-[#ffcc00] rounded-[30px] p-5 shadow-xl text-center">
+
+        <div className="mb-3">
+          <div className="text-sm text-gray-300 font-bold">اللاعب</div>
+          <div className="text-2xl font-black text-[#ffcc00]">
+            {name}
+          </div>
+        </div>
+
+        <div className="flex gap-2 mb-4">
+
+          <div className="player-team player-team-one flex-1 bg-orange-100 border-2 border-orange-400 rounded-2xl p-3">
+            <div className="text-xs font-bold text-gray-600">
+              {teamNames.c1}
+            </div>
+            <div className="text-xl font-black text-orange-500">
+              {scores.c1}
+            </div>
+          </div>
+
+          <div className="player-team player-team-two flex-1 bg-purple-100 border-2 border-purple-500 rounded-2xl p-3">
+            <div className="text-xs font-bold text-gray-600">
+              {teamNames.c2}
+            </div>
+            <div className="text-xl font-black text-purple-600">
+              {scores.c2}
+            </div>
+          </div>
+
+        </div>
+
+        <div
+          onClick={!locked ? buzz : null}
+          className={`buzzer-button w-52 h-52 mx-auto rounded-full flex items-center justify-center text-white text-3xl font-black shadow-lg transition border-4 ${
+            locked
+              ? "bg-gray-400 border-gray-600"
+              : "bg-gradient-to-b from-[#005cff] to-[#001a4d] border-[#ffcc00] active:scale-95 active:shadow-inner"
+          }`}
+        >
+          {locked ? "مقفل" : "اضغط!"}
+        </div>
+
+        <div className="mt-4 text-lg font-black text-[#ffcc00]">
+          {status}
+        </div>
+
+      </div>
+
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<Player />);
+
+</script>
+</body>
+</html>
