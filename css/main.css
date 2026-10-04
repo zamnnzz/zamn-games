@@ -4466,3 +4466,251 @@ body.game-mode .game-seo-faq{
 .game-seo-features{margin:12px 0 24px;padding:0;list-style:none;display:grid;gap:10px}.game-seo-features li{position:relative;padding:12px 42px 12px 14px;border:1px solid rgba(109,40,217,.18);border-radius:14px;background:rgba(255,255,255,.7);line-height:1.8}.game-seo-features li::before{content:"✓";position:absolute;right:14px;top:11px;font-weight:900;color:#6d28d9}@media(max-width:640px){.game-seo-features li{padding-right:38px}}
 
 #aljawabSpaInfo[hidden]{display:none!important}
+
+/* Site layout: fluid widths, natural page height, safe areas in standalone/fullscreen. */
+:root{--site-gutter:clamp(14px,3vw,40px);--site-content:1440px}
+body:has(#homeHero),body:has(#gameView),body.blog-site,body.legal-page{
+  min-width:0;min-height:100svh;padding:0;
+}
+#homeMain,.retro-game-body,.blog-main,.blog-article-shell,.legal-main{
+  min-width:0!important;min-height:0!important;width:100%!important;
+}
+#homeHero{min-height:0!important}
+#homeHero .hero-inner{
+  width:min(var(--site-content),calc(100% - 2 * var(--site-gutter)))!important;
+  max-width:var(--site-content)!important;
+  padding:calc(env(safe-area-inset-top,0px) + 76px) 0 54px!important;
+  gap:clamp(24px,4vw,64px)!important;
+  grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr)!important;
+}
+#homeHero .hero-copy{min-width:0!important;width:100%!important}
+#homeHero .hero-copy h1{font-size:clamp(30px,4vw,56px)!important;line-height:1.3!important}
+#homeHero .hero-copy p{font-size:clamp(16px,1.5vw,20px)!important;line-height:1.8!important}
+#homeHero .hero-logo-wrap{min-width:0;width:100%}
+#homeHero .hero-logo{width:min(100%,340px)!important;height:auto!important}
+
+
+
+
+
+#homeMain .packages-grid,#homeMain .features-grid,.footer-inner{
+  max-width:var(--site-content)!important;min-width:0;
+}
+.packages-grid,.features-grid,.footer-grid{gap:clamp(16px,2.5vw,36px)}
+.package-card,.feature-card{min-width:0;padding:clamp(20px,3vw,32px)}
+.package-secondary{transform:none}
+#gameView .retro-game-hero{min-height:0!important}
+#gameView .retro-game-content{
+  width:min(1100px,calc(100% - 2 * var(--site-gutter)))!important;
+  max-width:1100px!important;margin-inline:auto!important;
+  padding:calc(env(safe-area-inset-top,0px) + 90px) 0 42px!important;
+}
+#gameView .retro-game-content h1{font-size:clamp(32px,4.5vw,64px)!important;line-height:1.25!important;margin-bottom:24px!important;letter-spacing:0}
+#gameView .retro-info-row{gap:clamp(10px,1.5vw,18px);margin-bottom:22px}
+#gameView .retro-info-card{min-width:0;min-height:56px;font-size:clamp(13px,1.5vw,17px);padding:12px 8px}
+#gameView .retro-desc-box{padding:clamp(16px,2.2vw,26px)}
+#gameView .retro-desc-box p{font-size:clamp(16px,1.6vw,20px)!important;line-height:1.85;font-weight:700}
+#gameView .retro-game-body{padding:32px var(--site-gutter) 56px!important}
+#gameView .retro-section,#gameView .game-actions-panel{max-width:var(--site-content)!important;min-width:0;margin-bottom:32px}
+#gameView .game-actions-panel{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding:20px}
+#gameView .action-wide{display:flex;align-items:center;justify-content:center;text-align:center;min-width:0;min-height:60px;padding:12px;font-size:clamp(15px,1.5vw,19px);line-height:1.5}
+#gameView .screenshots-panel{padding:clamp(16px,2.5vw,32px)}
+#gameView .retro-shots-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:20px}
+#gameView .retro-shot,#gameView .retro-shot div{min-height:0!important;height:auto!important;padding:0!important}
+#gameView .retro-shot img{width:100%!important;height:auto!important;min-height:0!important;object-fit:contain!important}
+
+
+
+.blog-site .blog-main,.blog-site .blog-site-nav,.blog-site .blog-site-hero,.blog-site .blog-article-shell{
+  width:min(var(--site-content),calc(100% - 2 * var(--site-gutter)))!important;
+  max-width:var(--site-content)!important;margin-inline:auto;
+}
+
+
+
+
+
+
+.blog-site .blog-nav-links{flex-wrap:wrap}
+.blog-site .blog-article-body{width:100%;min-width:0;padding:clamp(18px,3vw,36px);overflow-wrap:break-word}
+.blog-site .blog-article-shell{max-width:1000px!important}
+.blog-site .blog-site-hero h1{font-size:clamp(30px,4vw,56px);line-height:1.4}
+.footer-inner{padding-inline:var(--site-gutter)!important;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))!important}
+
+@media(max-width:900px){
+  
+  #gameView .game-actions-panel{grid-template-columns:1fr}
+  
+}
+@media(max-width:759px){
+  #homeHero .hero-inner{gap:24px!important;padding-bottom:32px!important}
+  #homeHero .hero-logo{width:180px!important}
+  #homeHero .hero-copy h1{font-size:clamp(28px,6vw,38px)!important}
+  #gameView .retro-game-content{padding-top:calc(env(safe-area-inset-top,0px) + 76px)!important;padding-bottom:28px!important}
+  #gameView .retro-info-row.has-rating{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #gameView .retro-reviews-grid{grid-template-columns:1fr}
+  
+}
+@media(max-width:559px){
+  
+  
+  
+  #gameView .action-wide{min-height:54px}
+  #gameView .game-actions-panel{padding:16px;gap:14px}
+  .blog-site .blog-site-nav{flex-wrap:wrap;gap:16px}
+  .blog-site .blog-nav-links{gap:10px;justify-content:center;width:100%}
+  
+  .footer-grid{grid-template-columns:1fr!important}
+}
+@media(orientation:landscape) and (max-height:600px){
+  #homeHero .hero-inner{padding-top:calc(env(safe-area-inset-top,0px) + 60px)!important}
+  #gameView .retro-game-content{padding-top:calc(env(safe-area-inset-top,0px) + 74px)!important}
+}
+
+/* Breathing room around the original game cards, including their shadows. */
+#homeMain .games-section{
+  box-sizing:border-box;
+  padding-inline:clamp(22px,3vw,40px)!important;
+}
+
+/* A compact shared site footer with consistent line icons. */
+.site-footer.zamn-footer{background:linear-gradient(120deg,#321157,#4c1d95);border-radius:28px 28px 0 0;border-top:1px solid rgba(255,255,255,.15);color:#fff}
+.zamn-footer .footer-inner{padding:42px clamp(22px,4vw,48px) 22px;max-width:1440px;width:100%;margin-inline:auto}
+.zamn-footer .footer-grid{grid-template-columns:1.25fr .8fr 1fr;gap:clamp(26px,4vw,64px);text-align:start}
+.zamn-footer .footer-grid>*{min-width:0}
+.zamn-footer .footer-brand-link{display:inline-flex;align-items:center;gap:12px;font-size:25px;font-weight:900;line-height:1.4}
+.zamn-footer .footer-brand-link img{width:44px;height:44px;object-fit:contain}
+.zamn-footer .footer-grid h3{font-size:18px;margin:0 0 14px;line-height:1.5;font-weight:900}
+.zamn-footer .footer-grid p{font-size:15px;line-height:1.9;color:#ddd1ef;margin:10px 0 0}
+.zamn-footer .footer-support p{margin:0 0 14px}
+.zamn-footer svg{width:22px;height:22px;flex:0 0 22px;display:block}
+.zamn-footer .footer-links{gap:4px}
+.zamn-footer .footer-links a{width:fit-content;max-width:100%;justify-content:flex-start;border:0;background:transparent;padding:8px 0;border-radius:4px;gap:10px;font-size:15px;font-weight:700;color:#eee7fa}
+.zamn-footer .footer-links a:hover{color:#fff;text-decoration:underline;text-underline-offset:5px}
+.zamn-footer .footer-whatsapp-link{display:flex;align-items:center;gap:10px;max-width:300px;min-height:48px;padding:12px 14px;border:1px solid rgba(255,255,255,.26);border-radius:12px;background:rgba(255,255,255,.08);font-size:15px;font-weight:700;transition:background .18s,border-color .18s}
+.zamn-footer .footer-whatsapp-link svg:last-child{width:18px;height:18px;flex-basis:18px;margin-inline-start:auto;opacity:.7}
+.zamn-footer .footer-whatsapp-link:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.5)}
+.zamn-footer .footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px 24px;border-top:1px solid rgba(255,255,255,.16);margin-top:32px;padding-top:20px}
+.zamn-footer .copyright{border:0;margin:0;padding:0;font-size:13px;font-weight:400;text-align:start;color:#d8cbea;line-height:1.8}
+.zamn-footer .site-legal-links{margin:0;gap:8px 20px;justify-content:flex-start}
+.zamn-footer .site-legal-links a{font-size:13px;font-weight:400;color:#d8cbea;padding-block:4px}
+.zamn-footer .site-legal-links a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
+.zamn-footer a:focus-visible{outline:2px solid #e9d5ff;outline-offset:5px}
+@media(max-width:760px){
+ .zamn-footer .footer-inner{padding-top:30px}
+ .zamn-footer .footer-grid{grid-template-columns:1fr 1.25fr!important;gap:26px 20px}
+ .zamn-footer .footer-brand-block{grid-column:1/-1}
+ .zamn-footer .footer-brand-link{font-size:23px}
+ .zamn-footer .footer-grid p{font-size:14px}
+ .zamn-footer .footer-grid h3{font-size:16px;margin-bottom:10px}
+ .zamn-footer .footer-bottom{margin-top:26px;gap:10px}
+ .zamn-footer .footer-whatsapp-link{font-size:13px;gap:8px;padding:10px;flex-wrap:wrap}
+ .zamn-footer .footer-whatsapp-link svg:last-child{display:none}
+ .zamn-footer .footer-links a{font-size:14px}
+ .zamn-footer .site-legal-links{gap:6px 16px}
+}
+@media(max-width:360px){.zamn-footer .footer-grid{grid-template-columns:1fr!important}.zamn-footer .footer-brand-block{grid-column:auto}.zamn-footer .footer-links{flex-direction:row;flex-wrap:wrap;gap:8px 18px}}
+
+/* A subtle size reduction for home game cards only. */
+#homeMain .games-row .game-card{scale:.97;transform-origin:center}
+
+/* Fit fixed-size home cards to the available row width. */
+@media(min-width:560px){
+ #homeMain .games-row{grid-template-columns:repeat(auto-fit,245px)!important;max-width:1055px!important;width:100%!important;margin-inline:auto!important;justify-content:center!important}
+}
+
+/* Home header aligned with the product-page headers. */
+#homeHero{position:relative;isolation:isolate;overflow:hidden;border-radius:0 0 32px 32px;background:radial-gradient(ellipse at 10% 0%,#7843d8 0,transparent 65%),linear-gradient(120deg,#32105b,#56249c)!important}
+#homeHero:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.1;background-image:linear-gradient(#ffffff50 1px,transparent 1px),linear-gradient(90deg,#ffffff50 1px,transparent 1px);background-size:32px 32px}
+#homeHero .hero-inner{display:flex!important;flex-direction:column!important;align-items:center!important;gap:16px!important;padding:64px 0 34px!important;max-width:960px!important}
+#homeHero .hero-logo-wrap{order:0!important;width:auto!important}
+#homeHero .hero-logo{width:86px!important;height:auto!important;filter:none!important;transform:none!important}
+#homeHero .hero-copy{order:1!important;text-align:center!important}
+#homeHero .hero-copy h1{font-size:clamp(30px,3.7vw,50px)!important;margin:0 0 16px!important;line-height:1.3!important;text-shadow:none!important}
+#homeHero .hero-copy p{font-size:17px!important;line-height:1.8!important;margin:0 auto 18px!important;max-width:700px;color:#ede5f8!important}
+#homeHero .hero-tags{justify-content:center!important;gap:8px!important;margin:0 0 22px!important}
+#homeHero .hero-tags span{font-size:12px!important;padding:7px 12px!important;border:1px solid #ffffff30!important;border-radius:999px!important;background:#ffffff0d!important;box-shadow:none!important}
+#homeHero .hero-btn{min-height:52px!important;padding:12px 30px!important;background:#fff!important;color:#4c1d95!important;border:1px solid #ffffff40!important;border-radius:10px!important;box-shadow:none!important;font-size:16px!important}
+#homeHero .hero-wave{display:none!important}
+body:not(.game-mode) #homeLogin{top:14px;left:16px;padding:9px 15px;border:1px solid #ffffff50;border-radius:10px;box-shadow:none;font-size:13px;min-height:40px}
+@media(max-width:760px){
+ #homeHero .hero-inner{padding:68px 0 28px!important;gap:14px!important}
+ #homeHero .hero-logo{width:70px!important}
+ #homeHero .hero-copy h1{font-size:30px!important;margin-bottom:14px!important}
+ #homeHero .hero-copy p{font-size:15px!important;line-height:1.8!important}
+ #homeHero .hero-tags{gap:6px!important;margin-bottom:20px!important}
+ #homeHero .hero-tags span{font-size:11px!important;padding:6px 10px!important}
+}
+
+#homeHero .hero-inner{height:auto!important;min-height:0!important}
+
+/* Stable home hero: copy and larger brand mark on wide screens. */
+#homeHero .hero-copy,#homeHero .hero-copy h1,#homeHero .hero-copy p,#homeHero .hero-logo-wrap,#homeHero .hero-logo{animation:none!important;transition:none!important;transform:none!important}
+#homeHero .hero-copy h1{max-width:100%!important;text-wrap:balance}
+#homeHero .hero-copy p{max-width:100%!important}
+@media(min-width:761px){
+ #homeHero .hero-inner{display:grid!important;grid-template-columns:minmax(0,1fr) 280px!important;grid-template-areas:"copy logo"!important;direction:rtl!important;align-items:center!important;gap:40px!important;max-width:1100px!important;padding:70px 0 34px!important}
+ #homeHero .hero-copy{grid-area:copy!important;justify-self:stretch!important;max-width:none!important;text-align:right!important}
+ #homeHero .hero-copy h1,#homeHero .hero-copy p{text-align:right!important}
+ #homeHero .hero-copy h1{font-size:clamp(34px,3.2vw,46px)!important;margin-bottom:14px!important;line-height:1.35!important}
+ #homeHero .hero-copy p{font-size:17px!important;margin-bottom:16px!important}
+ #homeHero .hero-tags{justify-content:flex-start!important;margin-bottom:20px!important}
+ #homeHero .hero-btn{margin:0!important}
+ #homeHero .hero-logo-wrap{grid-area:logo!important;width:100%!important;justify-self:center!important}
+ #homeHero .hero-logo{width:280px!important;max-width:100%!important}
+}
+@media(min-width:761px) and (max-width:1000px){
+ #homeHero .hero-inner{grid-template-columns:minmax(0,1fr) 210px!important;gap:24px!important}
+ #homeHero .hero-logo{width:210px!important}
+}
+@media(max-width:760px){
+ #homeHero .hero-inner{padding-top:66px!important;gap:18px!important}
+ #homeHero .hero-logo{width:130px!important}
+ #homeHero .hero-copy h1,#homeHero .hero-copy p{text-align:center!important}
+ #homeHero .hero-copy{max-width:600px!important}
+ #homeHero .hero-btn{margin-inline:auto!important}
+}
+
+/* Account header uses the shared purple header language. */
+#accountModal .player-login-header{min-height:0!important;height:auto!important;padding:66px 24px 30px!important;background:radial-gradient(ellipse at 10% 0%,#7843d8 0,transparent 65%),linear-gradient(120deg,#32105b,#56249c)!important;border:0!important;border-radius:0 0 28px 28px!important;box-shadow:none!important;overflow:hidden}
+#accountModal .player-login-header:after,#accountModal .player-login-pixels{display:none!important}
+#accountModal .player-login-header-grid{opacity:.1!important}
+#accountModal .player-login-header-content{max-width:700px!important;width:100%!important;margin:0 auto!important;padding:0!important;transform:none!important;text-align:center!important;animation:none!important}
+#accountModal .player-login-icon{width:76px!important;height:auto!important;margin:0 auto 14px!important;background:none!important;border:0!important;box-shadow:none!important;border-radius:0!important}
+#accountModal .player-login-icon img{display:block;width:100%;height:auto}
+#accountModal .player-login-title{font-size:34px!important;line-height:1.3!important;margin:0 0 10px!important;text-shadow:none!important}
+#accountModal .player-login-subtitle{font-size:15px!important;line-height:1.8!important;font-weight:500!important;color:#ede5f8!important;margin:0!important}
+#accountModal .player-login-back,#accountModal .player-login-logout{top:16px!important;min-height:38px!important;padding:8px 13px!important;background:#ffffff0d!important;border:1px solid #ffffff40!important;box-shadow:none!important;border-radius:10px!important;font-size:13px!important}
+@media(max-width:560px){
+ #accountModal .player-login-header{padding:64px 20px 24px!important}
+ #accountModal .player-login-icon{width:64px!important;margin-bottom:12px!important}
+ #accountModal .player-login-title{font-size:29px!important}
+ #accountModal .player-login-subtitle{font-size:14px!important}
+ #accountModal .player-login-back,#accountModal .player-login-logout{font-size:12px!important;padding:7px 10px!important}
+}
+
+#packages .package-icon-drawn{display:flex;align-items:center;justify-content:center;width:96px;height:96px;margin:0 auto 18px;background:linear-gradient(145deg,#fff9ec,#f1e5ff);border:1px solid #e3d3ee;border-radius:24px;box-shadow:0 8px 22px #4c1d9512;transform:none}
+#packages .package-icon-drawn svg{display:block;width:78px;height:78px;filter:drop-shadow(0 3px 2px #4c1d951a)}
+
+/* Shared header for the blog, articles and information pages. */
+.blog-site-header,.legal-header{position:relative;isolation:isolate;overflow:hidden;color:#fff;padding:20px 24px 34px!important;border-radius:0 0 28px 28px;background:radial-gradient(ellipse at 10% 0%,#7843d8 0,transparent 65%),linear-gradient(120deg,#32105b,#56249c)!important;background-size:auto!important}
+.blog-site-header:before,.legal-header:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.1;background-image:linear-gradient(#ffffff50 1px,transparent 1px),linear-gradient(90deg,#ffffff50 1px,transparent 1px);background-size:32px 32px}
+.blog-site-header:after,.legal-header:after{display:none!important}
+.blog-site-nav,.legal-nav{width:100%!important;max-width:1100px!important;margin:auto;gap:18px}
+.blog-brand,.legal-brand{font-size:17px!important;gap:10px!important}
+.blog-brand img,.legal-brand img{width:48px!important;height:48px!important;object-fit:contain}
+.blog-nav-links{gap:8px!important}
+.blog-nav-links a,.legal-home{border:1px solid #ffffff40!important;border-radius:10px;background:#ffffff0d!important;padding:9px 13px!important;box-shadow:none;font-size:13px!important;line-height:1.5}
+.blog-site-hero,.legal-title{width:100%!important;max-width:850px!important;margin:28px auto 0!important;text-align:center}
+.blog-site-hero h1,.legal-title h1{font-size:clamp(30px,3.5vw,46px)!important;line-height:1.3!important;margin:0 0 14px!important;text-wrap:balance;text-shadow:none}
+.blog-site-hero p,.legal-title p{max-width:720px!important;margin:auto!important;color:#ede5f8!important;font-size:16px!important;line-height:1.8!important;font-weight:400!important}
+.legal-main{margin-top:24px!important}
+@media(max-width:600px){
+ .blog-site-header,.legal-header{padding:16px 20px 28px!important}
+ .blog-site-nav{flex-wrap:wrap;justify-content:center!important;gap:14px!important}
+ .blog-nav-links{justify-content:center;width:100%}
+ .blog-nav-links a{font-size:12px!important;padding:7px 10px!important}
+ .blog-site-hero,.legal-title{margin-top:24px!important}
+ .blog-site-hero h1,.legal-title h1{font-size:29px!important}
+ .blog-site-hero p,.legal-title p{font-size:14px!important}
+}

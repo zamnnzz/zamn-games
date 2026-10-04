@@ -1,0 +1,127 @@
+
+/* Family Feud product-page preview. Gameplay and other product pages use their existing styles. */
+.family-design #gameView .retro-game-hero{display:grid!important;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)!important;gap:clamp(30px,5vw,76px);padding:100px max(24px,calc((100vw - 1280px)/2)) 56px!important;border:0;border-radius:0 0 32px 32px;box-shadow:none;background:radial-gradient(ellipse at 10% 0%,#7843d8 0,transparent 65%),linear-gradient(120deg,#32105b,#56249c)}
+.family-design .pixel{display:none}
+.family-design .retro-grid-overlay{opacity:.12}
+.family-design #gameView .retro-game-content{width:100%!important;max-width:none!important;margin:0!important;padding:0!important;grid-column:1!important;grid-row:1!important;text-align:start!important}
+.family-design .retro-home-btn{top:22px;right:max(24px,calc((100vw - 1280px)/2));left:auto!important;padding:9px 15px;min-height:40px;font-size:14px;border:1px solid #ffffff40;box-shadow:none;background:#ffffff0d;border-radius:10px}
+.family-design .retro-home-btn span{display:none}
+.family-design .family-eyebrow{color:#e6d1ff;display:block;font-weight:700;font-size:14px;letter-spacing:.3px;margin-bottom:12px}
+.family-design #detailTitle{font-size:clamp(34px,4.4vw,62px)!important;line-height:1.2;margin:0 0 16px!important;text-shadow:none!important}
+.family-design #detailSubtitle{display:none}
+.family-design .retro-info-row{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}
+.family-design .retro-info-card{width:auto!important;min-width:0;min-height:0;padding:6px 11px!important;border:1px solid #ffffff30!important;border-radius:8px;background:#ffffff0d!important;color:#eee4ff!important;box-shadow:none!important;font-size:13px!important;line-height:1.5}
+.family-design #detailStatus{display:none}
+.family-design .retro-desc-box{padding:0;border:0;background:transparent;box-shadow:none}
+.family-design .retro-desc-box strong{display:none}
+.family-design #detailDesc{font-size:16px!important;line-height:1.95!important;color:#ede5f8;margin:0!important;font-weight:400}
+.family-design #gameView .game-actions-panel{display:grid;grid-template-columns:1fr 1fr!important;gap:10px;padding:0;margin:26px 0 0;border:0;border-radius:0;background:transparent;box-shadow:none}
+.family-design .game-actions-panel .action-wide{min-height:48px;height:auto!important;padding:12px 14px;border-radius:10px;border:1px solid #ffffff40;box-shadow:none!important;font-size:15px;font-weight:700;line-height:1.5;transform:none}
+.family-design .game-actions-panel .action-play{background:#fff!important;color:#4c1d95!important;border-color:#fff}
+.family-design .game-actions-panel .action-buy{background:#b5f36c!important;color:#273e12!important;border-color:#b5f36c}
+.family-design .game-actions-panel .action-trial{grid-column:1/-1;background:transparent!important;color:#e9ddfb!important;min-height:40px;font-size:13px;border-color:#ffffff25}
+.family-design .family-hero-note{font-size:12px;color:#d7c3ed;margin:14px 0 0}
+.family-design .family-cover{position:relative;z-index:2;min-width:0;grid-column:2;grid-row:1;transform:rotate(-2deg);padding:10px;background:#ffffff0d;border:1px solid #ffffff35;border-radius:24px;box-shadow:0 24px 60px #1c072d40}
+.family-design .family-cover img{width:100%;height:auto;border-radius:15px;object-fit:contain}
+.family-design .family-cover>span{display:block;text-align:center;font-size:14px;font-weight:700;padding:16px 8px 8px;color:#eee3ff}
+.family-design .family-highlights{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:0 0 40px}
+.family-design .family-highlights article{min-width:0;padding:22px 18px;border:1px solid #e5daf0;border-radius:16px;background:#fff}
+.family-design .family-feature-icon{display:flex;align-items:center;justify-content:center;background:#f0e7fc;color:#6d28d9;width:42px;height:42px;border-radius:12px;margin-bottom:14px}
+.family-design .family-feature-icon svg{width:23px;height:23px;stroke-linecap:round;stroke-linejoin:round}
+.family-design .family-highlights h2{font-size:17px;line-height:1.5;margin:0 0 6px}
+.family-design .family-highlights p{font-size:14px;line-height:1.8;margin:0;color:#71617e}
+.family-design a:focus-visible,.family-design button:focus-visible{outline:3px solid #a78bfa;outline-offset:4px}
+@media(max-width:900px){
+ .family-design #gameView .retro-game-hero{grid-template-columns:1fr!important;padding:82px 24px 34px!important;gap:28px}
+ .family-design .family-cover{grid-column:1;grid-row:2;transform:none;max-width:560px;width:100%;margin:auto}
+ .family-design .family-highlights{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:520px){
+ .family-design .family-cover{max-width:400px}
+ .family-design .family-highlights{gap:10px;margin-bottom:28px}
+ .family-design .family-highlights article{padding:16px 12px}
+ .family-design .family-highlights h2{font-size:15px}
+ .family-design .family-highlights p{font-size:13px}
+ .family-design #detailDesc{font-size:15px!important}
+}
+.family-design #gameView .retro-info-card{min-height:32px!important;font-weight:700!important}
+.family-design #gameView .retro-info-row{margin:0 0 18px!important}
+.family-design #gameView .retro-desc-box p{font-weight:400!important}
+.family-design #gameView .retro-grid-overlay{opacity:.04!important}
+
+/* Compact recommendations; preserve the original game-card design elsewhere. */
+.family-design #otherGamesGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));justify-content:center;gap:18px}
+.family-design #otherGamesGrid .other-game-card{width:100%;max-width:none;margin-inline:auto}
+.family-design #otherGamesGrid .other-game-image{height:128px!important;overflow:hidden}
+.family-design #otherGamesGrid .other-game-image img{width:100%;height:100%!important;object-fit:cover}
+.family-design #otherGamesGrid .other-game-card h3{font-size:16px;line-height:1.5;padding:10px;margin:0}
+@media(max-width:520px){
+ .family-design #otherGamesGrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+ .family-design #otherGamesGrid .other-game-image{height:105px!important}
+ .family-design #otherGamesGrid .other-game-card h3{font-size:14px}
+}
+
+@media(max-width:520px){.family-design #otherGamesGrid .other-game-image{height:auto!important;aspect-ratio:1.38/1;border-radius:12px}.family-design #otherGamesGrid .other-game-card h3{font-size:12px;padding:8px 2px}}
+
+.family-design #otherGamesGrid .other-game-image{height:auto!important;aspect-ratio:1.6/1}
+
+.family-design #otherGamesGrid .other-game-image{height:auto!important;aspect-ratio:1/1!important;border-radius:16px;box-shadow:0 4px 16px #3b076410}
+.family-design #otherGamesGrid .other-game-image img{width:100%;height:100%!important;object-fit:contain!important}
+.family-design #gameSeoFaq{display:grid;grid-template-columns:1fr;gap:12px}
+.family-design #gameSeoFaq .game-seo-faq-item{border:1px solid #dfd4ea;border-radius:14px;box-shadow:none;overflow:hidden;background:#fff}
+.family-design #gameSeoFaq .game-seo-faq-question{padding:18px 20px;gap:14px}
+.family-design #gameSeoFaq .game-seo-faq-question-text{font-size:17px;line-height:1.6}
+.family-design #gameSeoFaq .game-seo-faq-answer p{font-size:15px;line-height:1.9}
+@media(max-width:520px){.family-design #gameSeoFaq .game-seo-faq-question{padding:14px}.family-design #gameSeoFaq .game-seo-faq-question-text{font-size:14px}.family-design #otherGamesGrid .other-game-image{border-radius:10px}}
+
+/* Keep the hero cover at a balanced size on wide displays. */
+.family-design .family-cover{width:100%;max-width:520px;justify-self:center;align-self:center;min-height:0;height:auto}
+.family-design .family-cover img{display:block;width:100%;height:auto!important;aspect-ratio:3/2;object-fit:contain}
+@media(min-width:901px){.family-design #gameView .retro-game-hero{grid-template-columns:minmax(0,1.15fr) minmax(0,520px)!important}}
+/* Prominent actions with distinct colors and readable labels. */
+.family-design #gameView .game-actions-panel{gap:12px;margin-top:28px}
+.family-design #gameView .game-actions-panel .action-wide{min-height:58px!important;font-size:18px!important;font-weight:900!important;border:2px solid transparent;border-radius:12px;line-height:1.5;transition:background .18s,box-shadow .18s,transform .18s}
+.family-design #gameView .game-actions-panel .action-play{background:#ffd34e!important;color:#38210a!important;border-color:#ffe795;box-shadow:0 5px 0 #be871c,0 10px 24px #16052d30!important}
+.family-design #gameView .game-actions-panel .action-buy{background:#a8ed66!important;color:#203a0c!important;border-color:#d0ffa4;box-shadow:0 5px 0 #5b9234,0 10px 24px #16052d30!important}
+.family-design #gameView .game-actions-panel .action-trial{background:#eee4ff!important;color:#4c1d95!important;border-color:#fff;min-height:52px!important;font-size:16px!important;box-shadow:0 4px 0 #a18ac7!important}
+.family-design #gameView .game-actions-panel .action-wide:hover{transform:translateY(-2px);filter:brightness(1.05)}
+.family-design #gameView .game-actions-panel .action-wide:active{transform:translateY(2px)}
+.family-design #gameView .game-actions-panel .action-wide:focus-visible{outline:3px solid #fff;outline-offset:5px}
+@media(max-width:520px){.family-design #gameView .game-actions-panel .action-wide{font-size:16px!important;padding:13px 10px!important;min-height:56px!important}.family-design #gameView .game-actions-panel .action-trial{font-size:15px!important}}
+/* Calm actions that match the purple hero. */
+.family-design #gameView .game-actions-panel .action-wide{border-width:1px;border-radius:12px;box-shadow:none!important;min-height:54px!important;font-size:17px!important}
+.family-design #gameView .game-actions-panel .action-play{background:#fff!important;color:#4c1d95!important;border-color:#fff;box-shadow:0 4px 14px #1c082820!important}
+.family-design #gameView .game-actions-panel .action-buy{background:#d9c9ef!important;color:#422365!important;border-color:#e5d9f4;box-shadow:none!important}
+.family-design #gameView .game-actions-panel .action-trial{background:#ffffff0d!important;color:#f2eafa!important;border-color:#ffffff45;box-shadow:none!important;min-height:48px!important;font-size:15px!important}
+.family-design #gameView .game-actions-panel .action-wide:hover{filter:none;transform:translateY(-1px)}
+.family-design #gameView .game-actions-panel .action-play:hover{background:#f5efff!important}
+.family-design #gameView .game-actions-panel .action-buy:hover{background:#e5d9f4!important}
+.family-design #gameView .game-actions-panel .action-trial:hover{background:#ffffff18!important}
+@media(max-width:520px){.family-design #gameView .game-actions-panel .action-wide{font-size:15px!important}.family-design #gameView .game-actions-panel .action-trial{font-size:14px!important}}
+
+.family-design .family-review-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:-4px 0 16px}
+.family-design .family-review-tools a{font-size:14px;color:#76558d;margin-inline-end:auto}
+.family-design .family-review-tools button{height:34px;min-width:34px;padding:5px 10px;border:1px solid #dfd2ec;border-radius:8px;background:#fff;color:#603c83;font-weight:700}
+.family-design #retroReviewsGrid{display:flex!important;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:#cab5de transparent;padding:4px 2px 12px;direction:rtl}
+.family-design #retroReviewsGrid article{flex:0 0 calc((100% - 32px)/3);min-width:0;scroll-snap-align:start;min-height:140px;padding:18px;background:#fff;border:1px solid #e4d9ed;border-radius:14px;box-shadow:none}
+.family-design #retroReviewsGrid .review-head{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.family-design #retroReviewsGrid .review-head strong{font-size:15px}
+.family-design #retroReviewsGrid .review-head span{font-size:14px}
+.family-design #retroReviewsGrid p{font-size:14px;line-height:1.8;margin:12px 0 0;color:#655671}
+.family-design .family-review-date{display:block;font-size:11px;color:#95849f;margin-top:12px;direction:ltr;text-align:right}
+@media(max-width:760px){.family-design #retroReviewsGrid article{flex-basis:calc((100% - 16px)/2)}}
+@media(max-width:480px){.family-design #retroReviewsGrid article{flex-basis:85%}.family-design .family-review-tools a{font-size:12px}}
+/* Salla-style review rows in a lightweight looping track. */
+.family-design #retroReviewsGrid{display:block!important;overflow:hidden!important;padding:0!important;scroll-snap-type:none;direction:rtl}
+.family-design .family-review-track{display:flex;gap:16px;width:max-content;align-items:stretch;direction:rtl}
+.family-design #retroReviewsGrid article{flex:none;width:300px;min-height:180px;padding:20px;border:1px solid #e7e3eb;border-radius:10px;background:#fff;color:#333;box-shadow:none}
+.family-design #retroReviewsGrid .review-head{display:flex;flex-direction:row;align-items:flex-start;gap:10px;margin-bottom:14px}
+.family-design #retroReviewsGrid .family-review-avatar{display:flex;align-items:center;justify-content:center;width:40px;height:40px;flex:0 0 40px;border-radius:50%;background:#f1eef4;color:#817987;font-size:18px;font-weight:700}
+.family-design .family-review-user{display:flex;flex-direction:column;gap:3px;min-width:0}
+.family-design #retroReviewsGrid .review-head strong{font-size:14px;font-weight:700;color:#333;line-height:1.4}
+.family-design #retroReviewsGrid .family-review-verified{font-size:11px;color:#707070;line-height:1.5}
+.family-design #retroReviewsGrid .family-review-date{margin:0;font-size:11px;color:#999;line-height:1.5}
+.family-design #retroReviewsGrid article>span[aria-label]{display:block;color:#f1b629;font-size:20px;letter-spacing:2px;line-height:1.2;direction:ltr;text-align:right}
+.family-design #retroReviewsGrid p{margin:12px 0 0;font-size:14px;font-weight:400;color:#444;line-height:1.8}
+@media(max-width:480px){.family-design #retroReviewsGrid article{width:260px;padding:17px}}
+@media(prefers-reduced-motion:reduce){.family-design #retroReviewsGrid{overflow-x:auto!important}}

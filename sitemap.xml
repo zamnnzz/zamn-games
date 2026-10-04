@@ -1,68 +1,68 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://zamn.games/</loc>
-    <lastmod>2026-08-24</lastmod>
+    <lastmod>2026-10-04</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://zamn.games/hrof</loc>
-    <lastmod>2026-08-24</lastmod>
+    <lastmod>2026-10-04</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://zamn.games/thdi</loc>
-    <lastmod>2026-08-24</lastmod>
+    <lastmod>2026-10-04</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://zamn.games/fwzr</loc>
-    <lastmod>2026-08-24</lastmod>
+    <lastmod>2026-10-04</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://zamn.games/family</loc>
-    <lastmod>2026-08-24</lastmod>
+    <lastmod>2026-10-04</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://zamn.games/link</loc>
-    <lastmod>2026-08-24</lastmod>
+    <lastmod>2026-10-04</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://zamn.games/atrsh</loc>
-    <lastmod>2026-08-24</lastmod>
+    <lastmod>2026-10-04</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://zamn.games/top10</loc>
-    <lastmod>2026-08-24</lastmod>
+    <lastmod>2026-10-04</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://zamn.games/mnana</loc>
-    <lastmod>2026-08-29</lastmod>
+    <lastmod>2026-10-04</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://zamn.games/aljawab</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-04</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://zamn.games/blog</loc>
-    <lastmod>2026-08-24</lastmod>
+    <lastmod>2026-10-04</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://zamn.games/blog/how-to-play-horof</loc>
-    <lastmod>2026-08-24</lastmod>
+    <lastmod>2026-10-04</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://zamn.games/blog/ramadan-games-2026</loc>
-    <lastmod>2026-08-24</lastmod>
+    <lastmod>2026-10-04</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
@@ -84,5 +84,45 @@
     <loc>https://zamn.games/contact</loc>
     <lastmod>2026-08-24</lastmod>
     <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://zamn.games/blog/how-to-play-photos</loc>
+    <lastmod>2026-10-04</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://zamn.games/blog/how-to-play-fawazeer</loc>
+    <lastmod>2026-10-04</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://zamn.games/blog/how-to-play-guess-link</loc>
+    <lastmod>2026-10-04</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://zamn.games/blog/how-to-play-family-feud</loc>
+    <lastmod>2026-10-04</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://zamn.games/blog/how-to-play-alatrash</loc>
+    <lastmod>2026-10-04</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://zamn.games/blog/how-to-play-top-ten</loc>
+    <lastmod>2026-10-04</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://zamn.games/blog/how-to-play-mn-ana</loc>
+    <lastmod>2026-10-04</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://zamn.games/blog/how-to-play-aljawab-almajhool</loc>
+    <lastmod>2026-10-04</lastmod>
+    <priority>0.6</priority>
   </url>
 </urlset>
