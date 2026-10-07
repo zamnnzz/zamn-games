@@ -4714,3 +4714,39 @@ body:not(.game-mode) #homeLogin{top:14px;left:16px;padding:9px 15px;border:1px s
  .blog-site-hero h1,.legal-title h1{font-size:29px!important}
  .blog-site-hero p,.legal-title p{font-size:14px!important}
 }
+
+/* Highlight newly released games using the site's violet palette. */
+body:not(.game-mode) .game-card:has(.game-new-badge){
+ border-color:#9b77df;
+ background:linear-gradient(165deg,#fff 45%,#f5efff);
+ box-shadow:6px 6px 0 #c6b3e7,0 0 0 3px #eee5fa,12px 14px 26px rgba(109,40,217,.16);
+}
+body:not(.game-mode) .game-card:has(.game-new-badge)::after{border-color:rgba(124,58,237,.28)}
+body:not(.game-mode) .game-card:has(.game-new-badge) .game-new-badge{
+ background:linear-gradient(135deg,#6d28d9,#923de5);
+ border:2px solid #fff4d4;color:#fff;padding:8px 16px;
+ box-shadow:0 3px 0 #4c1d95,0 6px 14px rgba(76,29,149,.25);
+ transform:rotate(-6deg);font-size:13px;letter-spacing:.2px;
+}
+body:not(.game-mode) .game-card:has(.game-new-badge) .game-new-badge::before{content:'✦';margin-inline-end:5px;color:#ffe3a1}
+body:not(.game-mode) .game-card:has(.game-new-badge):hover,
+body:not(.game-mode) .game-card:has(.game-new-badge):focus-visible{
+ border-color:#7c3aed;box-shadow:7px 7px 0 #b69bdc,0 0 0 3px #e9ddfa,14px 17px 30px rgba(109,40,217,.22);
+}
+@media(max-width:560px){body:not(.game-mode) .game-card:has(.game-new-badge) .game-new-badge{font-size:11px;padding:6px 11px}}
+
+/* Framed new releases use the same card widths and spacing as the main grid. */
+#homeMain .games-new-row{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;width:100%!important;max-width:550px!important;margin:0 auto 28px!important;gap:20px;padding:16px 18px 20px;border:2px solid #d2bbed;border-radius:24px;background:linear-gradient(145deg,#fcfaff,#f0e7fb);box-shadow:0 5px 0 #e2d5f1}
+#homeMain .games-new-row .game-card{width:100%!important;max-width:245px!important}
+@media(min-width:560px){#homeMain .games-new-row{grid-template-columns:repeat(2,245px)!important}}
+@media(max-width:560px){#homeMain .games-new-row{gap:12px;padding:12px 8px 16px;margin-bottom:22px!important;border-radius:20px}}
+
+.new-games-offer{grid-column:1/-1;text-align:center;padding:4px 2px 2px;color:#4c1d95}
+.new-games-offer-label{display:inline-block;background:#fff0c6;color:#684719;border:1px solid #edcf83;border-radius:999px;padding:5px 13px;font-size:12px;font-weight:900}
+.new-games-offer h3{font-size:clamp(19px,3vw,25px);font-weight:900;line-height:1.5;margin:10px 0 3px}
+.new-games-offer p{font-size:13px;color:#78628e;margin:0;line-height:1.5}
+@media(max-width:560px){.new-games-offer h3{font-size:19px}.new-games-offer-label{font-size:11px}}
+
+.new-games-order{display:inline-flex;align-items:center;justify-content:center;min-height:44px;margin-top:13px;padding:10px 30px;border:2px solid #4c1d95;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#6022b5);box-shadow:0 3px 0 #4c1d95;color:#fff;text-decoration:none;font-weight:900;font-size:15px;transition:background .2s,transform .2s}
+.new-games-order:hover{background:#5b21b6;transform:translateY(-1px)}
+.new-games-order:focus-visible{outline:3px solid #d5ad50;outline-offset:4px}
