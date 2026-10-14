@@ -51,9 +51,8 @@ function gamesForItem(item) {
   const productId = String(item?.product?.id || item?.product_id || "");
   if (PRODUCT_GAMES[productId]) return PRODUCT_GAMES[productId];
   const name = String(item?.name || item?.product?.name || "").trim();
-  return [...new Set(
-    NAME_GAMES.flatMap(([pattern, gameCodes]) => pattern.test(name) ? gameCodes : [])
-  )];
+  const match = NAME_GAMES.find(([pattern]) => pattern.test(name));
+  return match ? match[1] : [];
 }
 
 function getApp() {
