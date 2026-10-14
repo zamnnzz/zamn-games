@@ -445,6 +445,9 @@
       clearTimeout(playerTopTimer);
       playerTopTimer=setTimeout(()=>playerTop.classList.add("player-top-hidden"),5000);
     }
+    if(game.slug==='guess-person'){
+      sessionStorage.setItem('zamn-khmn-access',JSON.stringify({until:Date.now()+(entryType==='trial'?45000:12*60*60*1000)}));
+    }
     iframe.src=game.playLink;
     registerGameEntry(game,entryType);
     if(Number(game.id)===9 && entryType==="owned"){
@@ -457,6 +460,7 @@
   }
 
   function closePlayer(){
+    sessionStorage.removeItem('zamn-khmn-access');
     clearInterval(trialTimer); trialTimer=null;
     // عند إغلاق اللعبة نرجع لصفحة المنتج المختصرة.
     try{
