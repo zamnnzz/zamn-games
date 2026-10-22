@@ -1,6 +1,45 @@
 {
   "headers": [
-    {"source": "/(.*).html", "headers": [{"key": "Cache-Control", "value": "no-cache, no-store, must-revalidate"}]},
-    {"source": "/", "headers": [{"key": "Cache-Control", "value": "no-cache, no-store, must-revalidate"}]}
+    {
+      "source": "/(.*).html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "zamn-games\\.vercel\\.app"
+        }
+      ],
+      "destination": "https://zamn.games/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/khmn",
+      "destination": "/guess-person",
+      "permanent": true
+    },
+    {
+      "source": "/khmn/",
+      "destination": "/guess-person",
+      "permanent": true
+    }
   ]
 }

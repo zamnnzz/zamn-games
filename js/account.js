@@ -459,13 +459,13 @@
     }else iframe.onload=null;
   }
 
-  function closePlayer(){
+  function closePlayer(restorePath=true){
     sessionStorage.removeItem('zamn-khmn-access');
     clearInterval(trialTimer); trialTimer=null;
     // عند إغلاق اللعبة نرجع لصفحة المنتج المختصرة.
     try{
       const game=currentGame();
-      if(game?.path) history.replaceState(history.state||{},"",game.path);
+      if(restorePath!==false && game?.path) history.replaceState(history.state||{},"",game.path);
     }catch(_){}
     clearTimeout(playerTopTimer); playerTopTimer=null;
     const playerTop=document.querySelector(".game-player-top");
@@ -543,6 +543,10 @@
     $("verifyCodeBtn")?.addEventListener("click",verifyCode);
     $("codeBuyBtn")?.addEventListener("click",()=>{ const g=pendingGame||currentGame(); if(g) window.open(g.buyLink,"_blank","noopener"); });
     $("closeGamePlayer")?.addEventListener("click",closePlayer);
+    window.addEventListener("popstate",()=>{
+      const overlay=$("gamePlayerOverlay");
+      if(overlay && !overlay.hidden) closePlayer(false);
+    });
 
     document.querySelectorAll("[data-close-modal]").forEach(b=>b.addEventListener("click",()=>modal(b.dataset.closeModal,false)));
     document.querySelectorAll(".z-modal").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)m.hidden=true;}));
