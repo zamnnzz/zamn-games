@@ -30,16 +30,6 @@
       ],
       "destination": "https://zamn.games/:path*",
       "permanent": true
-    },
-    {
-      "source": "/khmn",
-      "destination": "/guess-person",
-      "permanent": true
-    },
-    {
-      "source": "/khmn/",
-      "destination": "/guess-person",
-      "permanent": true
     }
   ]
 }
