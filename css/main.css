@@ -4773,3 +4773,10 @@ body:not(.game-mode) a.game-card:is([data-game-slug="alatrash"],[href="/atrsh"],
 /* Alatrash artwork: medium framing with the full title safely inside the card. */
 body:not(.game-mode) a.game-card:is([data-game-slug="alatrash"],[href="/atrsh"],[href="/atrsh/"]) .game-image-box img{transform:scale(1.38)!important;transform-origin:50% 50%!important}
 
+
+/* Two equal cards above one centered card; preserve the same card width. */
+@media(max-width:759px){
+ #homeMain .games-new-row{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+ #homeMain .games-new-row>.game-card{grid-column:span 2;justify-self:stretch}
+ #homeMain .games-new-row>.game-card:last-child:nth-child(even){grid-column:2 / span 2;justify-self:stretch}
+}

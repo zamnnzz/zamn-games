@@ -14,3 +14,19 @@
 .support-ticket button:disabled{opacity:.6;cursor:wait}
 .support-ticket time{white-space:nowrap;font-size:13px;font-weight:700;color:#806295}
 @media(max-width:650px){.support-tabs button{font-size:13px;padding:10px 8px;min-width:120px}}
+
+/* Branded inbox selectors with icons and clear count badges. */
+.support-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:0;margin:18px 0 8px;border:0;background:none;border-radius:0}
+.support-tabs button{appearance:none;-webkit-appearance:none;position:relative;display:grid;grid-template-columns:40px minmax(0,1fr) auto;align-items:center;gap:12px;min-width:0;min-height:82px;padding:15px 17px;border:1px solid #e0d3ef;border-radius:16px;background:#fcfaff;color:#6f528d;text-align:right;font-family:Tajawal,Tahoma,sans-serif;box-shadow:0 3px 0 #e9e0f3;transition:background .18s,border-color .18s,box-shadow .18s}
+.support-tabs button[aria-selected=true]{background:linear-gradient(125deg,#3b1267,#6630b1);color:#fff;border-color:#703ec1;box-shadow:0 4px 0 #2f0e54,0 8px 20px #54218b22}
+.support-tabs button:hover{border-color:#b294d0}
+.support-tab-icon{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border:1px solid #e1d4ef;border-radius:12px;background:#f0e8fa;color:#7951a2}
+.support-tab-icon svg{width:22px;height:22px}
+.support-tabs button[aria-selected=true] .support-tab-icon{color:#ffe2a1;background:#ffffff12;border-color:#ffffff25}
+.support-tab-copy{display:grid;gap:5px;min-width:0}
+.support-tab-copy strong{font-size:16px;font-weight:900;line-height:1.4}
+.support-tab-copy small{font-size:12px;font-weight:400;line-height:1.4;color:#93829f}
+.support-tabs button[aria-selected=true] .support-tab-copy small{color:#decaef}
+.support-tab-count{display:flex;align-items:center;justify-content:center;min-width:29px;height:29px;padding:0 7px;border-radius:10px;background:#eae0f5;color:#6b438c;font-family:Arial,sans-serif;font-size:14px;font-weight:700}
+.support-tabs button[aria-selected=true] .support-tab-count{background:#ffdf94;color:#47265d}
+@media(max-width:650px){.support-tabs{gap:10px}.support-tabs button{grid-template-columns:1fr auto;gap:9px;min-height:112px;padding:12px;border-radius:14px}.support-tab-icon{width:30px;height:30px;border-radius:9px}.support-tab-icon svg{width:19px;height:19px}.support-tab-copy{grid-column:1/-1;grid-row:2;gap:3px}.support-tab-copy strong{font-size:13px}.support-tab-copy small{font-size:10px}.support-tab-count{grid-column:2;grid-row:1;min-width:25px;height:25px;font-size:12px;border-radius:8px}}
