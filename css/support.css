@@ -30,3 +30,5 @@
 .support-tab-count{display:flex;align-items:center;justify-content:center;min-width:29px;height:29px;padding:0 7px;border-radius:10px;background:#eae0f5;color:#6b438c;font-family:Arial,sans-serif;font-size:14px;font-weight:700}
 .support-tabs button[aria-selected=true] .support-tab-count{background:#ffdf94;color:#47265d}
 @media(max-width:650px){.support-tabs{gap:10px}.support-tabs button{grid-template-columns:1fr auto;gap:9px;min-height:112px;padding:12px;border-radius:14px}.support-tab-icon{width:30px;height:30px;border-radius:9px}.support-tab-icon svg{width:19px;height:19px}.support-tab-copy{grid-column:1/-1;grid-row:2;gap:3px}.support-tab-copy strong{font-size:13px}.support-tab-copy small{font-size:10px}.support-tab-count{grid-column:2;grid-row:1;min-width:25px;height:25px;font-size:12px;border-radius:8px}}
+
+.support-email-status{margin-top:10px!important;color:#896735!important}.support-email-status[data-email-status=accepted]{color:#287048!important}

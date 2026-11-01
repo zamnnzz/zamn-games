@@ -31,5 +31,10 @@
       "destination": "https://zamn.games/:path*",
       "permanent": true
     }
-  ]
+  ],
+  "functions": {
+    "api/support.js": {
+      "maxDuration": 30
+    }
+  }
 }

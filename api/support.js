@@ -3,6 +3,46 @@ const admin = require('firebase-admin');
 const OWNER_PHONE = '+966591216299';
 const BASE = 'supportInboxV1';
 const COOKIE = 'zamn_support_session';
+const NOTIFICATION_EMAIL = 'm.o.a.t1427@gmail.com';
+
+function escapeHTML(value) {
+  return String(value || '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+}
+function notificationContent(ticket) {
+  const whatsapp = 'https://wa.me/' + ticket.phone + '?text=' + encodeURIComponent('أهلًا ' + ticket.name + '، معك دعم ألعاب زامن بخصوص رسالتك.');
+  const when = new Date(ticket.createdAt).toLocaleString('ar-SA', { timeZone: 'Asia/Riyadh' });
+  return {
+    subject: 'رسالة دعم جديدة في ألعاب زامن',
+    text: ['وصلتك رسالة دعم جديدة في ألعاب زامن', '', 'الاسم: ' + ticket.name, 'رقم التواصل: +' + ticket.phone, 'وقت الرسالة: ' + when, '', ticket.message, '', 'الرد عبر واتساب: ' + whatsapp, 'فتح رسائل الدعم: https://zamn.games/', 'رقم الرسالة: ' + ticket.id].join('\n'),
+    html: `<!doctype html><html lang="ar" dir="rtl"><body style="margin:0;background:#f4f0fa;color:#32124e;font-family:Tahoma,Arial,sans-serif"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td style="padding:28px 12px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:580px;margin:auto;background:#fff;border:1px solid #e5d7f1;border-radius:18px;overflow:hidden"><tr><td style="background:#40166b;padding:25px;color:#fff"><p style="margin:0 0 9px;color:#ffe1a0;font-size:13px">ألعاب زامن</p><h1 style="font-size:23px;line-height:1.5;margin:0">وصلتك رسالة دعم جديدة</h1></td></tr><tr><td style="padding:25px;line-height:1.9"><p style="margin-top:0"><strong>${escapeHTML(ticket.name)}</strong><br><span dir="ltr">+${escapeHTML(ticket.phone)}</span><br><span style="font-size:12px;color:#7c688b">${escapeHTML(when)}</span></p><div style="white-space:pre-wrap;overflow-wrap:anywhere;background:#faf6ff;border:1px solid #e7dbf2;border-radius:12px;padding:16px">${escapeHTML(ticket.message)}</div><p style="margin:24px 0 16px"><a href="${escapeHTML(whatsapp)}" style="display:inline-block;background:#197344;color:#fff;text-decoration:none;font-weight:bold;border-radius:10px;padding:11px 20px">رد عبر واتساب</a></p><p style="margin:0"><a href="https://zamn.games/" style="color:#65319c;font-weight:bold">افتح رسائل الدعم في الموقع</a></p><p style="font-size:11px;color:#96859e;margin-bottom:0">رقم الرسالة: <span dir="ltr">${escapeHTML(ticket.id)}</span></p></td></tr></table></td></tr></table></body></html>`
+  };
+}
+async function sendNotification(ref, ticket) {
+  const existing = (await ref.get()).val();
+  if (existing?.notification?.status === 'accepted') return existing.notification;
+  let notification;
+  const apiKey = String(process.env.RESEND_API_KEY || '').trim();
+  const from = String(process.env.SUPPORT_EMAIL_FROM || '').trim();
+  if (!apiKey || !from || /[\r\n]/.test(from)) notification = { status: 'not_configured', updatedAt: Date.now() };
+  else {
+    try {
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer ' + apiKey, 'Content-Type': 'application/json', 'Idempotency-Key': 'zamn-support/' + ticket.id },
+        body: JSON.stringify({ from, to: [NOTIFICATION_EMAIL], ...notificationContent(ticket) }),
+        signal: AbortSignal.timeout(5000)
+      });
+      const data = await response.json().catch(() => ({}));
+      notification = response.ok && typeof data.id === 'string'
+        ? { status: 'accepted', providerId: data.id, updatedAt: Date.now() }
+        : { status: 'failed', reason: 'provider_rejected', updatedAt: Date.now() };
+    } catch {
+      notification = { status: 'failed', reason: 'provider_unavailable', updatedAt: Date.now() };
+    }
+  }
+  try { await ref.update({ notification }); } catch { console.error('support notification status: write_failed'); }
+  return notification;
+}
 
 function reply(res, status, body) {
   res.setHeader('Cache-Control', 'no-store');
@@ -72,7 +112,7 @@ module.exports = async function support(req, res) {
       const snap = await query.limitToLast(before ? 101 : 100).get();
       const entries = Object.entries(snap.val() || {}).filter(([id]) => id !== before).slice(-100);
       const messages = entries.map(([id, value]) => {
-        try { return { id, ...unseal(value.sealed, key), createdAt: value.createdAt, status: value.status === 'done' ? 'done' : 'new' }; }
+        try { return { id, ...unseal(value.sealed, key), createdAt: value.createdAt, status: value.status === 'done' ? 'done' : 'new', notification: { status: ['accepted', 'failed', 'not_configured', 'pending'].includes(value.notification?.status) ? value.notification.status : 'not_sent' } }; }
         catch { return { id, unavailable: true, createdAt: value.createdAt, status: value.status, message: 'تعذر قراءة هذه الرسالة. راجع مفتاح تشفير الدعم.' }; }
       }).reverse();
       return reply(res, 200, { messages, nextCursor: entries.length === 100 ? entries[0][0] : null });
@@ -105,6 +145,15 @@ module.exports = async function support(req, res) {
     }
     if (req.method === 'PATCH') {
       requireOwner(req, key);
+      if (body.action === 'retry-notification') {
+        if (!/^[-\w]{20}$/.test(String(body.id || ''))) return reply(res, 400, { error: 'invalid_message' });
+        const ref = db.ref(BASE + '/messages/' + body.id);
+        const snap = await ref.get();
+        if (!snap.exists()) return reply(res, 404, { error: 'not_found' });
+        const value = snap.val();
+        const notification = await sendNotification(ref, { ...unseal(value.sealed, key), id: body.id, createdAt: value.createdAt });
+        return reply(res, 200, { ok: true, notification: { status: notification.status } });
+      }
       const ids = [...new Set(Array.isArray(body.ids) ? body.ids : [body.id])];
       if (!ids.length || ids.length > 100 || ids.some(id => typeof id !== 'string' || !/^[-\w]{20}$/.test(id)) || !['new', 'done'].includes(body.status)) return reply(res, 400, { error: 'invalid_message' });
       const snapshots = await Promise.all(ids.map(id => db.ref(BASE + '/messages/' + id).get()));
@@ -150,7 +199,10 @@ module.exports = async function support(req, res) {
       if ((await ref.get()).exists()) return reply(res, 201, { ok: true, id: reservation.id });
       return reply(res, 409, { error: 'message_processing' });
     }
-    await ref.transaction(old => old || { createdAt: reservation.at, status: 'new', sealed: seal({ name, phone: number, message, page: String(body.page || '').slice(0,300) }, key) });
+    await ref.transaction(old => old || { createdAt: reservation.at, status: 'new', notification: { status: 'pending' }, sealed: seal({ name, phone: number, message, page: String(body.page || '').slice(0,300) }, key) });
+    // Email failure must never turn a saved support message into a failed submission.
+    try { await sendNotification(ref, { id: reservation.id, name, phone: number, message, createdAt: reservation.at }); }
+    catch { console.error('support notification: dispatch_failed'); }
     return reply(res, 201, { ok: true, id: reservation.id });
   } catch (error) {
     const code = error.message;
