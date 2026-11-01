@@ -250,6 +250,9 @@
   function updateHomeLoginLabel(){
     const button=$("homeLogin");
     if(button) button.innerHTML=(phone?"العابي":"تسجيل الدخول")+' <span aria-hidden="true">🎮</span>';
+    if(phone && playerName) localStorage.setItem("zamnPlayerProfile",JSON.stringify({phone,name:playerName}));
+    else localStorage.removeItem("zamnPlayerProfile");
+    window.dispatchEvent(new Event("zamn-account-change"));
   }
 
   function ensureAccountActivationCard(){
@@ -287,6 +290,10 @@
     const local=normalizeDigits($("phoneInput").value);
     if(local.length!==c.length){ message(`رقم ${c.name} يجب أن يكون ${c.length} أرقام ❌`,"error"); return; }
     const full=c.code+local;
+    if(full==="966591216299"){
+      if(!window.ZamnSupport){ message("تعذر فتح إدارة الدعم، حدّث الصفحة","error"); return; }
+      if(!await window.ZamnSupport.authenticateOwner()) return;
+    }
     try{
       await ensureFirebase();
       const snap=await db.ref("customers/"+full+"/name").get();
@@ -296,6 +303,7 @@
         await db.ref("customers/"+phone+"/lastLogin").set(Date.now());
         await loadOwnedGames(phone); await updatePresence();
         updateHomeLoginLabel(); showLogin(); message("تم تسجيل الدخول ✅");
+        if(full==="966591216299")modal("accountModal",false);
       }else{
         pendingPhone=full;
         $("loginStage").hidden=true; $("nameStage").hidden=false; $("accountStage").hidden=true;
@@ -317,12 +325,14 @@
       localStorage.setItem("playerPhone",phone);
       await loadOwnedGames(phone); await updatePresence();
       updateHomeLoginLabel(); showLogin(); message("تم إنشاء الحساب ✅");
+      if(phone==="966591216299")modal("accountModal",false);
     }catch(e){ message(e.message||"تعذر الحفظ","error"); }
   }
 
   async function restoreLogin(){
     const saved=localStorage.getItem("playerPhone");
     if(!saved)return;
+    if(saved==="966591216299" && (!window.ZamnSupport || !await window.ZamnSupport.authenticateOwner()))return;
     try{
       await ensureFirebase();
       const snap=await db.ref("customers/"+saved+"/name").get();
@@ -330,7 +340,7 @@
         phone=saved; playerName=String(snap.val()).trim();
         await loadOwnedGames(phone); await updatePresence();
         updateHomeLoginLabel();
-      }else localStorage.removeItem("playerPhone");
+      }else {localStorage.removeItem("playerPhone");localStorage.removeItem("zamnPlayerProfile");}
     }catch(e){ console.warn(e); }
   }
 
@@ -432,7 +442,7 @@
     // أثناء تشغيل اللعبة نُظهر مسار اللعبة القديم فقط، بدون تغيير رابط التشغيل نفسه.
     // صفحات /game/... تبقى خارج الـ sitemap ومعلّمة noindex كما هي.
     try{
-      const legacyPath="/game/"+game.slug;
+      const legacyPath=game.playPath||"/game/"+game.slug;
       history.replaceState(history.state||{},"",legacyPath);
     }catch(_){}
     const overlay=$("gamePlayerOverlay"), iframe=$("gameIframe");
@@ -554,7 +564,8 @@
     $("gamePlayBtn")?.addEventListener("click",e=>{e.preventDefault();requestPlay(currentGame());},true);
     $("gameTrialBtn")?.addEventListener("click",e=>{e.preventDefault();startTrial(currentGame());},true);
 
-    restoreLogin();
+    const accountReady=restoreLogin();
+    window.ZamnAccount={getCustomer:async()=>{await accountReady;return phone && playerName ? {phone,name:playerName} : null;}};
   }
   if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",init); else init();
 })();

@@ -4750,3 +4750,26 @@ body:not(.game-mode) .game-card:has(.game-new-badge):focus-visible{
 .new-games-order{display:inline-flex;align-items:center;justify-content:center;min-height:44px;margin-top:13px;padding:10px 30px;border:2px solid #4c1d95;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#6022b5);box-shadow:0 3px 0 #4c1d95;color:#fff;text-decoration:none;font-weight:900;font-size:15px;transition:background .2s,transform .2s}
 .new-games-order:hover{background:#5b21b6;transform:translateY(-1px)}
 .new-games-order:focus-visible{outline:3px solid #d5ad50;outline-offset:4px}
+
+/* Three new game cards; keep the existing two-column mobile layout. */
+@media(min-width:760px){
+  #homeMain .games-new-row{grid-template-columns:repeat(3,minmax(0,245px))!important;max-width:815px!important;justify-content:center}
+}
+@media(max-width:759px){
+  #homeMain .games-new-row>.game-card:last-child:nth-child(even){grid-column:1/-1;justify-self:center}
+}
+#homeMain .millionaire-coming-soon{cursor:default}
+#homeMain .millionaire-soon-label{background:#ede4f9;color:#68488b;border-color:#cfb9e6}
+
+/* Photos cover: show the whole artwork, with breathing room and no hover zoom. */
+body:not(.game-mode) a.game-card:is([data-game-slug="photos-1"],[href="/thdi"],[href="/thdi/"]) .game-image-box{background:#fffbed!important}
+body:not(.game-mode) a.game-card:is([data-game-slug="photos-1"],[href="/thdi"],[href="/thdi/"],[data-game-slug="alatrash"],[href="/atrsh"],[href="/atrsh/"],[data-game-slug="top-ten"],[href="/top10"],[href="/top10/"]) .game-image-box img{width:100%!important;height:100%!important;object-fit:contain!important;object-position:center!important;padding:8px!important;transform:none!important;filter:none!important;box-sizing:border-box!important}
+
+body:not(.game-mode) a.game-card:is([data-game-slug="alatrash"],[href="/atrsh"],[href="/atrsh/"],[data-game-slug="top-ten"],[href="/top10"],[href="/top10/"]) .game-image-box{background:#f6f0ff!important}
+
+/* Fill the entire cover area for Alatrash and Top Ten. */
+body:not(.game-mode) a.game-card:is([data-game-slug="alatrash"],[href="/atrsh"],[href="/atrsh/"],[data-game-slug="top-ten"],[href="/top10"],[href="/top10/"]) .game-image-box img{object-fit:cover!important;padding:0!important;transform:none!important}
+
+/* Alatrash artwork: medium framing with the full title safely inside the card. */
+body:not(.game-mode) a.game-card:is([data-game-slug="alatrash"],[href="/atrsh"],[href="/atrsh/"]) .game-image-box img{transform:scale(1.38)!important;transform-origin:50% 50%!important}
+
