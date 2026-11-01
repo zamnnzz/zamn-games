@@ -4728,7 +4728,7 @@ body:not(.game-mode) .game-card:has(.game-new-badge) .game-new-badge{
  box-shadow:0 3px 0 #4c1d95,0 6px 14px rgba(76,29,149,.25);
  transform:rotate(-6deg);font-size:13px;letter-spacing:.2px;
 }
-body:not(.game-mode) .game-card:has(.game-new-badge) .game-new-badge::before{content:url("/images/ui/spark.svg");margin-inline-end:5px;color:#ffe3a1}
+body:not(.game-mode) .game-card:has(.game-new-badge) .game-new-badge::before{content:"";display:inline-block;width:11px;height:11px;margin-inline-end:5px;vertical-align:-1px;background:#ffe3a1;mask:url("/images/ui/spark.svg") center/contain no-repeat;-webkit-mask:url("/images/ui/spark.svg") center/contain no-repeat}
 body:not(.game-mode) .game-card:has(.game-new-badge):hover,
 body:not(.game-mode) .game-card:has(.game-new-badge):focus-visible{
  border-color:#7c3aed;box-shadow:7px 7px 0 #b69bdc,0 0 0 3px #e9ddfa,14px 17px 30px rgba(109,40,217,.22);
@@ -4801,3 +4801,7 @@ body:not(.game-mode) a.game-card:is([data-game-slug="alatrash"],[href="/atrsh"],
 }
 #homeMain .game-card[data-game-slug="mn-ana"] .game-image-box{background:#f1eadb!important}
 #homeMain .game-card[data-game-slug="family-feud"] .game-image-box{background:#f5f4ef!important}
+/* Leave space beside the floating support button for footer information links. */
+@media(min-width:901px){
+ .zamn-footer .footer-bottom .site-legal-links{margin-inline-end:190px}
+}
