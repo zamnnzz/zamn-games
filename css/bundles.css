@@ -99,3 +99,12 @@
 /* A broader rounded highlight over the price. */
 .bundle-card:after{top:11px;right:13px;width:39px;height:26px;border:0;border-top:7px solid #f8edd0b8;border-radius:60% 70% 0 0;transform:rotate(32deg)}
 @media(max-width:520px){.bundle-card:after{top:9px;right:10px;width:30px;height:21px;border-top-width:6px}}
+/* A slight size reduction without changing the package layout. */
+#packages .zamn-bundles{width:96%;max-width:1120px;margin-inline:auto}
+.bundle-card{min-height:342px}
+.bundle-content{padding-top:23px;padding-bottom:25px}
+.bundle-art{padding-top:25px;padding-bottom:25px}
+@media(max-width:900px){#packages .zamn-bundles{max-width:580px}}
+@media(max-width:520px){.bundle-card{min-height:305px}.bundle-content{padding-top:20px;padding-bottom:20px}.bundle-art{padding-top:25px;padding-bottom:20px}}
+#packages .zamn-bundles{width:96%!important;max-width:1000px!important}
+@media(max-width:900px){#packages .zamn-bundles{max-width:580px!important}}

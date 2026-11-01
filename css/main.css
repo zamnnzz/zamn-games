@@ -4805,3 +4805,7 @@ body:not(.game-mode) a.game-card:is([data-game-slug="alatrash"],[href="/atrsh"],
 @media(min-width:901px){
  .zamn-footer .footer-bottom .site-legal-links{margin-inline-end:190px}
 }
+
+#homeMain .game-card:is([data-game-slug="guess-link"],[data-game-slug="top-ten"]) .game-image-box img{object-fit:contain!important;padding:0!important;transform:none!important}
+#homeMain .game-card[data-game-slug="guess-link"] .game-image-box{background:#f52524!important}
+#homeMain .game-card[data-game-slug="top-ten"] .game-image-box{background:#fff9e8!important}
