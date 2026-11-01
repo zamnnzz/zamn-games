@@ -9,11 +9,11 @@ window.setupFamilyReviews = function(grid, reviews) {
     const name=head.querySelector('strong');
     const stars=head.querySelector('span');
     const count=[...review.stars].length;
-    stars.textContent='★'.repeat(count)+'☆'.repeat(5-count);
+    stars.innerHTML='<span class="z-icon z-icon-star" aria-hidden="true"></span>'.repeat(Math.min(5,count));
     stars.setAttribute('aria-label',`${count} من 5`);
     const avatar=document.createElement('span');avatar.className='family-review-avatar';avatar.textContent=review.name.trim().slice(0,1);avatar.setAttribute('aria-hidden','true');
     const info=document.createElement('div');info.className='family-review-user';
-    const verified=document.createElement('span');verified.className='family-review-verified';verified.textContent=review.verified?'✓ مشتري موثّق':'';verified.hidden=!review.verified;
+    const verified=document.createElement('span');verified.className='family-review-verified';verified.innerHTML=review.verified?'<span class="z-icon z-icon-check" aria-hidden="true"></span> مشتري موثّق':'';verified.hidden=!review.verified;
     const date=document.createElement('span');date.className='family-review-date';date.textContent=review.date||'';
     info.append(name,verified,date);head.replaceChildren(avatar,info);head.after(stars);
   });

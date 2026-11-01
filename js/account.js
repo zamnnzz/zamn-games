@@ -72,17 +72,17 @@
   const gamePath=g=>g?.path||("/game/"+g.slug);
   const CFG = window.ZAMN_FIREBASE_CONFIG || {};
   const countries = [
-    {name:"السعودية",flag:"🇸🇦",code:"966",length:9},{name:"الإمارات",flag:"🇦🇪",code:"971",length:9},
-    {name:"البحرين",flag:"🇧🇭",code:"973",length:8},{name:"الكويت",flag:"🇰🇼",code:"965",length:8},
-    {name:"عمان",flag:"🇴🇲",code:"968",length:8},{name:"قطر",flag:"🇶🇦",code:"974",length:8},
-    {name:"اليمن",flag:"🇾🇪",code:"967",length:9},{name:"الأردن",flag:"🇯🇴",code:"962",length:9},
-    {name:"لبنان",flag:"🇱🇧",code:"961",length:8},{name:"سوريا",flag:"🇸🇾",code:"963",length:9},
-    {name:"العراق",flag:"🇮🇶",code:"964",length:10},{name:"فلسطين",flag:"🇵🇸",code:"970",length:9},
-    {name:"مصر",flag:"🇪🇬",code:"20",length:10},{name:"ليبيا",flag:"🇱🇾",code:"218",length:9},
-    {name:"تونس",flag:"🇹🇳",code:"216",length:8},{name:"الجزائر",flag:"🇩🇿",code:"213",length:9},
-    {name:"المغرب",flag:"🇲🇦",code:"212",length:9},{name:"موريتانيا",flag:"🇲🇷",code:"222",length:8},
-    {name:"السودان",flag:"🇸🇩",code:"249",length:9},{name:"الصومال",flag:"🇸🇴",code:"252",length:8},
-    {name:"جيبوتي",flag:"🇩🇯",code:"253",length:8},{name:"جزر القمر",flag:"🇰🇲",code:"269",length:7}
+    {name:"السعودية",flag:"",code:"966",length:9},{name:"الإمارات",flag:"",code:"971",length:9},
+    {name:"البحرين",flag:"",code:"973",length:8},{name:"الكويت",flag:"",code:"965",length:8},
+    {name:"عمان",flag:"",code:"968",length:8},{name:"قطر",flag:"",code:"974",length:8},
+    {name:"اليمن",flag:"",code:"967",length:9},{name:"الأردن",flag:"",code:"962",length:9},
+    {name:"لبنان",flag:"",code:"961",length:8},{name:"سوريا",flag:"",code:"963",length:9},
+    {name:"العراق",flag:"",code:"964",length:10},{name:"فلسطين",flag:"",code:"970",length:9},
+    {name:"مصر",flag:"",code:"20",length:10},{name:"ليبيا",flag:"",code:"218",length:9},
+    {name:"تونس",flag:"",code:"216",length:8},{name:"الجزائر",flag:"",code:"213",length:9},
+    {name:"المغرب",flag:"",code:"212",length:9},{name:"موريتانيا",flag:"",code:"222",length:8},
+    {name:"السودان",flag:"",code:"249",length:9},{name:"الصومال",flag:"",code:"252",length:8},
+    {name:"جيبوتي",flag:"",code:"253",length:8},{name:"جزر القمر",flag:"",code:"269",length:7}
   ];
 
   let db=null, firebasePromise=null, phone="", playerName="", pendingPhone="", ownedCodes=[], pendingGame=null, trialTimer=null, playerTopTimer=null;
@@ -249,7 +249,7 @@
 
   function updateHomeLoginLabel(){
     const button=$("homeLogin");
-    if(button) button.innerHTML=(phone?"العابي":"تسجيل الدخول")+' <span aria-hidden="true">🎮</span>';
+    if(button) button.innerHTML=(phone?"العابي":"تسجيل الدخول")+' <span aria-hidden="true"><span class="z-icon z-icon-game" aria-hidden="true"></span></span>';
     if(phone && playerName) localStorage.setItem("zamnPlayerProfile",JSON.stringify({phone,name:playerName}));
     else localStorage.removeItem("zamnPlayerProfile");
     window.dispatchEvent(new Event("zamn-account-change"));
@@ -263,7 +263,7 @@
     card.className="player-activation-card";
     card.id="accountActivationCard";
     card.innerHTML=`
-      <div class="player-activation-icon" aria-hidden="true">🔐</div>
+      <div class="player-activation-icon" aria-hidden="true"><span class="z-icon z-icon-lock" aria-hidden="true"></span></div>
       <div class="player-activation-copy">
         <h3>أدخل كود اللعبة</h3>
         <p id="accountActivationHint">أدخل الكود الذي استلمته بعد الشراء، وستُحفظ اللعبة في حسابك.</p>
@@ -288,7 +288,7 @@
   async function login(){
     const c=countries[+$("countrySelect").value||0];
     const local=normalizeDigits($("phoneInput").value);
-    if(local.length!==c.length){ message(`رقم ${c.name} يجب أن يكون ${c.length} أرقام ❌`,"error"); return; }
+    if(local.length!==c.length){ message(`رقم ${c.name} يجب أن يكون ${c.length} أرقام`,"error"); return; }
     const full=c.code+local;
     if(full==="966591216299"){
       if(!window.ZamnSupport){ message("تعذر فتح إدارة الدعم، حدّث الصفحة","error"); return; }
@@ -302,7 +302,7 @@
         localStorage.setItem("playerPhone",phone);
         await db.ref("customers/"+phone+"/lastLogin").set(Date.now());
         await loadOwnedGames(phone); await updatePresence();
-        updateHomeLoginLabel(); showLogin(); message("تم تسجيل الدخول ✅");
+        updateHomeLoginLabel(); showLogin(); message("تم تسجيل الدخول");
         if(full==="966591216299")modal("accountModal",false);
       }else{
         pendingPhone=full;
@@ -324,7 +324,7 @@
       phone=pendingPhone; playerName=name; pendingPhone="";
       localStorage.setItem("playerPhone",phone);
       await loadOwnedGames(phone); await updatePresence();
-      updateHomeLoginLabel(); showLogin(); message("تم إنشاء الحساب ✅");
+      updateHomeLoginLabel(); showLogin(); message("تم إنشاء الحساب");
       if(phone==="966591216299")modal("accountModal",false);
     }catch(e){ message(e.message||"تعذر الحفظ","error"); }
   }
@@ -405,11 +405,11 @@
     const entered=normalizeCode(input?.value);
     if(!entered){ message("أدخل كود اللعبة","error"); return; }
     const game=gameFromCode(entered);
-    if(!game){ message("الكود غير صحيح ❌","error"); return; }
+    if(!game){ message("الكود غير صحيح","error"); return; }
     if(isOwned(game)){
       pendingGame=null; prepareAccountActivation();
       if(input) input.value="";
-      message(`${game.name} محفوظة في حسابك مسبقًا ✅`);
+      message(`${game.name} محفوظة في حسابك مسبقًا`);
       return;
     }
     try{
@@ -418,7 +418,7 @@
       await loadOwnedGames(phone);
       pendingGame=null; prepareAccountActivation();
       if(input) input.value="";
-      message(`تم حفظ ${game.name} في حسابك ✅`);
+      message(`تم حفظ ${game.name} في حسابك`);
     }catch(e){ message(e.message||"تعذر حفظ الكود","error"); }
   }
 
@@ -427,12 +427,12 @@
     if(!phone){ modal("codeModal",false);showLogin();return; }
     const entered=normalizeCode($("gameCodeInput").value);
     const real=normalizeCode(game.code);
-    if(entered!==real){ message("الرمز غير صحيح ❌","error"); return; }
+    if(entered!==real){ message("الرمز غير صحيح","error"); return; }
     try{
       await ensureFirebase();
       await db.ref("customers/"+phone+"/games/"+String(game.code)).set(true);
       await loadOwnedGames(phone);
-      modal("codeModal",false); message("تم حفظ اللعبة في حسابك ✅");
+      modal("codeModal",false); message("تم حفظ اللعبة في حسابك");
       openPlayer(game,"owned");
     }catch(e){ message(e.message||"تعذر حفظ الرمز","error"); }
   }
@@ -487,14 +487,14 @@
 
   function startTrial(game){
     if(!game)return;
-    if(localStorage.getItem(game.trialKey)){ message("انتهت التجربة المجانية لهذه اللعبة 🛑","error"); return; }
+    if(localStorage.getItem(game.trialKey)){ message("انتهت التجربة المجانية لهذه اللعبة","error"); return; }
     localStorage.setItem(game.trialKey,"used");
     openPlayer(game,"trial");
     let t=45; $("trialCounter").textContent=`تجربة: ${t}ث`;
     clearInterval(trialTimer);
     trialTimer=setInterval(()=>{
       t--; $("trialCounter").textContent=`تجربة: ${t}ث`;
-      if(t<=0){ closePlayer(); message("انتهت التجربة المجانية ⏳","error"); }
+      if(t<=0){ closePlayer(); message("انتهت التجربة المجانية","error"); }
     },1000);
   }
 

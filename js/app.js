@@ -196,7 +196,7 @@ function renderReviews(game){
     const safeComment=(r.comment||"").trim();
     article.innerHTML=`<div class="review-head"><strong></strong><span></span></div>${safeComment?`<p></p>`:""}`;
     article.querySelector("strong").textContent=r.name;
-    article.querySelector("span").textContent=r.stars||"⭐⭐⭐⭐⭐";
+    article.querySelector('span').innerHTML='<span class="z-icon z-icon-star" aria-hidden="true"></span>'.repeat(Math.min(5,[...(r.stars||'12345')].length));
     if(safeComment) article.querySelector("p").textContent=safeComment;
     grid.appendChild(article);
   });
@@ -211,7 +211,7 @@ function renderOtherGames(game){
     a.className="other-game-card";
     a.href=gamePath(g);
     a.dataset.slug=g.slug;
-    a.innerHTML=`<div class="other-game-image"><img src="${g.image}" alt="${g.name}" loading="lazy" decoding="async"></div><h3></h3>`;
+    a.innerHTML=`<div class="other-game-image"><img src="${g.squareImage || g.image}" width="512" height="512" alt="${g.name}" loading="lazy" decoding="async"></div><h3></h3>`;
     a.querySelector("h3").textContent=g.name;
     grid.appendChild(a);
   });
@@ -248,7 +248,7 @@ function openGame(game,push=true){
         detailRating.className="retro-info-card retro-rating-card";
         infoRow.appendChild(detailRating);
       }
-      detailRating.textContent=`★ ${pageRating}`;
+      detailRating.innerHTML='<span class="z-icon z-icon-star" aria-hidden="true"></span>'; detailRating.append(document.createTextNode(' '+pageRating));
       detailRating.setAttribute("aria-label",`تقييم اللعبة ${pageRating} من 5`);
       detailRating.hidden=false;
       infoRow.classList.add("has-rating");
@@ -260,11 +260,11 @@ function openGame(game,push=true){
   const play=document.getElementById("gamePlayBtn");
   const buy=document.getElementById("gameBuyBtn");
   const trial=document.getElementById("gameTrialBtn");
-  if(play){play.href="#"; play.removeAttribute("target"); play.textContent="▶ العب الآن"}
+  if(play){play.href="#"; play.removeAttribute("target"); play.innerHTML='<span class="z-icon z-icon-play" aria-hidden="true"></span> العب الآن'}
   if(buy){
     const hasBuy=!!(game.buyLink && game.price);
     buy.hidden=!hasBuy;
-    if(hasBuy){buy.href=game.buyLink; buy.target="_blank"; buy.rel="noopener"; buy.textContent=`💳 اشتر الآن - ${game.price}`}
+    if(hasBuy){buy.href=game.buyLink; buy.target="_blank"; buy.rel="noopener"; buy.innerHTML='<span class="z-icon z-icon-card" aria-hidden="true"></span>'; buy.append(document.createTextNode(' اشتر الآن - '+game.price))}
   }
   if(trial){trial.dataset.trialKey=game.trialKey||""}
   if(window.setupProductDesign) window.setupProductDesign(game);

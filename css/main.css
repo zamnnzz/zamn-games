@@ -4463,7 +4463,7 @@ body.game-mode .game-seo-faq{
 
 
 /* Visible SEO feature list for game detail pages */
-.game-seo-features{margin:12px 0 24px;padding:0;list-style:none;display:grid;gap:10px}.game-seo-features li{position:relative;padding:12px 42px 12px 14px;border:1px solid rgba(109,40,217,.18);border-radius:14px;background:rgba(255,255,255,.7);line-height:1.8}.game-seo-features li::before{content:"✓";position:absolute;right:14px;top:11px;font-weight:900;color:#6d28d9}@media(max-width:640px){.game-seo-features li{padding-right:38px}}
+.game-seo-features{margin:12px 0 24px;padding:0;list-style:none;display:grid;gap:10px}.game-seo-features li{position:relative;padding:12px 42px 12px 14px;border:1px solid rgba(109,40,217,.18);border-radius:14px;background:rgba(255,255,255,.7);line-height:1.8}.game-seo-features li::before{content:url("/images/ui/check.svg");position:absolute;right:14px;top:11px;font-weight:900;color:#6d28d9}@media(max-width:640px){.game-seo-features li{padding-right:38px}}
 
 #aljawabSpaInfo[hidden]{display:none!important}
 
@@ -4728,7 +4728,7 @@ body:not(.game-mode) .game-card:has(.game-new-badge) .game-new-badge{
  box-shadow:0 3px 0 #4c1d95,0 6px 14px rgba(76,29,149,.25);
  transform:rotate(-6deg);font-size:13px;letter-spacing:.2px;
 }
-body:not(.game-mode) .game-card:has(.game-new-badge) .game-new-badge::before{content:'✦';margin-inline-end:5px;color:#ffe3a1}
+body:not(.game-mode) .game-card:has(.game-new-badge) .game-new-badge::before{content:url("/images/ui/spark.svg");margin-inline-end:5px;color:#ffe3a1}
 body:not(.game-mode) .game-card:has(.game-new-badge):hover,
 body:not(.game-mode) .game-card:has(.game-new-badge):focus-visible{
  border-color:#7c3aed;box-shadow:7px 7px 0 #b69bdc,0 0 0 3px #e9ddfa,14px 17px 30px rgba(109,40,217,.22);
@@ -4793,3 +4793,11 @@ body:not(.game-mode) a.game-card:is([data-game-slug="alatrash"],[href="/atrsh"],
  #homeMain .games-row:not(.games-new-row){gap:10px!important;max-width:none!important}
  #homeMain .games-new-row{width:calc(100% + 16px)!important;max-width:none!important;margin-inline:-8px!important}
 }
+
+/* Keep both wide home covers fully visible inside their image frames. */
+#homeMain .game-card:is([data-game-slug="mn-ana"],[data-game-slug="family-feud"]) .game-image-box img{
+ width:100%!important;height:100%!important;object-fit:contain!important;
+ object-position:center!important;padding:6px!important;transform:none!important;filter:none!important;
+}
+#homeMain .game-card[data-game-slug="mn-ana"] .game-image-box{background:#f1eadb!important}
+#homeMain .game-card[data-game-slug="family-feud"] .game-image-box{background:#f5f4ef!important}

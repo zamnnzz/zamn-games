@@ -1,0 +1,23 @@
+.z-icon{display:inline-block;width:1.15em;height:1.15em;flex-shrink:0;vertical-align:-.18em;background-color:currentColor;mask:var(--z-icon) center/contain no-repeat;-webkit-mask:var(--z-icon) center/contain no-repeat}
+.z-icon-game{--z-icon:url("/images/ui/game.svg")}
+.z-icon-card{--z-icon:url("/images/ui/card.svg")}
+.z-icon-play{--z-icon:url("/images/ui/play.svg")}
+.z-icon-bolt{--z-icon:url("/images/ui/bolt.svg")}
+.z-icon-screen{--z-icon:url("/images/ui/screen.svg")}
+.z-icon-users{--z-icon:url("/images/ui/users.svg")}
+.z-icon-spark{--z-icon:url("/images/ui/spark.svg")}
+.z-icon-wave{--z-icon:url("/images/ui/wave.svg")}
+.z-icon-user{--z-icon:url("/images/ui/user.svg")}
+.z-icon-lock{--z-icon:url("/images/ui/lock.svg")}
+.z-icon-library{--z-icon:url("/images/ui/library.svg")}
+.z-icon-bell{--z-icon:url("/images/ui/bell.svg")}
+.z-icon-dice{--z-icon:url("/images/ui/dice.svg")}
+.z-icon-globe{--z-icon:url("/images/ui/globe.svg")}
+.z-icon-check{--z-icon:url("/images/ui/check.svg")}
+.z-icon-close{--z-icon:url("/images/ui/close.svg")}
+.z-icon-star{--z-icon:url("/images/ui/star.svg")}
+ .feature-icon>.z-icon,.player-activation-icon>.z-icon,.code-entry-icon>.z-icon,.player-account-avatar>.z-icon{width:1em;height:1em}.z-message:before{content:"";display:inline-block;width:1.15em;height:1.15em;margin-inline-end:8px;vertical-align:-.15em;background:currentColor;mask:url("/images/ui/check.svg") center/contain no-repeat;-webkit-mask:url("/images/ui/check.svg") center/contain no-repeat}.z-message.error:before{mask-image:url("/images/ui/close.svg");-webkit-mask-image:url("/images/ui/close.svg")}
+#gameView .action-wide{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:center!important;gap:8px}
+#gameView .action-wide>.z-icon{display:block!important;position:static!important;width:20px!important;height:20px!important;margin:0!important}
+
+.z-icon-home{--z-icon:url("/images/ui/home.svg")}
