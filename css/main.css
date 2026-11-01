@@ -4787,3 +4787,9 @@ body:not(.game-mode) a.game-card:is([data-game-slug="alatrash"],[href="/atrsh"],
  #homeMain .games-row .game-card{scale:1}
  #homeMain .games-new-row{padding-inline:6px;gap:10px}
 }
+
+/* Use the same wider phone card width in both home sections. */
+@media(max-width:559px){
+ #homeMain .games-row:not(.games-new-row){gap:10px!important;max-width:none!important}
+ #homeMain .games-new-row{width:calc(100% + 16px)!important;max-width:none!important;margin-inline:-8px!important}
+}

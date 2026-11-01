@@ -206,13 +206,12 @@ function renderOtherGames(game){
   const grid=document.getElementById("otherGamesGrid");
   if(!grid)return;
   grid.innerHTML="";
-  const squareImages={"family-feud":"https://cdn.files.salla.network/other/681606734/b445d29c-9574-4221-9bd2-63e2374852b4-original.webp","horof-bell":"https://cdn.files.salla.network/other/681606734/755a8663-6941-4d3a-bb00-35c7c9ddfdd7-original.webp","photos-1":"https://cdn.files.salla.network/other/681606734/70607bca-1ac8-4e4e-9243-e7a8d854806d-original.webp","fawazeer":"https://cdn.files.salla.network/other/681606734/66b1d33f-cd78-447f-9af2-8a05703088c8-original.webp","guess-link":"https://cdn.files.salla.network/other/681606734/f20e417f-b98c-4f99-afd9-ab68651f404d-original.webp","alatrash":"https://cdn.files.salla.network/other/681606734/64bb88e4-5671-4581-b1fd-bb30ce3ff07c-original.webp","top-ten":"https://cdn.files.salla.network/other/681606734/32a22b5b-8731-4e9d-8f5d-16ce6ec024aa-original.webp","mn-ana":"https://cdn.files.salla.network/other/681606734/ed5dc929-5c34-469f-9ee4-85a82eb9d00b-original.webp","aljawab-almajhool":"https://cdn.files.salla.network/other/681606734/61811a42-c975-4bd4-bf09-a96840928a7c-original.webp"};
   GAMES.filter(g=>g.slug!==game.slug).forEach(g=>{
     const a=document.createElement("a");
     a.className="other-game-card";
     a.href=gamePath(g);
     a.dataset.slug=g.slug;
-    a.innerHTML=`<div class="other-game-image"><img src="${squareImages[g.slug] || g.image}" alt="${g.name}" loading="lazy" decoding="async"></div><h3></h3>`;
+    a.innerHTML=`<div class="other-game-image"><img src="${g.image}" alt="${g.name}" loading="lazy" decoding="async"></div><h3></h3>`;
     a.querySelector("h3").textContent=g.name;
     grid.appendChild(a);
   });
