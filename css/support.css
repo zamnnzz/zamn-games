@@ -4,3 +4,13 @@
 
 /* Make the external WhatsApp action clear and distinct from the site form. */
 .support-dialog .support-alternative,.support-contact-actions .support-alternative{display:flex;align-items:center;justify-content:center;width:100%;min-height:44px;padding:11px 14px;border:1px solid #b8ddc9;border-radius:11px;background:#eaf7ef;color:#146b3b;font-size:15px;font-weight:800;text-align:center;text-decoration:none;box-sizing:border-box}.support-whatsapp-note{text-align:center;margin:8px 0 0!important;font-size:12px!important}
+
+/* New and completed conversations stay in separate, accessible tabs. */
+.support-tabs{display:flex;gap:6px;flex-wrap:wrap;padding:5px;margin-top:16px;border-radius:13px;background:#f4eefb;border:1px solid #e7dbf4}
+.support-tabs button{flex:1;min-width:135px;border:0;border-radius:9px;padding:11px 15px;color:#6b5084;background:transparent;font:800 15px Tajawal,Tahoma,sans-serif;cursor:pointer}
+.support-tabs button[aria-selected=true]{color:#fff;background:#57249a;box-shadow:0 3px 8px #3b126026}
+.support-tabs button:focus-visible{outline:2px solid #9c73ce;outline-offset:2px}
+.support-empty{padding:24px 12px;margin:0;text-align:center;color:#796687;border:1px dashed #d8c8e9;border-radius:13px;background:#fcfaff}
+.support-ticket button:disabled{opacity:.6;cursor:wait}
+.support-ticket time{white-space:nowrap;font-size:13px;font-weight:700;color:#806295}
+@media(max-width:650px){.support-tabs button{font-size:13px;padding:10px 8px;min-width:120px}}

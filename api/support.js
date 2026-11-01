@@ -105,28 +105,53 @@ module.exports = async function support(req, res) {
     }
     if (req.method === 'PATCH') {
       requireOwner(req, key);
-      if (!/^[-\w]{20}$/.test(String(body.id || '')) || !['new', 'done'].includes(body.status)) return reply(res, 400, { error: 'invalid_message' });
-      const ref = db.ref(BASE + '/messages/' + body.id);
-      if (!(await ref.get()).exists()) return reply(res, 404, { error: 'not_found' });
-      await ref.update({ status: body.status });
+      const ids = [...new Set(Array.isArray(body.ids) ? body.ids : [body.id])];
+      if (!ids.length || ids.length > 100 || ids.some(id => typeof id !== 'string' || !/^[-\w]{20}$/.test(id)) || !['new', 'done'].includes(body.status)) return reply(res, 400, { error: 'invalid_message' });
+      const snapshots = await Promise.all(ids.map(id => db.ref(BASE + '/messages/' + id).get()));
+      if (snapshots.some(snap => !snap.exists())) return reply(res, 404, { error: 'not_found' });
+      const updates = Object.fromEntries(ids.map(id => [id + '/status', body.status]));
+      await db.ref(BASE + '/messages').update(updates);
       return reply(res, 200, { ok: true });
     }
     if (body.website) return reply(res, 200, { ok: true });
     const name = String(body.name || '').trim(), number = phone(body.phone), message = String(body.message || '').trim();
     if (!name || name.length > 80 || !/^[1-9]\d{9,14}$/.test(number) || message.length < 5 || message.length > 2000) return reply(res, 422, { error: 'invalid_fields' });
     const now = Date.now();
+    const fingerprint = crypto.createHmac('sha256', key).update(number + '\0' + message.normalize('NFC').replace(/\s+/g, ' ')).digest('hex');
+    const phoneHash = crypto.createHmac('sha256', key).update('phone:' + number).digest('hex');
+    const phoneLimit = db.ref(BASE + '/limits/' + phoneHash);
+    const previous = (await phoneLimit.get()).val();
+    // Return the already-saved ticket when a double click or retry repeats a message.
+    if (previous?.fingerprint === fingerprint && previous.id && now - Number(previous.at) < 120000) {
+      if ((await db.ref(BASE + '/messages/' + previous.id).get()).exists()) return reply(res, 201, { ok: true, id: previous.id });
+      if (now - Number(previous.leaseAt || previous.at) < 10000) return reply(res, 409, { error: 'message_processing' });
+    }
     const ip = String(req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
-    for (const identity of ['ip:' + ip, 'phone:' + number]) {
-      const hash = crypto.createHmac('sha256', key).update(identity).digest('hex');
-      const limit = await db.ref(BASE + '/limits/' + hash).transaction(old => {
+    const ipHash = crypto.createHmac('sha256', key).update('ip:' + ip).digest('hex');
+    const ipLimit = await db.ref(BASE + '/limits/' + ipHash).transaction(old => {
         if (old && now - Number(old.at) < 30000) return;
         return { at: now };
-      });
-      if (!limit.committed) { res.setHeader('Retry-After', '30'); return reply(res, 429, { error: 'rate_limited' }); }
+    });
+    if (!ipLimit.committed) { res.setHeader('Retry-After', '30'); return reply(res, 429, { error: 'rate_limited' }); }
+    const candidate = db.ref(BASE + '/messages').push().key;
+    const lease = crypto.randomBytes(16).toString('hex');
+    const claim = await phoneLimit.transaction(old => {
+      if (old?.fingerprint === fingerprint && old.id && now - Number(old.at) < 120000) {
+        if (now - Number(old.leaseAt || old.at) < 10000) return old;
+        return { ...old, leaseAt: now, lease };
+      }
+      if (old && now - Number(old.at) < 30000) return;
+      return { at: now, id: candidate, fingerprint, leaseAt: now, lease };
+    });
+    if (!claim.committed) { res.setHeader('Retry-After', '30'); return reply(res, 429, { error: 'rate_limited' }); }
+    const reservation = claim.snapshot.val();
+    const ref = db.ref(BASE + '/messages/' + reservation.id);
+    if (reservation.lease !== lease) {
+      if ((await ref.get()).exists()) return reply(res, 201, { ok: true, id: reservation.id });
+      return reply(res, 409, { error: 'message_processing' });
     }
-    const ref = db.ref(BASE + '/messages').push();
-    await ref.set({ createdAt: now, status: 'new', sealed: seal({ name, phone: number, message, page: String(body.page || '').slice(0,300) }, key) });
-    return reply(res, 201, { ok: true, id: ref.key });
+    await ref.transaction(old => old || { createdAt: reservation.at, status: 'new', sealed: seal({ name, phone: number, message, page: String(body.page || '').slice(0,300) }, key) });
+    return reply(res, 201, { ok: true, id: reservation.id });
   } catch (error) {
     const code = error.message;
     if (code === 'unauthorized') return reply(res, 401, { error: code });

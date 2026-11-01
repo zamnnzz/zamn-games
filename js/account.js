@@ -332,7 +332,7 @@
   async function restoreLogin(){
     const saved=localStorage.getItem("playerPhone");
     if(!saved)return;
-    if(saved==="966591216299" && (!window.ZamnSupport || !await window.ZamnSupport.authenticateOwner()))return;
+    if(saved==="966591216299" && (!window.ZamnSupport || !await window.ZamnSupport.authenticateOwner({prompt:false})))return;
     try{
       await ensureFirebase();
       const snap=await db.ref("customers/"+saved+"/name").get();
