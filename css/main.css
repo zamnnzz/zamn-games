@@ -4780,3 +4780,10 @@ body:not(.game-mode) a.game-card:is([data-game-slug="alatrash"],[href="/atrsh"],
  #homeMain .games-new-row>.game-card{grid-column:span 2;justify-self:stretch}
  #homeMain .games-new-row>.game-card:last-child:nth-child(even){grid-column:2 / span 2;justify-self:stretch}
 }
+
+/* Slightly wider cards in the two-column phone layout. */
+@media(max-width:559px){
+ #homeMain .games-section{padding-inline:12px!important}
+ #homeMain .games-row .game-card{scale:1}
+ #homeMain .games-new-row{padding-inline:6px;gap:10px}
+}
