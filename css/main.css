@@ -4812,3 +4812,16 @@ body:not(.game-mode) a.game-card:is([data-game-slug="alatrash"],[href="/atrsh"],
 
 #homeMain .game-card[data-game-slug="horof-bell"] .game-image-box img{object-fit:contain!important;padding:0!important;transform:none!important}
 #homeMain .game-card[data-game-slug="horof-bell"] .game-image-box{background:#593b95!important}
+
+body:not(.game-mode) #homeMain a.game-card:is([data-game-slug="alatrash"],[href="/atrsh"],[href="/atrsh/"]) .game-image-box img{object-fit:contain!important;padding:0!important;transform:none!important}
+body:not(.game-mode) #homeMain a.game-card[data-game-slug="alatrash"] .game-image-box{background:#fff0d7!important}
+
+/* Let three- and four-column rows use the available width. */
+@media(min-width:560px){
+ #homeMain .games-row:not(.games-new-row){grid-template-columns:repeat(auto-fit,minmax(245px,1fr))!important;max-width:1120px!important;gap:16px!important}
+ #homeMain .games-row .game-card{width:100%!important;max-width:none!important;min-width:0!important;scale:1;aspect-ratio:245 / 345!important;height:auto!important}
+ #homeMain .games-row .game-image-box{height:auto!important;aspect-ratio:7 / 5!important}
+}
+@media(min-width:760px){
+ #homeMain .games-new-row{width:100%!important;max-width:850px!important;grid-template-columns:repeat(3,minmax(0,1fr))!important}
+}
