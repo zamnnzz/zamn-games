@@ -108,3 +108,75 @@
 @media(max-width:520px){.bundle-card{min-height:305px}.bundle-content{padding-top:20px;padding-bottom:20px}.bundle-art{padding-top:25px;padding-bottom:20px}}
 #packages .zamn-bundles{width:96%!important;max-width:1000px!important}
 @media(max-width:900px){#packages .zamn-bundles{max-width:580px!important}}
+
+/* Slightly smaller package cards, keeping the existing artwork and hierarchy. */
+#packages .zamn-bundles{max-width:920px!important;gap:20px!important}
+#packages .bundle-card{min-height:315px;border-radius:30px}
+#packages .bundle-content{padding:20px 22px}
+#packages .bundle-heading h3{font-size:21px}
+#packages .bundle-price b{font-size:38px}
+#packages .bundle-description{font-size:15px;margin:7px 0 12px}
+#packages .bundle-features{gap:14px;padding-top:13px;margin-bottom:20px}
+#packages .bundle-features strong{font-size:14px}
+#packages .bundle-button{min-height:50px;font-size:18px}
+#packages .bundle-art{padding:22px 12px}
+@media(max-width:900px){#packages .zamn-bundles{max-width:540px!important}}
+@media(max-width:520px){
+ #packages .zamn-bundles{width:92%!important;gap:16px!important}
+ #packages .bundle-card{min-height:285px;border-radius:25px}
+ #packages .bundle-content{padding:18px 12px}
+ #packages .bundle-heading h3{font-size:18px}
+ #packages .bundle-price b{font-size:31px}
+ #packages .bundle-description{font-size:12px;margin:8px 0 11px}
+ #packages .bundle-features{gap:12px;padding-top:12px;margin-bottom:17px}
+ #packages .bundle-features strong{font-size:11px}
+ #packages .bundle-button{min-height:43px;font-size:15px}
+ #packages .bundle-art{padding:22px 8px 18px}
+}
+
+/* Constrain the entire package card to the viewport, including narrow previews. */
+#homeMain #packages{width:100%!important;max-width:1080px!important;min-width:0!important;box-sizing:border-box!important;margin-inline:auto!important;padding-inline:20px!important}
+#homeMain #packages .zamn-bundles{width:100%!important;max-width:920px!important;min-width:0!important;margin-inline:auto!important}
+#homeMain #packages .bundle-card{width:100%!important;max-width:100%!important;min-width:0!important;margin:0!important;transform:none!important;box-sizing:border-box!important;grid-template-columns:minmax(0,1fr) minmax(0,30%)!important}
+#homeMain #packages .bundle-content,#homeMain #packages .bundle-art{min-width:0!important;max-width:100%!important}
+#homeMain #packages .bundle-heading{min-width:0!important}
+#homeMain #packages .bundle-tag{max-width:100%!important;min-width:0!important}
+@media(max-width:900px){
+ #homeMain #packages .zamn-bundles{width:calc(100% - 16px)!important;max-width:480px!important;grid-template-columns:minmax(0,1fr)!important}
+}
+@media(max-width:520px){
+ #homeMain #packages{padding-inline:16px!important}
+ #homeMain #packages .zamn-bundles{width:calc(100% - 12px)!important}
+ #homeMain #packages .bundle-card{grid-template-columns:minmax(0,1fr) minmax(0,27%)!important}
+}
+
+/* Compact two-by-two comparison: keep all four offers in one short section. */
+@media(min-width:700px){
+ #homeMain #packages{padding-top:26px!important;padding-bottom:32px!important}
+ #homeMain #packages .center-heading{margin-bottom:18px!important}
+ #homeMain #packages .center-heading h2{font-size:29px!important;margin:10px 0 6px!important}
+ #homeMain #packages .center-heading p{font-size:14px!important}
+ #homeMain #packages .dark-pill{font-size:15px!important;padding:8px 22px!important}
+ #homeMain #packages .zamn-bundles{width:100%!important;max-width:780px!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important}
+ #homeMain #packages .bundle-card{min-height:230px!important;border-radius:24px!important;grid-template-columns:minmax(0,1fr) minmax(0,29%)!important}
+ #homeMain #packages .bundle-content{padding:14px 15px!important}
+ #homeMain #packages .bundle-heading{min-height:39px!important;gap:7px!important;flex-direction:row-reverse!important}
+ #homeMain #packages .bundle-heading h3{font-size:17px!important;line-height:1.4!important}
+ #homeMain #packages .bundle-price b{font-size:29px!important}
+ #homeMain #packages .bundle-price{gap:5px!important}
+ #homeMain #packages .bundle-currency{width:23px!important;height:23px!important}
+ #homeMain #packages .bundle-currency .bundle-riyal{width:14px!important;height:16px!important}
+ #homeMain #packages .bundle-description{font-size:12px!important;line-height:1.5!important;min-height:0!important;margin:5px 0 9px!important}
+ #homeMain #packages .bundle-features{gap:9px!important;padding-top:10px!important;margin-bottom:13px!important}
+ #homeMain #packages .bundle-features li{gap:8px!important}
+ #homeMain #packages .bundle-features strong{font-size:12px!important;line-height:1.6!important}
+ #homeMain #packages .bundle-check-ring{width:21px!important;height:21px!important;outline-width:2px!important}
+ #homeMain #packages .bundle-check-ring .z-icon{width:12px!important;height:12px!important}
+ #homeMain #packages .bundle-button{min-height:37px!important;font-size:15px!important;padding:7px 12px!important}
+ #homeMain #packages .bundle-art{padding:17px 8px!important}
+ #homeMain #packages .bundle-tag{font-size:10px!important;min-height:34px!important;padding:5px 3px!important;border-radius:10px!important}
+ #homeMain #packages .bundle-saving b{font-size:11px!important}
+ #homeMain #packages .bundle-saving{font-size:10px!important;gap:3px!important}
+ #homeMain #packages .bundle-saving-riyal{width:10px!important;height:12px!important}
+ #homeMain #packages .bundle-card:after{width:27px!important;height:18px!important;border-top-width:5px!important;top:8px!important;right:9px!important}
+}

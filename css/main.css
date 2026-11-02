@@ -4825,3 +4825,59 @@ body:not(.game-mode) #homeMain a.game-card[data-game-slug="alatrash"] .game-imag
 @media(min-width:760px){
  #homeMain .games-new-row{width:100%!important;max-width:850px!important;grid-template-columns:repeat(3,minmax(0,1fr))!important}
 }
+
+/* Compact, readable feature labels on home game cards. */
+body:not(.game-mode) #homeMain .games-row .game-tags{display:flex!important;justify-content:center!important;align-items:center!important;flex-wrap:wrap!important;gap:5px!important;margin:5px 0 10px!important;overflow:visible!important}
+body:not(.game-mode) #homeMain .games-row .game-tag{display:inline-flex!important;align-items:center!important;justify-content:center!important;max-width:100%!important;min-height:26px!important;padding:4px 9px!important;border:1px solid #e5daf5!important;border-radius:999px!important;background:#f6f1fc!important;color:#65428d!important;box-shadow:none!important;font-size:11px!important;font-weight:700!important;line-height:1.3!important;white-space:normal!important;overflow:visible!important;text-align:center!important}
+@media(max-width:559px){
+ body:not(.game-mode) #homeMain .games-row .game-tags{gap:4px!important;margin:3px 0 7px!important}
+ body:not(.game-mode) #homeMain .games-row .game-tag{min-height:21px!important;padding:3px 6px!important;font-size:9px!important}
+}
+
+/* Restore the original card height with only a modest width increase. */
+@media(min-width:560px){
+ #homeMain .games-row:not(.games-new-row){max-width:1088px!important}
+ body:not(.game-mode) #homeMain .games-row .game-card{height:345px!important;min-height:345px!important;aspect-ratio:auto!important}
+ body:not(.game-mode) #homeMain .games-row .game-image-box{height:175px!important;min-height:175px!important;aspect-ratio:auto!important;flex-shrink:0!important}
+}
+@media(min-width:760px){#homeMain .games-new-row{max-width:826px!important}}
+
+/* Match the cover frame to the artwork ratio at every card width. */
+body:not(.game-mode) #homeMain .games-row a.game-card .game-image-box{width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;aspect-ratio:7 / 5!important;flex:0 0 auto!important;overflow:hidden!important}
+body:not(.game-mode) #homeMain .games-row a.game-card .game-image-box img{display:block!important;width:100%!important;height:100%!important;object-fit:contain!important;object-position:center!important;padding:0!important;transform:none!important;filter:none!important}
+
+/* Keep cover sizing independent of its intrinsic image height; never shrink titles. */
+body:not(.game-mode) #homeMain .games-row a.game-card .game-image-box{position:relative!important}
+body:not(.game-mode) #homeMain .games-row a.game-card .game-image-box img{position:absolute!important;inset:0!important}
+body:not(.game-mode) #homeMain .games-row a.game-card .game-content{display:flex!important;flex-direction:column!important;gap:6px!important;min-height:0!important;overflow:visible!important}
+body:not(.game-mode) #homeMain .games-row a.game-card .game-title{flex:0 0 auto!important;height:auto!important;max-height:none!important;min-height:1.5em!important;line-height:1.5!important;margin:0!important;overflow:visible!important;white-space:normal!important}
+body:not(.game-mode) #homeMain .games-row a.game-card .game-tags{flex:0 0 auto!important;margin:0!important}
+body:not(.game-mode) #homeMain .games-row a.game-card .game-btn{flex:0 0 auto!important;margin-top:auto!important}
+@media(max-width:360px){body:not(.game-mode) #homeMain .games-row a.game-card{min-height:250px!important}}
+
+/* Feature chips: drawn icons, soft contrast, and consistent spacing. */
+body:not(.game-mode) #homeMain .games-row a.game-card .game-tags{gap:5px!important}
+body:not(.game-mode) #homeMain .games-row a.game-card .game-tag{gap:5px!important;padding:5px 8px!important;min-height:27px!important;border:1px solid #e5d9f5!important;border-radius:9px!important;background:linear-gradient(135deg,#faf7ff,#f0e8fa)!important;color:#623791!important;font-weight:700!important;font-size:10px!important;line-height:1.35!important}
+body:not(.game-mode) #homeMain .games-row a.game-card .game-tag .z-icon{flex:0 0 13px!important;width:13px!important;height:13px!important;margin:0!important;color:#8b5cbd!important}
+@media(max-width:559px){
+ body:not(.game-mode) #homeMain .games-row a.game-card .game-tag{gap:3px!important;padding:4px 5px!important;min-height:23px!important;border-radius:7px!important;font-size:8px!important}
+ body:not(.game-mode) #homeMain .games-row a.game-card .game-tag .z-icon{flex-basis:10px!important;width:10px!important;height:10px!important}
+}
+
+/* Bring the reasons-to-play section into the game's purple visual identity. */
+#homeMain .why-section{max-width:1128px!important;padding:38px 20px 50px!important;margin:30px auto!important}
+#homeMain .why-title{margin-bottom:26px!important}
+#homeMain .why-title h2{margin:0!important;padding:12px 26px!important;border:2px solid #5b259a!important;border-radius:16px!important;background:linear-gradient(135deg,#59219a,#7c3aed)!important;color:#fff!important;box-shadow:4px 4px 0 #d5c0f4!important;font-size:25px!important;line-height:1.5!important}
+#homeMain .why-section .features-grid{max-width:1088px!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:16px!important}
+#homeMain .why-section .feature-card{padding:24px 16px!important;border:2px solid #d9c5ef!important;border-radius:20px!important;background:linear-gradient(155deg,#fff,#faf6ff)!important;box-shadow:4px 5px 0 #e4d6f5!important;transform:none!important}
+#homeMain .why-section .feature-icon{display:flex!important;align-items:center!important;justify-content:center!important;width:54px!important;height:54px!important;margin:0 auto 14px!important;border:1px solid #d9c1f0!important;border-radius:16px!important;background:#eee3fb!important;color:#6a30aa!important;box-shadow:none!important;transform:none!important}
+#homeMain .why-section .feature-icon .z-icon{width:27px!important;height:27px!important;margin:0!important}
+#homeMain .why-section .feature-card h3{margin:0 0 9px!important;color:#4c1d78!important;font-size:19px!important;line-height:1.5!important}
+#homeMain .why-section .feature-card p{margin:0!important;color:#786887!important;font-size:14px!important;font-weight:500!important;line-height:1.9!important}
+@media(max-width:900px){#homeMain .why-section .features-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:559px){#homeMain .why-section{padding-inline:14px!important}#homeMain .why-title h2{font-size:21px!important}#homeMain .why-section .features-grid{gap:12px!important}#homeMain .why-section .feature-card{padding:18px 10px!important;border-radius:16px!important}#homeMain .why-section .feature-card h3{font-size:16px!important}#homeMain .why-section .feature-card p{font-size:12px!important}#homeMain .why-section .feature-icon{width:45px!important;height:45px!important}}
+
+/* Match the FAQ heading to the other purple section headings. */
+#homeMain .faq-heading-wrap{display:flex!important;justify-content:center!important;margin-bottom:26px!important}
+#homeMain .faq-heading{width:auto!important;max-width:100%!important;margin:0!important;padding:12px 26px!important;border:2px solid #5b259a!important;border-radius:16px!important;background:linear-gradient(135deg,#59219a,#7c3aed)!important;color:#fff!important;box-shadow:4px 4px 0 #d5c0f4!important;font-size:25px!important;line-height:1.5!important;text-align:center!important;transform:none!important}
+@media(max-width:559px){#homeMain .faq-heading{font-size:21px!important;padding:12px 24px!important}}
