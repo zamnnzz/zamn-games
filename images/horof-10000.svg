@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="840" viewBox="0 0 1200 840" lang="ar">
-<defs><radialGradient id="bg"><stop stop-color="#9a4ef5"/><stop offset="1" stop-color="#35106d"/></radialGradient><pattern id="cells" width="150" height="130" patternUnits="userSpaceOnUse"><path d="M38 2h74l36 63-36 63H38L2 65Z" fill="none" stroke="#fff" stroke-opacity=".10" stroke-width="3"/></pattern><filter id="shadow"><feDropShadow dx="0" dy="10" stdDeviation="7" flood-color="#180036" flood-opacity=".6"/></filter></defs>
-<rect width="1200" height="840" fill="url(#bg)"/><rect width="1200" height="840" fill="url(#cells)"/>
-<g text-anchor="middle" font-family="Tahoma,Arial,sans-serif" font-weight="bold" filter="url(#shadow)"><text x="600" y="245" font-size="58" fill="#fff">ألعاب زامن</text><text x="600" y="455" font-size="190" fill="#ffe76c" direction="rtl">حروف</text></g>
-<rect x="270" y="530" width="660" height="170" rx="45" fill="#fff"/>
-<text x="600" y="643" text-anchor="middle" font-family="Tahoma,Arial,sans-serif" font-size="80" font-weight="bold" fill="#4a178d" direction="rtl">10,000 سؤال</text>
-</svg>
