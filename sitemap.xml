@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<?xml version='1.0' encoding='UTF-8'?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://zamn.games/</loc>
     <lastmod>2026-11-01</lastmod>
@@ -7,48 +7,102 @@
   </url>
   <url>
     <loc>https://zamn.games/hrof</loc>
-    <lastmod>2026-11-01</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://zamn.games/images/square/horof-bell-v2.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://zamn.games/images/horof-cover-v2.webp</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://zamn.games/thdi</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://zamn.games/images/square/photos-1.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://zamn.games/images/tahadi-alsowar-cover-v2.webp</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://zamn.games/fwzr</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://zamn.games/images/square/fawazeer.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://zamn.games/images/fawazeer-cover.webp</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://zamn.games/family</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://zamn.games/images/square/family-feud.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://zamn.games/assets/images/family-feud-cover.webp</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://zamn.games/link</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://zamn.games/images/square/guess-link-v2.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://zamn.games/images/guess-link-cover-v2.webp</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://zamn.games/atrsh</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://zamn.games/images/square/alatrash-v3.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://zamn.games/images/alatrash-cover-v3.webp</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://zamn.games/top10</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://zamn.games/images/square/top-ten-v2.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://zamn.games/images/top-ten-cover-v2.webp</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://zamn.games/mnana</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://zamn.games/images/square/mn-ana-v2.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://zamn.games/images/mn-ana-cover-v2.webp</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://zamn.games/aljawab</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://zamn.games/images/square/aljawab-almajhool.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://zamn.games/images/aljawab-almajhool.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://zamn.games/blog</loc>
@@ -125,5 +179,33 @@
     <lastmod>2026-10-22</lastmod>
     <priority>0.6</priority>
   </url>
-  <url><loc>https://zamn.games/guess-person</loc><lastmod>2026-10-22</lastmod><priority>0.8</priority></url>
-<url><loc>https://zamn.games/blog/how-to-play-guess-person</loc><lastmod>2026-10-22</lastmod></url><url><loc>https://zamn.games/million</loc><lastmod>2026-10-29</lastmod></url><url><loc>https://zamn.games/blog/how-to-play-million</loc><lastmod>2026-10-29</lastmod></url></urlset>
+  <url>
+    <loc>https://zamn.games/guess-person</loc>
+    <lastmod>2026-11-03</lastmod>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://zamn.games/images/square/guess-person.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://zamn.games/images/guess-person.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://zamn.games/blog/how-to-play-guess-person</loc>
+    <lastmod>2026-10-22</lastmod>
+  </url>
+  <url>
+    <loc>https://zamn.games/million</loc>
+    <lastmod>2026-11-03</lastmod>
+    <image:image>
+      <image:loc>https://zamn.games/images/square/million.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://zamn.games/images/millionaire-cover-v2.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://zamn.games/blog/how-to-play-million</loc>
+    <lastmod>2026-10-29</lastmod>
+  </url>
+</urlset>

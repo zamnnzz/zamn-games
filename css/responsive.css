@@ -1,0 +1,65 @@
+/* Shared viewport and installed-app safe areas. Game iframe contents are untouched. */
+:root{--zamn-safe-top:env(safe-area-inset-top,0px);--zamn-safe-bottom:env(safe-area-inset-bottom,0px);--zamn-safe-left:env(safe-area-inset-left,0px);--zamn-safe-right:env(safe-area-inset-right,0px);--zamn-app-top-gap:0px;--zamn-app-bottom-gap:0px;--zamn-nav-height:66px}
+@media(display-mode:standalone),(display-mode:fullscreen){:root{--zamn-app-top-gap:12px;--zamn-app-bottom-gap:8px}}
+html.zamn-installed{--zamn-app-top-gap:12px;--zamn-app-bottom-gap:8px}
+html{min-width:0;max-width:100%;overflow-x:clip}
+body:not(.player-open){min-width:0!important;max-width:100%!important;min-height:100svh;padding-left:var(--zamn-safe-left)!important;padding-right:var(--zamn-safe-right)!important;overflow-x:clip}
+body>header,body>main,body>footer,#homeMain,#gameView{min-width:0;max-width:100%;box-sizing:border-box}
+#homeMain section,#gameView section,.blog-site main,.legal-page main{min-width:0;box-sizing:border-box}
+h1,h2,h3,p{overflow-wrap:break-word}
+#homeHero{padding-top:calc(var(--zamn-safe-top) + var(--zamn-app-top-gap))!important}
+#homeHero .hero-copy,#homeHero .zamn-news-feed{min-width:0!important}
+#homeHero .hero-tags{flex-wrap:wrap!important}
+#homeHero .zamn-news-top #homeLogin{max-width:100%}
+#gameView .retro-game-content{padding-top:calc(76px + var(--zamn-safe-top) + var(--zamn-app-top-gap))!important}
+#gameBackBtn{top:calc(14px + var(--zamn-safe-top) + var(--zamn-app-top-gap))!important;max-width:calc(100% - 28px)}
+.blog-site .blog-site-nav,.legal-page .legal-header{padding-top:calc(16px + var(--zamn-safe-top) + var(--zamn-app-top-gap))!important}
+.legal-nav,.legal-footer-links,.blog-site-nav,.blog-nav-links{flex-wrap:wrap;min-width:0;max-width:100%}
+.legal-main,.blog-article-body{overflow-wrap:anywhere}
+.footer-inner{padding-bottom:calc(32px + var(--zamn-safe-bottom) + var(--zamn-app-bottom-gap))!important}
+.owned-game-card,.player-library-game,.player-library-game-info,.player-library-game-info h4{min-width:0!important}
+.owned-game-card strong,.player-library-game-info h4{overflow-wrap:anywhere;white-space:normal!important}
+/* Flexible content height avoids clipping when a wider tablet card has a taller cover. */
+@media(min-width:560px) and (max-width:899px){
+ body:not(.game-mode) #homeMain .games-row a.game-card{height:auto!important;min-height:330px!important;aspect-ratio:auto!important}
+ body:not(.game-mode) #homeMain .games-row a.game-card .game-content{min-height:148px!important}
+}
+@media(min-width:650px) and (max-width:899px){#homeMain .games-row:not(.games-new-row){grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:360px){
+ #homeMain .games-section{padding-inline:12px!important}
+ body:not(.game-mode) #homeMain .games-row a.game-card{height:auto!important;min-height:250px!important;aspect-ratio:auto!important}
+ body:not(.game-mode) #homeMain .games-row a.game-card .game-content{padding:7px!important;gap:5px!important}
+ body:not(.game-mode) #homeMain .games-row a.game-card .game-title{font-size:clamp(10px,3.4vw,12px)!important}
+ body:not(.game-mode) #homeMain .games-row a.game-card .game-tag{font-size:7px!important;padding:3px 4px!important}
+ #homeMain #packages .bundle-heading h3{font-size:16px!important}
+ #homeMain #packages .bundle-price b{font-size:28px!important}
+}
+/* Scrollable dialogs follow the visible viewport when the keyboard opens. */
+.player-login-overlay,.code-entry-overlay,.support-overlay{width:100%!important;max-width:100%!important;min-width:0!important;max-height:var(--zamn-ui-height,100dvh)!important;overscroll-behavior:contain}
+.player-login-overlay{height:var(--zamn-ui-height,100dvh)!important;overflow-y:auto!important;overflow-x:hidden!important}
+.player-login-page{width:100%!important;min-width:0!important;min-height:100%!important;max-width:100%!important}
+.player-login-header{padding-top:calc(48px + var(--zamn-safe-top) + var(--zamn-app-top-gap))!important;min-height:min(220px,30svh)!important}
+.player-login-content{padding-bottom:calc(28px + var(--zamn-safe-bottom) + var(--zamn-app-bottom-gap))!important}
+.player-login-back,.player-login-logout{top:calc(14px + var(--zamn-safe-top) + var(--zamn-app-top-gap))!important}
+.support-overlay{height:var(--zamn-ui-height,100dvh)!important;overflow-y:auto!important;align-items:flex-start!important;padding-top:calc(16px + var(--zamn-safe-top) + var(--zamn-app-top-gap))!important;padding-bottom:calc(16px + var(--zamn-safe-bottom) + var(--zamn-app-bottom-gap))!important}
+.support-dialog{margin-block:auto!important;max-width:min(560px,100%)!important;max-height:none!important;min-width:0!important;box-sizing:border-box}
+.support-dialog input,.support-dialog textarea,.player-login-card input,.player-login-card select{max-width:100%;min-width:0;box-sizing:border-box}
+.code-entry-overlay{height:var(--zamn-ui-height,100dvh)!important}
+.code-entry-card{max-height:100%!important;overflow-y:auto!important;min-width:0!important}
+@media(max-width:560px){.code-entry-card{padding-top:calc(76px + var(--zamn-safe-top) + var(--zamn-app-top-gap))!important;padding-bottom:calc(28px + var(--zamn-safe-bottom) + var(--zamn-app-bottom-gap))!important}.code-entry-back{top:calc(22px + var(--zamn-safe-top) + var(--zamn-app-top-gap))!important}}
+html.zamn-keyboard-open .player-login-header{min-height:0!important;padding-top:calc(48px + var(--zamn-safe-top))!important;padding-bottom:14px!important}
+.support-launch{left:calc(18px + var(--zamn-safe-left))!important;bottom:calc(18px + var(--zamn-safe-bottom) + var(--zamn-app-bottom-gap))!important;max-width:calc(100% - 36px - var(--zamn-safe-left) - var(--zamn-safe-right))}
+@media(max-width:759px),(orientation:landscape) and (max-height:500px) and (max-width:1024px){
+ body:has(#homeBottomNav):not(.game-mode):not(.player-open){padding-bottom:calc(var(--zamn-nav-height) + 24px + var(--zamn-safe-bottom) + var(--zamn-app-bottom-gap))!important}
+ body:not(.game-mode):not(.player-open) #homeBottomNav{left:calc(12px + var(--zamn-safe-left));right:calc(12px + var(--zamn-safe-right));bottom:calc(8px + var(--zamn-safe-bottom) + var(--zamn-app-bottom-gap))}
+ body:has(#homeBottomNav):not(.game-mode):not(.player-open) .support-launch{left:calc(12px + var(--zamn-safe-left))!important;bottom:calc(var(--zamn-nav-height) + 24px + var(--zamn-safe-bottom) + var(--zamn-app-bottom-gap))!important}
+}
+@media(orientation:landscape) and (max-height:500px){
+ :root{--zamn-nav-height:52px}
+ .home-bottom-nav a{flex-direction:row;min-height:38px;gap:7px}
+ .home-bottom-nav svg{width:19px;height:19px}
+ .player-login-header{min-height:0!important;padding-bottom:18px!important}
+}
+.player-login-overlay,.code-entry-overlay{padding-left:var(--zamn-safe-left)!important;padding-right:var(--zamn-safe-right)!important}
+.support-overlay{padding-left:calc(16px + var(--zamn-safe-left))!important;padding-right:calc(16px + var(--zamn-safe-right))!important}
+@media(max-width:759px),(orientation:landscape) and (max-height:500px) and (max-width:1024px){.player-login-card input,.player-login-card select,.support-dialog input,.support-dialog textarea,.code-entry-card input{font-size:16px!important}}

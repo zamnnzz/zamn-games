@@ -6,17 +6,17 @@
   "start_url": "/",
   "scope": "/",
   "display": "fullscreen",
-  "background_color": "#ffffff",
+  "background_color": "#f3eefb",
   "theme_color": "#6d28d9",
   "icons": [
     {
-      "src": "/favicon.png?v=10",
+      "src": "/favicon.png?v=11",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/favicon.png?v=10",
+      "src": "/favicon.png?v=11",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"

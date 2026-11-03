@@ -360,10 +360,10 @@
         a.href=gamePath(g);
         if(oldStyle){
           a.className="player-library-game";
-          a.innerHTML=`<div class="player-library-image-wrap"><img class="player-library-image" src="${g.image}" alt=""></div><div class="player-library-game-info"><h4>${g.name}</h4><p>لعبة محفوظة في حسابك</p></div><span class="player-library-open">فتح</span>`;
+          a.innerHTML=`<div class="player-library-image-wrap"><img class="player-library-image" src="${g.squareImage||g.image}" alt="غلاف ${g.name}" width="512" height="512" decoding="async"></div><div class="player-library-game-info"><h4>${g.name}</h4><p>لعبة محفوظة في حسابك</p></div><span class="player-library-open">فتح</span>`;
         }else{
           a.className="owned-game-card";
-          a.innerHTML=`<img src="${g.image}" alt=""><div><strong>${g.name}</strong><span>فتح صفحة اللعبة ←</span></div>`;
+          a.innerHTML=`<img src="${g.squareImage||g.image}" alt="غلاف ${g.name}" width="512" height="512" decoding="async"><div><strong>${g.name}</strong><span>فتح صفحة اللعبة ←</span></div>`;
         }
         target.appendChild(a);
       });

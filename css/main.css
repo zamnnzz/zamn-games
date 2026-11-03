@@ -4887,3 +4887,9 @@ body:has(#homeMain):not(.game-mode){background:#f3eefb!important}
 body:not(.game-mode) #homeMain{background:#f3eefb!important;background-image:none!important}
 body:not(.game-mode) #homeMain>section{background:transparent!important;background-image:none!important}
 body:not(.game-mode) #homeMain .games-section,body:not(.game-mode) #homeMain .game-category,body:not(.game-mode) #homeMain .category-block,body:not(.game-mode) #homeMain .why-section,body:not(.game-mode) #homeMain .faq-section{background:transparent!important;background-image:none!important}
+
+/* Account libraries use the same square covers as recommendations. */
+.owned-game-card img{width:76px!important;height:76px!important;aspect-ratio:1!important;object-fit:contain!important;flex-shrink:0!important;background:#faf7fd}
+.player-library-image-wrap{aspect-ratio:1!important;flex-shrink:0!important}
+.player-library-image{object-fit:contain!important;padding:0!important}
+@media(max-width:600px){.owned-game-card img{width:62px!important;height:62px!important}}

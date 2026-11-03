@@ -1,0 +1,6 @@
+(()=>{
+ const root=document.documentElement,installed=matchMedia('(display-mode:standalone)'),full=matchMedia('(display-mode:fullscreen)');let queued=false;
+ function update(){queued=false;root.classList.toggle('zamn-installed',installed.matches||full.matches||navigator.standalone===true);const vv=window.visualViewport;const height=Math.round(vv?.height||innerHeight);if(height>0)root.style.setProperty('--zamn-ui-height',height+'px');const focused=document.activeElement;root.classList.toggle('zamn-keyboard-open',!!focused?.matches('input,textarea,select')&&!!vv&&vv.height<innerHeight-120);}
+ function schedule(){if(!queued){queued=true;requestAnimationFrame(update);}}
+ window.addEventListener('resize',schedule,{passive:true});window.addEventListener('orientationchange',schedule,{passive:true});window.visualViewport?.addEventListener('resize',schedule,{passive:true});document.addEventListener('focusin',schedule);document.addEventListener('focusout',schedule);for(const media of [installed,full]){if(media.addEventListener)media.addEventListener('change',schedule);else media.addListener(schedule);}update();
+})();
