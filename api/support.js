@@ -96,6 +96,53 @@ function requireOwner(req, key) {
   try { data = JSON.parse(Buffer.from(payload, 'base64url').toString()); } catch { throw Error('unauthorized'); }
   if (data.phone !== OWNER_PHONE || !Number.isFinite(data.expires) || data.expires < Date.now()) throw Error('unauthorized');
 }
+const ADMIN_GAMES = [{"id":1,"slug":"horof-bell","name":"لعبة حروف","path":"/hrof","code":"1950"},{"id":3,"slug":"photos-1","name":"تحدي الصور","path":"/thdi","code":"116677"},{"id":7,"slug":"fawazeer","name":"فوازير","path":"/fwzr","code":"20026"},{"id":8,"slug":"guess-link","name":"خمن الرابط","path":"/link","code":"20066"},{"id":6,"slug":"family-feud","name":"فاميلي فيود","path":"/family","code":"19009"},{"id":9,"slug":"alatrash","name":"مين الأطرش في الزفة","path":"/atrsh","code":"140004"},{"id":10,"slug":"top-ten","name":"لعبة توب تن","path":"/top10","code":"119900"},{"id":11,"slug":"mn-ana","name":"لعبة من أنا؟","path":"/mnana","code":"191909"},{"id":12,"slug":"aljawab-almajhool","name":"لعبة الجواب المجهول","path":"/aljawab","code":"109010"},{"id":13,"slug":"guess-person","name":"خمن الشخصية","path":"/guess-person","code":"203040"},{"id":14,"slug":"million","name":"من سيربح المليون","path":"/million","code":"506070"}];
+function buildAdminStats(data, now=Date.now()) {
+ const dayFormatter=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Riyadh',year:'numeric',month:'2-digit',day:'2-digit'});
+ const dayKey=at=>dayFormatter.format(new Date(at));
+ const todayKey=dayKey(now),today=Date.parse(todayKey+'T00:00:00+03:00'),week=today-6*86400000,month=Date.parse(todayKey.slice(0,7)+'-01T00:00:00+03:00');
+ const metric=()=>({total:0,today:0,week:0,month:0,lastAt:null});
+ const increment=(m,at)=>{if(!Number.isFinite(at)||at<=0||at>now+300000)return;m.total++;if(at>=today)m.today++;if(at>=week)m.week++;if(at>=month)m.month++;m.lastAt=Math.max(m.lastAt||0,at);};
+ const views=metric(),plays=metric(),visitors={today:new Set(),week:new Set(),month:new Set()};
+ const gameRows=ADMIN_GAMES.map(g=>({id:g.id,slug:g.slug,name:g.name,path:g.path,views:metric(),plays:metric(),owners:0}));
+ const byId=new Map(gameRows.map(g=>[String(g.id),g])),byPath=new Map(gameRows.map(g=>[g.path,g]));
+ const customers=new Map();
+ for(const [number,v]of Object.entries(data.customers||{})){
+  if(!/^\d{10,15}$/.test(number)||!v||typeof v!=='object')continue;
+  const keys=v.games||{},owned=ADMIN_GAMES.filter(g=>keys[g.code]===true);
+  if((keys['1850']||keys['17007'])&&!owned.some(g=>g.slug==='photos-1'))owned.push(ADMIN_GAMES.find(g=>g.slug==='photos-1'));
+  const isAdmin='+'+number===OWNER_PHONE;
+  if(!isAdmin)owned.forEach(g=>{byId.get(String(g.id)).owners++});
+  customers.set(number,{phone:number,name:String(v.name||'لاعب').slice(0,100),isAdmin,ownedGames:owned.map(g=>({slug:g.slug,name:g.name})),ownedCount:owned.length,views:metric(),plays:metric(),lastVisit:Number(v.lastLogin)||null,gameActivity:{}});
+ }
+ const days=Array.from({length:14},(_,i)=>({day:dayKey(today-(13-i)*86400000),views:0,plays:0}));const dayMap=new Map(days.map(d=>[d.day,d]));
+ for(const session of Object.values(data.sessions||{}))for(const event of Object.values(session||{})){
+  if(!event||!['pageview','navigation'].includes(event.type))continue;
+  const at=Number(event.at);if(!Number.isFinite(at)||at<=0||at>now+300000)continue;
+  const p=String(event.phone||'');if('+'+p===OWNER_PHONE)continue;
+  increment(views,at);const visitor=String(event.visitorId||event.sessionId||'');if(visitor){if(at>=today)visitors.today.add(visitor);if(at>=week)visitors.week.add(visitor);if(at>=month)visitors.month.add(visitor);}
+  const day=dayMap.get(dayKey(at));if(day)day.views++;
+  const path=String(event.path||'').split('?')[0].replace(/\/$/,'')||'/';const game=byPath.get(path)||gameRows.find(g=>path==='/game/'+g.slug);if(game)increment(game.views,at);
+  const customer=customers.get(p);if(customer){increment(customer.views,at);customer.lastVisit=Math.max(customer.lastVisit||0,at);}
+ }
+ for(const entry of Object.values(data.entries||{})){
+  if(!entry||'+'+String(entry.phone||'')===OWNER_PHONE)continue;
+  const at=Number(entry.enteredAt);if(!Number.isFinite(at)||at<=0||at>now+300000)continue;
+  increment(plays,at);const game=byId.get(String(entry.gameId));if(game)increment(game.plays,at);
+  const day=dayMap.get(dayKey(at));if(day)day.plays++;
+  const customer=customers.get(String(entry.phone||''));if(customer){increment(customer.plays,at);customer.lastVisit=Math.max(customer.lastVisit||0,at);if(game){const v=customer.gameActivity[game.slug]||={name:game.name,count:0,lastAt:null};v.count++;v.lastAt=Math.max(v.lastAt||0,at);}}
+ }
+ // Legacy counters can include older entries than the bounded detailed log.
+ for(const g of gameRows){const legacy=data.totals?.[String(g.id)];g.recordedPlayCount=Math.max(g.plays.total,Number(legacy?.count)||0);}
+ const online=Object.values(data.online||{}).filter(v=>v&&'+'+String(v.phone||'')!==OWNER_PHONE&&Number(v.lastActivity)>=now-300000).length;
+ const list=[...customers.values()].sort((a,b)=>(b.lastVisit||0)-(a.lastVisit||0));
+ return {generatedAt:now,timeZone:'Asia/Riyadh',periods:{today,week,month},views,plays,uniqueVisitors:Object.fromEntries(Object.entries(visitors).map(([k,v])=>[k,v.size])),online,customerCount:list.filter(c=>!c.isAdmin).length,totalOwnerships:list.filter(c=>!c.isAdmin).reduce((n,c)=>n+c.ownedCount,0),customers:list,games:gameRows,days,coverage:{sessions:Object.keys(data.sessions||{}).length,playEntries:Object.keys(data.entries||{}).length,limited:Object.keys(data.sessions||{}).length>=5000||Object.keys(data.entries||{}).length>=50000,customerViewsFrom:'إحصاءات زيارات العميل مرتبطة برقمه تبدأ بعد هذا التحديث؛ آخر دخول وتشغيل سابق متاحان حسب السجل.'}};
+}
+async function adminStats(db){
+ const [customers,sessions,entries,totals,online]=await Promise.all([db.ref('customers').get(),db.ref('analytics/sessionEvents').orderByKey().limitToLast(5000).get(),db.ref('analytics/gameEntryLogs').orderByKey().limitToLast(50000).get(),db.ref('analytics/gameEntries').get(),db.ref('analytics/online').get()]);
+ return buildAdminStats({customers:customers.val(),sessions:sessions.val(),entries:entries.val(),totals:totals.val(),online:online.val()});
+}
+
 module.exports = async function support(req, res) {
   try {
     const origin = req.headers.origin;
@@ -105,6 +152,7 @@ module.exports = async function support(req, res) {
     if (req.method === 'GET') {
       requireOwner(req, key);
       if (req.query?.action === 'session') return reply(res, 200, { ok: true });
+      if (req.query?.action === 'stats') return reply(res, 200, { ok: true, stats: await adminStats(db) });
       const before = String(req.query?.before || '');
       if (before && !/^[-\w]{20}$/.test(before)) return reply(res, 400, { error: 'invalid_cursor' });
       let query = db.ref(BASE + '/messages').orderByKey();
@@ -212,3 +260,5 @@ module.exports = async function support(req, res) {
     return reply(res, 503, { error: code === 'support_not_configured' ? code : 'service_unavailable' });
   }
 };
+
+module.exports.buildAdminStats = buildAdminStats;

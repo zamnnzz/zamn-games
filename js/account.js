@@ -122,34 +122,22 @@
   }
 
   function normalizeCode(v){ return normalizeDigits(v); }
-  function gameFromCode(value){
-    const code=normalizeCode(value);
-    return GAMES.find(game=>normalizeCode(game.code)===code)||null;
+  async function accessRequest(action, data={}){
+    const response=await fetch('/api/game-access',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,phone,...data})});
+    const result=await response.json().catch(()=>({}));
+    if(!response.ok||!result.ok){
+      if(result.error==='invalid_code')throw Error('الكود غير صحيح');
+      if(result.error==='too_many_attempts')throw Error('محاولات كثيرة، انتظر قليلًا ثم حاول مجددًا');
+      throw Error('تعذر الاتصال بخدمة التفعيل، حاول مجددًا');
+    }
+    return result;
   }
-  const LEGACY_PHOTO_CODES = ["1850","17007"];
-  const NEW_PHOTO_CODE = "116677";
-
-  async function migrateLegacyPhotoOwnership(p){
-    // Safe migration only: old parts 2 and 3 had unique codes.
-    // The historical part-1 code 1950 overlaps with the current Horof code,
-    // so it cannot be migrated automatically without granting the new game
-    // to unrelated Horof owners.
-    const hasLegacy = LEGACY_PHOTO_CODES.some(code => ownedCodes.includes(code));
-    if(!hasLegacy || ownedCodes.includes(NEW_PHOTO_CODE)) return false;
-    await db.ref("customers/"+p+"/games/"+NEW_PHOTO_CODE).set(true);
-    ownedCodes.push(NEW_PHOTO_CODE);
-    return true;
-  }
-
   async function loadOwnedGames(p){
-    await ensureFirebase();
-    const snap=await db.ref("customers/"+p+"/games").get();
-    ownedCodes=Object.keys(snap.val()||{});
-    try{ await migrateLegacyPhotoOwnership(p); }catch(e){ console.warn("legacy photo migration",e); }
-    renderLibrary();
-    return ownedCodes;
+    const result=await accessRequest('library',{phone:p});
+    ownedCodes=Array.isArray(result.games)?result.games:[];
+    renderLibrary();return ownedCodes;
   }
-  function isOwned(game){ return ownedCodes.includes(String(game.code)); }
+  function isOwned(game){return ownedCodes.includes(game.slug);}
 
   async function updatePresence(game=null,entryType=null){
     try{
@@ -207,7 +195,7 @@
       sessionStorage.setItem("zamnSessionId",sessionId);
       const ref=db.ref("analytics/sessionEvents/"+sessionId).push();
       await ref.set({
-        visitorId, sessionId, type,
+        visitorId, sessionId, type, phone:phone||null, playerName:playerName||null,
         path:location.pathname+location.search,
         title:document.title,
         viewport:Math.round(window.innerWidth||0)+"x"+Math.round(window.innerHeight||0),
@@ -218,7 +206,10 @@
   }
 
   function wireVisitorActivity(){
-    logVisitorEvent("pageview",{referrer:(document.referrer||"").slice(0,180)});
+    let lastPath='',lastAt=0;
+    const recordPage=()=>{const path=location.pathname;const now=Date.now();if(path===lastPath&&now-lastAt<1000)return;lastPath=path;lastAt=now;logVisitorEvent('pageview',{referrer:(document.referrer||'').slice(0,180)});};
+    recordPage();
+    window.addEventListener('zamn-page-view',recordPage);
     document.addEventListener("click",e=>{
       const el=e.target.closest?.("a,button,[role='button'],summary");
       if(!el) return;
@@ -230,7 +221,7 @@
       // Never capture input values, phone numbers, codes, or typed text.
       logVisitorEvent("click",payload);
     },{passive:true});
-    window.addEventListener("popstate",()=>logVisitorEvent("navigation"),{passive:true});
+    window.addEventListener("popstate",recordPage,{passive:true});
   }
 
   function showLogin(){
@@ -404,37 +395,24 @@
     const input=$("accountGameCodeInput");
     const entered=normalizeCode(input?.value);
     if(!entered){ message("أدخل كود اللعبة","error"); return; }
-    const game=gameFromCode(entered);
-    if(!game){ message("الكود غير صحيح","error"); return; }
-    if(isOwned(game)){
-      pendingGame=null; prepareAccountActivation();
-      if(input) input.value="";
-      message(`${game.name} محفوظة في حسابك مسبقًا`);
-      return;
-    }
     try{
-      await ensureFirebase();
-      await db.ref("customers/"+phone+"/games/"+String(game.code)).set(true);
-      await loadOwnedGames(phone);
-      pendingGame=null; prepareAccountActivation();
-      if(input) input.value="";
-      message(`تم حفظ ${game.name} في حسابك`);
-    }catch(e){ message(e.message||"تعذر حفظ الكود","error"); }
+      const result=await accessRequest('activate',{code:entered});
+      ownedCodes=result.games;renderLibrary();
+      pendingGame=null;prepareAccountActivation();
+      if(input)input.value='';message('تم حفظ اللعبة في حسابك');
+    }catch(e){message(e.message||'تعذر حفظ الكود','error');}
   }
 
   async function verifyCode(){
-    const game=pendingGame||currentGame(); if(!game)return;
-    if(!phone){ modal("codeModal",false);showLogin();return; }
-    const entered=normalizeCode($("gameCodeInput").value);
-    const real=normalizeCode(game.code);
-    if(entered!==real){ message("الرمز غير صحيح","error"); return; }
+    const game=pendingGame||currentGame();if(!game)return;
+    if(!phone){modal('codeModal',false);showLogin();return;}
+    const entered=normalizeCode($('gameCodeInput').value);
+    if(!entered){message('أدخل كود اللعبة','error');return;}
     try{
-      await ensureFirebase();
-      await db.ref("customers/"+phone+"/games/"+String(game.code)).set(true);
-      await loadOwnedGames(phone);
-      modal("codeModal",false); message("تم حفظ اللعبة في حسابك");
-      openPlayer(game,"owned");
-    }catch(e){ message(e.message||"تعذر حفظ الرمز","error"); }
+      const result=await accessRequest('activate',{code:entered,slug:game.slug});
+      ownedCodes=result.games;renderLibrary();
+      modal('codeModal',false);message('تم حفظ اللعبة في حسابك');openPlayer(game,'owned');
+    }catch(e){message(e.message||'تعذر حفظ الرمز','error');}
   }
 
   function openPlayer(game,entryType){
@@ -500,7 +478,6 @@
 
   function init(){
     ensureAccountActivationCard();
-    wireVisitorActivity();
     const select=$("countrySelect");
     countries.forEach((c,i)=>{
       const o=document.createElement("option");o.value=i;o.textContent=`${c.flag} ${c.name} +${c.code}`;select.appendChild(o);
@@ -565,6 +542,7 @@
     $("gameTrialBtn")?.addEventListener("click",e=>{e.preventDefault();startTrial(currentGame());},true);
 
     const accountReady=restoreLogin();
+    accountReady.then(wireVisitorActivity);
     window.ZamnAccount={getCustomer:async()=>{await accountReady;return phone && playerName ? {phone,name:playerName} : null;}};
   }
   if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",init); else init();

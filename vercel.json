@@ -35,6 +35,9 @@
   "functions": {
     "api/support.js": {
       "maxDuration": 30
+    },
+    "api/game-access.js": {
+      "maxDuration": 30
     }
   }
 }

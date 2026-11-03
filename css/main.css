@@ -4881,3 +4881,9 @@ body:not(.game-mode) #homeMain .games-row a.game-card .game-tag .z-icon{flex:0 0
 #homeMain .faq-heading-wrap{display:flex!important;justify-content:center!important;margin-bottom:26px!important}
 #homeMain .faq-heading{width:auto!important;max-width:100%!important;margin:0!important;padding:12px 26px!important;border:2px solid #5b259a!important;border-radius:16px!important;background:linear-gradient(135deg,#59219a,#7c3aed)!important;color:#fff!important;box-shadow:4px 4px 0 #d5c0f4!important;font-size:25px!important;line-height:1.5!important;text-align:center!important;transform:none!important}
 @media(max-width:559px){#homeMain .faq-heading{font-size:21px!important;padding:12px 24px!important}}
+
+/* One calm background across the home page sections. */
+body:has(#homeMain):not(.game-mode){background:#f3eefb!important}
+body:not(.game-mode) #homeMain{background:#f3eefb!important;background-image:none!important}
+body:not(.game-mode) #homeMain>section{background:transparent!important;background-image:none!important}
+body:not(.game-mode) #homeMain .games-section,body:not(.game-mode) #homeMain .game-category,body:not(.game-mode) #homeMain .category-block,body:not(.game-mode) #homeMain .why-section,body:not(.game-mode) #homeMain .faq-section{background:transparent!important;background-image:none!important}
