@@ -89,3 +89,14 @@ html.zamn-keyboard-open .player-login-header{min-height:0!important;padding-top:
  body:not(.game-mode) #homeMain .games-row a.game-card{height:auto!important;min-height:345px!important}
  body:not(.game-mode) #homeMain .games-row a.game-card .game-content{flex:1 0 auto!important}
 }
+/* Paint the lower safe-area continuously, including ordinary mobile browsing. */
+@media(max-width:759px),(orientation:landscape) and (max-height:500px) and (max-width:1024px){
+ body:not(.game-mode):not(.player-open) #homeBottomNav{isolation:isolate}
+ body:not(.game-mode):not(.player-open) #homeBottomNav::before{
+  content:"";position:absolute;z-index:-1;pointer-events:none;
+  left:calc(-16px - var(--zamn-safe-left));right:calc(-16px - var(--zamn-safe-right));
+  top:50%;bottom:calc(-18px - var(--zamn-safe-bottom) - var(--zamn-app-bottom-gap));
+  background:#f3eefb;
+ }
+ html.zamn-installed body:not(.game-mode):not(.player-open) #homeBottomNav{background:#f3eefb}
+}
