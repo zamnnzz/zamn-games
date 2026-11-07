@@ -1,14 +1,15 @@
 (()=>{
  'use strict';
  function init(){
-  const anchor=document.getElementById('zamnAdminStats')||document.getElementById('supportInbox');if(!anchor)return;
+  const home=document.getElementById('homeMain');if(!home)return;
+  const anchor=home.querySelector('#supportInbox');
   const el=(tag,text)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;return n};
   const panel=el('section');panel.id='zamnAdminGrants';panel.className='admin-grants';panel.hidden=true;
   const title=el('h2','إدارة ألعاب العملاء'),form=el('form'),label=el('label','رقم جوال العميل'),input=el('input'),search=el('button','بحث');
   input.type='tel';input.inputMode='tel';input.autocomplete='off';input.id='adminGrantPhone';input.placeholder='05xxxxxxxx';input.required=true;label.htmlFor=input.id;
   search.type='submit';form.append(label,input,search);
   const notice=el('p');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');
-  const result=el('div');panel.append(title,el('p','ابحث برقم العميل، ثم اختر اللعبة وفعّلها أو أزلها من حسابه.'),form,notice,result);anchor.before(panel);
+  const result=el('div');panel.append(title,el('p','ابحث برقم العميل، ثم اختر اللعبة وفعّلها أو أزلها من حسابه.'),form,notice,result);if(anchor)anchor.before(panel);else home.prepend(panel);
   let active=false,version=0,current=null,busy=false,timer;
   const normalize=v=>{let n=String(v).replace(/[٠-٩]/g,d=>'0123456789'['٠١٢٣٤٥٦٧٨٩'.indexOf(d)]).replace(/[۰-۹]/g,d=>'0123456789'['۰۱۲۳۴۵۶۷۸۹'.indexOf(d)]).replace(/\D/g,'');if(n.startsWith('00'))n=n.slice(2);if(/^05\d{8}$/.test(n))n='966'+n.slice(1);if(/^5\d{8}$/.test(n))n='966'+n;return n};
   async function api(body){
