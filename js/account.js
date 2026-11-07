@@ -256,12 +256,12 @@
     card.innerHTML=`
       <div class="player-activation-icon" aria-hidden="true"><span class="z-icon z-icon-lock" aria-hidden="true"></span></div>
       <div class="player-activation-copy">
-        <h3>أدخل كود اللعبة</h3>
-        <p id="accountActivationHint">أدخل الكود الذي استلمته بعد الشراء، وستُحفظ اللعبة في حسابك.</p>
+        <h3>أدخل كود اللعبة أو الباقة</h3>
+        <p id="accountActivationHint">أدخل كود الشراء؛ كود اللعبة يفعّل لعبتها، وكود الباقة يفعّل جميع ألعابها.</p>
       </div>
       <div class="player-activation-row">
-        <input autocomplete="one-time-code" class="player-login-input" id="accountGameCodeInput" inputmode="numeric" placeholder="كود اللعبة">
-        <button class="player-activation-button" id="activateAccountCodeBtn" type="button">تفعيل اللعبة</button>
+        <input autocomplete="one-time-code" class="player-login-input" id="accountGameCodeInput" inputmode="numeric" placeholder="كود اللعبة أو الباقة">
+        <button class="player-activation-button" id="activateAccountCodeBtn" type="button">تفعيل الكود</button>
       </div>`;
     const libraryHeading=stage.querySelector(".player-library-heading");
     stage.insertBefore(card,libraryHeading||null);
@@ -272,7 +272,7 @@
     if(hint){
       hint.textContent=game
         ? `أدخل كود ${game.name} الذي استلمته بعد الشراء، وستُحفظ اللعبة في حسابك.`
-        : "أدخل الكود الذي استلمته بعد الشراء، وستُحفظ اللعبة في حسابك.";
+        : "أدخل كود الشراء؛ كود اللعبة يفعّل لعبتها، وكود الباقة يفعّل جميع ألعابها.";
     }
   }
 
@@ -394,12 +394,12 @@
     if(!phone){ showLogin(); return; }
     const input=$("accountGameCodeInput");
     const entered=normalizeCode(input?.value);
-    if(!entered){ message("أدخل كود اللعبة","error"); return; }
+    if(!entered){ message("أدخل كود اللعبة أو الباقة","error"); return; }
     try{
       const result=await accessRequest('activate',{code:entered});
       ownedCodes=result.games;renderLibrary();
       pendingGame=null;prepareAccountActivation();
-      if(input)input.value='';message('تم حفظ اللعبة في حسابك');
+      if(input)input.value='';message(result.activation?.type==='bundle'?`تم تفعيل ${result.activation.name} وإضافة ${result.activation.count} ألعاب إلى حسابك`:'تم حفظ اللعبة في حسابك');
     }catch(e){message(e.message||'تعذر حفظ الكود','error');}
   }
 
@@ -411,7 +411,7 @@
     try{
       const result=await accessRequest('activate',{code:entered,slug:game.slug});
       ownedCodes=result.games;renderLibrary();
-      modal('codeModal',false);message('تم حفظ اللعبة في حسابك');openPlayer(game,'owned');
+      modal('codeModal',false);message(result.activation?.type==='bundle'?`تم تفعيل ${result.activation.name} وإضافة ${result.activation.count} ألعاب إلى حسابك`:'تم حفظ اللعبة في حسابك');openPlayer(game,'owned');
     }catch(e){message(e.message||'تعذر حفظ الرمز','error');}
   }
 

@@ -1,8 +1,13 @@
+const {trackingUpdates}=require('./_lib/activation-tracking');
+const {CODES,BUNDLES}=require('./_lib/activation-catalog');
 const admin = require("firebase-admin");
 
 const PRODUCT_GAMES = {"1786902649":["506070"],"769912795":["1950"],"1919105503":["116677"],"1743830549":["20026"],"1190070368":["20066"],"1311241515":["19009"],"2017869223":["140004"],"932315838":["119900"],"1490828167":["191909"],"967171060":["109010"],"513710394":["203040"],"893537775":["1950","116677","191909","140004","20066","19009","119900"],"1029842905":["191909","20066","19009","20026"],"1738957153":["1950","116677"],"130244934":["1950","116677","140004","119900"],"1077969731":["224433"]};
 
+PRODUCT_GAMES["906015293"]=Object.values(CODES);
+const PRODUCT_BUNDLES={"906015293":"complete","893537775":"seven","130244934":"classic","1029842905":"new","1738957153":"duo"};
 const NAME_GAMES = [
+  [/باقة جميع الألعاب|باقة جميع الالعاب|باقة 12/u,Object.values(CODES)],
   [/^(?:لعبة )?زوم$/u, ["224433"]],
   [/من سيربح المليون|لعبة المليون/u, ["506070"]],
   [/باقة 7 العاب تفاعلية/u, ["1950", "116677", "140004", "119900", "19009", "191909", "20066"]],
@@ -79,6 +84,15 @@ module.exports = async function activateOrder(req, res) {
     source: "salla",
     activatedAt: admin.database.ServerValue.TIMESTAMP
   };
+  const subjects=[];
+  for(const item of items){
+    const productId=String(item?.product?.id||item?.product_id||'');
+    const bundle=PRODUCT_BUNDLES[productId]||Object.values(BUNDLES).find(b=>{const list=gamesForItem(item);return list.length===b.games.length&&b.games.every(g=>list.includes(CODES[g]));})?.id;
+    if(bundle)subjects.push({type:'bundle',id:bundle});
+    else for(const code of gamesForItem(item)){const slug=Object.keys(CODES).find(g=>CODES[g]===code);if(slug)subjects.push({type:'game',id:slug});}
+  }
+  const unique=[...new Map(subjects.map(s=>[s.type+':'+s.id,s])).values()];
+  Object.assign(updates,await trackingUpdates(admin.database(),phone,unique,'order'));
   await admin.database().ref().update(updates);
 
   return send(res, 200, { ok: true, order_id: orderId, activated_games: gameCodes });

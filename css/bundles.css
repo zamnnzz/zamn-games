@@ -180,3 +180,34 @@
  #homeMain #packages .bundle-saving-riyal{width:10px!important;height:12px!important}
  #homeMain #packages .bundle-card:after{width:27px!important;height:18px!important;border-top-width:5px!important;top:8px!important;right:9px!important}
 }
+
+/* The complete collection is a single featured offer above the smaller packages. */
+#homeMain #packages .complete-card{grid-column:1/-1;position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:32px;padding:30px;min-width:0;border:1px solid #d5b775;border-radius:26px;background:radial-gradient(ellipse at 100% 0%,#61407555,transparent 65%),linear-gradient(125deg,#281636,#180d24);box-shadow:0 12px 32px #2b133b1c;color:#fff5df;overflow:hidden;text-align:right}
+.complete-card:before{content:"";position:absolute;inset:5px;border:1px solid #f0d59d20;border-radius:21px;pointer-events:none;z-index:-1}
+.complete-content{min-width:0;display:flex;flex-direction:column;align-items:flex-start}
+.complete-label{display:flex;align-items:center;gap:8px;color:#f3d99e;font-size:12px;font-weight:700}
+#packages .complete-card h3{font-size:29px;line-height:1.5;margin:10px 0 2px;color:#fff5df;font-weight:900}
+.complete-intro{font-size:14px;line-height:1.8;color:#d6c6dd;margin:0 0 14px}
+.complete-pricing{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.complete-current{display:flex;align-items:center;gap:10px;color:#ffe2a4}
+.complete-current b{font-size:62px;line-height:1.15;letter-spacing:-2px;font-weight:900}
+.complete-riyal{width:27px;height:32px;background:currentColor;mask:url('/images/ui/saudi-riyal.svg') center/contain no-repeat;-webkit-mask:url('/images/ui/saudi-riyal.svg') center/contain no-repeat}
+.complete-original{display:flex;flex-direction:column;gap:1px;font-size:10px;line-height:1.5;color:#c3b2cc}
+.complete-original del{font-size:19px;text-decoration-thickness:1px;opacity:.85}
+.complete-saving{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:12px 0 0;padding:9px 12px;border:1px solid #e5c58455;border-radius:10px;background:#f2d6a014;color:#f6dfa8;font-size:12px;line-height:1.5}
+.complete-saving strong{font-size:18px;font-weight:900}
+.complete-saving-divider{height:18px;width:1px;background:#eed19d55;margin-inline:4px}
+.complete-benefits{list-style:none;display:flex;gap:7px 12px;flex-wrap:wrap;margin:17px 0 20px;padding:0;color:#ded2e3;font-size:11px;line-height:1.7}
+.complete-benefits li{display:flex;align-items:center;gap:5px}
+.complete-benefits li:before{content:"✓";color:#eed3a0;font-weight:900}
+.complete-button{display:flex;align-items:center;justify-content:center;gap:14px;width:100%;min-height:46px;margin-top:auto;padding:10px 18px;border-radius:12px;border:1px solid #ffe5ab;background:linear-gradient(145deg,#ffebbb,#dfb66b);color:#2d173b;font-weight:900;font-size:17px;line-height:1.5;box-shadow:0 3px 10px #0002;transition:filter .15s}
+.complete-button:hover{filter:brightness(1.07)}
+.complete-button:focus-visible{outline:3px solid #fff;outline-offset:4px}
+.complete-collection{display:flex;flex-direction:column;justify-content:center;min-width:0;padding-inline-start:24px;border-inline-start:1px solid #e8ce9c24}
+.complete-count{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:13px;color:#f6d99e;font-size:17px;font-weight:900}
+.complete-count>span{font-size:10px;font-weight:400;color:#cdbcce}
+.complete-covers{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.complete-covers img{width:100%;height:auto;aspect-ratio:1;object-fit:cover;display:block;border-radius:10px;border:1px solid #ebd4a433;box-shadow:0 3px 7px #0003}
+.complete-collection p{font-size:11px;line-height:1.7;color:#cdbcce;text-align:center;margin:13px 0 0}
+@media(max-width:699px){#homeMain #packages .complete-card{grid-template-columns:minmax(0,1fr);gap:24px;padding:24px 20px;border-radius:24px}.complete-collection{padding-inline-start:0;padding-top:19px;border-inline-start:0;border-top:1px solid #e8ce9c24}.complete-content{align-items:stretch}.complete-label{font-size:11px}.complete-count{font-size:16px}.complete-count>span{font-size:11px}#packages .complete-card h3{font-size:27px}.complete-pricing{gap:20px}.complete-current b{font-size:60px}.complete-saving{align-self:flex-start}.complete-covers{gap:8px}.complete-benefits{font-size:11px}.complete-intro{font-size:13px}}
+@media(max-width:360px){#homeMain #packages .complete-card{padding:22px 16px}#packages .complete-card h3{font-size:24px}.complete-saving{font-size:11px;gap:5px}.complete-saving strong{font-size:17px}.complete-saving-divider{margin-inline:2px}.complete-count>span{font-size:9px}}

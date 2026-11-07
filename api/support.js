@@ -1,3 +1,5 @@
+const {buildActivationStats}=require('./_lib/activation-stats');
+const {trackingUpdates}=require('./_lib/activation-tracking');
 const crypto = require('crypto');
 const admin = require('firebase-admin');
 const OWNER_PHONE = '+966591216299';
@@ -136,11 +138,11 @@ function buildAdminStats(data, now=Date.now()) {
  for(const g of gameRows){const legacy=data.totals?.[String(g.id)];g.recordedPlayCount=Math.max(g.plays.total,Number(legacy?.count)||0);}
  const online=Object.values(data.online||{}).filter(v=>v&&'+'+String(v.phone||'')!==OWNER_PHONE&&Number(v.lastActivity)>=now-300000).length;
  const list=[...customers.values()].sort((a,b)=>(b.lastVisit||0)-(a.lastVisit||0));
- return {generatedAt:now,timeZone:'Asia/Riyadh',periods:{today,week,month},views,plays,uniqueVisitors:Object.fromEntries(Object.entries(visitors).map(([k,v])=>[k,v.size])),online,customerCount:list.filter(c=>!c.isAdmin).length,totalOwnerships:list.filter(c=>!c.isAdmin).reduce((n,c)=>n+c.ownedCount,0),customers:list,games:gameRows,days,coverage:{sessions:Object.keys(data.sessions||{}).length,playEntries:Object.keys(data.entries||{}).length,limited:Object.keys(data.sessions||{}).length>=5000||Object.keys(data.entries||{}).length>=50000,customerViewsFrom:'إحصاءات زيارات العميل مرتبطة برقمه تبدأ بعد هذا التحديث؛ آخر دخول وتشغيل سابق متاحان حسب السجل.'}};
+ return {activations:buildActivationStats(data.activations,data.customers||{},ADMIN_GAMES,now,OWNER_PHONE),generatedAt:now,timeZone:'Asia/Riyadh',periods:{today,week,month},views,plays,uniqueVisitors:Object.fromEntries(Object.entries(visitors).map(([k,v])=>[k,v.size])),online,customerCount:list.filter(c=>!c.isAdmin).length,totalOwnerships:list.filter(c=>!c.isAdmin).reduce((n,c)=>n+c.ownedCount,0),customers:list,games:gameRows,days,coverage:{sessions:Object.keys(data.sessions||{}).length,playEntries:Object.keys(data.entries||{}).length,limited:Object.keys(data.sessions||{}).length>=5000||Object.keys(data.entries||{}).length>=50000,customerViewsFrom:'إحصاءات زيارات العميل مرتبطة برقمه تبدأ بعد هذا التحديث؛ آخر دخول وتشغيل سابق متاحان حسب السجل.'}};
 }
 async function adminStats(db){
- const [customers,sessions,entries,totals,online]=await Promise.all([db.ref('customers').get(),db.ref('analytics/sessionEvents').orderByKey().limitToLast(5000).get(),db.ref('analytics/gameEntryLogs').orderByKey().limitToLast(50000).get(),db.ref('analytics/gameEntries').get(),db.ref('analytics/online').get()]);
- return buildAdminStats({customers:customers.val(),sessions:sessions.val(),entries:entries.val(),totals:totals.val(),online:online.val()});
+ const [customers,sessions,entries,totals,online,activations]=await Promise.all([db.ref('customers').get(),db.ref('analytics/sessionEvents').orderByKey().limitToLast(5000).get(),db.ref('analytics/gameEntryLogs').orderByKey().limitToLast(50000).get(),db.ref('analytics/gameEntries').get(),db.ref('analytics/online').get(),db.ref('activationReceiptsV1').get()]);
+ return buildAdminStats({customers:customers.val(),sessions:sessions.val(),entries:entries.val(),totals:totals.val(),online:online.val(),activations:activations.val()});
 }
 
 async function manageCustomerGames(db, body) {
@@ -156,6 +158,7 @@ async function manageCustomerGames(db, body) {
  if(!body.enabled&&game.slug==='photos-1')for(const legacy of ['1850','17007'])updates['customers/'+number+'/games/'+legacy]=null;
  const audit=db.ref('adminGameChangesV1').push().key;
  updates['adminGameChangesV1/'+audit]={admin:OWNER_PHONE,phone:number,slug:game.slug,enabled:body.enabled,at:Date.now()};
+ if(body.enabled)Object.assign(updates,await trackingUpdates(db,number,[{type:'game',id:game.slug}],'admin'));
  await db.ref().update(updates);
  games.find(g=>g.slug===game.slug).owned=body.enabled;
  return {status:200,ok:true,customer:{phone:number,name:String(customer.name||'لاعب').slice(0,100)},games};
