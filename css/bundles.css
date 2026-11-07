@@ -260,16 +260,37 @@
 /* Preserve the supplied artwork's natural square proportions. */
 #packages .package-cover{flex:0 0 auto;height:auto!important;aspect-ratio:1/1;object-fit:contain!important;object-position:center;filter:none;transform:none}
 
-/* Two package cards when each can retain a comfortable 520px width. */
-@media(min-width:1120px){
- #homeMain #packages{max-width:1240px!important}
- #homeMain #packages .zamn-bundles{max-width:1188px!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:18px!important}
- #homeMain #packages .complete-card{grid-column:auto;grid-template-columns:repeat(2,minmax(0,1fr));border-radius:21px}
- #packages .complete-content{padding:20px 17px}
- #packages .complete-card h3{font-size:23px}
- .complete-label{font-size:12px}.complete-intro{font-size:14px}
- .complete-current b{font-size:42px}.complete-pricing{gap:12px}
- .complete-saving{font-size:13px;gap:5px}.complete-saving strong{font-size:17px}
- .complete-benefits{font-size:12px;gap:5px 10px}
- .complete-button{font-size:16px}
+/* Keep the entire square artwork, without an added background or letterbox. */
+#packages .package-artwork{background:transparent;align-self:start;aspect-ratio:1;min-height:0}
+#packages .package-cover{display:block;width:100%;height:auto!important;flex:none}
+@media(min-width:700px){#packages .complete-content{padding:16px 20px}.complete-intro{margin-bottom:8px}.complete-benefits{margin:10px 0 12px}.complete-saving{margin-top:7px}}
+@media(min-width:1660px){
+ #homeMain #packages{max-width:1680px!important}
+ #homeMain #packages .zamn-bundles{max-width:1628px!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:18px!important}
+ #homeMain #packages .complete-card{grid-column:auto;grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+
+/* A square image defines the desktop card height; text fits the other half. */
+@media(min-width:700px){
+ #homeMain #packages .complete-card{aspect-ratio:2/1;min-height:0!important;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:minmax(0,1fr);align-items:stretch;padding:0!important;gap:0!important}
+ #packages .package-artwork{height:100%;width:100%;min-height:0;padding:0!important;aspect-ratio:auto;align-self:stretch;background:none!important;border:0;border-inline-start:1px solid #e9cd9570}
+ #packages .package-cover{width:100%;height:100%!important;aspect-ratio:1;object-fit:contain!important;display:block}
+ #packages .complete-content{min-height:0;padding:12px!important;gap:6px;justify-content:flex-start}
+ #packages .complete-label{font-size:11px;line-height:1.6}
+ #packages .complete-card h3{font-size:22px;line-height:1.35;margin:0}
+ #packages .complete-intro{font-size:13px;line-height:1.6;margin:0}
+ #packages .complete-pricing{gap:10px;flex-wrap:nowrap;min-height:44px}
+ #packages .complete-current b{font-size:38px;line-height:1.15}
+ #packages .complete-original{display:flex;flex-direction:row;align-items:center;flex-wrap:wrap;gap:3px;font-size:11px;line-height:1.5}
+ #packages .complete-original del{font-size:14px}
+ #packages .complete-saving{margin:0;padding:5px 8px;font-size:12px;line-height:1.5;gap:5px}
+ #packages .complete-saving strong{font-size:16px}
+ #packages .complete-benefits{margin:0;padding:0;font-size:11px;line-height:1.6;gap:3px 9px}
+ #packages .complete-button{margin-top:auto;min-height:38px;padding:6px 10px;font-size:15px;line-height:1.5}
+}
+@media(min-width:1240px){
+ #homeMain #packages{max-width:1440px!important}
+ #homeMain #packages .zamn-bundles{max-width:1388px!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:18px!important}
+ #homeMain #packages .complete-card{grid-column:auto}
+}
+@media(min-width:700px) and (max-width:1239px){#homeMain #packages .zamn-bundles{max-width:780px!important}#homeMain #packages .complete-card{grid-column:1/-1}}
