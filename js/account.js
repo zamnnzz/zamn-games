@@ -381,7 +381,7 @@
     if(!phone){
       pendingGame=game; showLogin(); message("سجل دخولك أولاً","error"); return;
     }
-    if(!ownedCodes.length) await loadOwnedGames(phone);
+    try{await loadOwnedGames(phone);}catch{message('تعذر التحقق من ألعابك، حاول مجددًا','error');return;}
     if(isOwned(game)){ openPlayer(game,"owned"); return; }
     pendingGame=game;
     showLogin();
@@ -462,6 +462,13 @@
     $("trialCounter").textContent=""; document.body.classList.remove("player-open"); document.documentElement.classList.remove("player-open"); settleZamnViewport(true);
     updatePresence();
   }
+
+  window.addEventListener('message',event=>{
+    const iframe=$('gameIframe');
+    if(event.origin!==location.origin||event.source!==iframe?.contentWindow)return;
+    if(event.data?.type!=='ZAMN_EXIT_GAME'||event.data.slug!=='zoom'||currentGame()?.slug!=='zoom')return;
+    closePlayer();
+  });
 
   function startTrial(game){
     if(!game)return;

@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 const admin = require('firebase-admin');
-const CODES = {"horof-bell": "1950", "photos-1": "116677", "fawazeer": "20026", "guess-link": "20066", "family-feud": "19009", "alatrash": "140004", "top-ten": "119900", "mn-ana": "191909", "aljawab-almajhool": "109010", "guess-person": "203040", "million": "506070"};
+const CODES = {"horof-bell":"1950","photos-1":"116677","fawazeer":"20026","guess-link":"20066","family-feud":"19009","alatrash":"140004","top-ten":"119900","mn-ana":"191909","aljawab-almajhool":"109010","guess-person":"203040","million":"506070","zoom":"224433"};
 function digits(v){return String(v||'').replace(/[٠-٩]/g,d=>'0123456789'['٠١٢٣٤٥٦٧٨٩'.indexOf(d)]).replace(/[۰-۹]/g,d=>'0123456789'['۰۱۲۳۴۵۶۷۸۹'.indexOf(d)]).replace(/\D/g,'');}
 function reply(res,status,data){res.setHeader('Cache-Control','no-store');res.setHeader('Content-Type','application/json; charset=utf-8');res.status(status).end(JSON.stringify(data));}
 function database(){

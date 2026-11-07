@@ -52,3 +52,13 @@
  #homeHero .zamn-news-feed h3{font-size:14px!important}
  #homeHero .zamn-news-card{padding:9px 0 10px}
 }
+
+.zamn-news-card--zoom{--news-accent:#ff7900;background:linear-gradient(135deg,#743207,#43200c)}
+
+/* Subtle announcement accent within the original news layout. */
+#homeHero .zamn-news-card--zoom .zamn-news-label,
+#homeHero .zamn-news-card--million .zamn-news-label{
+ color:#ffe0a7;background:rgba(244,207,129,.08);
+ border:1px solid rgba(244,207,129,.22);border-radius:5px;
+ padding:2px 6px;font-size:9px;font-weight:700;
+}

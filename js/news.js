@@ -6,12 +6,12 @@
   if(!Array.isArray(data.items)||!data.items.length)return;
   const cards=document.createDocumentFragment();
   data.items.forEach((item,i)=>{
-   const theme=['horof','family','million'].includes(item.theme)?item.theme:'family';const article=document.createElement('article');article.className='zamn-news-card zamn-news-card--'+theme;
+   const theme=['horof','family','million','zoom'].includes(item.theme)?item.theme:'family';const article=document.createElement('article');article.className='zamn-news-card zamn-news-card--'+theme;
    const meta=text('div','zamn-news-meta','');meta.append(text('span','zamn-news-label',item.label),text('span','zamn-news-index',String(i+1).padStart(2,'0')));
    const visual=text('div','zamn-news-visual','');visual.setAttribute('aria-hidden','true');
    if(icons[theme]){const icon=document.createElementNS('http://www.w3.org/2000/svg','svg');icon.setAttribute('viewBox','0 0 24 24');icon.setAttribute('fill','none');icon.setAttribute('stroke','currentColor');icon.setAttribute('stroke-width','1.5');icon.classList.add('zamn-news-icon');icon.innerHTML=icons[theme];visual.append(icon)}
    const stat=text('div','zamn-news-stat',item.stat);stat.append(text('span','zamn-news-stat-label',item.statLabel));visual.append(stat);
-   article.append(meta,visual,text('h3','',item.title),text('p','',item.text));cards.append(article);
+   article.append(meta,visual,text('h3','',item.title));if(item.text)article.append(text('p','',item.text));cards.append(article);
   });
   document.querySelector('.zamn-news-grid').replaceChildren(cards);
   if(data.heading)document.querySelector('#zamnNewsTitle').textContent=data.heading;

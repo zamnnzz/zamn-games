@@ -96,7 +96,7 @@ function requireOwner(req, key) {
   try { data = JSON.parse(Buffer.from(payload, 'base64url').toString()); } catch { throw Error('unauthorized'); }
   if (data.phone !== OWNER_PHONE || !Number.isFinite(data.expires) || data.expires < Date.now()) throw Error('unauthorized');
 }
-const ADMIN_GAMES = [{"id":1,"slug":"horof-bell","name":"لعبة حروف","path":"/hrof","code":"1950"},{"id":3,"slug":"photos-1","name":"تحدي الصور","path":"/thdi","code":"116677"},{"id":7,"slug":"fawazeer","name":"فوازير","path":"/fwzr","code":"20026"},{"id":8,"slug":"guess-link","name":"خمن الرابط","path":"/link","code":"20066"},{"id":6,"slug":"family-feud","name":"فاميلي فيود","path":"/family","code":"19009"},{"id":9,"slug":"alatrash","name":"مين الأطرش في الزفة","path":"/atrsh","code":"140004"},{"id":10,"slug":"top-ten","name":"لعبة توب تن","path":"/top10","code":"119900"},{"id":11,"slug":"mn-ana","name":"لعبة من أنا؟","path":"/mnana","code":"191909"},{"id":12,"slug":"aljawab-almajhool","name":"لعبة الجواب المجهول","path":"/aljawab","code":"109010"},{"id":13,"slug":"guess-person","name":"خمن الشخصية","path":"/guess-person","code":"203040"},{"id":14,"slug":"million","name":"من سيربح المليون","path":"/million","code":"506070"}];
+const ADMIN_GAMES = [{"id":1,"slug":"horof-bell","name":"لعبة حروف","path":"/hrof","code":"1950"},{"id":3,"slug":"photos-1","name":"تحدي الصور","path":"/thdi","code":"116677"},{"id":7,"slug":"fawazeer","name":"فوازير","path":"/fwzr","code":"20026"},{"id":8,"slug":"guess-link","name":"خمن الرابط","path":"/link","code":"20066"},{"id":6,"slug":"family-feud","name":"فاميلي فيود","path":"/family","code":"19009"},{"id":9,"slug":"alatrash","name":"مين الأطرش في الزفة","path":"/atrsh","code":"140004"},{"id":10,"slug":"top-ten","name":"لعبة توب تن","path":"/top10","code":"119900"},{"id":11,"slug":"mn-ana","name":"لعبة من أنا؟","path":"/mnana","code":"191909"},{"id":12,"slug":"aljawab-almajhool","name":"لعبة الجواب المجهول","path":"/aljawab","code":"109010"},{"id":13,"slug":"guess-person","name":"خمن الشخصية","path":"/guess-person","code":"203040"},{"id":14,"slug":"million","name":"من سيربح المليون","path":"/million","code":"506070"},{"id":15,"slug":"zoom","name":"لعبة زوم","path":"/zoom","code":"224433"}];
 function buildAdminStats(data, now=Date.now()) {
  const dayFormatter=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Riyadh',year:'numeric',month:'2-digit',day:'2-digit'});
  const dayKey=at=>dayFormatter.format(new Date(at));
@@ -143,6 +143,24 @@ async function adminStats(db){
  return buildAdminStats({customers:customers.val(),sessions:sessions.val(),entries:entries.val(),totals:totals.val(),online:online.val()});
 }
 
+async function manageCustomerGames(db, body) {
+ const number=phone(body.phone);
+ if(!/^[1-9]\d{9,14}$/.test(number))return {status:422,error:'invalid_phone'};
+ const ref=db.ref('customers/'+number),customer=(await ref.get()).val();
+ if(!customer)return {status:404,error:'customer_not_found'};
+ const games=ADMIN_GAMES.map(g=>({slug:g.slug,name:g.name,owned:customer.games?.[g.code]===true||(g.slug==='photos-1'&&(customer.games?.['1850']===true||customer.games?.['17007']===true))}));
+ if(body.action==='customer-games')return {status:200,ok:true,customer:{phone:number,name:String(customer.name||'لاعب').slice(0,100)},games};
+ const game=ADMIN_GAMES.find(g=>g.slug===body.slug);
+ if(!game||typeof body.enabled!=='boolean')return {status:422,error:'invalid_game'};
+ const updates={};updates['customers/'+number+'/games/'+game.code]=body.enabled?true:null;
+ if(!body.enabled&&game.slug==='photos-1')for(const legacy of ['1850','17007'])updates['customers/'+number+'/games/'+legacy]=null;
+ const audit=db.ref('adminGameChangesV1').push().key;
+ updates['adminGameChangesV1/'+audit]={admin:OWNER_PHONE,phone:number,slug:game.slug,enabled:body.enabled,at:Date.now()};
+ await db.ref().update(updates);
+ games.find(g=>g.slug===game.slug).owned=body.enabled;
+ return {status:200,ok:true,customer:{phone:number,name:String(customer.name||'لاعب').slice(0,100)},games};
+}
+
 module.exports = async function support(req, res) {
   try {
     const origin = req.headers.origin;
@@ -169,6 +187,11 @@ module.exports = async function support(req, res) {
     let body;
     try { body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body; } catch { return reply(res, 400, { error: 'invalid_json' }); }
     if (!body || typeof body !== 'object' || Array.isArray(body)) return reply(res, 400, { error: 'invalid_json' });
+    if(req.method==='POST'&&['customer-games','set-customer-game'].includes(body.action)){
+      requireOwner(req,key);
+      const result=await manageCustomerGames(db,body);const {status,...data}=result;
+      return reply(res,status,data);
+    }
     if (req.method === 'POST' && body.action === 'admin-login') {
       const ip = String(req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
       const hash = crypto.createHmac('sha256', key).update('admin:' + ip).digest('hex');

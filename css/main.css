@@ -4893,3 +4893,64 @@ body:not(.game-mode) #homeMain .games-section,body:not(.game-mode) #homeMain .ga
 .player-library-image-wrap{aspect-ratio:1!important;flex-shrink:0!important}
 .player-library-image{object-fit:contain!important;padding:0!important}
 @media(max-width:600px){.owned-game-card img{width:62px!important;height:62px!important}}
+
+/* Original tilted pill, reduced and raised into the upper-left corner. */
+body:not(.game-mode) #homeMain .game-card .game-image-box .game-new-badge{
+ position:absolute!important;inset:3px auto auto 3px!important;
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ width:auto!important;min-width:0!important;max-width:none!important;
+ height:auto!important;min-height:0!important;padding:4px 7px!important;
+ font-size:9px!important;font-weight:900!important;line-height:1.15!important;
+ letter-spacing:0!important;border:1px solid #fff4d4!important;border-radius:999px!important;
+ background:linear-gradient(135deg,#6d28d9,#923de5)!important;color:#fff!important;
+ box-shadow:0 2px 0 #4c1d95,0 3px 6px rgba(76,29,149,.2)!important;
+ transform:rotate(-6deg)!important;transform-origin:center!important;z-index:7;pointer-events:none;
+}
+body:not(.game-mode) #homeMain .game-card .game-image-box .game-new-badge::before{
+ content:""!important;display:inline-block!important;width:8px!important;height:8px!important;
+ flex:0 0 8px;margin-inline-end:3px!important;background:#ffe3a1;
+ mask:url("/images/ui/spark.svg") center/contain no-repeat;
+ -webkit-mask:url("/images/ui/spark.svg") center/contain no-repeat;
+}
+
+/* Keep feature labels readable as game cards grow across screen sizes. */
+body:not(.game-mode) #homeMain .games-row a.game-card{container-type:inline-size}
+body:not(.game-mode) #homeMain .games-row a.game-card .game-tags{gap:6px!important}
+body:not(.game-mode) #homeMain .games-row a.game-card .game-tags .game-tag{
+ font-size:12px!important;font-size:clamp(11px,4.9cqi,14px)!important;
+ min-height:27px!important;padding:5px 9px!important;line-height:1.4!important;
+}
+body:not(.game-mode) #homeMain .games-row a.game-card .game-tag .z-icon{width:14px!important;height:14px!important;flex-shrink:0}
+@media(max-width:559px){
+ body:not(.game-mode) #homeMain .games-row a.game-card .game-tags{gap:5px!important}
+ body:not(.game-mode) #homeMain .games-row a.game-card .game-tags .game-tag{padding:4px 7px!important;min-height:25px!important}
+}
+
+/* Two feature pills share one line; narrow cards use compact text-only pills. */
+body:not(.game-mode) #homeMain .games-row a.game-card .game-tags{flex-wrap:nowrap!important;gap:5px!important;align-items:center!important}
+body:not(.game-mode) #homeMain .games-row a.game-card .game-tags .game-tag{
+ flex:0 1 auto!important;width:auto!important;min-width:0!important;white-space:nowrap!important;
+ font-size:clamp(9px,4.9cqi,13px)!important;line-height:1.35!important;padding:4px 7px!important;gap:3px!important;
+}
+body:not(.game-mode) #homeMain .games-row a.game-card .game-tags .game-tag>span{white-space:nowrap!important}
+@container(max-width:210px){
+ body:not(.game-mode) #homeMain .games-row a.game-card .game-tag .z-icon{display:none!important}
+ body:not(.game-mode) #homeMain .games-row a.game-card .game-tags .game-tag{padding:4px 5px!important}
+}
+@container(max-width:155px){
+ body:not(.game-mode) #homeMain .games-row a.game-card .game-tags{gap:3px!important}
+ body:not(.game-mode) #homeMain .games-row a.game-card .game-tags .game-tag{font-size:8px!important;padding:4px 3px!important}
+}
+/* Emphasize Zoom only in the three-column new-game row. */
+@media(min-width:760px){
+ #homeMain .games-new-row>.new-games-offer{order:0}
+ #homeMain .games-new-row>[data-game-slug="million"]{order:1}
+ #homeMain .games-new-row>.zoom-game-card{order:2;z-index:3;transform:translateY(-10px) scale(1.035)!important;box-shadow:6px 8px 0 #c6b3e7,0 0 0 3px #eee5fa,0 18px 30px #6d28d925!important}
+ #homeMain .games-new-row>[data-game-slug="guess-person"]{order:3}
+ #homeMain .games-new-row>.zoom-game-card:hover{transform:translateY(-13px) scale(1.035)!important}
+}
+
+/* Reserve room above the raised center card so the order button stays clear. */
+@media(min-width:760px){
+ #homeMain .games-new-row{row-gap:40px!important}
+}

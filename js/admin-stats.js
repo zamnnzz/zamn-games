@@ -41,6 +41,7 @@
    body.append(el('p','الإجماليات والفترات في الجدول من السجل التفصيلي المتاح. عدّادات التشغيل القديمة محفوظة للمراجعة: '+data.games.map(g=>g.name+' '+num(g.recordedPlayCount)).join(' • '),'admin-stats-muted'));
   }
   function render(){if(!data||!active)return;body.replaceChildren();for(let i=0;i<buttons.length;i++){const chosen=['overview','customers','games'][i]===selected;buttons[i].setAttribute('aria-selected',String(chosen));buttons[i].tabIndex=chosen?0:-1;}body.setAttribute('aria-labelledby','zamn-stats-tab-'+selected);if(data.coverage.limited)body.append(el('p','تنبيه: تجاوز السجل حد القراءة؛ الفترات والمجاميع التفصيلية قد تكون غير مكتملة.','admin-stats-warning'));if(selected==='overview')overview();else if(selected==='customers')customers();else games();}
+  window.addEventListener('zamn-admin-games-changed',()=>{if(active)refreshStats();});
   document.addEventListener('visibilitychange',()=>{if(active&&!document.hidden)refreshStats();});
   window.addEventListener('zamn-admin-session',event=>{if(!event.detail?.active){clear();return;}active=true;panel.hidden=false;refreshStats();});
  }

@@ -99,3 +99,21 @@ html.zamn-keyboard-open .player-login-header{min-height:0!important;padding-top:
  }
  html.zamn-installed body:not(.game-mode):not(.player-open) #homeBottomNav{background:#fff}
 }
+
+/* Isolate account and add-game dialogs from the scrolling site on mobile. */
+html.zamn-form-open{overflow:hidden!important;overscroll-behavior:none}
+html.zamn-form-open body{overscroll-behavior:none}
+html.zamn-form-open #homeHero,html.zamn-form-open #homeMain,html.zamn-form-open #gameView,html.zamn-form-open .site-footer,html.zamn-form-open .game-player-overlay{visibility:hidden!important;pointer-events:none!important}
+html.zamn-form-open #homeBottomNav,html.zamn-form-open .support-launch{display:none!important}
+html.zamn-form-open #accountModal,html.zamn-form-open #codeModal{
+ top:var(--zamn-form-top,0px)!important;bottom:auto!important;
+ height:var(--zamn-form-height,100dvh)!important;min-height:0!important;
+ max-height:var(--zamn-form-height,100dvh)!important;
+ overscroll-behavior:contain;overflow-anchor:none;
+}
+html.zamn-form-open #accountModal{overflow-y:auto!important;-webkit-overflow-scrolling:touch}
+html.zamn-form-open #accountModal .player-login-page{min-height:100%!important}
+@media(max-width:759px),(orientation:landscape) and (max-height:500px) and (max-width:1024px){
+ html.zamn-form-open #codeModal{padding:0;background:#f7f5fb}
+ html.zamn-form-open #codeModal .code-entry-card{height:100%!important;max-height:100%!important;min-height:0!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch}
+}

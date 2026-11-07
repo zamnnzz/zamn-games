@@ -178,3 +178,5 @@
  .family-design #gameView .game-actions-panel{margin-top:18px!important}
  .family-design #detailDesc{line-height:1.8!important}
 }
+
+#gameView #gameBuyBtn[hidden]{display:none!important}
