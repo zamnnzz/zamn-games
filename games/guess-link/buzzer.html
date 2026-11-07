@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta name="robots" content="noindex,follow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الجرس</title>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<style>
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+}
+
+:root{
+  --main:#ef7358;
+  --second:#dc4f45;
+  --border:#8f2228;
+  --light:#fff2d9;
+  --title:#fff2d9;
+  --text:#b53d40;
+  --questionBg:#8f2228;
+  --questionColor:#fff2d9;
+  --questionBorder:#fff2d9;
+  --shadow:rgba(0,0,0,.35);
+  --buttonShadow:rgba(0,0,0,.22);
+  --bg:repeating-linear-gradient(135deg,#f7eee2 0 55px,#b83838 55px 95px,#f7eee2 95px 145px,#59b8ae 145px 180px);
+  --start-bg:linear-gradient(145deg,#ef7358,#dc4f45);
+}
+
+.theme-gold{
+  --main:#22345d; --second:#121d37; --border:#ffd54f; --light:#fff9df;
+  --title:#fff9df; --text:#22345d;
+  --questionBg:#ffd54f; --questionColor:#22345d; --questionBorder:#fff9df;
+  --bg:linear-gradient(135deg,#091428,#1f3b73,#091428);
+  --start-bg:linear-gradient(145deg,#22345d,#121d37);
+}
+
+.theme-neon{
+  --main:#4b0082; --second:#120024; --border:#00ffe5; --light:#ffffff;
+  --title:#ffffff; --text:#00ffe5;
+  --questionBg:#00ffe5; --questionColor:#120024; --questionBorder:#ffffff;
+  --bg:radial-gradient(circle at center,#4b0082,#120024,#000);
+  --start-bg:linear-gradient(145deg,#4b0082,#120024);
+}
+
+.theme-fire{
+  --main:#ff5a36; --second:#7a0d00; --border:#ffd65a; --light:#fff8e5;
+  --title:#fff8e5; --text:#8b2200;
+  --questionBg:#ffd65a; --questionColor:#7a0d00; --questionBorder:#fff8e5;
+  --bg:linear-gradient(135deg,#3d0000,#9b1d00,#ff4b00);
+  --start-bg:linear-gradient(145deg,#ff5a36,#7a0d00);
+}
+
+.theme-ice{
+  --main:#70c7ff; --second:#2f6ea5; --border:#ffffff; --light:#ffffff;
+  --title:#ffffff; --text:#2f6ea5;
+  --questionBg:#2f6ea5; --questionColor:#ffffff; --questionBorder:#ffffff;
+  --bg:linear-gradient(135deg,#dff6ff,#90d8ff,#dff6ff);
+  --start-bg:linear-gradient(145deg,#70c7ff,#2f6ea5);
+}
+
+.theme-sage{
+  --main:#6f8f72; --second:#47624a; --border:#d8e6d3; --light:#f6fbf5;
+  --title:#f6fbf5; --text:#47624a;
+  --questionBg:#d8e6d3; --questionColor:#47624a; --questionBorder:#f6fbf5;
+  --bg:linear-gradient(135deg,#dfeee0,#b7d0ba,#dfeee0);
+  --start-bg:linear-gradient(145deg,#6f8f72,#47624a);
+}
+
+.theme-lavender{
+  --main:#8b7db8; --second:#5b4d87; --border:#efe8ff; --light:#faf7ff;
+  --title:#faf7ff; --text:#5b4d87;
+  --questionBg:#efe8ff; --questionColor:#5b4d87; --questionBorder:#faf7ff;
+  --bg:linear-gradient(135deg,#f4efff,#d9cdfd,#f4efff);
+  --start-bg:linear-gradient(145deg,#8b7db8,#5b4d87);
+}
+
+.theme-coffee{
+  --main:#8b6b4d; --second:#5c4330; --border:#f1dfc9; --light:#fffaf4;
+  --title:#fffaf4; --text:#5c4330;
+  --questionBg:#f1dfc9; --questionColor:#5c4330; --questionBorder:#fffaf4;
+  --bg:linear-gradient(135deg,#f7efe7,#dcc4a8,#f7efe7);
+  --start-bg:linear-gradient(145deg,#8b6b4d,#5c4330);
+}
+
+.theme-ocean{
+  --main:#3f7ca6; --second:#24506d; --border:#dff4ff; --light:#f8fdff;
+  --title:#f8fdff; --text:#24506d;
+  --questionBg:#dff4ff; --questionColor:#24506d; --questionBorder:#f8fdff;
+  --bg:linear-gradient(135deg,#dff6ff,#b8def5,#dff6ff);
+  --start-bg:linear-gradient(145deg,#3f7ca6,#24506d);
+}
+
+body{
+  min-height:100dvh;
+  font-family:Arial,sans-serif;
+  background:var(--bg);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:12px;
+  transition:.4s;
+}
+
+.box{
+  width:min(92vw,420px);
+  background:var(--start-bg);
+  border:6px solid var(--border);
+  border-radius:32px;
+  box-shadow:inset 0 0 0 6px var(--light),0 18px 45px var(--shadow);
+  padding:30px 24px;
+  text-align:center;
+}
+
+h1,h2{
+  color:var(--title);
+  text-shadow:3px 3px 0 var(--border);
+  margin:0 0 16px;
+  font-weight:900;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  margin-bottom:12px;
+  border:4px solid var(--border);
+  border-radius:999px;
+  font-size:18px;
+  text-align:center;
+  color:var(--border);
+  font-weight:900;
+  outline:none;
+}
+
+.team{
+  width:100%;
+  padding:14px;
+  margin-bottom:10px;
+  border-radius:999px;
+  background:var(--light);
+  color:var(--text);
+  border:4px solid var(--border);
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 6px 12px var(--buttonShadow);
+}
+
+.team.active{
+  transform:scale(1.04);
+  background:var(--questionBg);
+  color:var(--questionColor);
+  border-color:var(--questionBorder);
+}
+
+.enter-btn{
+  width:100%;
+  padding:15px;
+  border:none;
+  border-radius:999px;
+  background:var(--questionBg);
+  color:var(--questionColor);
+  font-size:22px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 8px 16px var(--buttonShadow);
+}
+
+.buzz{
+  width:220px;
+  height:220px;
+  border-radius:50%;
+  border:6px solid var(--border);
+  background:var(--questionBg);
+  color:var(--questionColor);
+  font-size:34px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:inset 0 0 0 6px var(--light),0 12px 25px var(--buttonShadow);
+}
+
+.buzz:disabled{
+  filter:grayscale(1);
+  opacity:.65;
+}
+
+.status{
+  margin-top:18px;
+  display:inline-block;
+  padding:9px 22px;
+  border-radius:999px;
+  background:var(--light);
+  color:var(--text);
+  border:4px solid var(--border);
+  font-weight:900;
+}
+</style>
+</head>
+
+<body class="theme-classic">
+
+<div class="box">
+
+  <div id="login">
+    <h1>لعبة الصندوق</h1>
+
+    <input id="name" placeholder="اسمك">
+
+    <div id="team1" class="team active">فريق 1</div>
+    <div id="team2" class="team">فريق 2</div>
+
+    <button class="enter-btn" onclick="enter()">دخول</button>
+  </div>
+
+  <div id="play" style="display:none">
+    <h2 id="playerName"></h2>
+
+    <button id="buzzBtn" class="buzz">اضغط!</button>
+
+    <div id="status" class="status">جاهز</div>
+  </div>
+
+</div>
+
+<script>
+const firebaseConfig={
+  apiKey:"AIzaSy...",
+  authDomain:"horof-game-9934e.firebaseapp.com",
+  databaseURL:"https://horof-game-9934e-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId:"horof-game-9934e",
+  appId:"1:44896634225:web:62a672d8c94be6e0d762d0"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db=firebase.database();
+
+const session=new URLSearchParams(location.search).get("session");
+const playerId=Math.random().toString(36).substring(2,8);
+
+let team="c1";
+let player="";
+
+team1.onclick=()=>{
+  team="c1";
+  team1.classList.add("active");
+  team2.classList.remove("active");
+};
+
+team2.onclick=()=>{
+  team="c2";
+  team2.classList.add("active");
+  team1.classList.remove("active");
+};
+
+db.ref("games/"+session+"/settings").on("value",snap=>{
+  const data=snap.val();
+  if(!data)return;
+
+  if(data.theme){
+    document.body.className=data.theme;
+  }
+
+  if(data.teamNames){
+    team1.textContent=data.teamNames.c1;
+    team2.textContent=data.teamNames.c2;
+  }
+});
+
+function enter(){
+player = document.getElementById("name").value.trim();
+  if(!player)return alert("اكتب اسمك");
+
+document.getElementById("playerName").textContent = player;
+
+  document.getElementById("login").style.display="none";
+document.getElementById("play").style.display="block";
+
+
+document.getElementById("buzzBtn").onclick=()=>{
+      db.ref("games/"+session+"/buzzers/"+playerId).set({
+      name:player,
+      team:team,
+      time:Date.now()
+    });
+  };
+
+  db.ref("games/"+session+"/status").on("value",snap=>{
+    const data=snap.val();
+
+    if(!data || data.locked===false){
+     document.getElementById("buzzBtn").disabled=false;
+document.getElementById("status").textContent="جاهز";
+document.getElementById("buzzBtn").textContent="اضغط!";
+
+    }else{
+    document.getElementById("buzzBtn").disabled=true;
+document.getElementById("status").textContent="مقفل";
+document.getElementById("buzzBtn").textContent="مقفل";
+
+    }
+  });
+}
+</script>
+
+</body>
+</html>

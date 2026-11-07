@@ -1,0 +1,155 @@
+# مصادر صور ركز في الصورة
+
+الصور أدناه مأخوذة من المصادر الموضحة، مع قصّات الزوم وتصدير ملفات مناسبة للعرض.
+
+- **كرة طائرة** — No machine-readable author provided. Starlight~commonswiki assumed (based on copyright claims). — [Public domain](https://commons.wikimedia.org/wiki/File:Volleyball.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Volleyball.jpg).
+- **عربة تسوق** — Guanaco — [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Shopping_cart.jpg).
+- **كرة قدم** — Дмитрий Садовников — [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Adidas_Telstar_18_in_Russia_vs._Argentina.jpg).
+- **أونو** — ivanovick solano — [Public domain](https://commons.wikimedia.org/wiki/File:UNO_cards.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:UNO_cards.jpg).
+- **مكعبات ليغو** — Grendelkhan — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Pile_of_light_gray_LEGO_bricks_at_a_LEGO_store.jpg).
+- **لامبورغيني** — Matti Blume — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Lamborghini_Huracan,_EMS_2024,_Essen_(P1032274).jpg).
+- **حقيبة ظهر** — Fumikas Sagisavas — [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Hatsune_Miku_backpack.jpg).
+- **سماعة جي بي إل** — Trougnouf — [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:JBL_Flip_3_bluetooth_speaker_(DSCF2653).jpg).
+- **كاب بيسبول** — Original photograph by TexasRebelDerivative version by ReneeWrites — [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Baseball_cap.png).
+- **خوذة دراجة نارية** — MediaPhoto.Org — [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Motorcycle_helmet.jpg).
+- **حذاء تزلج** — Tiia Monto — [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Roller_skates.jpg).
+- **أحمر شفاه** — user:KaurJmeb — [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Lipstick.jpg).
+- **سبينر** — MichalPL — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Fidget_spinner.jpg).
+- **إكس بوكس سيريس إكس** — Der. Bellemer — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Xbox_Series_X_2.jpg).
+- **نينتندو سويتش** — Evan-Amos — [Public domain](https://commons.wikimedia.org/wiki/File:Nintendo-Switch-Console-Docked-wJoyConRB.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Nintendo-Switch-Console-Docked-wJoyConRB.jpg).
+- **نظارة واقع افتراضي** — Siarhei Besarab — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Visitor_using_a_Meta_Quest_3_VR_headset_at_IPP_Greifswald_2025.jpg).
+- **درون** — Jacek Halicki — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:2024_Dron_DJI_Mini_4_Pro_(14).jpg).
+- **ساعة أبل** — MIKI Yoshihito — [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Apple_Watch_Series_7;_January_2022_(01).jpg).
+- **سكوتر كهربائي** — Matti Blume — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Ex_scooter,_Frankfurt_am_Main_(LRM_20210815_134347).jpg).
+- **كرت شاشة** — FreeMediaKid! — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Nvidia_GeForce_RTX_5060_Ti_16GB,_PNY_Overclocked_Dual_Fan,_front.jpg).
+- **يد بلايستيشن 5** — Alex Cochrane — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Playstation_DualSense_Controller.png).
+- **سالم الدوسري** — Светлана Бекетова — [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Salem_Al-Dawsari_2018.jpg).
+- **سلمان الفرج** — Анна Нэсси — [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Salman_Al-Faraj_2018.jpg).
+- **فهد المولد** — Светлана Бекетова — [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Fahad_Al-Muwallad_2018.jpg).
+- **ياسر الشهراني** — Светлана Бекетова — [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Yasser_Al-Shahrani_2018.jpg).
+- **كريم بنزيما** — Антон Зайцев — [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Karim_Benzema_2018.jpg).
+- **إيرلينغ هالاند** — Jacek Stanislawek — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Erling_Haaland_2023.jpg).
+- **شمعة** — User:Paolostefano1412 — [CC BY 2.5](https://creativecommons.org/licenses/by/2.5) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Candle.jpg).
+- **مشبك غسيل** — Eloquence — [Public domain](https://commons.wikimedia.org/wiki/File:Clothespin.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Clothespin.jpg).
+- **علاقة ملابس** — Yuvaldei — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Clothes_hanger.jpg).
+- **ملعقة** — DIVYALAKSHWIN — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Spoon.jpg).
+- **خيزران** — المصدر الموضح — [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Bamboo.jpg).
+- **محضرة قهوة** — Edward Charles Kendall — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Moka_pot.jpg).
+- **مروحة يدوية** — I took this photo. — [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Fan.jpg).
+- **كماشة** — neurovelho — [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Pliers.jpg).
+- **فأس** — user:Hyena — [Public domain](https://commons.wikimedia.org/wiki/File:Axe.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Axe.jpg).
+- **برغي** — Wasiul Bahar — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Screw.jpg).
+- **بكرة حبل** — 
+Hans Hillewaert — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Pulley.jpg).
+- **قبعة** — Deavmi — [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Hat.jpg).
+- **ساعة يد** — المصدر الموضح — [Public domain](https://commons.wikimedia.org/wiki/File:Wristwatch.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Wristwatch.jpg).
+- **سوار** — Myfirstwikipage — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Bracelet.jpg).
+- **بكرة صيد** — Photo by Jan Tik from Flickr — [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Fishing_reel.jpg).
+- **قوس** — Vibhijain — [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Bow_and_arrow.jpg).
+- **درع** — Sam Howzit — [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Shield.jpg).
+- **بيانو** — Absolute — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Grand_piano.jpg).
+- **عود عربي** — Tdrivas — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Oud2.jpg).
+- **بنقو** — Nicole Gordine — [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Bongos.jpg).
+- **قرص صلب** — Inklein — [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Hard_disk.jpg).
+- **شريحة ذاكرة** — No machine-readable author provided. Anton Rakitskiy assumed (based on copyright claims). — [Public domain](https://commons.wikimedia.org/wiki/File:SD_card.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:SD_card.jpg).
+- **مقبس كهربائي** — Gausanchennai — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Electrical_plug.jpg).
+- **لوحة إلكترونية** — Mcyr5397 — [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Circuit_board.jpg).
+- **جهاز تحكم** — Sergei — [Public domain](https://commons.wikimedia.org/wiki/File:Remote_control.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Remote_control.jpg).
+- **المريخ** — NASA and The Hubble Heritage Team (STScI/AURA) — [Public domain](https://commons.wikimedia.org/wiki/File:Mars_Hubble.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Mars_Hubble.jpg).
+- **المشتري** — NASA/JPL/USGS — [Public domain](https://commons.wikimedia.org/wiki/File:Jupiter.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Jupiter.jpg).
+- **نبتون** — NASA/JPL — [Public domain](https://commons.wikimedia.org/wiki/File:Neptune.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Neptune.jpg).
+- **كوب** — Filo gèn' — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Mug.jpg).
+- **بطارية** — Thomas Wydra — [Public domain](https://commons.wikimedia.org/wiki/File:Battery.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Battery.jpg).
+- **لافندر** — Unknown authorUnknown author — [Public domain](https://commons.wikimedia.org/wiki/File:Lavender.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Lavender.jpg).
+- **صبار** — Andrew Ratto from Berkeley, USA — [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Potted_Mammillaria,_var._cristata.jpg).
+- **بطريق إمبراطور** — المصدر الموضح — [Public domain](https://commons.wikimedia.org/wiki/File:Emperor_penguin.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Emperor_penguin.jpg).
+- **نيمار** — Sergio Savarese from Sao Paulo City  /  Ipiranga, Brasil — [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Neymar.jpg).
+- **كرة بيسبول** — Tage Olsin — [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Baseball.jpg).
+- **مضرب تنس طاولة** — Samson Ssemakadde — [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Table_tennis_racket.jpg).
+- **سماعة طبيب** — ICUnurses — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Stethoscope.jpg).
+- **حاسبة** — Jorge Franganillo — [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Calculator.jpg).
+- **قرص مدمج** — Mormegil — [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Maxell_CD-R_700MB_40x_20040321.jpg).
+- **حقنة** — Photograph by Erich Schulz, Brisbane — [Public domain](https://commons.wikimedia.org/wiki/File:Syringe.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Syringe.jpg).
+- **دمية دب** — prawdapunk — [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Teddy_bear.jpg).
+- **حرباء** — No machine-readable author provided. AntonyStreet assumed (based on copyright claims). — [Public domain](https://commons.wikimedia.org/wiki/File:Fiji_Iguana.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Fiji_Iguana.jpg).
+- **مظلة** — المصدر الموضح — [Public domain](https://commons.wikimedia.org/wiki/File:Umbrella.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Umbrella.jpg).
+- **فرشاة أسنان** — Lead holder — [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Toothbrush.jpg).
+- **مشط** — Webridge — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Comb.jpg).
+- **مصباح يدوي** — KMJ at German Wikipedia — [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Flashlight.jpg).
+- **سماعة رأس** — Atorero (Alexander Kozlov) — [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Headphones.jpg).
+- **ميكروفون** — ChrisEngelsma — [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Microphone.jpg).
+- **فرس النهر** — Martin Olsson — [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Hippopotamus.jpg).
+- **وردة** — المصدر الموضح — [Public domain](https://commons.wikimedia.org/wiki/File:Rose.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Rose.jpg).
+- **دعسوقة** — PDPhoto.org — [Public domain](https://commons.wikimedia.org/wiki/File:Ladybug.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Ladybug.jpg).
+- **حلزون** — Geierunited — [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Snail.jpg).
+- **قنفذ** — Marcin Sochacki (Wanted) — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Hedgehog.jpg).
+- **كنغر** — Nicholas Masters from Nottingham, UK — [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Kangaroo.jpg).
+- **حمار وحشي** — Traroth — [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:4_zebras,_r%C3%A9serve_africaine_de_Sigean.jpg).
+- **سلحفاة** — Chielbuseyne — [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Tortoise.jpg).
+- **طبل** — Julia Kostrova — [CC BY-SA 2.5](https://creativecommons.org/licenses/by-sa/2.5) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Drum.jpg).
+- **قلم رصاص** — per from Norway — [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Pencil.jpg).
+- **ليونيل ميسي** — Кирилл Венедиктов — [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Lionel_Messi_20180626.jpg).
+- **مضرب تنس** — Timothy Takemoto from Yamaguchi, Japan — [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Tennis_racket.jpg).
+- **حقيبة سفر** — Appraiser at English Wikipedia — [Public domain](https://commons.wikimedia.org/wiki/File:Suitcase.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Suitcase.jpg).
+- **لوحة مفاتيح** — Joe lope — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Computer_keyboard.jpg).
+- **فأرة كمبيوتر** — Clonewayx — [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Computer_mouse_1.jpg).
+- **كاميرا فورية** — Odojl, — [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Polaroid_camera.jpg).
+- **ميدالية** — Autor fotografie: Jan Bubeníček — [Public domain](https://commons.wikimedia.org/wiki/File:Medal.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Medal.jpg).
+- **أخطبوط** — No machine-readable author provided. ElinorD assumed (based on copyright claims). — [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Octopus.jpg).
+- **عقرب** — Liz Roy — [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Scorpion.jpg).
+- **دوار الشمس** — Traroth — [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Sunflower.jpg).
+- **محمد صلاح** — Анна Нэсси — [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Mohamed_Salah_2018.jpg).
+- **دومينو** — Gaz (English Wikipedia) — [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Dominoes.jpg).
+- **كارم** — Peng — [Public domain](https://commons.wikimedia.org/wiki/File:Carrom.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Carrom.jpg).
+- **جيم بوي** — PiaCarrot — [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Game_Boy.jpg).
+- **صدفة بحرية** — Kriti.kuhoo — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Seashell.jpg).
+- **ريشة تنس** — BlackKnight (also known as Clouseth in Kaskus.com) — [Public domain](https://commons.wikimedia.org/wiki/File:Shuttlecock.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Shuttlecock.jpg).
+- **حصان** — Kumana @ Wild Equines — [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Snowflake.jpg).
+- **ببغاء** — Contributor50 — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Parrot.jpg).
+- **كريستيانو رونالدو** — Анна Нэсси — [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Cristiano_Ronaldo_2018.jpg).
+- **برج إيفل** — Benh LIEU SONG — [Public domain](https://commons.wikimedia.org/wiki/File:Tour_Eiffel_Wikimedia_Commons.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Tour_Eiffel_Wikimedia_Commons.jpg).
+- **برج بيزا المائل** — Alkarex Malin äger — [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Leaning_tower_of_pisa_2.jpg).
+- **زحل** — NASA / JPL / Space Science Institute — [Public domain](https://commons.wikimedia.org/wiki/File:Saturn_during_Equinox.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Saturn_during_Equinox.jpg).
+- **نظارة شمسية** — Žiga Vuk, zzigc.net (ZZigc) — [CC BY 2.5](https://creativecommons.org/licenses/by/2.5) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Sunglasses.jpg).
+- **حجر نرد** — Gaz at English Wikipedia — [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Dice.jpg).
+- **لوح تزلج** — Muhammad_Ali_Iqbal — [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Skateboard.jpg).
+- **كرة بولينج** — Crcjfly — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Bowling_ball.jpg).
+- **سحّاب** — che — [CC BY-SA 2.5](https://creativecommons.org/licenses/by-sa/2.5) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Zipper.jpg).
+- **إشارة مرور** — Raizkgh — [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Traffic_light.jpg).
+- **منطاد** — Dhanushya Mutharasan — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Hot_air_balloon.jpg).
+- **بومة** — Drazenvk — [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Owl.jpg).
+- **نمر** — Yoky. — [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Amur_or_Siberian_tiger_(Panthera_tigris_altaica),_Tierpark_Hagenbeck,_Hamburg,_Germany_-_20070514.jpg).
+- **مطرقة** — Michael Jastremski — [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Hammer.jpg).
+- **شريط قياس** — No machine-readable author provided. Dbenbenn assumed (based on copyright claims). — [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Tape_measure.jpg).
+- **مفتاح ربط** — Anton Ehrola — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Wrench.jpg).
+- **مفك** — Matasg — [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Test_light.jpg).
+- **فيل** — Stuart Bassil — [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Elephant.jpg).
+- **نسر** — Vlad Butsky — [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Bald_Eagle.jpg).
+- **طاووس** — Peter Andersen (assumed based on copyright claims) — [CC BY 2.5](https://creativecommons.org/licenses/by/2.5) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Peacock.jpg).
+- **مصباح كهربائي** — Leon Brooks — [Public domain](https://commons.wikimedia.org/wiki/File:Light_bulb.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Light_bulb.jpg).
+- **دباسة** — No machine-readable author provided. Enochlau assumed (based on copyright claims). — [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Stapler.jpg).
+- **مروحية** — Ramonbicudo — [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Helicopter.jpg).
+- **ماكينة خياطة** — אולג קובץ — [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Sewing_machine.jpg).
+- **مجهر** — Zephyris at English Wikipedia — [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Microscope.jpg).
+- **تلسكوب** — Users Ericd on en.wikipedia — [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Telescope.jpg).
+- **دراجة** — Pratap555 — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Three_rusty_bicycles.jpg).
+- **فرجار هندسي** — User Hkpawn on zh.wikipedia — [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Compass.jpg).
+- **قفل** — Alyson Hurt from Alexandria, Va., USA — [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Padlock.jpg).
+- **هاتف** — Tomomarusan — [CC BY 2.5](https://creativecommons.org/licenses/by/2.5) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Telephone.jpg).
+- **كمان** — Kat17js — [Public domain](https://commons.wikimedia.org/wiki/File:Violin.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Violin.jpg).
+- **شطرنج** — Staxringold — [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Chess_board_opening_staunton.jpg).
+- **مكعب روبيك** — AndyHedges — edited by TheCoffee — [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Rubiks_cube.jpg).
+- **قطار** — Talmoryair — [Public domain](https://commons.wikimedia.org/wiki/File:Train_at_Eretz_Israel_Museum,_Israel.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Train_at_Eretz_Israel_Museum,_Israel.jpg).
+- **رابح صقر** — Ahmed Zayer — [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Rabeh_Sager.jpg).
+- **عبدالمجيد عبدالله** — yahaycouture.com — [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Abdul_Majid_Abdullah.jpg).
+- **راشد الماجد** — yahaycouture.com — [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Rashed_Al-Majed_2006.jpg).
+- **محمد عبده** — yahaycouture.com — [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Mohammed_Abdu.jpg).
+- **هشام فقيه** — Misbahchowdhury — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Hishamfageeh.jpg).
+- **فايز المالكي** — Thamer Alsikhan — [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Fayez_Al-Malki_in_Rabah_wa_Al_Dctorah.jpg).
+- **عبدالله السدحان** — Wshuweir — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:%D8%B5%D9%88%D8%B1%D8%A9_%D9%84%D9%84%D9%81%D9%86%D8%A7%D9%86_%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D9%84%D9%87_%D8%A7%D9%84%D8%B3%D8%AF%D8%AD%D8%A7%D9%86_%D9%81%D9%8A_%D8%A7%D8%AD%D8%AF_%D8%A7%D9%84%D9%84%D9%82%D8%A7%D8%A1%D8%A7%D8%AA.jpg).
+- **سلفر** — Saudi star — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:%D8%B3%D9%84%D9%85%D8%A7%D9%86_%D8%A7%D9%84%D8%B9%D8%AA%D9%8A%D8%A8%D9%8A_%D8%B3%D9%84%D9%81%D8%B1.jpg).
+- **دلة قهوة** — Canbel — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:A_dallah_a_traditional_Arabic_coffee_pot_with_cups_and_coffee_beans.jpg).
+- **فنك** — Kkonstan — [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Fennec_fox.jpg).
+- **مها عربي** — Ubm007 — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Arabian_oryx.jpg).
+- **إبريق شاي** — No machine-readable author provided. JonONeill~commonswiki assumed (based on copyright claims). — [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Teapot.jpg).
+- **أناناس** — Renee Comet (Photographer) — [Public domain](https://commons.wikimedia.org/wiki/File:Pineapple.jpg) — [الصورة الأصلية](https://commons.wikimedia.org/wiki/File:Pineapple.jpg).
