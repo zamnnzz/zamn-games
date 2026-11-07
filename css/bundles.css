@@ -211,3 +211,36 @@
 .complete-collection p{font-size:11px;line-height:1.7;color:#cdbcce;text-align:center;margin:13px 0 0}
 @media(max-width:699px){#homeMain #packages .complete-card{grid-template-columns:minmax(0,1fr);gap:24px;padding:24px 20px;border-radius:24px}.complete-collection{padding-inline-start:0;padding-top:19px;border-inline-start:0;border-top:1px solid #e8ce9c24}.complete-content{align-items:stretch}.complete-label{font-size:11px}.complete-count{font-size:16px}.complete-count>span{font-size:11px}#packages .complete-card h3{font-size:27px}.complete-pricing{gap:20px}.complete-current b{font-size:60px}.complete-saving{align-self:flex-start}.complete-covers{gap:8px}.complete-benefits{font-size:11px}.complete-intro{font-size:13px}}
 @media(max-width:360px){#homeMain #packages .complete-card{padding:22px 16px}#packages .complete-card h3{font-size:24px}.complete-saving{font-size:11px;gap:5px}.complete-saving strong{font-size:17px}.complete-saving-divider{margin-inline:2px}.complete-count>span{font-size:9px}}
+
+/* Every package shares the complete collection's visual design. */
+#homeMain #packages .complete-card{min-height:390px}
+.collection-classic .complete-covers,.collection-new .complete-covers{grid-template-columns:repeat(2,minmax(0,1fr));max-width:228px;width:100%;align-self:center;gap:12px}
+.collection-duo .complete-covers{grid-template-columns:repeat(2,minmax(0,1fr));max-width:260px;width:100%;align-self:center;gap:14px}
+@media(max-width:699px){#homeMain #packages .complete-card{min-height:0}.collection-classic .complete-covers,.collection-new .complete-covers{max-width:240px}.collection-duo .complete-covers{max-width:260px}}
+
+/* Compact collection cards, with legible pricing and covers. */
+#homeMain #packages .complete-card{min-height:0;gap:24px;padding:22px 24px;border-radius:23px}
+#packages .complete-card h3{font-size:25px;margin:7px 0 2px}
+.complete-label{font-size:11px}.complete-intro{font-size:12px;margin-bottom:9px}
+.complete-current b{font-size:48px}.complete-riyal{width:23px;height:27px}
+.complete-original del{font-size:16px}.complete-saving{margin-top:9px;padding:7px 10px;font-size:11px}.complete-saving strong{font-size:16px}
+.complete-benefits{margin:12px 0 14px;font-size:10px;gap:5px 10px}
+.complete-button{min-height:40px;padding:8px 14px;font-size:15px;border-radius:10px}
+.complete-collection{padding-inline-start:20px}.complete-count{font-size:15px;margin-bottom:10px}
+.complete-covers{gap:7px;max-width:266px;width:100%;align-self:center}.complete-covers img{border-radius:8px}
+.collection-classic .complete-covers,.collection-new .complete-covers{max-width:178px;gap:9px}
+.collection-duo .complete-covers{max-width:208px;gap:10px}
+.complete-collection p{font-size:10px;margin-top:10px}
+@media(max-width:699px){#homeMain #packages .complete-card{padding:20px 17px;gap:17px;border-radius:21px}#packages .complete-card h3{font-size:24px}.complete-current b{font-size:46px}.complete-benefits{font-size:10px}.complete-collection{padding-inline-start:0;padding-top:15px}.complete-count{font-size:15px}.complete-covers{max-width:260px}.collection-classic .complete-covers,.collection-new .complete-covers{max-width:190px}.collection-duo .complete-covers{max-width:220px}}
+
+/* Readable package typography at compact card sizes. */
+#packages .complete-card h3{font-size:27px;line-height:1.5;letter-spacing:0}
+.complete-label{font-size:13px;line-height:1.7;color:#f5dda7}
+.complete-intro{font-size:15px;line-height:1.8;color:#ebe0ef;margin-bottom:11px}
+.complete-original{font-size:12px;line-height:1.6;color:#ded1e5}.complete-original del{font-size:17px}
+.complete-saving{font-size:14px;line-height:1.6;padding:7px 11px;color:#ffe7b3}.complete-saving strong{font-size:19px}
+.complete-benefits{font-size:13px;line-height:1.8;color:#f0e6f4;gap:6px 14px;margin:13px 0 15px}
+.complete-button{font-size:17px;min-height:44px;line-height:1.5}
+.complete-count{font-size:18px;line-height:1.6}.complete-count>span{font-size:12px;line-height:1.7;color:#e5d7e9}
+.complete-collection p{font-size:13px;line-height:1.8;color:#e5d7e9;margin-top:10px}
+@media(max-width:699px){#packages .complete-card h3{font-size:26px}.complete-label{font-size:13px}.complete-intro{font-size:15px}.complete-benefits{font-size:13px;gap:6px 12px}.complete-count{font-size:18px}.complete-count>span{font-size:12px}.complete-collection p{font-size:13px}.complete-saving{font-size:14px}.complete-saving strong{font-size:19px}}
